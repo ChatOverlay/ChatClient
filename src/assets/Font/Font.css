@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "KBO-Dia-Gothic";
+  font-style: normal;
+  font-weight: 300;
+  src:
+    url("./KBO-Dia-Gothic_light.woff") format("woff"),
+    url("./KBO-Dia-Gothic_light.ttf") format("truetype"),
+    url("./KBO-Dia-Gothic_light.otf") format("opentype"),
+    url("./KBO-Dia-Gothic_light.eot") format("embedded-opentype");
+}
+
+@font-face {
+  font-family: "KBO-Dia-Gothic";
+  font-style: normal;
+  font-weight: 500;
+  src:
+    url("./KBO-Dia-Gothic_medium.woff") format("woff"),
+    url("./KBO-Dia-Gothic_medium.ttf") format("truetype"),
+    url("./KBO-Dia-Gothic_medium.otf") format("opentype"),
+    url("./KBO-Dia-Gothic_medium.eot") format("embedded-opentype");
+}
+
+@font-face {
+  font-family: "KBO-Dia-Gothic";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url("./KBO-Dia-Gothic_bold.woff") format("woff"),
+    url("./KBO-Dia-Gothic_bold.ttf") format("truetype"),
+    url("./KBO-Dia-Gothic_bold.otf") format("opentype"),
+    url("./KBO-Dia-Gothic_bold.eot") format("embedded-opentype");
+}

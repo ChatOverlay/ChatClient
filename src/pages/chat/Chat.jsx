@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'; // useEffect 추가
 import io from 'socket.io-client';
+import styled from 'styled-components';
 
 const socket = io('http://localhost:4000'); // 서버 주소를 여러분의 서버 주소로 변경하세요
 
-function Chat() {
+export default function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]); // 서버로부터 받은 메시지들을 저장할 상태
 
@@ -28,7 +29,7 @@ function Chat() {
   }, []);
 
   return (
-    <div>
+    <ChatContainer>
       <input
         type="text"
         value={message}
@@ -41,8 +42,16 @@ function Chat() {
           <p key={index}>{msg}</p> // 받은 메시지들을 화면에 표시
         ))}
       </div>
-    </div>
+    </ChatContainer>
   );
 }
-
-export default Chat;
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #202c39;
+  color: #f2d492;
+  font-family: "KBO-Dia-Gothic";
+`;
