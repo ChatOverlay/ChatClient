@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import Welcome from "./Welcome";
 
 export default function Register() {
   // 상태 변수로 컴포넌트의 렌더링 상태를 관리합니다.
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  const [isVerified, setIsVerified] = useState(0);
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [nickName, setNickName] = useState(""); // 사용자 이름을 저장하는 상태
   const [inputCode, setInputCode] = useState(""); // 사용자 입력 인증 코드를 저장하는 상태
-  const navigate = useNavigate();
   const correctCode = "123456"; // 올바른 인증 코드
 
   // 버튼 클릭 핸들러에서는 isVerified 상태를 true로 설정하여 Vertify 컴포넌트를 렌더링하도록 합니다.
@@ -20,35 +19,15 @@ export default function Register() {
     const code = e.target.value;
     setInputCode(code);
     if (code === correctCode) {
-      setIsVerified(true);
+      setIsVerified(1);
     }
   };
   const handleFinishBtn = () => {
-    navigate("/chat");
+    setIsVerified(2);
   };
   return (
     <div>
-      {isVerified ? (
-        <NickNameContainer>
-          <WelcomeText>닉네임을 입력해주세요! (ex. 총장님손주)</WelcomeText>
-          <InputContainer>
-            <StyledInput
-              placeholder="닉네임"
-              value={nickName}
-              onChange={(e) => {
-                setNickName(e.target.value);
-              }}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  handleFinishBtn();
-                }
-              }}
-            ></StyledInput>
-
-            <SendButton onClick={handleFinishBtn}></SendButton>
-          </InputContainer>
-        </NickNameContainer>
-      ) : (
+      {isVerified === 0 ? (
         <EmailContainer>
           <WelcomeText>처음이신가요? 이메일을 입력해주세요!</WelcomeText>
           <InputContainer>
@@ -76,7 +55,27 @@ export default function Register() {
             </InputContainer>
           )}
         </EmailContainer>
-      )}
+      ) : isVerified === 1 ? (
+        <NickNameContainer>
+          <WelcomeText>닉네임을 입력해주세요! (ex. 총장님손주)</WelcomeText>
+          <InputContainer>
+            <StyledInput
+              placeholder="닉네임"
+              value={nickName}
+              onChange={(e) => {
+                setNickName(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleFinishBtn();
+                }
+              }}
+            ></StyledInput>
+
+            <SendButton onClick={handleFinishBtn}></SendButton>
+          </InputContainer>
+        </NickNameContainer>
+      ) : (<Welcome nickName={nickName}/>)}
     </div>
   );
 }
