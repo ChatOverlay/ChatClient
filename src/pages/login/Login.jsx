@@ -17,5 +17,5 @@ const HomeContainer = styled.div`
   height: 100vh;
   background-color: #202c39;
   color: #f2d492;
-  font-family: "KBO-Dia-Gothic";
+  font-family: "Roboto";
 `;

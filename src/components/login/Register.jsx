@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import Welcome from "./Welcome";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import { TextField } from "@mui/material";
 
 export default function Register() {
   // 상태 변수로 컴포넌트의 렌더링 상태를 관리합니다.
@@ -9,13 +12,20 @@ export default function Register() {
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [nickName, setNickName] = useState(""); // 사용자 이름을 저장하는 상태
   const [inputCode, setInputCode] = useState(""); // 사용자 입력 인증 코드를 저장하는 상태
+  const [emailError, setEmailError] = useState(false); // 이메일 오류 상태 추가
   const correctCode = "123456"; // 올바른 인증 코드
 
   // 버튼 클릭 핸들러에서는 isVerified 상태를 true로 설정하여 Vertify 컴포넌트를 렌더링하도록 합니다.
-  const handleNextBtn = () => {
+  const handleSignUpBtn = () => {
+    if (!email.endsWith("@gachon.ac.kr")) {
+      setEmailError(true); // 이메일이 @gachon.ac.kr로 끝나지 않으면 오류 상태를 true로 설정
+      return;
+    }
+    setEmailError(false); // 이메일이 유효하면 오류 상태를 false로 설정
     setIsEmailValid(true);
   };
-  const handleCodeChange = (e) => {
+
+  const handleVertify = (e) => {
     const code = e.target.value;
     setInputCode(code);
     if (code === correctCode) {
@@ -31,26 +41,71 @@ export default function Register() {
         <EmailContainer>
           <WelcomeText>처음이신가요? 이메일을 입력해주세요!</WelcomeText>
           <InputContainer>
-            <StyledInput
-              placeholder="학교 이메일"
+            <TextField
+              error={emailError} // TextField에 error prop 추가
+              helperText={
+                emailError
+                  && "이메일 형식이 올바르지 않습니다."
+              } // 조건부 헬퍼 텍스트
+              id="outlined-basic"
+              label="학교이메일"
+              variant="outlined"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
-                  handleNextBtn();
+                  handleSignUpBtn();
                 }
               }}
+              sx={{
+                color: "white",
+                ".MuiInputLabel-root": { color: "#f2d492" },
+                ".MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#f2d492" },
+                  "&:hover fieldset": { borderColor: "#f2d492" },
+                  "&.Mui-focused fieldset": { borderColor: "#f2d492" },
+                },
+                ".MuiInputBase-input": { color: "white" },
+              }}
             />
-            <SendButton onClick={handleNextBtn}></SendButton>
+            <Button
+              variant="contained"
+              onClick={handleSignUpBtn}
+              sx={{
+                maxHeight: "3.5rem",
+                marginLeft: "1rem",
+                backgroundColor: "#f2d492",
+                color: "#202c39",
+                borderRadius: "1rem",
+                "&:hover": {
+                  backgroundColor: "#f2d492",
+                  color: "#202c39",
+                  transform: "scale(1.05)",
+                },
+              }}
+              startIcon={<SendIcon />}
+            />
           </InputContainer>
           {isEmailValid && (
             <InputContainer>
-              <StyledInput
-                placeholder="인증 코드"
+              <TextField
+                id="outlined-basic"
+                label="인증 코드"
+                margin="normal"
                 value={inputCode}
-                onChange={handleCodeChange}
+                onChange={handleVertify}
+                sx={{
+                  color: "white",
+                  ".MuiInputLabel-root": { color: "#f2d492" }, // label color
+                  ".MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#f2d492" }, // border color
+                    "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
+                    "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
+                  },
+                  ".MuiInputBase-input": { color: "#f2d492" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+                }}
               />
             </InputContainer>
           )}
@@ -59,8 +114,10 @@ export default function Register() {
         <NickNameContainer>
           <WelcomeText>닉네임을 입력해주세요! (ex. 총장님손주)</WelcomeText>
           <InputContainer>
-            <StyledInput
-              placeholder="닉네임"
+            <TextField
+              id="outlined-basic"
+              label="닉네임"
+              variant="outlined"
               value={nickName}
               onChange={(e) => {
                 setNickName(e.target.value);
@@ -70,41 +127,48 @@ export default function Register() {
                   handleFinishBtn();
                 }
               }}
-            ></StyledInput>
-
-            <SendButton onClick={handleFinishBtn}></SendButton>
+              sx={{
+                color: "white",
+                ".MuiInputLabel-root": { color: "#f2d492" }, // label color
+                ".MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#f2d492" }, // border color
+                  "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
+                  "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
+                },
+                ".MuiInputBase-input": { color: "#f2d492" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleFinishBtn}
+              sx={{
+                marginLeft: "1rem",
+                backgroundColor: "#f2d492",
+                color: "#202c39",
+                borderRadius: "1rem",
+                "&:hover": {
+                  backgroundColor: "#f2d492",
+                  color: "#202c39",
+                  transform: "scale(1.1)",
+                },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              startIcon={<SendIcon />}
+            />
           </InputContainer>
         </NickNameContainer>
-      ) : (<Welcome nickName={nickName}/>)}
+      ) : (
+        <Welcome nickName={nickName} />
+      )}
     </div>
   );
 }
 
 const WelcomeText = styled.div`
   font-weight: bold;
-`;
-
-//에니메이션 인
-const fadeIn = keyframes`
-  from {
-    background-color: #202c39;
-    color : white;
-  }
-  to {
-    background-color: white;
-    color : #202c39;
-  }
-`;
-//에니메이션 아웃
-const fadeOut = keyframes`
-  from {
-    background-color: white;
-    color : #202c39;
-  }
-  to {
-    background-color: #202c39;
-    color : white;
-  }
+  margin-bottom: 1rem;
 `;
 
 const slideInRight = keyframes`
@@ -129,59 +193,8 @@ const NickNameContainer = styled.div`
   animation: ${slideInRight} 0.5s forwards;
 `;
 
-//이메일 입력칸
-const StyledInput = styled.input`
-  width: 20rem;
-  height: 3rem;
-  border-radius: 1rem;
-  border: 1px solid white;
-  margin-top: 20px;
-  background-color: #202c39;
-  padding-left: 20px;
-  font-size: 1rem;
-  color: white; // 글자색을 지정합니다.
-  transition: background-color 0.5s ease, color 0.5s ease; // 배경색과 글자색 변화에 대한 전환 효과를 추가합니다.
-
-  &:focus {
-    animation: ${fadeIn} 0.5s forwards; // 포커스시 fadeIn 애니메이션을 적용합니다.
-    color: black; // 포커스 시 글자색을 변경합니다.
-    outline: none;
-  }
-
-  &:not(:focus) {
-    animation: ${fadeOut} 0.5s forwards; // 포커스가 해제되면 fadeOut 애니메이션을 적용합니다.
-  }
-
-  &::placeholder {
-    color: white;
-    opacity: 0.8;
-  }
-`;
-
 //해당 입력칸
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
-`;
-
-const SendButton = styled.div`
-  margin-left: 1rem;
-  width: 3rem;
-  height: 3rem;
-  background-color: #f2d492;
-  color: #202c39;
-  border-radius: 1rem;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-
-  align-items: center;
-  font-size: 1.5rem;
-  margin-top: 20px;
-  transition: 0.2s;
-  &:hover {
-    background-color: #f2d492;
-    color: #202c39;
-    transform: scale(1.1);
-  }
 `;

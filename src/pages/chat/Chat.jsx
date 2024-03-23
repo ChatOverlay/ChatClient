@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react'; // useEffect 추가
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 
-const socket = io('http://localhost:4000'); // 서버 주소를 여러분의 서버 주소로 변경하세요
+const socket = io('http://localhost:4000'); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]); // 서버로부터 받은 메시지들을 저장할 상태
+  const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
-  // 메시지 전송 핸들러
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const sendMessage = () => {
     if (message) {
-      socket.emit('message', message);
+      const messageObject = { user: 'me', text: message };
+      socket.emit('message', messageObject);
       setMessage('');
+      scrollToBottom();
     }
   };
 
   useEffect(() => {
-    // 서버로부터 메시지를 받는 이벤트 리스너
     socket.on('message', (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      scrollToBottom();
     });
 
-    // 컴포넌트가 언마운트될 때 리스너를 정리
     return () => {
       socket.off('message');
     };
@@ -30,28 +35,67 @@ export default function Chat() {
 
   return (
     <ChatContainer>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && sendMessage()} // 수정: onSubmit을 onKeyPress로 변경
-      />
-      <button onClick={sendMessage}>Send</button>
-      <div>
-        {messages.map((msg, index) => (
-          <p key={index}>{msg}</p> // 받은 메시지들을 화면에 표시
-        ))}
-      </div>
+      <MessagesContainer>
+      {messages.map((msg, index) => (
+        <Message key={index} user={msg.user}>{msg.text}</Message>
+      ))}
+      <div ref={messagesEndRef} />
+    </MessagesContainer>
+    <InputContainer>
+    <input
+      type="text"
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+      onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+    />
+    <button onClick={sendMessage}>Send</button>
+  </InputContainer>
     </ChatContainer>
   );
 }
+
 const ChatContainer = styled.div`
+position: fixed;
+bottom: 0;
+right: 0;
+padding: 20px;
+display: flex;
+flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
+align-items: flex-end;
+`;
+
+const InputContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #202c39;
-  color: #f2d492;
-  font-family: "KBO-Dia-Gothic";
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+`;
+
+const MessagesContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; // 메시지를 아래부터 쌓아 올림
+  overflow-y: auto;
+  width: 100%;
+  padding: 20px;
+`;
+
+const Message = styled.div`
+  max-width: 60%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  ${(props) =>
+    props.user === 'me'
+      ? `
+          margin-left: auto;
+          background-color: #ffeb3b; // 자신의 메시지 색
+          color: black;
+        `
+      : `
+          margin-right: auto;
+          background-color: #007bff; // 상대방의 메시지 색
+        `}
 `;
