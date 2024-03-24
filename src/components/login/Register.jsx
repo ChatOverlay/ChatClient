@@ -43,10 +43,7 @@ export default function Register() {
           <InputContainer>
             <TextField
               error={emailError} // TextField에 error prop 추가
-              helperText={
-                emailError
-                  && "이메일 형식이 올바르지 않습니다."
-              } // 조건부 헬퍼 텍스트
+              helperText={emailError && "이메일 형식이 올바르지 않습니다."} // 조건부 헬퍼 텍스트
               id="outlined-basic"
               label="학교이메일"
               variant="outlined"
@@ -60,6 +57,7 @@ export default function Register() {
                 }
               }}
               sx={{
+                marginTop: "0.1rem",
                 color: "white",
                 ".MuiInputLabel-root": { color: "#f2d492" },
                 ".MuiOutlinedInput-root": {
@@ -74,11 +72,14 @@ export default function Register() {
               variant="contained"
               onClick={handleSignUpBtn}
               sx={{
+                
+                marginTop: "0.1rem",
                 maxHeight: "3.5rem",
                 marginLeft: "1rem",
                 backgroundColor: "#f2d492",
                 color: "#202c39",
                 borderRadius: "1rem",
+                transition: "all 0.3s ease",
                 "&:hover": {
                   backgroundColor: "#f2d492",
                   color: "#202c39",
@@ -104,7 +105,7 @@ export default function Register() {
                     "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
                     "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
                   },
-                  ".MuiInputBase-input": { color: "#f2d492" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+                  ".MuiInputBase-input": { color: "white" }, // 여기에서 입력 텍스트 색상을 지정합니다.
                 }}
               />
             </InputContainer>
@@ -129,23 +130,26 @@ export default function Register() {
               }}
               sx={{
                 color: "white",
+                marginTop: "0.1rem",
                 ".MuiInputLabel-root": { color: "#f2d492" }, // label color
                 ".MuiOutlinedInput-root": {
                   "& fieldset": { borderColor: "#f2d492" }, // border color
                   "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
                   "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
                 },
-                ".MuiInputBase-input": { color: "#f2d492" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+                ".MuiInputBase-input": { color: "white" }, // 여기에서 입력 텍스트 색상을 지정합니다.
               }}
             />
             <Button
               variant="contained"
               onClick={handleFinishBtn}
               sx={{
+                marginTop: "0.1rem",
                 marginLeft: "1rem",
                 backgroundColor: "#f2d492",
                 color: "#202c39",
                 borderRadius: "1rem",
+                transition: "all 0.3s ease",
                 "&:hover": {
                   backgroundColor: "#f2d492",
                   color: "#202c39",
