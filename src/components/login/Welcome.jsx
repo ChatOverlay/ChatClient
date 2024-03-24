@@ -15,7 +15,7 @@ export default function Welcome({ nickName }) {
   //useEffect를 사용해서 해당 시간설정 및 타임아웃 정리하기
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/chat');
+      navigate('/chatlist');
     }, 2000);
 
     return () => clearTimeout(timer); // Cleanup 함수
