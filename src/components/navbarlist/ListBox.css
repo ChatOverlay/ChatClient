@@ -1,0 +1,23 @@
+.navbar__list {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background-color: #202c39;
+    color: white;
+    margin-left: 5vw;
+    height: 100vh;
+    width: 20vw;
+    font-weight: bold;
+    border-left: 1px solid #f2d492;
+}
+
+.navbar__list__item {
+    cursor: pointer;
+    padding: 10px;
+    height: 3rem;
+    transition: all 0.3s;
+    border-bottom: 1px solid #f2d492;
+    &:hover {
+      background-color: #f2d492;
+    }
+}
