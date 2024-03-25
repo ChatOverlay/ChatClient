@@ -1,0 +1,26 @@
+/*상단 탑 부분 */
+.top__bar {
+    height: 5vh;
+    border-bottom: 1px solid #f2d492;
+    display: flex;
+    font-size: 2rem;
+    color: #f2d492;
+}
+/*아이콘 컨테이너*/
+.icon__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.2vh 0 0 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 3rem;
+    &:hover {
+      opacity : 0.6;
+    }
+}
+
+/*해당 넘버 컨테이너*/
+.number__container {
+    padding-left: 0.5vw;
+}

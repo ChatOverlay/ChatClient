@@ -2,13 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { useParams } from "react-router-dom";
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
+import "../TopBar.css";
 
 export default function Chat() {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState(""); //메시지
+  const [messages, setMessages] = useState([]); //메시지 배열
   const messagesEndRef = useRef(null);
+  const [closeOption, setCloseOption] = useState(false);
 
   const { roomId } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
@@ -37,13 +41,23 @@ export default function Chat() {
       socket.off("message");
     };
   }, [roomId]); // roomId가 변경될 때마다 이 효과를 다시 실행
-  
+
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
   }, [messages]); // messages 배열이 변경될 때마다 실행
   return (
-    <AppContainer>
-      <TopBar>{roomId}</TopBar>
+    <>
+    <AppContainer show={closeOption}>
+      <div className="top__bar">
+        <div className="icon_container" onClick={() => setCloseOption(!closeOption)}>
+          {closeOption ? (
+            <KeyboardDoubleArrowRightIcon />
+          ) : (
+            <KeyboardDoubleArrowLeftIcon />
+          )}
+        </div>
+        <div className="number__container">{roomId}</div>
+      </div>
       <ChatContainer>
         <MessagesContainer>
           {messages.map((msg, index) => (
@@ -67,28 +81,22 @@ export default function Chat() {
         </InputContainer>
       </ChatContainer>
     </AppContainer>
+    </>
   );
 }
-
-//헤더 top bar 부분
-const TopBar = styled.div`
-  height: 5vh;
-  border-bottom: 1px solid #f2d492;
-  display: flex;
-  padding-left: 1vh;
-  font-size: 2rem;
-  color: #f2d492;
-`;
 
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
-  margin-left: 25vw;
+  position: relative;
+  margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
   background-color: #202c39;
-  border-left: 2px solid #f2d492;
+  border-left: 1px solid #f2d492;
   flex-direction: column;
-`;
 
+  transition: all 0.3s;
+  z-index: 1;
+`;
 //채팅 컨테이너
 const ChatContainer = styled.div`
   height: 90vh;
