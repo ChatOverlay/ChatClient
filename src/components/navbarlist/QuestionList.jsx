@@ -5,16 +5,16 @@ import SelectLabels from "./select/SelectLabels";
 export default function QuestionListBox() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
-  const chatRooms = ["Question1", "Question2"]; // Example chat rooms
+  const questionList = ["Question1", "Question2"]; // Example question rooms
 
   return (
     <div className="navbar__list">
       <SelectLabels options={options} setOptions={setOptions} />
-      {chatRooms.map((room) => (
+      {questionList.map((room) => (
         <div
           className="navbar__list__item"
           key={room}
-          onClick={() => navigate(`/chat/${room}`)}
+          onClick={() => navigate(`/question/${room}`)}
         >
           {room}
         </div>

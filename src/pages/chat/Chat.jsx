@@ -4,9 +4,10 @@ import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import "../TopBar.css";
 import { useParams } from "react-router-dom";
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
-import "../TopBar.css";
+
 
 export default function Chat() {
   const [message, setMessage] = useState(""); //메시지

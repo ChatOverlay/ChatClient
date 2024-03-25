@@ -5,7 +5,7 @@ import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from 'styled-components';
 
 import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
@@ -38,11 +38,13 @@ export default function VerticalAppBar() {
         <IconContainer onClick={() => setSection(1)}>
           <FilterFramesIcon sx={{ color: " #f2d492", fontSize: "3rem" }} />
         </IconContainer>{" "}
-        <IconContainer oonClick={() => setSection(2)}>
+        <IconContainer onClick={() => setSection(2)}>
           <AccountCircleIcon sx={{ color: " #f2d492", fontSize: "3rem" }} />
         </IconContainer>
       </AppBar>
+      <SectionAnimationWrapper>
       {renderSectionComponent(section)}
+      </SectionAnimationWrapper>
     </>
   );
 }
@@ -71,4 +73,20 @@ const IconContainer = styled.div`
   &:first-child {
     margin-top: 1rem;
   }
+`;
+
+// 좌측에서 들어오는 슬라이드 애니메이션 정의
+const slideInFromLeft = keyframes`
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+// 애니메이션을 적용할 컴포넌트 래퍼
+const SectionAnimationWrapper = styled.div`
+  animation: ${slideInFromLeft} 0.5s ease-out forwards;
 `;
