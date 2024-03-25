@@ -1,16 +1,27 @@
-.navbar__list {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    background-color: #202c39;
-    color: white;
-    margin-left: 5vw;
-    height: 100vh;
-    width: 20vw;
-    font-weight: bold;
-    border-left: 1px solid #f2d492;
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%); /* 왼쪽으로 숨겨진 상태에서 시작 */
+    opacity: 0; /* 시작할 때는 투명하게 */
+  }
+  to {
+    transform: translateX(0); /* 최종적으로 원래 위치로 */
+    opacity: 1; /* 완전 불투명하게 */
+  }
 }
 
+.navbar__list {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background-color: #202c39;
+  color: white;
+  margin-left: 5vw;
+  height: 100vh;
+  width: 20vw;
+  font-weight: bold;
+  border-left: 1px solid #f2d492;
+  animation: slideInFromLeft 0.5s ease-out forwards; /* 애니메이션 적용 */
+}
 .navbar__list__item {
     cursor: pointer;
     padding: 10px;

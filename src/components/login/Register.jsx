@@ -25,6 +25,7 @@ export default function Register() {
     setIsEmailValid(true);
   };
 
+  //인증 확인 절차
   const handleVertify = (e) => {
     const code = e.target.value;
     setInputCode(code);
@@ -32,6 +33,8 @@ export default function Register() {
       setIsVerified(1);
     }
   };
+
+  //닉네임 설정 후 종료
   const handleFinishBtn = () => {
     setIsVerified(2);
   };
