@@ -9,10 +9,12 @@ export default function ChatList() {
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
+  
+  position: relative;
   margin-left: 25vw;
   height: 100vh;
   background-color: #202c39;
-  border-left: 2px solid #f2d492;
+  border-left: 1px solid #f2d492;
   flex-direction: column;
   justify-content: center;
   align-items: center;

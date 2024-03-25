@@ -9,6 +9,7 @@
   }
 }
 
+/*navbar list 해당 큰 칸*/
 .navbar__list {
   position: fixed;
   display: flex;
@@ -20,8 +21,9 @@
   width: 20vw;
   font-weight: bold;
   border-left: 1px solid #f2d492;
-  animation: slideInFromLeft 0.5s ease-out forwards; /* 애니메이션 적용 */
 }
+
+/*navbar 아이템*/
 .navbar__list__item {
     cursor: pointer;
     padding: 10px;
@@ -31,4 +33,6 @@
     &:hover {
       background-color: #f2d492;
     }
+    
+  animation: slideInFromLeft 0.5s ease-out forwards; /* 애니메이션 적용 */
 }

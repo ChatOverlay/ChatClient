@@ -94,7 +94,6 @@ const AppContainer = styled.div`
   background-color: #202c39;
   border-left: 1px solid #f2d492;
   flex-direction: column;
-
   transition: all 0.3s;
   z-index: 1;
 `;
