@@ -19,5 +19,5 @@ const HomeContainer = styled.div`
   color: #f2d492;
   font-family: "Roboto";
   position: relative;
-  z-index: 1;
+  z-index: 100;
 `;

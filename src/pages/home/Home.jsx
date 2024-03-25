@@ -25,7 +25,7 @@ const HomeContainer = styled.div`
   background-color: #202c39;
   color: #f2d492;
   position: relative;
-  z-index: 1;
+  z-index: 100;
   
 `;
 
