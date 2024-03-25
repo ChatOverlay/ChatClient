@@ -22,7 +22,10 @@
   font-weight: bold;
   border-left: 1px solid #f2d492;
 }
-
+.navbar__list__item.selected {
+  background-color: #f2d492; /* Or any color you wish for the selected item */
+  color: #202c39;
+}
 /*navbar 아이템*/
 .navbar__list__item {
     cursor: pointer;

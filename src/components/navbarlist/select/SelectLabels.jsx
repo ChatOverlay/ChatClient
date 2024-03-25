@@ -32,9 +32,10 @@ export default function SelectLabels({ options, setOptions }) {
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
         >
-          <MenuItem value={10}>전체보기</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+        <MenuItem value="전체 보기">전체 보기</MenuItem> 
+        <MenuItem value="소프트웨어공학">소프트웨어공학</MenuItem>
+        <MenuItem value="IT와 창업">IT와 창업</MenuItem>
+        
         </Select>
       </FormControl>
     </div>

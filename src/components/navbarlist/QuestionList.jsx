@@ -8,31 +8,41 @@ import styled from "styled-components";
 export default function QuestionListBox() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
-  const questionList = [
-    { id: 1, title: "Question1", subTitle: "어려운 시대" },
-    { id: 2, title: "Question2", subTitle: "희망의 메시지" }, // Note the title change here for clarity
-  ]; // Example question rooms
+  const [selectedQuestion, setSelectedQuestion] = useState(null); // Step 1
 
-  return (
-    <div className="navbar__list">
-      <SelectLabels options={options} setOptions={setOptions} />
-      {questionList.map((room) => (
+  const questionList = [
+    { id: 1, title: "Question1", subTitle: "어려운 시대" , className : "소프트웨어공학"},
+    { id: 2, title: "Question2", subTitle: "희망의 메시지" ,className :"IT와 창업"},
+  ];
+
+  const handleQuestionClick = (id) => {
+    setSelectedQuestion(id); // Step 2
+    navigate(`/question/${id}`);
+  };
+
+return (
+  <div className="navbar__list">
+    <SelectLabels options={options} setOptions={setOptions} />
+    {questionList
+      .filter((question) => options === "전체 보기" || question.className === options) // Filter logic
+      .map((question) => (
         <div
-          className="navbar__list__item"
-          key={room.id} // Use the room's id as the key
-          onClick={() => navigate(`/question/${room.id}`)} // Navigate using room's id
+          className={`navbar__list__item ${question.id === selectedQuestion ? "selected" : ""}`}
+          key={question.id}
+          onClick={() => handleQuestionClick(question.id)}
         >
           <QuestionTitle>
-            <div>{room.title}</div>
-            <SubTitleContainer>{room.subTitle}</SubTitleContainer>
+            <div>{question.title}</div>
+            <SubTitleContainer>{question.subTitle}</SubTitleContainer>
           </QuestionTitle>
         </div>
       ))}
-      <IconContainer>
-        <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
-      </IconContainer>
-    </div>
-  );
+    <IconContainer onClick={() => {/* Icon click action */}}>
+      <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
+    </IconContainer>
+  </div>
+);
+
 }
 
 const QuestionTitle = styled.div`
