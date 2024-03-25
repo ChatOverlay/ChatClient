@@ -9,7 +9,6 @@ export default function ChatList() {
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
-  
   position: relative;
   margin-left: 25vw;
   height: 100vh;
