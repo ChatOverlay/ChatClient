@@ -2,24 +2,29 @@ import React, { useState } from "react";
 
 import ChatIcon from "@mui/icons-material/Chat";
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from 'styled-components';
+import styled from "styled-components";
 
 import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
+import Setting from "../setting/Setting";
 
 export default function VerticalAppBar() {
-  const navigate = useNavigate();
-  const [section, setSection] = useState(0);
+  const navigate = useNavigate(); //라우터 네비게이션
+  const [section, setSection] = useState(0); //해당 섹션 설정
+  const [isModalOpen, setIsModalOpen] = useState(false); //세팅열기
+
   //렌디렁 조건부
   const sectionComponents = {
     0: <ChatList />,
     1: <QuestionList />,
     2: <MyPage />,
   };
+
   const renderSectionComponent = (section) =>
     sectionComponents[section] || null;
 
@@ -29,22 +34,33 @@ export default function VerticalAppBar() {
     setSection(0);
   };
 
+  const handleOption = () => {
+    setIsModalOpen(!isModalOpen); // 모달 열기
+  };
+
+
   return (
     <>
       <AppBar>
-        <IconContainer onClick={() => handleChatList()}>
-          <ChatIcon sx={{ color: " #f2d492", fontSize: "3rem" }} />
-        </IconContainer>
-        <IconContainer onClick={() => setSection(1)}>
-          <FilterFramesIcon sx={{ color: " #f2d492", fontSize: "3rem" }} />
-        </IconContainer>{" "}
-        <IconContainer onClick={() => setSection(2)}>
-          <AccountCircleIcon sx={{ color: " #f2d492", fontSize: "3rem" }} />
-        </IconContainer>
+        <div>
+          <IconContainer onClick={() => handleChatList()}>
+            <ChatIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+          </IconContainer>
+          <IconContainer onClick={() => setSection(1)}>
+            <FilterFramesIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+          </IconContainer>{" "}
+          <IconContainer onClick={() => setSection(2)}>
+            <AccountCircleIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+          </IconContainer>
+        </div>
+        <div style={{ marginBottom: "2rem" }}>
+          <IconContainer onClick={() => handleOption()}>
+            <SettingsIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+          </IconContainer>
+        </div>
       </AppBar>
-      <SectionAnimationWrapper>
       {renderSectionComponent(section)}
-      </SectionAnimationWrapper>
+      {isModalOpen && <Setting handleOption={handleOption} />}
     </>
   );
 }
@@ -56,15 +72,16 @@ const AppBar = styled.div`
   flex-direction: column;
   background-color: #202c39;
   align-items: center;
+  justify-content: space-between;
   height: 100vh;
   width: 5vw;
   border-right: 1px solid #f2d492;
+  z-index: 2;
 `;
 
 //아이콘 컨테이너
 const IconContainer = styled.div`
   margin-top: 3rem;
-  display: grid;
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -73,20 +90,4 @@ const IconContainer = styled.div`
   &:first-child {
     margin-top: 1rem;
   }
-`;
-
-// 좌측에서 들어오는 슬라이드 애니메이션 정의
-const slideInFromLeft = keyframes`
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-`;
-// 애니메이션을 적용할 컴포넌트 래퍼
-const SectionAnimationWrapper = styled.div`
-  animation: ${slideInFromLeft} 0.5s ease-out forwards;
 `;

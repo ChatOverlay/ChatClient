@@ -11,7 +11,7 @@ export default function SelectLabels({ options, setOptions }) {
       <FormControl
         sx={{
           m: 1,
-          minWidth: "20rem",
+          minWidth: "15vw",
           color: "white",
           fontWeight: "bold",
           marginTop: "0.1rem",

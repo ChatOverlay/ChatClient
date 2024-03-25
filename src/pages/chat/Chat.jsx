@@ -50,7 +50,7 @@ export default function Chat() {
     <>
     <AppContainer show={closeOption}>
       <div className="top__bar">
-        <div className="icon_container" onClick={() => setCloseOption(!closeOption)}>
+        <div className="icon__container" onClick={() => setCloseOption(!closeOption)}>
           {closeOption ? (
             <KeyboardDoubleArrowRightIcon />
           ) : (

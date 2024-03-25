@@ -18,7 +18,7 @@ export default function Question() {
       <AppContainer show={closeOption}>
         <div className="top__bar">
           <div
-            className="icon_container"
+            className="icon__container"
             onClick={() => setCloseOption(!closeOption)}
           >
             {closeOption ? (
