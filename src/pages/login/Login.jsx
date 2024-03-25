@@ -18,4 +18,6 @@ const HomeContainer = styled.div`
   background-color: #202c39;
   color: #f2d492;
   font-family: "Roboto";
+  position: relative;
+  z-index: 1;
 `;

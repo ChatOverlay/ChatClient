@@ -3,15 +3,14 @@ import { IconButton } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ChatList from '../chatbox/ChatList';
+import ChatList from '../chatbox/ChatListBox';
 
 export default function VerticalAppBar() {
   const navigate = useNavigate();
 
   return (
     <>
-    <AppBar
-    >
+    <AppBar>
         <IconButton onClick={() => navigate("/chatlist")}>
           <ChatIcon sx={{color : " #f2d492"}} />
         </IconButton>

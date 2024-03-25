@@ -24,6 +24,8 @@ const HomeContainer = styled.div`
   height: 100vh;
   background-color: #202c39;
   color: #f2d492;
+  position: relative;
+  z-index: 1;
   
 `;
 

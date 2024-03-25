@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-export default function ChatList() {
+export default function ChatListBox() {
   const navigate = useNavigate();
 
   const chatRooms = ["room1", "room2"]; // Example chat rooms
