@@ -37,7 +37,7 @@ return (
           </QuestionTitle>
         </div>
       ))}
-    <IconContainer onClick={() => {/* Icon click action */}}>
+    <IconContainer onClick={() => {navigate("./question/NewQuestion")}}>
       <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
     </IconContainer>
   </div>

@@ -6,6 +6,7 @@ import Chat from "./pages/chat/Chat";
 import VerticalAppBar from "./components/navbar/VerticalAppBar";
 import ChatList from "./pages/chat/ChatList";
 import Question from "./pages/question/Question";
+import QuestionAdd from "./pages/question/QuestionAdd";
 
 function App() {
   return (
@@ -14,10 +15,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/chatlist" element={<ChatList />} />
         <Route path="/chat/:roomId" element={<Chat />} />
-
+        <Route path="/question/newquestion" element={<QuestionAdd />} />
         <Route path="/question/:questionId" element={<Question />} />
       </Routes>
     </BrowserRouter>
