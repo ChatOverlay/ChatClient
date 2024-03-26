@@ -2,10 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import "../TopBar.css";
 import { useParams } from "react-router-dom";
+import TopBar from "../../components/topbar/TopBar";
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
 
 
@@ -15,7 +13,7 @@ export default function Chat() {
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
 
-  const { roomId } = useParams(); // Extract roomId from URL
+  const { CurrentTitle } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -23,7 +21,7 @@ export default function Chat() {
   const sendMessage = () => {
     if (message) {
       const messageObject = { user: "me", text: message };
-      socket.emit("message", messageObject, roomId); // roomId를 인자로 추가
+      socket.emit("message", messageObject, CurrentTitle); // roomId를 인자로 추가
       setMessage("");
       scrollToBottom();
     }
@@ -31,7 +29,7 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages([]); // roomId가 변경될 때마다 메시지 상태를 초기화
-    socket.emit("joinRoom", roomId); // 방에 조인
+    socket.emit("joinRoom", CurrentTitle); // 방에 조인
 
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -41,7 +39,7 @@ export default function Chat() {
     return () => {
       socket.off("message");
     };
-  }, [roomId]); // roomId가 변경될 때마다 이 효과를 다시 실행
+  }, [CurrentTitle]); // roomId가 변경될 때마다 이 효과를 다시 실행
 
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
@@ -49,16 +47,11 @@ export default function Chat() {
   return (
     <>
     <AppContainer show={closeOption}>
-      <div className="top__bar">
-        <div className="icon__container" onClick={() => setCloseOption(!closeOption)}>
-          {closeOption ? (
-            <KeyboardDoubleArrowRightIcon />
-          ) : (
-            <KeyboardDoubleArrowLeftIcon />
-          )}
-        </div>
-        <div className="number__container">{roomId}</div>
-      </div>
+              <TopBar
+          closeOption={closeOption}
+          setCloseOption={setCloseOption}
+          CurrentTitle={CurrentTitle}
+        />
       <ChatContainer>
         <MessagesContainer>
           {messages.map((msg, index) => (
