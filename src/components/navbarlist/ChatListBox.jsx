@@ -8,9 +8,9 @@ export default function ChatListBox() {
 
   const chatRooms = ["room1", "room2"]; // Example chat rooms
 
-  const handleRoomClick = (room) => {
-    setSelectedRoom(room); 
-    navigate(`/chat/${room}`);
+  const handleRoomClick = (titleName) => {
+    setSelectedRoom(titleName); 
+    navigate(`/chat/${titleName}`);
   };
 
   return (

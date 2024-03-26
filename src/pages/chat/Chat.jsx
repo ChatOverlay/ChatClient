@@ -6,14 +6,13 @@ import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
 
-
 export default function Chat() {
   const [message, setMessage] = useState(""); //메시지
   const [messages, setMessages] = useState([]); //메시지 배열
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
 
-  const { CurrentTitle } = useParams(); // Extract roomId from URL
+  const { titleName } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -21,7 +20,7 @@ export default function Chat() {
   const sendMessage = () => {
     if (message) {
       const messageObject = { user: "me", text: message };
-      socket.emit("message", messageObject, CurrentTitle); // roomId를 인자로 추가
+      socket.emit("message", messageObject, titleName); // roomId를 인자로 추가
       setMessage("");
       scrollToBottom();
     }
@@ -29,7 +28,7 @@ export default function Chat() {
 
   useEffect(() => {
     setMessages([]); // roomId가 변경될 때마다 메시지 상태를 초기화
-    socket.emit("joinRoom", CurrentTitle); // 방에 조인
+    socket.emit("joinRoom", titleName); // 방에 조인
 
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -39,42 +38,42 @@ export default function Chat() {
     return () => {
       socket.off("message");
     };
-  }, [CurrentTitle]); // roomId가 변경될 때마다 이 효과를 다시 실행
+  }, [titleName]); // roomId가 변경될 때마다 이 효과를 다시 실행
 
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
   }, [messages]); // messages 배열이 변경될 때마다 실행
   return (
     <>
-    <AppContainer show={closeOption}>
-              <TopBar
+      <AppContainer show={closeOption}>
+        <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          CurrentTitle={CurrentTitle}
+          titleName={titleName}
         />
-      <ChatContainer>
-        <MessagesContainer>
-          {messages.map((msg, index) => (
-            <Message key={index} user={msg.user}>
-              {msg.text}
-            </Message>
-          ))}
-          <div ref={messagesEndRef} />
-        </MessagesContainer>
-        <InputContainer>
-          <StyledInput
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-            placeholder="메시지를 입력하세요..."
-          />
-          <StyledButton onClick={sendMessage}>
-            <SendIcon />
-          </StyledButton>
-        </InputContainer>
-      </ChatContainer>
-    </AppContainer>
+        <ChatContainer>
+          <MessagesContainer>
+            {messages.map((msg, index) => (
+              <Message key={index} user={msg.user}>
+                {msg.text}
+              </Message>
+            ))}
+            <div ref={messagesEndRef} />
+          </MessagesContainer>
+          <InputContainer>
+            <StyledInput
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="메시지를 입력하세요..."
+            />
+            <StyledButton onClick={sendMessage}>
+              <SendIcon />
+            </StyledButton>
+          </InputContainer>
+        </ChatContainer>
+      </AppContainer>
     </>
   );
 }

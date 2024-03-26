@@ -13,15 +13,14 @@ const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
 
-  const { CurrentTitle } = useParams(); // Extract roomId from URL
-
+  const { titleName } = useParams(); //  titleName 가져오기
   return (
     <>
       <AppContainer show={closeOption}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          CurrentTitle={CurrentTitle}
+          titleName={titleName}
         />
         <QuestionContainer>
           <Questioner />
@@ -38,7 +37,8 @@ export default function Question() {
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: relative; 
+  height : 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
   background-color: #202c39;
   border-left: 1px solid #f2d492;

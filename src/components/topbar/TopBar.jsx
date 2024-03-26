@@ -2,7 +2,7 @@ import React from 'react'
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import "./TopBar.css"
-export default function TopBar({closeOption ,setCloseOption , CurrentTitle}) {
+export default function TopBar({closeOption ,setCloseOption , titleName}) {
   return (
     <div className="top__bar">
     <div
@@ -15,7 +15,7 @@ export default function TopBar({closeOption ,setCloseOption , CurrentTitle}) {
         <KeyboardDoubleArrowLeftIcon />
       )}
     </div>
-    <div className="number__container">{CurrentTitle}</div>
+    <div className="number__container">{titleName}</div>
   </div>
   )
 }
