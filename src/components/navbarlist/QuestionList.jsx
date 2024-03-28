@@ -4,7 +4,7 @@ import "./ListBox.css";
 import SelectLabels from "./select/SelectLabels";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import styled from "styled-components";
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 export default function QuestionListBox() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
@@ -35,6 +35,8 @@ return (
             <div>{question.title}</div>
             <SubTitleContainer>{question.subTitle}</SubTitleContainer>
           </QuestionTitle>
+          <div className="icon__arrow__container"><ArrowForwardIcon/></div>
+           
         </div>
       ))}
     <IconContainer onClick={() => {navigate("./question/NewQuestion")}}>

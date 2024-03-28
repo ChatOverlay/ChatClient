@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./ListBox.css";
 
 export default function ChatListBox() {
@@ -21,7 +22,10 @@ export default function ChatListBox() {
           key={room}
           onClick={() => handleRoomClick(room)}
         >
+          <div>
           {room}
+          </div>
+          <div className="icon__arrow__container"><ArrowForwardIcon/></div>
         </div>
       ))}
     </div>
