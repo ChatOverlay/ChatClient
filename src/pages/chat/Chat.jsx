@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
@@ -78,6 +78,7 @@ export default function Chat() {
   );
 }
 
+
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
@@ -89,6 +90,7 @@ const AppContainer = styled.div`
   transition: all 0.3s;
   z-index: 1;
 `;
+
 //채팅 컨테이너
 const ChatContainer = styled.div`
   height: 90vh;

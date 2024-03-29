@@ -6,11 +6,16 @@ import LikedPage from "./mypage/LikedPage";
 import CreateIcon from "@mui/icons-material/Create";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckIcon from "@mui/icons-material/Check";
+import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
   const [changeNameAble, setChangeNameAble] = useState(false);
   const [nickName, setNickName] = useState("닉네임");
+
+  const navigate= useNavigate();
+
+
   return (
     <>
       {likedPages ? (
@@ -50,7 +55,15 @@ export default function MyPage() {
                 <ArrowForwardIcon />
               </IconContainer>
             </div>
-            <OtherContainer>마일리지 </OtherContainer>
+            <div
+              className="navbar__list__item"
+              onClick={() => navigate("/mypage/mileage")}
+            >
+              마일리지
+              <IconContainer>
+                <ArrowForwardIcon />
+              </IconContainer>
+            </div>
             <OtherContainer>하루 적정량 </OtherContainer>
           </ListContainer>
         </div>
