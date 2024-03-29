@@ -19,7 +19,7 @@ function App() {
         <Route path="/chatlist" element={<ChatList />} />
         <Route path="/chat/:titleName" element={<Chat />} />
         <Route path="/question/newquestion" element={<QuestionAdd />} />
-        <Route path="/question/:titleName" element={<Question />} />
+        <Route path="/question/:id" element={<Question />} />
         <Route path="/mypage/mileage" element={<Mileage />} />
       </Routes>
     </BrowserRouter>
