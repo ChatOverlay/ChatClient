@@ -76,6 +76,7 @@ const AppBar = styled.div`
   width: 5vw;
   border-right: 1px solid #202c39;
   z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
 `;
 
 //아이콘 컨테이너
