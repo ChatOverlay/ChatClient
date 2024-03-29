@@ -102,10 +102,12 @@ const ChatContainer = styled.div`
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
+  margin-bottom: 1rem;
   padding: 5px;
   border-radius: 2rem;
   border: 1px solid white;
   justify-content: space-between;
+  
 `;
 
 //입력 칸
