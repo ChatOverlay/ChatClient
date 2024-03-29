@@ -38,24 +38,23 @@ export default function VerticalAppBar() {
     setIsModalOpen(!isModalOpen); // 모달 열기
   };
 
-
   return (
     <>
       <AppBar>
         <div>
           <IconContainer onClick={() => handleChatList()}>
-            <ChatIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+            <ChatIcon sx={{ fontSize: "2rem" }} />
           </IconContainer>
           <IconContainer onClick={() => setSection(1)}>
-            <FilterFramesIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+            <FilterFramesIcon sx={{ fontSize: "2rem" }} />
           </IconContainer>{" "}
           <IconContainer onClick={() => setSection(2)}>
-            <AccountCircleIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+            <AccountCircleIcon sx={{ fontSize: "2rem" }} />
           </IconContainer>
         </div>
         <div style={{ marginBottom: "2rem" }}>
           <IconContainer onClick={() => handleOption()}>
-            <SettingsIcon sx={{ color: " #f2d492", fontSize: "2rem" }} />
+            <SettingsIcon sx={{ fontSize: "2rem" }} />
           </IconContainer>
         </div>
       </AppBar>
@@ -70,12 +69,12 @@ const AppBar = styled.div`
   display: flex;
   position: fixed;
   flex-direction: column;
-  background-color: #202c39;
+  background-color: #f2d492;
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5vw;
-  border-right: 1px solid #f2d492;
+  border-right: 1px solid #202c39;
   z-index: 2;
 `;
 
@@ -84,6 +83,7 @@ const IconContainer = styled.div`
   margin-top: 3rem;
   cursor: pointer;
   transition: all 0.3s;
+  color: #202c39;
   &:hover {
     opacity: 0.6;
   }
