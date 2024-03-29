@@ -49,6 +49,7 @@ const CommentProfileName = styled.div`
 //댓글 프로필 날짜
 const CommentProfileDate = styled.div`
   font-size: 0.7rem;
+  opacity : 0.6;
 `;
 
 //댓글 내용

@@ -11,10 +11,10 @@ export default function SelectLabels({ options, setOptions }) {
       <FormControl
         sx={{
           m: 1,
-          minWidth: "15vw",
+          minWidth: "18vw",
           color: "white",
           fontWeight: "bold",
-          marginTop: "0.1rem",
+          marginTop: "0.5rem",
           ".MuiInputLabel-root": { color: "#f2d492" }, // label color
           ".MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "#f2d492" }, // border color

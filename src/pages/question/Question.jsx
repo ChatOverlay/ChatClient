@@ -16,7 +16,12 @@ export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
   const [questionData, setQuestionData] = useState(null);
   const { id } = useParams(); // URL에서 질문의 id를 가져옵니다.
-
+  const addCommentToQuestion = (newComment) => {
+    setQuestionData((prevQuestionData) => ({
+        ...prevQuestionData,
+        comments: [...prevQuestionData.comments, newComment]
+    }));
+};
   useEffect(() => {
     fetch(`http://localhost:4000/api/questions/${id}`) // Adjust URL as necessary
       .then(response => response.json())
@@ -51,7 +56,7 @@ export default function Question() {
           {questionData?.comments?.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}
-          <CommentAdd />
+          <CommentAdd questionData={questionData} onAddComment={addCommentToQuestion}/>
         </QuestionContainer>
       </AppContainer>
     </>

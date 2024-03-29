@@ -1,19 +1,41 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ModeIcon from "@mui/icons-material/Mode";
-import io from "socket.io-client";
 
-// 서버와의 연결을 설정
-const socket = io("http://localhost:4000");
 
-export default function CommentAdd() {
+export default function CommentAdd({questionData,onAddComment}) {
   const [newComment, setNewComment] = useState("");
 
   // 서버로 새 댓글 데이터 전송
-  const sendComment = () => {
-    socket.emit("message", { name: "사용자 이름", date: new Date().toLocaleString(), content: newComment }, "room1");
+  const sendComment = async () => {
+    const commentData = {
+      name: "사용자 이름",
+      date: new Date().toLocaleString(),
+      content: newComment
+    };
+    const questionId = questionData?.id;
+    try {
+      const response = await fetch(`http://localhost:4000/api/questions/${questionId}/comments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(commentData)
+      });
+      if (response.ok) {
+        const updatedQuestion = await response.json();
+        console.log('댓글 추가 성공:', updatedQuestion);
+        onAddComment(commentData); // 새 댓글을 상위 컴포넌트의 상태에 추가
+      } else {
+        console.error('댓글 추가 실패');
+      }
+    } catch (error) {
+      console.error('댓글 추가 중 에러 발생:', error);
+    }
+    
     setNewComment(""); // 입력 필드 초기화
   };
+  
 
   return (
     <CommentAddContainer>
