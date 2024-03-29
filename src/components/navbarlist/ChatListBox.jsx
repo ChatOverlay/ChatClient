@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import "./ListBox.css";
@@ -6,8 +6,14 @@ import "./ListBox.css";
 export default function ChatListBox() {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null); 
+  const [chatRooms, setChatRooms] = useState([]);
 
-  const chatRooms = ["room1", "room2"]; // Example chat rooms
+  useEffect(() => {
+    fetch('http://localhost:4000/api/chatrooms')
+      .then(response => response.json())
+      .then(data => setChatRooms(data))
+      .catch(error => console.error("Fetching chat rooms failed:", error));
+  }, []);
 
   const handleRoomClick = (titleName) => {
     setSelectedRoom(titleName); 
@@ -22,9 +28,7 @@ export default function ChatListBox() {
           key={room}
           onClick={() => handleRoomClick(room)}
         >
-          <div>
-          {room}
-          </div>
+          <div>{room}</div>
           <div className="icon__arrow__container"><ArrowForwardIcon/></div>
         </div>
       ))}
