@@ -1,29 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import io from "socket.io-client";
 
-const socket = io("http://localhost:4000");
-
-export default function Comments() {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    socket.emit("joinRoom", "room1");
-
-    socket.on("message", (message) => {
-      setComments((prevComments) => [...prevComments, message]);
-    });
-
-    return () => {
-      socket.off("message");
-    };
-  }, []);
+export default function Comments({comment}) {
 
   return (
     <div>
-      {comments.map((comment, index) => (
-        <CommentContainer key={index}>
+        <CommentContainer >
           <CommentProfileContainer>
             <CommentProfileIcon>
               <AccountCircleIcon sx={{ fontSize: "2rem" }} />
@@ -35,7 +18,6 @@ export default function Comments() {
           </CommentProfileContainer>
           <CommentContent>{comment.content}</CommentContent>
         </CommentContainer>
-      ))}
     </div>
   );
 }

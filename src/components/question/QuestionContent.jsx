@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function QuestionContent() {
+export default function QuestionContent({ questionData }) {
   return (
     <Box>
-      <Title>할로</Title>
-      <Content>다들 반갑습니다.</Content>
+      <Title>{questionData?.title}</Title>
+      <Content>{questionData?.content}</Content>
     </Box>
   );
 }
+
 //-----------질문 내용 부분-------------
 //질문 박스
 const Box = styled.div`

@@ -2,19 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-export default function Questioner() {
+export default function Questioner({ questionData }) {
   return (
     <QuestionerContainer>
       <QuestionerProfileIcon>
         <AccountCircleIcon sx={{ fontSize: "3rem" }} />
       </QuestionerProfileIcon>
       <QuestionerProfileContainer>
-        <QuestionerProfileName>오준영</QuestionerProfileName>
-        <QuestionerDate>03/25 10:00</QuestionerDate>
+        <QuestionerProfileName>{questionData?.questionerName}</QuestionerProfileName>
+        <QuestionerDate>{questionData?.date}</QuestionerDate>
       </QuestionerProfileContainer>
     </QuestionerContainer>
   );
 }
+
 
 //-----------질문자 상단 부분-------------
 //질문자의 칸
