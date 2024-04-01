@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ListBox.css";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -11,10 +11,34 @@ import { useNavigate } from "react-router-dom";
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
   const [changeNameAble, setChangeNameAble] = useState(false);
-  const [nickName, setNickName] = useState("닉네임");
+  const [nickName, setNickName] = useState("");
 
   const navigate= useNavigate();
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:4000/api/user/info', {
+            headers: {
+              'Authorization': `Bearer ${token}`, // 헤더에 토큰 포함
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
+          } else {
+            console.error('Failed to fetch user info');
+          }
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   return (
     <>
