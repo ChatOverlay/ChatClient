@@ -16,8 +16,9 @@ const AppContainer = styled.div`
   border-left: 1px solid #f2d492;
   flex-direction: column;
   justify-content: center;
+  opacity : 0.8;
   align-items: center;
   color: #f2d492;
-  font-size: 5rem;
+  font-size: 3rem;
   font-weight: bold;
 `;
