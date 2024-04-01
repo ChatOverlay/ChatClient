@@ -4,14 +4,12 @@ import styled from "styled-components";
 
 export default function Home() {
   const navigate = useNavigate();
-  const HandleButton = () => {
-    navigate("/Login");
-  };
 
   return (
     <HomeContainer>
       <Header>모두의 소리함</Header>
-      <Button onClick={HandleButton}>수업 채팅 시작하기</Button>
+      <Button onClick={()=>navigate("/Login")}>수업 채팅 시작하기</Button>
+      <RegisterButton onClick={()=>navigate("./register")}>아이디가 없으신가요?</RegisterButton>
     </HomeContainer>
   );
 }
@@ -49,8 +47,18 @@ const Button = styled.div`
   margin-top: 20px;
   transition: 0.2s;
   &:hover {
-    background-color: #f2d492;
-    color: #202c39;
     transform: scale(1.1);
+    opacity: 0.8;
   }
 `;
+
+const RegisterButton = styled.div`
+  margin-top : 0.5rem;
+  cursor: pointer;
+  opacity : 0.8;
+  transition: all 0.2s;
+  &:hover {
+    opacity : 0.6;
+  }
+
+`

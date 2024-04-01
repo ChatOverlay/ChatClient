@@ -46,6 +46,7 @@ const handleSendVerificationCode = async () => {
     return;
   }
 
+  setIsEmailValid(true);
   setEmailError(false);
   // 인증 코드 전송 요청
   try {
@@ -59,9 +60,6 @@ const handleSendVerificationCode = async () => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const data = await response.json();
-    setIsEmailValid(true);
-    alert("인증 코드가 전송되었습니다. 이메일을 확인해 주세요.");
     // 추가 처리 (예: 사용자에게 인증 코드 입력 요청)
   } catch (error) {
     console.error('인증 코드 전송 실패:', error);

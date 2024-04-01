@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Register from "../../components/login/Register";
+import Login from "../../components/login/Login";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <HomeContainer>
-      <Register />
+      <Login />
     </HomeContainer>
   );
 }
