@@ -1,31 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModeIcon from "@mui/icons-material/Mode";
 
 
 export default function CommentAdd({questionData,onAddComment}) {
   const [newComment, setNewComment] = useState("");
-
+ const [nickName,setNickName] = useState("")
   // 서버로 새 댓글 데이터 전송
   const sendComment = async () => {
     const commentData = {
-      name: "사용자 이름",
-      date: new Date().toLocaleString(),
-      content: newComment
+      name : nickName,
+      content: newComment // 'name'과 'date'는 서버 측에서 처리
     };
     const questionId = questionData?.id;
+    const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+    
     try {
       const response = await fetch(`http://localhost:4000/api/questions/${questionId}/comments`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Authorization 헤더에 토큰 추가
         },
         body: JSON.stringify(commentData)
       });
       if (response.ok) {
         const updatedQuestion = await response.json();
         console.log('댓글 추가 성공:', updatedQuestion);
-        onAddComment(commentData); // 새 댓글을 상위 컴포넌트의 상태에 추가
+        onAddComment({ ...commentData, name: nickName, date: new Date().toLocaleString() }); // 댓글 추가 후 UI 업데이트
       } else {
         console.error('댓글 추가 실패');
       }
@@ -36,7 +38,30 @@ export default function CommentAdd({questionData,onAddComment}) {
     setNewComment(""); // 입력 필드 초기화
   };
   
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
+      if (token) {
+        try {
+          const response = await fetch("http://localhost:4000/api/user/info", {
+            headers: {
+              Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
+          } else {
+            console.error("Failed to fetch user info");
+          }
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+        }
+      }
+    };
 
+    fetchUserInfo();
+  }, []);
   return (
     <CommentAddContainer>
       <CommentAddInput 

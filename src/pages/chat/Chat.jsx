@@ -19,12 +19,20 @@ export default function Chat() {
 
   const sendMessage = () => {
     if (message) {
-      const messageObject = { user: "me", text: message };
-      socket.emit("message", messageObject, titleName); // roomId를 인자로 추가
+      const userImage = localStorage.getItem("userImage"); // 사용자의 이미지 URL
+      const userName = localStorage.getItem("userName"); // 사용자의 닉네임
+      const messageObject = {
+        user: "me",
+        text: message,
+        userName: userName, // 닉네임 추가
+        userImage: userImage, // 이미지 URL 추가
+      };
+      socket.emit("message", messageObject, titleName);
       setMessage("");
       scrollToBottom();
     }
   };
+  
 
   useEffect(() => {
     setMessages([]); // roomId가 변경될 때마다 메시지 상태를 초기화
@@ -55,7 +63,14 @@ export default function Chat() {
           <MessagesContainer>
             {messages.map((msg, index) => (
               <Message key={index} user={msg.user}>
-                {msg.text}
+                {msg.userImage && (
+                  <img
+                    src={msg.userImage}
+                    alt="profile"
+                    style={{ width: 30, height: 30, borderRadius: "50%" }}
+                  />
+                )}
+                <span>{msg.userName}</span> {msg.text}
               </Message>
             ))}
             <div ref={messagesEndRef} />
@@ -65,7 +80,7 @@ export default function Chat() {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요..."
             />
             <StyledButton onClick={sendMessage}>
@@ -77,7 +92,6 @@ export default function Chat() {
     </>
   );
 }
-
 
 //App 컨테이너
 const AppContainer = styled.div`
@@ -107,7 +121,6 @@ const InputContainer = styled.div`
   border-radius: 2rem;
   border: 1px solid white;
   justify-content: space-between;
-  
 `;
 
 //입력 칸
@@ -157,7 +170,7 @@ const Message = styled.div`
   margin-bottom: 12px;
   padding: 10px;
   border-radius: 20px;
-  color: white;
+  color: black;
   ${(props) =>
     props.user === "me"
       ? `
@@ -167,6 +180,6 @@ const Message = styled.div`
         `
       : `
           margin-right: auto;
-          background-color: #007bff; // 상대방의 메시지 색
+          background-color: #fff; // 상대방의 메시지 색
         `}
 `;
