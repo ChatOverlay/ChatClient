@@ -8,41 +8,20 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckIcon from "@mui/icons-material/Check";
 import { useNavigate } from "react-router-dom";
 
+import io from "socket.io-client";
+const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
+
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
   const [changeNameAble, setChangeNameAble] = useState(false);
   const [nickName, setNickName] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
+  const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
+  const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
 
   const fileInputRef = useRef(null);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
-      if (token) {
-        try {
-          const response = await fetch("http://localhost:4000/api/user/info", {
-            headers: {
-              Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
-            setProfilePictureUrl(profilePictureUrl);
-          } else {
-            console.error("Failed to fetch user info");
-          }
-        } catch (error) {
-          console.error("Error fetching user info:", error);
-        }
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
 
   //이미지 관련
   const triggerFileInput = () => {
@@ -100,7 +79,6 @@ export default function MyPage() {
           }
         );
         if (response.ok) {
-          
           setChangeNameAble(false); // Exit edit mode
           setNickName(newNickName); // Update local state with new nickname
           console.log("Nickname updated successfully.");
@@ -113,6 +91,50 @@ export default function MyPage() {
     }
   };
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
+      if (token) {
+        try {
+          const response = await fetch("http://localhost:4000/api/user/info", {
+            headers: {
+              Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
+            setProfilePictureUrl(profilePictureUrl);
+          } else {
+            console.error("Failed to fetch user info");
+          }
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+  useEffect(() => {
+    // 마일리지 정보 갱신 리스너
+    socket.on("mileageUpdated", (data) => {
+      setMileage(data.newMileage);
+      setTotalMileage(data.totalMileage);
+    });
+
+    return () => {
+      socket.off("mileageUpdated");
+    };
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    // 서버로부터 초기 마일리지 정보를 요청합니다.
+    socket.emit("getInitialMileage", { token });
+
+    // 필요한 경우 여기서 초기 마일리지 정보를 받는 리스너도 설정할 수 있습니다.
+  }, []);
   return (
     <>
       {likedPages ? (
@@ -175,9 +197,13 @@ export default function MyPage() {
             </div>
             <div
               className="navbar__list__item"
-              onClick={() => navigate("/mypage/mileage")}
+              onClick={() =>
+                navigate("/mypage/mileage", {
+                  state: { mileage, totalMileage },
+                })
+              }
             >
-              마일리지
+              하루 마일리지: {mileage} / 100
               <IconContainer>
                 <ArrowForwardIcon />
               </IconContainer>

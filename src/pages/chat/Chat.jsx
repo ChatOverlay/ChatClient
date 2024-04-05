@@ -11,6 +11,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]); //메시지 배열
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
+  const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
 
   const { titleName } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
@@ -27,26 +28,44 @@ export default function Chat() {
       socket.emit("message", messageObject, titleName);
       setMessage("");
       scrollToBottom();
+      socket.emit("updateMileage", { token });
     }
   };
 
   useEffect(() => {
-    setMessages([]); // roomId가 변경될 때마다 메시지 상태를 초기화
-    socket.emit("joinRoom", titleName); // 방에 조인
+    setMessages([]);
+    socket.emit("joinRoom", titleName);
 
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
+      
+    });
+
+    // 마일리지 정보 갱신 리스너
+    socket.on("mileageUpdated", (data) => {
+      setMileage(data.newMileage);
     });
 
     return () => {
       socket.off("message");
+      socket.off("mileageUpdated");
     };
-  }, [titleName]); // roomId가 변경될 때마다 이 효과를 다시 실행
-
+  }, [titleName]);
+  
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
   }, [messages]); // messages 배열이 변경될 때마다 실행
+
+  // 여기서 초기 마일리지 로드 및 업데이트 로직 구현
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    // 서버로부터 초기 마일리지 정보를 요청합니다.
+    socket.emit("getInitialMileage", { token });
+
+    // 필요한 경우 여기서 초기 마일리지 정보를 받는 리스너도 설정할 수 있습니다.
+  }, []);
+
   return (
     <>
       <AppContainer show={closeOption}>
@@ -57,8 +76,7 @@ export default function Chat() {
         />
         <ChatContainer>
           <MessagesContainer>
-          {
-            messages.map((msg, index) => (
+            {messages.map((msg, index) => (
               <React.Fragment key={index}>
                 {!msg.isCurrentUser && (
                   <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
@@ -74,8 +92,7 @@ export default function Chat() {
                   </MessageContainer>
                 )}
               </React.Fragment>
-            ))
-          }
+            ))}
 
             <div ref={messagesEndRef} />
           </MessagesContainer>
@@ -88,6 +105,8 @@ export default function Chat() {
               placeholder="메시지를 입력하세요..."
             />
             <StyledButton onClick={sendMessage}>
+              <span style={{ color: "white" }}>{mileage} /100 </span>{" "}
+              {/* 마일리지 정보 표시 */}
               <SendIcon />
             </StyledButton>
           </InputContainer>
@@ -190,6 +209,12 @@ const Message = styled.div`
   max-width: 60%;
   padding: 10px;
   border-radius: 20px;
-  background-color: ${(props) => (props.user === "me" ? "#f2d492" : "#fff")}; // 자신의 메시지와 상대방 메시지의 배경색
-  color: ${(props) => (props.user === "me" ? "black" : "black")}; // 텍스트 색상을 설정할 수 있습니다.
+  background-color: ${(props) =>
+    props.user === "me"
+      ? "#f2d492"
+      : "#fff"}; // 자신의 메시지와 상대방 메시지의 배경색
+  color: ${(props) =>
+    props.user === "me"
+      ? "black"
+      : "black"}; // 텍스트 색상을 설정할 수 있습니다.
 `;

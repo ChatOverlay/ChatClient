@@ -10,7 +10,6 @@ export default function Comments({ questionData, comment }) {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false); // Add state to manage edit mode
   const [editedContent, setEditedContent] = useState(comment.content); // Add state to store edited comment content
-console.log(comment);
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch('http://localhost:4000/api/user/info', {
@@ -68,7 +67,6 @@ console.log(comment);
       });
       if (response.ok) {
         setIsEditMode(false); // 편집 모드 종료
-        // 여기에서 댓글 목록을 새로고침하거나 상태를 업데이트해야 합니다.
       } else {
         console.error("Failed to save the edited comment.");
       }
