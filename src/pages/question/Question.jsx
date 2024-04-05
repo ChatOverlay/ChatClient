@@ -40,7 +40,7 @@ export default function Question() {
       socket.off('message');
       socket.emit('leaveRoom', questionData?.title); // Handle leaving room when component unmounts, adjust as necessary
     };
-  }, [id]);
+  }, [id,questionData?.title]);
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function Question() {
           <Questioner questionData={questionData} />
           <QuestionContent questionData={questionData} />
           {questionData?.comments?.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment.id} questionData={questionData} comment={comment} />
           ))}
           <CommentAdd questionData={questionData} onAddComment={addCommentToQuestion}/>
         </QuestionContainer>

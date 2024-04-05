@@ -11,6 +11,7 @@ export default function QuestionContent({ questionData }) {
 
   useEffect(() => {
     // 사용자 인증 토큰을 가져옵니다.
+    console.log(questionData?.likes)
     const token = localStorage.getItem('token');
     if (token && questionData?.likes) {
       // 현재 사용자가 'likes' 배열에 있는지 확인합니다. 
@@ -39,6 +40,7 @@ export default function QuestionContent({ questionData }) {
           }
 
           const data = await response.json();
+        
           if (data.success) {
               setLiked(!liked); // 좋아요 상태 토글
               setLikesCount(data.likesCount); // 좋아요 수 업데이트

@@ -24,6 +24,11 @@ export default function QuestionList() {
     navigate(`/question/${id}`);
   };
 
+  const handleNewQuestion = () => {
+    setSelectedQuestion(null);
+    navigate("question/newquestion");
+  }
+
   return (
     <div className="navbar__list">
       <SelectLabels options={options} setOptions={setOptions} />
@@ -53,9 +58,7 @@ export default function QuestionList() {
           </div>
         ))}
       <IconContainer
-        onClick={() => {
-          navigate("./question/newquestion");
-        }}
+        onClick={handleNewQuestion}
       >
         <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
       </IconContainer>

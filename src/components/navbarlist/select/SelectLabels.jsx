@@ -2,7 +2,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function SelectLabels({ options, setOptions }) {
+export default function SelectLabels({ options, setOptions, location }) {
   const handleChange = (event) => {
     setOptions(event.target.value);
   };
@@ -11,7 +11,6 @@ export default function SelectLabels({ options, setOptions }) {
       <FormControl
         sx={{
           m: 1,
-          minWidth: "18vw",
           color: "white",
           fontWeight: "bold",
           marginTop: "0.5rem",
@@ -32,10 +31,11 @@ export default function SelectLabels({ options, setOptions }) {
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
         >
-        <MenuItem value="전체 보기">전체 보기</MenuItem> 
-        <MenuItem value="소프트웨어공학">소프트웨어공학</MenuItem>
-        <MenuItem value="IT와 창업">IT와 창업</MenuItem>
-        
+          {location !== "QuestionAdd" && (
+            <MenuItem value="전체 보기">전체 보기</MenuItem>
+          )}
+          <MenuItem value="소프트웨어공학">소프트웨어공학</MenuItem>
+          <MenuItem value="IT와 창업">IT와 창업</MenuItem>
         </Select>
       </FormControl>
     </div>
