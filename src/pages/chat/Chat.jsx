@@ -76,23 +76,21 @@ export default function Chat() {
         />
         <ChatContainer>
           <MessagesContainer>
-            {messages.map((msg, index) => (
-              <React.Fragment key={index}>
-                {!msg.isCurrentUser && (
-                  <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
-                    <UserName>{msg.userName}</UserName>
-                    <Message user={msg.isCurrentUser ? "me" : ""}>
-                      {msg.text}
-                    </Message>
-                  </MessageContainer>
-                )}
-                {msg.isCurrentUser && (
-                  <MessageContainer user="me">
-                    <Message user="me">{msg.text}</Message>
-                  </MessageContainer>
-                )}
-              </React.Fragment>
-            ))}
+          {messages.map((msg, index) => (
+            <React.Fragment key={index}>
+              <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
+                {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
+                <ContentContainer user={msg.isCurrentUser ? "me" : ""}>
+                  <Message user={msg.isCurrentUser ? "me" : ""}>
+                    {msg.text}
+                  </Message>
+                  <MessageTime>
+                    {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </MessageTime>
+                </ContentContainer>
+              </MessageContainer>
+            </React.Fragment>
+          ))}
 
             <div ref={messagesEndRef} />
           </MessagesContainer>
@@ -105,10 +103,11 @@ export default function Chat() {
               placeholder="메시지를 입력하세요..."
             />
             <StyledButton onClick={sendMessage}>
-              <span style={{ color: "white" }}>{mileage} /100 </span>{" "}
-              {/* 마일리지 정보 표시 */}
-              <SendIcon />
-            </StyledButton>
+            <MileageContainer>
+              {mileage} / 100
+            </MileageContainer>
+            <SendIcon />
+          </StyledButton>
           </InputContainer>
         </ChatContainer>
       </AppContainer>
@@ -159,13 +158,12 @@ const StyledInput = styled.input`
   }
 `;
 
-//제출 버튼
+// 제출 버튼 컴포넌트
 const StyledButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
-  height: 2rem;
+  padding: 0.5rem 1rem; // 버튼의 패딩을 조정하여 내용이 더 잘 들어맞도록 합니다.
   color: #202c39;
   background-color: #f2d492;
   border-radius: 2rem;
@@ -174,6 +172,20 @@ const StyledButton = styled.div`
     opacity: 0.8;
   }
 `;
+
+// 마일리지 정보와 전송 아이콘을 포함하는 별도의 컨테이너를 생성합니다.
+const MileageContainer = styled.span`
+  display: flex;
+  align-items: center;
+  background-color: #202c39;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 1rem;
+  white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
+`;
+
 
 const MessagesContainer = styled.div`
   flex-grow: 1;
@@ -204,6 +216,21 @@ const UserName = styled.div`
   text-align: ${(props) => (props.user === "me" ? "right" : "left")};
 `;
 
+// 메시지 및 시간을 포함하는 ContentContainer에 적용할 스타일을 업데이트합니다.
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: ${(props) => (props.user === "me" ? "row-reverse" : "row")}; // 사용자 본인이 보낸 메시지인 경우 시간을 왼쪽에, 아닌 경우 오른쪽에 위치시킵니다.
+  align-items: flex-end; // 메시지와 시간을 같은 선상에 놓습니다.
+  justify-content: ${(props) => (props.user === "me" ? "flex-end" : "flex-start")};
+`;
+
+// MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
+const MessageTime = styled.div`
+  font-size: 0.7rem;
+  color: #b8b8b8;
+  margin: 0 0.5rem; // 메시지와 시간 사이의 간격을 추가합니다.
+  
+`;
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
   max-width: 60%;
