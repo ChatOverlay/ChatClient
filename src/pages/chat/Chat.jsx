@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
@@ -19,20 +19,16 @@ export default function Chat() {
 
   const sendMessage = () => {
     if (message) {
-      const userImage = localStorage.getItem("userImage"); // 사용자의 이미지 URL
-      const userName = localStorage.getItem("userName"); // 사용자의 닉네임
+      const token = localStorage.getItem("token");
       const messageObject = {
-        user: "me",
         text: message,
-        userName: userName, // 닉네임 추가
-        userImage: userImage, // 이미지 URL 추가
+        token: token,
       };
       socket.emit("message", messageObject, titleName);
       setMessage("");
       scrollToBottom();
     }
   };
-  
 
   useEffect(() => {
     setMessages([]); // roomId가 변경될 때마다 메시지 상태를 초기화
@@ -61,18 +57,26 @@ export default function Chat() {
         />
         <ChatContainer>
           <MessagesContainer>
-            {messages.map((msg, index) => (
-              <Message key={index} user={msg.user}>
-                {msg.userImage && (
-                  <img
-                    src={msg.userImage}
-                    alt="profile"
-                    style={{ width: 30, height: 30, borderRadius: "50%" }}
-                  />
+          {
+            messages.map((msg, index) => (
+              <React.Fragment key={index}>
+                {!msg.isCurrentUser && (
+                  <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
+                    <UserName>{msg.userName}</UserName>
+                    <Message user={msg.isCurrentUser ? "me" : ""}>
+                      {msg.text}
+                    </Message>
+                  </MessageContainer>
                 )}
-                <span>{msg.userName}</span> {msg.text}
-              </Message>
-            ))}
+                {msg.isCurrentUser && (
+                  <MessageContainer user="me">
+                    <Message user="me">{msg.text}</Message>
+                  </MessageContainer>
+                )}
+              </React.Fragment>
+            ))
+          }
+
             <div ref={messagesEndRef} />
           </MessagesContainer>
           <InputContainer>
@@ -165,21 +169,27 @@ const MessagesContainer = styled.div`
   width: 100%;
 `;
 
+// 메시지 컨테이너에 이름을 표시하는 부분을 추가합니다.
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: ${(props) => (props.user === "me" ? "flex-end" : "flex-start")};
+  margin-bottom: 12px;
+`;
+
+// 사용자 이름을 표시하는 스타일 컴포넌트입니다.
+const UserName = styled.div`
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+  color: #a8a8a8; // 이름의 색상을 설정합니다.
+  text-align: ${(props) => (props.user === "me" ? "right" : "left")};
+`;
+
+// Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
   max-width: 60%;
-  margin-bottom: 12px;
   padding: 10px;
   border-radius: 20px;
-  color: black;
-  ${(props) =>
-    props.user === "me"
-      ? `
-          margin-left: auto;
-          background-color: #f2d492; // 자신의 메시지 색
-          color: black;
-        `
-      : `
-          margin-right: auto;
-          background-color: #fff; // 상대방의 메시지 색
-        `}
+  background-color: ${(props) => (props.user === "me" ? "#f2d492" : "#fff")}; // 자신의 메시지와 상대방 메시지의 배경색
+  color: ${(props) => (props.user === "me" ? "black" : "black")}; // 텍스트 색상을 설정할 수 있습니다.
 `;
