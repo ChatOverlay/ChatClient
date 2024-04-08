@@ -6,48 +6,74 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 export default function QuestionContent({ questionData }) {
   const commentsCount = questionData?.comments?.length || 0;
-  const [likesCount,setLikesCount] = useState(questionData?.likes?.length || 0);
+  const [likesCount, setLikesCount] = useState(
+    questionData?.likes?.length || 0
+  );
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    // 사용자 인증 토큰을 가져옵니다.
-    console.log(questionData?.likes)
-    const token = localStorage.getItem('token');
-    if (token && questionData?.likes) {
-      // 현재 사용자가 'likes' 배열에 있는지 확인합니다. 
-      // 이 예시에서는 사용자의 ID가 'userId'라고 가정합니다.
-      const userId = token; // 실제 사용자 ID로 대체해야 합니다.
-      const isLiked = questionData.likes.some(like => like.id === userId);
-      setLiked(isLiked);
-    }
-  }, [questionData]);
+    setLikesCount(questionData?.likes?.length || 0); // 좋아요 수 초기화
 
-    // '좋아요' 버튼 클릭 핸들러
-    const toggleLike = async () => {
+    const checkLikedStatus = async () => {
       const questionId = questionData?.id;
-      const token = localStorage.getItem('token'); // 사용자 인증을 위한 토큰
-      try {
-          const response = await fetch(`http://localhost:4000/api/questions/${questionId}/like`, {
-              method: 'POST',
+      const token = localStorage.getItem("token");
+      if (token && questionId) {
+        try {
+          const response = await fetch(
+            `http://localhost:4000/api/questions/${questionId}/like`,
+            {
+              method: "GET",
               headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`, // 토큰을 헤더에 포함
+                Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
               },
-          });
+            }
+          );
 
           if (!response.ok) {
-              throw new Error('Server response was not ok.');
+            throw new Error("Server response was not ok.");
           }
 
           const data = await response.json();
-        
-          if (data.success) {
-              setLiked(!liked); // 좋아요 상태 토글
-              setLikesCount(data.likesCount); // 좋아요 수 업데이트
-          }
-      } catch (error) {
-          console.error('Error toggling like:', error);
+          setLiked(data.isLiked); // 서버로부터 받은 좋아요 상태로 업데이트
+        } catch (error) {
+          console.error("Error checking like status:", error);
+        }
       }
+    };
+    if (questionData) {
+      checkLikedStatus();
+    }
+  }, [questionData]);
+
+  // '좋아요' 버튼 클릭 핸들러
+  const toggleLike = async () => {
+    const questionId = questionData?.id;
+    const token = localStorage.getItem("token"); // 사용자 인증을 위한 토큰
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/questions/${questionId}/like`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Server response was not ok.");
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLiked(!liked); // 좋아요 상태 토글
+        setLikesCount(data.likesCount); // 좋아요 수 업데이트
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
   };
   return (
     <Box>
@@ -99,15 +125,15 @@ const LikeButton = styled.div`
   display: flex;
   width: 5rem;
   height: 2rem;
-  border-radius : 0.5rem;
+  border-radius: 0.5rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color : #202c39;
-  background-color : #f2d492;
+  color: #202c39;
+  background-color: #f2d492;
   margin-left: 0.3rem;
   transition: all 0.3s;
   &:hover {
-    opacity : 0.8;
+    opacity: 0.8;
   }
 `;

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./ListBox.css";
 import SelectLabels from "./select/SelectLabels";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import styled from "styled-components";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export default function QuestionList() {
@@ -27,7 +26,7 @@ export default function QuestionList() {
   const handleNewQuestion = () => {
     setSelectedQuestion(null);
     navigate("question/newquestion");
-  }
+  };
 
   return (
     <div className="navbar__list">
@@ -36,74 +35,32 @@ export default function QuestionList() {
         .filter(
           (question) =>
             options === "전체 보기" || question.className === options
-        ) // Filter logic
+        )
         .map((question) => (
           <div
             className={`navbar__list__item ${
-              question.id === selectedQuestion ? "selected" : ""
+              question.id === selectedQuestion
+                ? "navbar__list__item--selected"
+                : ""
             }`}
             key={question.id}
             onClick={() => handleQuestionClick(question.id)}
           >
-            <QuestionContainer>
-              <QuestionTitleContainer>
+            <div className="question-container">
+              <div className="question-title-container">
                 <div>{question.title}</div>
-                <QuestionDate>{question.date}</QuestionDate>
-              </QuestionTitleContainer>
-              <SubTitleContainer>{question.className}</SubTitleContainer>
-            </QuestionContainer>
+                <div className="question-date">{question.date}</div>
+              </div>
+              <div className="sub-title-container">{question.className}</div>
+            </div>
             <div className="icon__arrow__container">
               <ArrowForwardIcon />
             </div>
           </div>
         ))}
-      <IconContainer
-        onClick={handleNewQuestion}
-      >
+      <div className="icon-container" onClick={handleNewQuestion}>
         <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
-      </IconContainer>
+      </div>
     </div>
   );
 }
-
-const QuestionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-const QuestionTitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const QuestionDate = styled.div`
-margin-left : 1vw;
-padding-top : 0.6vh;
-font-size : 0.7rem;
-font-weight: normal;`;
-const SubTitleContainer = styled.div`
-  padding-top: 0.3rem;
-  font-weight: normal;
-  font-size: 0.8rem;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: #202c39;
-  background-color: #f2d492;
-  border-radius: 20rem;
-
-  height: 3rem;
-  width: 3rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    opacity: 0.6;
-  }
-`;

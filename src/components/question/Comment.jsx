@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextField from "@mui/material/TextField"; // Import TextField for editing
-import Button from "@mui/material/Button"; // Import Button for save changes
-import { styled as muiStyled } from '@mui/system';
+import { styled as muiStyled } from "@mui/system";
+import ReportIcon from "@mui/icons-material/Report";
 
-export default function Comments({
+export default function Comment({
   questionData,
   changeData,
   setChangeData,
   comment,
 }) {
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false); // Add state to manage edit mode
-  const [editedContent, setEditedContent] = useState(comment.content); // Add state to store edited comment content
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch("http://localhost:4000/api/user/info", {
@@ -33,10 +29,6 @@ export default function Comments({
 
     fetchUserInfo();
   }, []);
-
-  const handleEdit = async () => {
-    setIsEditMode(true); // 편집 모드 활성화
-  };
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this comment?")) {
@@ -64,29 +56,30 @@ export default function Comments({
       }
     }
   };
-
-  const saveEdit = async () => {
-    try {
-      // API 호출을 통해 댓글 수정 요청
-      const response = await fetch(
-        `http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: editedContent }),
+  const handleReport = async () => {
+    // 사용자에게 신고를 확인받습니다.
+    if (window.confirm("이 댓글을 신고하시겠습니까?")) {
+      try {
+        // 신고 API 호출
+        const response = await fetch(
+          `http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}/report`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            // 필요한 경우, 신고에 대한 추가 정보를 body에 포함시킬 수 있습니다.
+          }
+        );
+        if (response.ok) {
+          // 신고 성공 시 사용자에게 알립니다.
+          alert("댓글이 정상적으로 신고되었습니다.");
+        } else {
+          console.error("Failed to report the comment.");
         }
-      );
-      if (response.ok) {
-        setChangeData(!changeData);
-        setIsEditMode(false); // 편집 모드 종료
-      } else {
-        console.error("Failed to save the edited comment.");
+      } catch (error) {
+        console.error("Error reporting comment:", error);
       }
-    } catch (error) {
-      console.error("Error saving the edited comment:", error);
     }
   };
 
@@ -104,27 +97,15 @@ export default function Comments({
             <CommentProfileDate>{comment.date}</CommentProfileDate>
           </div>
         </CommentProfileContainer>
-        {isEditMode ? (
-          <EditContainer>
-            <StyledTextField
-              fullWidth
-              variant="outlined"
-              value={editedContent}
-              onChange={(e) => setEditedContent(e.target.value)}
-              label="댓글 수정하기" // 사용자가 편집하는 것임을 명시
-            />
-            <StyledButton onClick={saveEdit}>Save</StyledButton>
-          </EditContainer>
-        ) : (
-          <CommentContent>{comment.content}</CommentContent>
-        )}
       </div>
-      {isCurrentUser && !isEditMode && (
-        <CommentActions>
-          <EditIcon sx={{ cursor: "pointer" }} onClick={handleEdit} />
-          <DeleteIcon sx={{ cursor: "pointer" }} onClick={handleDelete} />
-        </CommentActions>
+      <CommentActions>
+      <StyledReportIcon onClick={handleReport} />
+      {isCurrentUser && (
+        <>
+          <StyledDeleteIcon onClick={handleDelete} />
+        </>
       )}
+      </CommentActions>
     </CommentContainer>
   );
 }
@@ -161,50 +142,24 @@ const CommentProfileDate = styled.div`
   opacity: 0.6;
 `;
 
-//댓글 내용
-const CommentContent = styled.div`
-  padding-left: 0.2rem;
-`;
-
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
   color: #f2d492;
   gap: 1rem;
 `;
-
-const EditContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top : 1rem;
-  justify-content: space-between;
-`;
-// TextField 스타일 커스터마이징
-const StyledTextField = muiStyled(TextField)({
-  '& .MuiInputBase-input': {
-    color: 'white', // 입력 글씨 색상
+const StyledReportIcon = muiStyled(ReportIcon)({
+  cursor: 'pointer',
+  transition: 'opacity 0.2s ease-in-out', // opacity 변화에 대한 애니메이션 설정
+  '&:hover': {
+    opacity: 0.7, // hover 시 opacity 감소
   },
-  '& fieldset': {
-    borderColor: '#f2d492',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#f2d492',
-  },
-  '& .MuiOutlinedInput-root': {
-    '&.Mui-focused fieldset': {
-      borderColor: '#f2d492',
-    },
-  },
-  width: '100%',
 });
 
-// Button 스타일 커스터마이징
-const StyledButton = muiStyled(Button)({
-  backgroundColor: '#f2d492',
-  color: '#202c39',
+const StyledDeleteIcon = muiStyled(DeleteIcon)({
+  cursor: 'pointer',
+  transition: 'opacity 0.2s ease-in-out', // 동일한 애니메이션 설정
   '&:hover': {
-    backgroundColor: '#f2e0bc',
-    color: '#202c39',
+    opacity: 0.7, // hover 시 opacity 감소
   },
-  marginLeft: '0.5rem',
 });

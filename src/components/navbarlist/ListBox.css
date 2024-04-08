@@ -66,3 +66,53 @@
     opacity: 0.6;
   }
 }
+
+/* Container for each question */
+.question-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Container for the question title and date */
+.question-title-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Style for the date next to the question title */
+.question-date {
+  margin-left: 1vw;
+  padding-top: 0.6vh;
+  font-size: 0.7rem;
+  font-weight: normal;
+}
+
+/* Subtitle container, for the class name of the question */
+.sub-title-container {
+  padding-top: 0.3rem;
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+/* The add new question icon container */
+.icon-container {
+  display: flex;
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #202c39;
+  background-color: #f2d492;
+  border-radius: 20rem;
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.icon-container:hover {
+  opacity: 0.6;
+}

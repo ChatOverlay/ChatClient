@@ -63,6 +63,7 @@ export default function MyPage() {
       console.error("Error uploading profile picture:", error);
     }
   };
+  
   const updateNickName = async (newNickName) => {
     const token = localStorage.getItem("token");
     if (token && newNickName !== nickName) {
