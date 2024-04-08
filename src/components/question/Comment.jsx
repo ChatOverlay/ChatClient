@@ -5,17 +5,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField"; // Import TextField for editing
 import Button from "@mui/material/Button"; // Import Button for save changes
+import { styled as muiStyled } from '@mui/system';
 
-export default function Comments({ questionData, comment }) {
+export default function Comments({
+  questionData,
+  changeData,
+  setChangeData,
+  comment,
+}) {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false); // Add state to manage edit mode
   const [editedContent, setEditedContent] = useState(comment.content); // Add state to store edited comment content
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch('http://localhost:4000/api/user/info', {
+      const response = await fetch("http://localhost:4000/api/user/info", {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const data = await response.json();
       if (response.ok) {
@@ -24,26 +30,31 @@ export default function Comments({ questionData, comment }) {
         console.error(data.message);
       }
     };
-  
+
     fetchUserInfo();
   }, []);
 
   const handleEdit = async () => {
     setIsEditMode(true); // 편집 모드 활성화
   };
-  
+
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this comment?")) {
       try {
         // API 호출을 통해 댓글 삭제 요청
-        const response = await fetch(`http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        const response = await fetch(
+          `http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
-        });
+        );
         if (response.ok) {
-          alert("Comment deleted successfully.");
+          alert("댓글이 정상적으로 삭제가 되었습니다.");
+
+          setChangeData(!changeData);
           // 여기에서 댓글 목록을 새로고침하거나 상태를 업데이트해야 합니다.
         } else {
           console.error("Failed to delete the comment.");
@@ -53,19 +64,23 @@ export default function Comments({ questionData, comment }) {
       }
     }
   };
-  
+
   const saveEdit = async () => {
     try {
       // API 호출을 통해 댓글 수정 요청
-      const response = await fetch(`http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: editedContent })
-      });
+      const response = await fetch(
+        `http://localhost:4000/api/questions/${questionData.id}/comments/${comment.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: editedContent }),
+        }
+      );
       if (response.ok) {
+        setChangeData(!changeData);
         setIsEditMode(false); // 편집 모드 종료
       } else {
         console.error("Failed to save the edited comment.");
@@ -74,7 +89,6 @@ export default function Comments({ questionData, comment }) {
       console.error("Error saving the edited comment:", error);
     }
   };
-  
 
   const isCurrentUser = comment.userId === currentUserId;
 
@@ -91,15 +105,16 @@ export default function Comments({ questionData, comment }) {
           </div>
         </CommentProfileContainer>
         {isEditMode ? (
-          <>
-            <TextField
+          <EditContainer>
+            <StyledTextField
               fullWidth
               variant="outlined"
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
+              label="댓글 수정하기" // 사용자가 편집하는 것임을 명시
             />
-            <Button onClick={saveEdit}>Save</Button>
-          </>
+            <StyledButton onClick={saveEdit}>Save</StyledButton>
+          </EditContainer>
         ) : (
           <CommentContent>{comment.content}</CommentContent>
         )}
@@ -157,3 +172,39 @@ const CommentActions = styled.div`
   color: #f2d492;
   gap: 1rem;
 `;
+
+const EditContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top : 1rem;
+  justify-content: space-between;
+`;
+// TextField 스타일 커스터마이징
+const StyledTextField = muiStyled(TextField)({
+  '& .MuiInputBase-input': {
+    color: 'white', // 입력 글씨 색상
+  },
+  '& fieldset': {
+    borderColor: '#f2d492',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#f2d492',
+  },
+  '& .MuiOutlinedInput-root': {
+    '&.Mui-focused fieldset': {
+      borderColor: '#f2d492',
+    },
+  },
+  width: '100%',
+});
+
+// Button 스타일 커스터마이징
+const StyledButton = muiStyled(Button)({
+  backgroundColor: '#f2d492',
+  color: '#202c39',
+  '&:hover': {
+    backgroundColor: '#f2e0bc',
+    color: '#202c39',
+  },
+  marginLeft: '0.5rem',
+});

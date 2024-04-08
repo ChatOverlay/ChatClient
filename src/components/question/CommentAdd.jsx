@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ModeIcon from "@mui/icons-material/Mode";
 
-export default function CommentAdd({ questionData, onAddComment }) {
+export default function CommentAdd({ questionData, onAddComment , changeData, setChangeData }) {
   const [newComment, setNewComment] = useState("");
   const [nickName, setNickName] = useState("");
   const [userId, setUserId] = useState("");
@@ -29,6 +29,7 @@ export default function CommentAdd({ questionData, onAddComment }) {
       );
       if (response.ok) {
         const updatedQuestion = await response.json();
+        setChangeData(!changeData);
         console.log("댓글 추가 성공:", updatedQuestion);
         onAddComment({
           ...commentData,

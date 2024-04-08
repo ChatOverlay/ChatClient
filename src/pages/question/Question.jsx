@@ -16,6 +16,7 @@ export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
   const [questionData, setQuestionData] = useState(null);
   const { id } = useParams(); // URL에서 질문의 id를 가져옵니다.
+  const [changeData, setChangeData]= useState(true);
   const addCommentToQuestion = (newComment) => {
     setQuestionData((prevQuestionData) => ({
         ...prevQuestionData,
@@ -40,7 +41,7 @@ export default function Question() {
       socket.off('message');
       socket.emit('leaveRoom', questionData?.title); // Handle leaving room when component unmounts, adjust as necessary
     };
-  }, [id,questionData?.title]);
+  }, [id,questionData?.title,changeData]);
 
   return (
     <>
@@ -54,9 +55,9 @@ export default function Question() {
           <Questioner questionData={questionData} />
           <QuestionContent questionData={questionData} />
           {questionData?.comments?.map((comment) => (
-            <Comment key={comment.id} questionData={questionData} comment={comment} />
+            <Comment key={comment.id} questionData={questionData} changeData={changeData} setChangeData={setChangeData}  comment={comment} />
           ))}
-          <CommentAdd questionData={questionData} onAddComment={addCommentToQuestion}/>
+          <CommentAdd questionData={questionData} onAddComment={addCommentToQuestion} changeData={changeData} setChangeData={setChangeData}/>
         </QuestionContainer>
       </AppContainer>
     </>
