@@ -139,7 +139,7 @@ const ChatContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   margin-bottom: 1rem;
-  padding: 5px;
+  padding: 0.3rem;
   border-radius: 2rem;
   border: 1px solid white;
   justify-content: space-between;
@@ -149,7 +149,7 @@ const InputContainer = styled.div`
 const StyledInput = styled.input`
   background-color: #202c39;
   border: none;
-  padding-left: 10px;
+  padding-left: 1rem;
   border-radius: 2rem;
   color: white;
   width: 100%;
@@ -205,7 +205,7 @@ const MessageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => (props.user === "me" ? "flex-end" : "flex-start")};
-  margin-bottom: 12px;
+  margin-bottom: 1rem;
 `;
 
 // 사용자 이름을 표시하는 스타일 컴포넌트입니다.
@@ -233,15 +233,13 @@ const MessageTime = styled.div`
 `;
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
-  max-width: 60%;
-  padding: 10px;
+  padding: 0.5rem;
   border-radius: 20px;
   background-color: ${(props) =>
     props.user === "me"
       ? "#f2d492"
       : "#fff"}; // 자신의 메시지와 상대방 메시지의 배경색
-  color: ${(props) =>
-    props.user === "me"
-      ? "black"
-      : "black"}; // 텍스트 색상을 설정할 수 있습니다.
+  color: black; // 모든 텍스트 색상을 흑색으로 설정
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
 `;
