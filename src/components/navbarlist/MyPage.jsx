@@ -63,7 +63,7 @@ export default function MyPage() {
       console.error("Error uploading profile picture:", error);
     }
   };
-  
+
   const updateNickName = async (newNickName) => {
     const token = localStorage.getItem("token");
     if (token && newNickName !== nickName) {
@@ -80,8 +80,8 @@ export default function MyPage() {
           }
         );
         if (response.ok) {
-          setChangeNameAble(false); // Exit edit mode
           setNickName(newNickName); // Update local state with new nickname
+          setChangeNameAble(false); // Exit edit mode
           console.log("Nickname updated successfully.");
         } else {
           console.error("Failed to update nickname.");
@@ -90,6 +90,7 @@ export default function MyPage() {
         console.error("Error updating nickname:", error);
       }
     }
+    
   };
 
   useEffect(() => {
@@ -161,30 +162,26 @@ export default function MyPage() {
               )}
             </IconContainer>
 
-            {changeNameAble ? (
-              <NickNameContainer>
-                <NameInputContainer
-                  onChange={(e) => setNickName(e.target.value)}
-                  value={nickName}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault(); // 추가
-                      updateNickName(nickName);
-                    }
-                  }}
-                />
-                <IconContainer onClick={() => updateNickName(nickName)}>
-                  <CheckIcon sx={{ fontSize: "1rem" }} />
-                </IconContainer>
-              </NickNameContainer>
-            ) : (
-              <NickNameContainer>
-                {nickName}
-                <IconContainer onClick={() => setChangeNameAble(true)}>
-                  <CreateIcon sx={{ fontSize: "1rem" }} />
-                </IconContainer>
-              </NickNameContainer>
-            )}
+            <NickNameContainer>
+              {changeNameAble ? (
+                <>
+                  <NameInputContainer
+                    onChange={(e) => setNickName(e.target.value)}
+                    value={nickName}
+                  />
+                  <IconContainer onClick={() => updateNickName(nickName)}>
+                    <CheckIcon sx={{ fontSize: "1rem" }} />
+                  </IconContainer>
+                </>
+              ) : (
+                <>
+                  {nickName}
+                  <IconContainer onClick={() => setChangeNameAble(true)}>
+                    <CreateIcon sx={{ fontSize: "1rem" }} />
+                  </IconContainer>
+                </>
+              )}
+            </NickNameContainer>
           </MyContainer>
           <ListContainer>
             <div

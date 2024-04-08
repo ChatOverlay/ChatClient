@@ -43,7 +43,7 @@ export default function QuestionAdd() {
 
       const responseData = await response.json();
       console.log('Question added:', responseData);
-      navigate("/chatlist"); // 질문 목록 페이지로 리디렉션
+      navigate(`/question/${responseData.id}`); // 해당 질문 페이지로 리디렉션
     } catch (error) {
       console.error('Error adding question:', error);
       alert('질문 추가 중 문제가 발생했습니다.');
