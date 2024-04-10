@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-export default function LikedPage({ setLikedPages, setSelectedNavItem }) {
+export default function LikedPage({ setLikedPages }) {
   const [likedPosts, setLikedPosts] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ export default function LikedPage({ setLikedPages, setSelectedNavItem }) {
       <IconContainer
         onClick={() => {
           setLikedPages(false);
-          setSelectedNavItem(null);
         }}
       >
         <ArrowBackIcon />
