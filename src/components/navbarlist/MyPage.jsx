@@ -4,11 +4,10 @@ import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LikedPage from "./mypage/LikedPage";
 import CreateIcon from "@mui/icons-material/Create";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckIcon from "@mui/icons-material/Check";
-import { useNavigate } from "react-router-dom";
 
 import io from "socket.io-client";
+import MyNavbarList from "./mypage/MyNavbarList";
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
@@ -18,11 +17,8 @@ export default function MyPage() {
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
-  const [selectedNavItem, setSelectedNavItem] = useState(""); // Added state to track selected navbar item
 
   const fileInputRef = useRef(null);
-
-  const navigate = useNavigate();
 
   //이미지 관련
   const triggerFileInput = () => {
@@ -66,31 +62,8 @@ export default function MyPage() {
   };
 
   const updateNickName = async (newNickName) => {
-    const token = localStorage.getItem("token");
-    if (token && newNickName !== nickName) {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/api/user/update-nickname",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ nickName: newNickName }),
-          }
-        );
-        if (response.ok) {
-          setNickName(newNickName); // Update local state with new nickname
-          setChangeNameAble(false); // Exit edit mode
-          console.log("Nickname updated successfully.");
-        } else {
-          console.error("Failed to update nickname.");
-        }
-      } catch (error) {
-        console.error("Error updating nickname:", error);
-      }
-    }
+    setNickName(newNickName); // This should be data.nickName if the server sends back the updated nickname.
+    setChangeNameAble(false);
   };
 
   useEffect(() => {
@@ -140,8 +113,7 @@ export default function MyPage() {
   return (
     <>
       {likedPages ? (
-        <LikedPage setLikedPages={setLikedPages} 
-        setSelectedNavItem={setSelectedNavItem} />
+        <LikedPage setLikedPages={setLikedPages} />
       ) : (
         <div className="navbar__list">
           <MyContainer>
@@ -165,72 +137,30 @@ export default function MyPage() {
 
             <NickNameContainer>
               {changeNameAble ? (
-                <>
+                <InputContainer>
                   <NameInputContainer
                     onChange={(e) => setNickName(e.target.value)}
                     value={nickName}
                   />
-                  <IconContainer onClick={() => updateNickName(nickName)}>
-                    <CheckIcon sx={{ fontSize: "1rem" }} />
-                  </IconContainer>
-                </>
+                  <SaveButton onClick={() => updateNickName(nickName)}>
+                    저장
+                  </SaveButton>
+                </InputContainer>
               ) : (
-                <>
-                  {nickName}
+                <ProfileContainer>
+                  <div>{nickName}</div>
                   <IconContainer onClick={() => setChangeNameAble(true)}>
                     <CreateIcon sx={{ fontSize: "1rem" }} />
                   </IconContainer>
-                </>
+                </ProfileContainer>
               )}
             </NickNameContainer>
           </MyContainer>
-          <ListContainer>
-            <div
-              className={`navbar__list__item ${
-                selectedNavItem === "mileage" ? "selected" : ""
-              }`} // Conditionally apply the .selected class
-              onClick={() => {
-                navigate("/mypage/mileage", {
-                  state: { mileage, totalMileage },
-                });
-                setSelectedNavItem("mileage"); // Update selectedNavItem state
-              }}
-            >
-              하루 마일리지: {mileage} / 100
-              <IconContainer>
-                <ArrowForwardIcon />
-              </IconContainer>
-            </div>
-            <div
-              className={`navbar__list__item ${
-                selectedNavItem === "adoptedpoint" ? "selected" : ""
-              }`}
-              onClick={() => {
-                navigate("/mypage/adoptedpoint");
-                setSelectedNavItem("adoptedpoint");
-              }}
-            >
-              채택 포인트
-              <IconContainer>
-                <ArrowForwardIcon />
-              </IconContainer>
-            </div>
-
-            <div
-              className={`navbar__list__item ${
-                selectedNavItem === "likedPages" ? "selected" : ""
-              }`}
-              onClick={() => {
-                setLikedPages(true);
-                setSelectedNavItem("likedPages");
-              }}
-            >
-              좋아요 누른 게시글
-              <IconContainer>
-                <ArrowForwardIcon />
-              </IconContainer>
-            </div>
-          </ListContainer>
+          <MyNavbarList
+            mileage={mileage}
+            totalMileage={totalMileage}
+            setLikedPages={setLikedPages}
+          />
         </div>
       )}
     </>
@@ -261,25 +191,50 @@ const IconContainer = styled.div`
   }
 `;
 
+const SaveButton =styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 3vw;
+color: #f2d492;
+cursor: pointer;
+transition: all 0.3s;
+&:hover {
+  opacity: 0.6;
+}
+`;
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 3rem;
+
+`;
+
 //이름 컨테이너
 const NickNameContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 1rem;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
 `;
 
 const NameInputContainer = styled.input`
-  width: 100%;
+  text-align: center;
   border: none;
   background-color: #202c39;
-  color: #f2d492;
+  color : white;
+  font-weight: bold;
+  font-size: 1rem;
+  padding-bottom: 0.3rem;
+  width : 5rem;
   border-bottom: 1px solid #f2d492;
   &:focus {
     outline: none;
   }
-`;
-
-//해당 리스트 컨테이너
-const ListContainer = styled.div`
-  max-width: 100%;
 `;
