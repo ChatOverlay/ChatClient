@@ -23,6 +23,7 @@ export default function Question() {
       comments: [...prevQuestionData.comments, newComment],
     }));
   };
+  console.log(questionData);
   useEffect(() => {
     fetch(`http://localhost:4000/api/questions/${id}`) // Adjust URL as necessary
       .then((response) => response.json())
@@ -82,10 +83,9 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100vh;
-  margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
+  min-height: 100vh;
+  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
   background-color: #202c39;
-  border-left: 1px solid #f2d492;
   transition: all 0.3s;
   z-index: 1;
 `;
@@ -95,6 +95,9 @@ const QuestionContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 90vh;
+  min-height: 90vh;
   color: white;
+  
+  overflow-y: auto; // 콘텐츠가 넘칠 때 스크롤 가능
+  margin-bottom: 5rem; // 여기로 이동
 `;

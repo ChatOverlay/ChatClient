@@ -13,7 +13,6 @@ const AppContainer = styled.div`
   margin-left: 25vw;
   height: 100vh;
   background-color: #202c39;
-  border-left: 1px solid #f2d492;
   flex-direction: column;
   justify-content: center;
   opacity : 0.8;

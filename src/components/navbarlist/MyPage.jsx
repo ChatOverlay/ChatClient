@@ -65,23 +65,26 @@ export default function MyPage() {
       alert("닉네임은 최대 8글자까지 가능합니다.");
       return; // 여기서 함수 실행을 중단합니다.
     }
-  
+
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("No token found");
       return;
     }
-  
+
     try {
-      const response = await fetch("http://localhost:4000/api/user/update-nickname", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ nickName: newNickName }),
-      });
-  
+      const response = await fetch(
+        "http://localhost:4000/api/user/update-nickname",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ nickName: newNickName }),
+        }
+      );
+
       if (response.ok) {
         const data = await response.json();
         setNickName(data.nickName);
@@ -93,7 +96,6 @@ export default function MyPage() {
       console.error("Error updating nickname:", error);
     }
   };
-  
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -262,7 +264,7 @@ const NameInputContainer = styled.input`
   font-weight: bold;
   font-size: 1rem;
   padding-bottom: 0.3rem;
-  flex : 1;
+  flex: 1;
   border-bottom: 1px solid #f2d492;
   &:focus {
     outline: none;

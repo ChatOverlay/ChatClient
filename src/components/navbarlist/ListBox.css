@@ -30,6 +30,9 @@
   height: 100vh;
   width: 20vw;
   font-weight: bold;
+  
+  border-right: 1px solid #f2d492;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 }
 .navbar__list__item.selected {
@@ -44,7 +47,6 @@
     cursor: pointer;
     padding: 1rem;
     height: 3rem;
-    
     justify-content: space-between;
     transition: all 0.3s;
     border-bottom: 1px solid #f2d492;

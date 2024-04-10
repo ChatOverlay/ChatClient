@@ -40,7 +40,7 @@ export default function QuestionList() {
           <div
             className={`navbar__list__item ${
               question.id === selectedQuestion
-                ? "navbar__list__item--selected"
+                ? "selected"
                 : ""
             }`}
             key={question.id}
