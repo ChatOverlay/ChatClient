@@ -143,18 +143,18 @@ const ButtonContainer = styled.div`
 
 // 버튼 공통 스타일
 const Button = styled.button`
-  padding: 0.5rem 1rem;
+  width : 3rem;
+  height : 2rem;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: all 0.2s;
   border-radius: 0.5rem;
   font-weight: bold;
   background-color: #f2d492; // 밝은 색상
   color: #333;
   &:hover {
     transform: scale(1.05);
-    
-    background-color: #f4e2a8;
+    opacity : 0.8;
   }
 
   &:focus {

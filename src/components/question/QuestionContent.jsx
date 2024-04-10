@@ -79,6 +79,9 @@ export default function QuestionContent({ questionData }) {
     <Box>
       <Title>{questionData?.title}</Title>
       <Content>{questionData?.content}</Content>
+      <LikeButton onClick={toggleLike}>
+        {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+      </LikeButton>
       <IconContainer>
         <div>
           <ThumbUpAltIcon /> {likesCount}
@@ -87,9 +90,6 @@ export default function QuestionContent({ questionData }) {
           <ChatIcon /> {commentsCount}
         </div>
       </IconContainer>
-      <LikeButton onClick={toggleLike}>
-        {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-      </LikeButton>
     </Box>
   );
 }
@@ -113,7 +113,7 @@ const Content = styled.div`
 `;
 
 const IconContainer = styled.div`
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: row;
   padding: 0.2rem;
@@ -123,6 +123,7 @@ const IconContainer = styled.div`
 
 const LikeButton = styled.div`
   display: flex;
+  margin-top: 1.5rem;
   width: 5rem;
   height: 2rem;
   border-radius: 0.5rem;

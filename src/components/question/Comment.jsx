@@ -134,7 +134,7 @@ export default function Comment({
               <AcceptButton onClick={handleAccept}>채택</AcceptButton>
             )}
             {comment.isAccepted && (
-              <AcceptedIndicator>채택됨 <CheckCircleIcon /></AcceptedIndicator> // 변경된 부분
+              <AcceptedIndicator>채택됨<CheckCircleIcon /></AcceptedIndicator> // 변경된 부분
             )}
         </AcceptContainer>
         </CommentProfileContainer>
@@ -177,7 +177,7 @@ const AcceptedIndicator = styled.div`
   font-weight: bold;
   svg {
     font-size: 1rem;
-    margin-left: 0.5rem;
+    margin-left: 0.2rem;
   }
 `;
 //댓글 프로필
