@@ -72,6 +72,7 @@ export default function Questioner({ questionData }) {
       const data = await response.json();
       if (response.ok) {
         setCurrentUserId(data.id);
+        
       } else {
         console.error(data.message);
       }
@@ -83,8 +84,17 @@ export default function Questioner({ questionData }) {
     <QuestionerContainer>
       <QuestionerProfileContainer>
         <QuestionerProfileIcon>
-          <AccountCircleIcon sx={{ fontSize: "3rem" }} />
+          {questionData?.profilePictureUrl ? (
+            <img
+              src={questionData.profilePictureUrl}
+              alt="Profile"
+              style={{ width: "3rem", height: "3rem", borderRadius: "50%" }} // 이미지를 원형으로 표시
+            />
+          ) : (
+            <AccountCircleIcon sx={{ fontSize: "3rem" }} />
+          )}
         </QuestionerProfileIcon>
+
         <div>
           <QuestionerProfileName>
             {questionData?.questionerName}
@@ -143,8 +153,8 @@ const ButtonContainer = styled.div`
 
 // 버튼 공통 스타일
 const Button = styled.button`
-  width : 3rem;
-  height : 2rem;
+  width: 3rem;
+  height: 2rem;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
@@ -154,7 +164,7 @@ const Button = styled.button`
   color: #333;
   &:hover {
     transform: scale(1.05);
-    opacity : 0.8;
+    opacity: 0.8;
   }
 
   &:focus {

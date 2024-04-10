@@ -27,7 +27,9 @@ export default function Comment({
       if (response.ok) {
         setIsQuestioner(data.id === questionData?.questionerId);
         setCurrentUserId(data.id);
-        const acceptedExists = questionData.comments.some(comment => comment.isAccepted);
+        const acceptedExists = questionData.comments.some(
+          (comment) => comment.isAccepted
+        );
         setIsItAccepted(acceptedExists);
       } else {
         console.error(data.message);
@@ -35,7 +37,7 @@ export default function Comment({
     };
 
     fetchUserInfo();
-  }, [questionData.comments]);
+  }, [questionData]);
 
   const handleDelete = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
@@ -121,22 +123,33 @@ export default function Comment({
       <div>
         <CommentProfileContainer>
           <CommentProfileIcon>
-            <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+            {comment.profilePictureUrl ? (
+              <img
+                src={comment.profilePictureUrl}
+                alt="Profile"
+                style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
+              />
+            ) : (
+              <AccountCircleIcon style={{ fontSize: "2rem" }} />
+            )}
           </CommentProfileIcon>
           <div>
             <CommentProfileName>{comment.name}</CommentProfileName>
             <CommentProfileDate>{comment.date}</CommentProfileDate>
           </div>
           <AcceptContainer>
-          {isQuestioner &&
-            !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
-            currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-              <AcceptButton onClick={handleAccept}>채택</AcceptButton>
-            )}
+            {isQuestioner &&
+              !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
+              currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
+                <AcceptButton onClick={handleAccept}>채택</AcceptButton>
+              )}
             {comment.isAccepted && (
-              <AcceptedIndicator>채택됨<CheckCircleIcon /></AcceptedIndicator> // 변경된 부분
+              <AcceptedIndicator>
+                채택됨
+                <CheckCircleIcon />
+              </AcceptedIndicator> // 변경된 부분
             )}
-        </AcceptContainer>
+          </AcceptContainer>
         </CommentProfileContainer>
         <CommentContent>{comment.content}</CommentContent>
       </div>
@@ -167,13 +180,13 @@ const CommentProfileContainer = styled.div`
 // 채택된 댓글을 표시하기 위한 스타일 컴포넌트
 const AcceptedIndicator = styled.div`
   display: flex;
-  border  : 1px solid #f2d492;
+  border: 1px solid #f2d492;
 
-  border-radius : 0.5rem;
-  padding : 0.1rem;
+  border-radius: 0.5rem;
+  padding: 0.1rem;
   align-items: center;
   background-color: #f2d492; // 채택 아이콘과 텍스트 색상
-  color : #202c39;
+  color: #202c39;
   font-weight: bold;
   svg {
     font-size: 1rem;
@@ -231,7 +244,7 @@ const AcceptContainer = styled.div`
 // 채택 버튼 컴포넌트 스타일
 const AcceptButton = styled.button`
   background-color: #f2d492; // 녹색 계열
-  
+
   border: none;
   cursor: pointer;
   padding: 0.4rem;

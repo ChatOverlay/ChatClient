@@ -4,6 +4,8 @@ import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
@@ -31,7 +33,30 @@ export default function Chat() {
       socket.emit("updateMileage", { token });
     }
   };
-
+  const handleReport = async (reportedUserId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("User is not authenticated");
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:4000/api/reportUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ reportedUserId })
+      });
+  
+      const data = await response.json();
+      alert(data.message);
+    } catch (error) {
+      console.error("Error reporting user:", error);
+    }
+  };
+  
   useEffect(() => {
     setMessages([]);
     socket.emit("joinRoom", titleName);
@@ -39,7 +64,6 @@ export default function Chat() {
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
-      
     });
 
     // 마일리지 정보 갱신 리스너
@@ -52,7 +76,7 @@ export default function Chat() {
       socket.off("mileageUpdated");
     };
   }, [titleName]);
-  
+
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
   }, [messages]); // messages 배열이 변경될 때마다 실행
@@ -76,22 +100,42 @@ export default function Chat() {
         />
         <ChatContainer>
           <MessagesContainer>
-          {messages.map((msg, index) => (
-            <React.Fragment key={index}>
-              <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
-                {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
-                <ContentContainer user={msg.isCurrentUser ? "me" : ""}>
-                  <Message user={msg.isCurrentUser ? "me" : ""}>
-                    {msg.text}
-                  </Message>
-                  <MessageTime>
-                    {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </MessageTime>
-                </ContentContainer>
-              </MessageContainer>
-            </React.Fragment>
-          ))}
-
+            {messages.map((msg, index) => (
+              <React.Fragment key={index}>
+                <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
+                  {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
+                  <ContentContainer user={msg.isCurrentUser ? "me" : ""}>
+                    {msg.profilePictureUrl &&
+                      !msg.isCurrentUser && ( // 여기에 조건을 추가
+                        <IconContainer onClick={()=>handleReport(msg.userId)}>
+                          <img
+                            src={msg.profilePictureUrl}
+                            alt="profile"
+                            style={{
+                              width: "2rem",
+                              height: "2rem",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        </IconContainer>
+                      )}
+                    {!msg.profilePictureUrl &&
+                      !msg.isCurrentUser && ( // 여기에 조건을 추가
+                        <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+                      )}
+                    <Message user={msg.isCurrentUser ? "me" : ""}>
+                      {msg.text}
+                    </Message>
+                    <MessageTime>
+                      {new Date(msg.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </MessageTime>
+                  </ContentContainer>
+                </MessageContainer>
+              </React.Fragment>
+            ))}
             <div ref={messagesEndRef} />
           </MessagesContainer>
           <InputContainer>
@@ -103,11 +147,9 @@ export default function Chat() {
               placeholder="메시지를 입력하세요..."
             />
             <StyledButton onClick={sendMessage}>
-            <MileageContainer>
-              {mileage} / 100
-            </MileageContainer>
-            <SendIcon />
-          </StyledButton>
+              <MileageContainer>{mileage} / 100</MileageContainer>
+              <SendIcon />
+            </StyledButton>
           </InputContainer>
         </ChatContainer>
       </AppContainer>
@@ -119,9 +161,8 @@ export default function Chat() {
 const AppContainer = styled.div`
   display: flex;
   position: relative;
-  margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
+  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
   background-color: #202c39;
-  border-left: 1px solid #f2d492;
   flex-direction: column;
   transition: all 0.3s;
   z-index: 1;
@@ -186,7 +227,6 @@ const MileageContainer = styled.span`
   white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
 `;
 
-
 const MessagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto; // 여기서 스크롤이 발생하도록 설정
@@ -215,13 +255,29 @@ const UserName = styled.div`
   color: #a8a8a8; // 이름의 색상을 설정합니다.
   text-align: ${(props) => (props.user === "me" ? "right" : "left")};
 `;
+//아이콘 컨테이너
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f2d492;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
 
 // 메시지 및 시간을 포함하는 ContentContainer에 적용할 스타일을 업데이트합니다.
 const ContentContainer = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.user === "me" ? "row-reverse" : "row")}; // 사용자 본인이 보낸 메시지인 경우 시간을 왼쪽에, 아닌 경우 오른쪽에 위치시킵니다.
+  flex-direction: ${(props) =>
+    props.user === "me"
+      ? "row-reverse"
+      : "row"}; // 사용자 본인이 보낸 메시지인 경우 시간을 왼쪽에, 아닌 경우 오른쪽에 위치시킵니다.
   align-items: flex-end; // 메시지와 시간을 같은 선상에 놓습니다.
-  justify-content: ${(props) => (props.user === "me" ? "flex-end" : "flex-start")};
+  justify-content: ${(props) =>
+    props.user === "me" ? "flex-end" : "flex-start"};
 `;
 
 // MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
@@ -229,12 +285,13 @@ const MessageTime = styled.div`
   font-size: 0.7rem;
   color: #b8b8b8;
   margin: 0 0.5rem; // 메시지와 시간 사이의 간격을 추가합니다.
-  
 `;
+
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
   padding: 0.5rem;
   border-radius: 20px;
+  margin-left : 0.3rem;
   background-color: ${(props) =>
     props.user === "me"
       ? "#f2d492"
