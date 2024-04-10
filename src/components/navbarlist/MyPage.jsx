@@ -4,7 +4,6 @@ import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LikedPage from "./mypage/LikedPage";
 import CreateIcon from "@mui/icons-material/Create";
-import CheckIcon from "@mui/icons-material/Check";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
@@ -14,7 +13,7 @@ export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
   const [changeNameAble, setChangeNameAble] = useState(false);
   const [nickName, setNickName] = useState("");
-  const [profilePictureUrl, setProfilePictureUrl] = useState("");
+  const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
 
@@ -62,9 +61,39 @@ export default function MyPage() {
   };
 
   const updateNickName = async (newNickName) => {
-    setNickName(newNickName); // This should be data.nickName if the server sends back the updated nickname.
-    setChangeNameAble(false);
+    if (newNickName.length > 8) {
+      alert("닉네임은 최대 8글자까지 가능합니다.");
+      return; // 여기서 함수 실행을 중단합니다.
+    }
+  
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:4000/api/user/update-nickname", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nickName: newNickName }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setNickName(data.nickName);
+        setChangeNameAble(false);
+      } else {
+        console.error("Failed to update nickname.");
+      }
+    } catch (error) {
+      console.error("Error updating nickname:", error);
+    }
   };
+  
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -78,8 +107,9 @@ export default function MyPage() {
           });
           if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
-            setProfilePictureUrl(profilePictureUrl);
+            setProfilePictureUrl(data.profilePictureUrl); // 여기서 profilePictureUrl 상태 업데이트
           } else {
             console.error("Failed to fetch user info");
           }
@@ -90,7 +120,7 @@ export default function MyPage() {
     };
 
     fetchUserInfo();
-  }, []);
+  }, [profilePictureUrl]);
   useEffect(() => {
     // 마일리지 정보 갱신 리스너
     socket.on("mileageUpdated", (data) => {
@@ -191,29 +221,29 @@ const IconContainer = styled.div`
   }
 `;
 
-const SaveButton =styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 3vw;
-color: #f2d492;
-cursor: pointer;
-transition: all 0.3s;
-&:hover {
-  opacity: 0.6;
-}
+const SaveButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3vw;
+  color: #f2d492;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 3rem;
-
 `;
 
 //이름 컨테이너
 const NickNameContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 1rem;
 `;
 
 const InputContainer = styled.div`
@@ -228,11 +258,11 @@ const NameInputContainer = styled.input`
   text-align: center;
   border: none;
   background-color: #202c39;
-  color : white;
+  color: white;
   font-weight: bold;
   font-size: 1rem;
   padding-bottom: 0.3rem;
-  width : 5rem;
+  flex : 1;
   border-bottom: 1px solid #f2d492;
   &:focus {
     outline: none;

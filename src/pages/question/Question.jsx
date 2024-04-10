@@ -8,40 +8,42 @@ import Comment from "../../components/question/Comment";
 import CommentAdd from "../../components/question/CommentAdd";
 import TopBar from "../../components/topbar/TopBar";
 
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
-const socket = io('http://localhost:4000'); // Adjust the URL as necessary
+const socket = io("http://localhost:4000"); // Adjust the URL as necessary
 
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
   const [questionData, setQuestionData] = useState(null);
   const { id } = useParams(); // URL에서 질문의 id를 가져옵니다.
-  const [changeData, setChangeData]= useState(true);
+  const [changeData, setChangeData] = useState(true);
   const addCommentToQuestion = (newComment) => {
     setQuestionData((prevQuestionData) => ({
-        ...prevQuestionData,
-        comments: [...prevQuestionData.comments, newComment]
+      ...prevQuestionData,
+      comments: [...prevQuestionData.comments, newComment],
     }));
-};
+  };
   useEffect(() => {
     fetch(`http://localhost:4000/api/questions/${id}`) // Adjust URL as necessary
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setQuestionData(data);
-        socket.emit('joinRoom', data.title); // Use a property that identifies the room, adjust as necessary
+        socket.emit("joinRoom", data.title); // Use a property that identifies the room, adjust as necessary
       })
-      .catch(error => console.error("Error fetching question detail:", error));
+      .catch((error) =>
+        console.error("Error fetching question detail:", error)
+      );
 
-    socket.on('message', message => {
+    socket.on("message", (message) => {
       console.log(message); // Handle real-time messages here
       // You might want to update state to render messages
     });
 
     return () => {
-      socket.off('message');
-      socket.emit('leaveRoom', questionData?.title); // Handle leaving room when component unmounts, adjust as necessary
+      socket.off("message");
+      socket.emit("leaveRoom", questionData?.title); // Handle leaving room when component unmounts, adjust as necessary
     };
-  }, [id,questionData?.title,changeData]);
+  }, [id, questionData?.title, changeData]);
 
   return (
     <>
@@ -55,9 +57,20 @@ export default function Question() {
           <Questioner questionData={questionData} />
           <QuestionContent questionData={questionData} />
           {questionData?.comments?.map((comment) => (
-            <Comment key={comment.id} questionData={questionData} changeData={changeData} setChangeData={setChangeData}  comment={comment} />
+            <Comment
+              key={comment.id}
+              questionData={questionData}
+              changeData={changeData}
+              setChangeData={setChangeData}
+              comment={comment}
+            />
           ))}
-          <CommentAdd questionData={questionData} onAddComment={addCommentToQuestion} changeData={changeData} setChangeData={setChangeData}/>
+          <CommentAdd
+            questionData={questionData}
+            onAddComment={addCommentToQuestion}
+            changeData={changeData}
+            setChangeData={setChangeData}
+          />
         </QuestionContainer>
       </AppContainer>
     </>
