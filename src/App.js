@@ -7,8 +7,9 @@ import VerticalAppBar from "./components/navbar/VerticalAppBar";
 import ChatList from "./pages/chat/ChatList";
 import Question from "./pages/question/Question";
 import QuestionAdd from "./pages/question/QuestionAdd";
-import Mileage from "./pages/mileage/Mileage";
+import Mileage from "./pages/mypage/Mileage";
 import RegisterPage from "./pages/login/RegisterPage";
+import Adoption from "./pages/mypage/Adoption";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/question/newquestion" element={<QuestionAdd />} />
         <Route path="/question/:id" element={<Question />} />
         <Route path="/mypage/mileage" element={<Mileage />} />
+        <Route path="/mypage/adoptedpoint" element={<Adoption />} />
       </Routes>
     </BrowserRouter>
   );

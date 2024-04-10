@@ -1,11 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { useLocation } from "react-router-dom";
-import io from "socket.io-client";
 import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
 import ProductItem from "../../components/navbarlist/mypage/ProductItem";
-
-const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
 
 export default function Mileage() {
   const location = useLocation();
@@ -39,7 +36,7 @@ export default function Mileage() {
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          titleName="Mileage"
+          titleName="수업 참여 마일리지"
         />
         <MileageContainer>
           <MileageInfo>Today's Maximum Mileage: {mileage} / 100</MileageInfo>
@@ -85,7 +82,7 @@ const MileageInfo = styled.div`
   font-size: 1.2rem; // 폰트 크기 조정
   color: #202c39; // 그레이 색상으로 정보 강조
   font-weight: bold; // 글자 두껍게
-  padding: 10px 20px;
+  padding: 1rem 2rem;
   border-radius: 20px; // 둥근 모서리
   background-color: #f2d492; // 베이지 배경색
   display: inline-block; // 콘텐츠 너비에 맞게 조정
@@ -101,8 +98,9 @@ const TotalMileage = styled.div`
 const ProductsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr); // 3열로 나눕니다.
-  gap: 20px; // 그리드 아이템 간의 간격
-  padding: 20px; // 컨테이너 패딩
+  gap: 2rem; // 그리드 아이템 간의 간격
+  
+  padding: 2rem; // 컨테이너 패딩
   @media (max-width: 768px) {
     // 태블릿 및 모바일 화면 대응
     grid-template-columns: repeat(2, 1fr); // 화면이 작을 때는 2열로 변경
