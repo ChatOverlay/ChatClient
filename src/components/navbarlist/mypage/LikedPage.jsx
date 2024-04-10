@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-export default function LikedPage({ setLikedPages }) {
+export default function LikedPage({ setLikedPages, setSelectedNavItem }) {
   const [likedPosts, setLikedPosts] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const navigate = useNavigate();
@@ -38,7 +38,12 @@ export default function LikedPage({ setLikedPages }) {
 
   return (
     <div className="navbar__list" style={{ flexDirection: "column" }}>
-      <IconContainer onClick={() => setLikedPages(false)}>
+      <IconContainer
+        onClick={() => {
+          setLikedPages(false);
+          setSelectedNavItem(null);
+        }}
+      >
         <ArrowBackIcon />
       </IconContainer>
       <LikedPageDetail>좋아요 누른 게시글</LikedPageDetail>

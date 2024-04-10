@@ -18,6 +18,7 @@ export default function MyPage() {
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
+  const [selectedNavItem, setSelectedNavItem] = useState(""); // Added state to track selected navbar item
 
   const fileInputRef = useRef(null);
 
@@ -90,7 +91,6 @@ export default function MyPage() {
         console.error("Error updating nickname:", error);
       }
     }
-    
   };
 
   useEffect(() => {
@@ -140,7 +140,8 @@ export default function MyPage() {
   return (
     <>
       {likedPages ? (
-        <LikedPage setLikedPages={setLikedPages} />
+        <LikedPage setLikedPages={setLikedPages} 
+        setSelectedNavItem={setSelectedNavItem} />
       ) : (
         <div className="navbar__list">
           <MyContainer>
@@ -185,28 +186,50 @@ export default function MyPage() {
           </MyContainer>
           <ListContainer>
             <div
-              className="navbar__list__item"
-              onClick={() => setLikedPages(true)}
-            >
-              좋아요 누른 게시글
-              <IconContainer>
-                <ArrowForwardIcon />
-              </IconContainer>
-            </div>
-            <div
-              className="navbar__list__item"
-              onClick={() =>
+              className={`navbar__list__item ${
+                selectedNavItem === "mileage" ? "selected" : ""
+              }`} // Conditionally apply the .selected class
+              onClick={() => {
                 navigate("/mypage/mileage", {
                   state: { mileage, totalMileage },
-                })
-              }
+                });
+                setSelectedNavItem("mileage"); // Update selectedNavItem state
+              }}
             >
               하루 마일리지: {mileage} / 100
               <IconContainer>
                 <ArrowForwardIcon />
               </IconContainer>
             </div>
-            <OtherContainer>하루 적정량 </OtherContainer>
+            <div
+              className={`navbar__list__item ${
+                selectedNavItem === "adoptedpoint" ? "selected" : ""
+              }`}
+              onClick={() => {
+                navigate("/mypage/adoptedpoint");
+                setSelectedNavItem("adoptedpoint");
+              }}
+            >
+              채택 포인트
+              <IconContainer>
+                <ArrowForwardIcon />
+              </IconContainer>
+            </div>
+
+            <div
+              className={`navbar__list__item ${
+                selectedNavItem === "likedPages" ? "selected" : ""
+              }`}
+              onClick={() => {
+                setLikedPages(true);
+                setSelectedNavItem("likedPages");
+              }}
+            >
+              좋아요 누른 게시글
+              <IconContainer>
+                <ArrowForwardIcon />
+              </IconContainer>
+            </div>
           </ListContainer>
         </div>
       )}
@@ -259,14 +282,4 @@ const NameInputContainer = styled.input`
 //해당 리스트 컨테이너
 const ListContainer = styled.div`
   max-width: 100%;
-`;
-
-//다른거 컨테이너
-const OtherContainer = styled.div`
-  padding: 10px;
-  height: 3rem;
-  transition: all 0.3s;
-  border-bottom: 1px solid #f2d492;
-
-  animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
 `;
