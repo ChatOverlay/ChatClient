@@ -161,7 +161,7 @@ export default function Chat() {
 const AppContainer = styled.div`
   display: flex;
   position: relative;
-  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
+  margin-left: ${({ show }) => (show ? "5vw" : "25.1vw")};
   background-color: #202c39;
   flex-direction: column;
   transition: all 0.3s;
