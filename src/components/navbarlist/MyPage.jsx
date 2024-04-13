@@ -7,7 +7,7 @@ import CreateIcon from "@mui/icons-material/Create";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
-const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
+const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
@@ -38,7 +38,7 @@ export default function MyPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/user/upload-profile-picture",
+        `${process.env.REACT_APP_API_URL}/api/user/upload-profile-picture`,
         {
           method: "POST",
           body: formData,
@@ -74,7 +74,7 @@ export default function MyPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/user/update-nickname",
+        `${process.env.REACT_APP_API_URL}/api/user/update-nickname`,
         {
           method: "POST",
           headers: {
@@ -102,7 +102,7 @@ export default function MyPage() {
       const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
       if (token) {
         try {
-          const response = await fetch("http://localhost:4000/api/user/info", {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
             headers: {
               Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
             },

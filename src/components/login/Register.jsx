@@ -27,7 +27,7 @@ const handleSendVerificationCode = async () => {
 
   // 중복 이메일 검사 요청
   try {
-    const checkResponse = await fetch('http://localhost:4000/api/checkEmail', {
+    const checkResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/checkEmail`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const handleSendVerificationCode = async () => {
   setEmailError(false);
   // 인증 코드 전송 요청
   try {
-    const response = await fetch('http://localhost:4000/api/sendVerificationCode', {
+    const response = await fetch('${process.env.REACT_APP_API_URL}/api/sendVerificationCode', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const handleVerify = async (e) => {
   // 사용자가 입력한 인증 코드의 길이가 올바른 경우에만 검증 요청 실행
   if (code.length === 6) {
     try {
-      const response = await fetch('http://localhost:4000/api/verifyCode', {
+      const response = await fetch('${process.env.REACT_APP_API_URL}/api/verifyCode', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const handleSubmit = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:4000/api/register', {
+    const response = await fetch('${process.env.REACT_APP_API_URL}/api/register', {
       method: 'POST', // 요청 메소드 지정
       headers: {
         'Content-Type': 'application/json', // 요청 본문의 타입 지정

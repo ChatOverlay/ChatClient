@@ -28,7 +28,7 @@ export default function QuestionAdd() {
     const questionData = { title, content, options }; // 사용자가 입력한 질문 데이터
 
     try {
-      const response = await fetch('http://localhost:4000/api/questions', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

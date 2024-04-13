@@ -9,7 +9,7 @@ export default function ChatListBox() {
   const [chatRooms, setChatRooms] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/chatrooms')
+    fetch(`${process.env.REACT_APP_API_URL}/api/chatrooms`)
       .then(response => response.json())
       .then(data => setChatRooms(data))
       .catch(error => console.error("Fetching chat rooms failed:", error));

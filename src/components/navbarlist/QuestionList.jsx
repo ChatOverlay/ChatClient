@@ -12,7 +12,7 @@ export default function QuestionList() {
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/questions") // 서버 주소에 맞게 수정해주세요
+    fetch(`${process.env.REACT_APP_API_URL}/api/questions`) // 서버 주소에 맞게 수정해주세요
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));

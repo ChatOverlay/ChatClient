@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const socket = io("http://localhost:4000"); // 여러분의 서버 주소로 변경하세요
+const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
   const [message, setMessage] = useState(""); //메시지
@@ -41,7 +41,7 @@ export default function Chat() {
     }
   
     try {
-      const response = await fetch('http://localhost:4000/api/reportUser', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/reportUser`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

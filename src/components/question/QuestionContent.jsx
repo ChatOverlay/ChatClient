@@ -20,7 +20,7 @@ export default function QuestionContent({ questionData }) {
       if (token && questionId) {
         try {
           const response = await fetch(
-            `http://localhost:4000/api/questions/${questionId}/like`,
+            `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
             {
               method: "GET",
               headers: {
@@ -51,7 +51,7 @@ export default function QuestionContent({ questionData }) {
     const token = localStorage.getItem("token"); // 사용자 인증을 위한 토큰
     try {
       const response = await fetch(
-        `http://localhost:4000/api/questions/${questionId}/like`,
+        `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
         {
           method: "POST",
           headers: {

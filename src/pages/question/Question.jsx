@@ -10,7 +10,7 @@ import TopBar from "../../components/topbar/TopBar";
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:4000"); // Adjust the URL as necessary
+const socket = io(`${process.env.REACT_APP_API_URL}`); // Adjust the URL as necessary
 
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
@@ -25,7 +25,7 @@ export default function Question() {
   };
   console.log(questionData);
   useEffect(() => {
-    fetch(`http://localhost:4000/api/questions/${id}`) // Adjust URL as necessary
+    fetch(`${process.env.REACT_APP_API_URL}/api/questions/${id}`) // Adjust URL as necessary
       .then((response) => response.json())
       .then((data) => {
         setQuestionData(data);

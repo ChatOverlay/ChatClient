@@ -16,7 +16,7 @@ export default function Mileage() {
     // 상품 데이터를 서버에서 가져오는 함수
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/products");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products`);
         if (!response.ok) {
           throw new Error("서버로부터 상품 데이터를 가져오는 데 실패했습니다.");
         }

@@ -16,7 +16,7 @@ export default function Questioner({ questionData }) {
     if (window.confirm("Are you sure you want to delete this question?")) {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/questions/${questionData.id}`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}`,
           {
             method: "DELETE",
             headers: {
@@ -40,7 +40,7 @@ export default function Questioner({ questionData }) {
     if (window.confirm("이 질문을 신고하시겠습니까?")) {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/questions/${questionData.id}/report`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/report`,
           {
             method: "POST",
             headers: {
@@ -64,7 +64,7 @@ export default function Questioner({ questionData }) {
   //사용자 인증
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch("http://localhost:4000/api/user/info", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

@@ -18,7 +18,7 @@ export default function LikedPage({ setLikedPages }) {
     const fetchLikedPosts = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:4000/api/posts/liked", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/posts/liked`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

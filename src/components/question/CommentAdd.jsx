@@ -17,7 +17,7 @@ export default function CommentAdd({ questionData, onAddComment , changeData, se
 
     try {
       const response = await fetch(
-        `http://localhost:4000/api/questions/${questionId}/comments`,
+        `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/comments`,
         {
           method: "POST",
           headers: {
@@ -52,7 +52,7 @@ export default function CommentAdd({ questionData, onAddComment , changeData, se
       const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
       if (token) {
         try {
-          const response = await fetch("http://localhost:4000/api/user/info", {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info", {
             headers: {
               Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
             },
