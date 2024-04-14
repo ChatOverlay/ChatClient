@@ -208,7 +208,7 @@ const CommentProfileName = styled.div`
 //댓글 프로필 날짜
 const CommentProfileDate = styled.div`
   font-size: 0.7rem;
-  opacity: 0.6;
+  opacity: 0.7;
 `;
 //댓글 내용
 const CommentContent = styled.div`

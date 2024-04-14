@@ -126,7 +126,7 @@ export default function Chat() {
                       )}
                     {!msg.profilePictureUrl &&
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
-                        <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+                        <AccountCircleIcon sx={{ fontSize: "2.5rem" }} />
                       )}
                     <Message theme={theme} user={msg.isCurrentUser ? "me" : ""}>
                       {msg.text}

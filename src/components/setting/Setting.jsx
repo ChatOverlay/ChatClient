@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import styled, { keyframes } from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "../../context/ThemeContext";
