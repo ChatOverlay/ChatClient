@@ -11,9 +11,10 @@ const themes = {
     foreground: "#f2d492",
     background: "#202c39"
   },
-  custom: {
-    foreground: "#f0f0f0",
-    background: "#005500"
+  gachon: {
+    foreground: "#004e96",
+    background: "white",
+    primaryColor : "black",
   }
 };
 

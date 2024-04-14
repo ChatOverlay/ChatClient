@@ -120,10 +120,10 @@ export default function Comment({
   };
 
   return (
-    <CommentContainer>
-      <div>
+    <CommentContainer theme={theme}>
+      <div style={{color :"white"}}>
         <CommentProfileContainer>
-          <CommentProfileIcon>
+          <CommentProfileIcon theme={theme}>
             {comment.profilePictureUrl ? (
               <img
                 src={comment.profilePictureUrl}
@@ -145,7 +145,7 @@ export default function Comment({
                 <AcceptButton onClick={handleAccept}>채택</AcceptButton>
               )}
             {comment.isAccepted && (
-              <AcceptedIndicator>
+              <AcceptedIndicator theme={theme}>
                 채택됨
                 <CheckCircleIcon />
               </AcceptedIndicator> // 변경된 부분
@@ -169,7 +169,7 @@ export default function Comment({
 //댓글 컨테이너
 const CommentContainer = styled.div`
   padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid ${({ theme }) => theme.background};
+  border-bottom: 1px solid ${({ theme }) => theme.foreground};
   display: flex;
   justify-content: space-between;
 `;
@@ -181,13 +181,13 @@ const CommentProfileContainer = styled.div`
 // 채택된 댓글을 표시하기 위한 스타일 컴포넌트
 const AcceptedIndicator = styled.div`
   display: flex;
-  border: 1px solid ${({ theme }) => theme.background};
+  border: 1px solid ${({ theme }) => theme.foreground};
 
   border-radius: 0.5rem;
   padding: 0.1rem;
   align-items: center;
-  background-color: ${({ theme }) => theme.background}; // 채택 아이콘과 텍스트 색상
-  color: ${({ theme }) => theme.foreground};
+  background-color: ${({ theme }) => theme.foreground}; // 채택 아이콘과 텍스트 색상
+  color: white;
   font-weight: bold;
   svg {
     font-size: 1rem;
@@ -196,7 +196,7 @@ const AcceptedIndicator = styled.div`
 `;
 //댓글 프로필
 const CommentProfileIcon = styled.div`
-  color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   padding-right: 0.3rem;
 `;
 

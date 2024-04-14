@@ -298,11 +298,8 @@ const Message = styled.div`
   padding: 0.5rem;
   border-radius: 20px;
   margin-left: 0.3rem;
-  background-color: ${(props) =>
-    props.user === "me"
-      ? `${({ theme }) => theme.foreground}`
-      : "#fff"}; // 자신의 메시지와 상대방 메시지의 배경색
-  color: ${({ theme }) => theme.background}; 
+  background-color: ${({ theme, user }) => user === "me" ? theme.foreground : "#fff"};
+  color: ${({ theme }) => theme.background};
   word-wrap: break-word;
   overflow-wrap: anywhere;
 `;

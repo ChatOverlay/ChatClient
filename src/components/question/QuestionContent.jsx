@@ -6,7 +6,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 export default function QuestionContent({ questionData, theme }) {
   const commentsCount = questionData?.comments?.length || 0;
-  const [likesCount, setLikesCount] = useState(questionData?.likes?.length || 0);
+  const [likesCount, setLikesCount] = useState(
+    questionData?.likes?.length || 0
+  );
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
@@ -71,12 +73,12 @@ export default function QuestionContent({ questionData, theme }) {
 
   return (
     <Box theme={theme}>
-      <Title theme={theme}>{questionData?.title}</Title>
-      <Content theme={theme}>{questionData?.content}</Content>
+      <Title>{questionData?.title}</Title>
+      <Content>{questionData?.content}</Content>
       <LikeButton theme={theme} onClick={toggleLike}>
         {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
       </LikeButton>
-      <IconContainer theme={theme}>
+      <IconContainer>
         <div>
           <ThumbUpAltIcon /> {likesCount}
         </div>
@@ -92,19 +94,20 @@ const Box = styled.div`
   padding: 0.5rem;
   padding-left: 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.highlight};
+  color: ${({ theme }) => theme.foreground};
 `;
 
 const Title = styled.div`
   font-weight: bold;
   font-size: 2rem;
-  color: ${({ theme }) => theme.foreground};
+  color : white;
 `;
 
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.8rem;
   padding: 0.2rem;
-  color: ${({ theme }) => theme.foreground};
+  color : white;
 `;
 
 const IconContainer = styled.div`
@@ -113,7 +116,6 @@ const IconContainer = styled.div`
   flex-direction: row;
   padding: 0.2rem;
   gap: 1rem;
-  color: ${({ theme }) => theme.foreground};
 `;
 
 const LikeButton = styled.div`
