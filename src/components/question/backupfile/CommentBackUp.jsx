@@ -133,7 +133,7 @@ export default function CommentBackup({
 //댓글 컨테이너
 const CommentContainer = styled.div`
   padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.background};
   display: flex;
   justify-content: space-between;
 `;
@@ -146,7 +146,7 @@ const CommentProfileContainer = styled.div`
 
 //댓글 프로필
 const CommentProfileIcon = styled.div`
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   padding-right: 0.3rem;
 `;
 
@@ -169,7 +169,7 @@ const CommentContent = styled.div`
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   gap: 1rem;
 `;
 
@@ -185,14 +185,14 @@ const StyledTextField = muiStyled(TextField)({
     color: 'white', // 입력 글씨 색상
   },
   '& fieldset': {
-    borderColor: '#f2d492',
+    borderColor: '${({ theme }) => theme.background}',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#f2d492',
+    borderBottomColor: '${({ theme }) => theme.background}',
   },
   '& .MuiOutlinedInput-root': {
     '&.Mui-focused fieldset': {
-      borderColor: '#f2d492',
+      borderColor: '${({ theme }) => theme.background}',
     },
   },
   width: '100%',
@@ -200,11 +200,11 @@ const StyledTextField = muiStyled(TextField)({
 
 // Button 스타일 커스터마이징
 const StyledButton = muiStyled(Button)({
-  backgroundColor: '#f2d492',
-  color: '#202c39',
+  backgroundColor: '${({ theme }) => theme.background}',
+  color: '${({ theme }) => theme.foreground}',
   '&:hover': {
     backgroundColor: '#f2e0bc',
-    color: '#202c39',
+    color: '${({ theme }) => theme.foreground}',
   },
   marginLeft: '0.5rem',
 });

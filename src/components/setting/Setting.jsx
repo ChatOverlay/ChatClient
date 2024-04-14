@@ -70,9 +70,9 @@ const SettingBox = styled.div`
 const SettingTitleContainer = styled.div`
   display: flex;
   width: 30vw;
-  border-bottom: 1px solid #202c39;
+  border-bottom: 1px solid ${({ theme }) => theme.foreground};
   justify-content: space-between;
-  color: #202c39;
+  color: ${({ theme }) => theme.foreground};
 `;
 
 //세팅 헤더 제목

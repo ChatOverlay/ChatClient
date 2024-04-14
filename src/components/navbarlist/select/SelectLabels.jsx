@@ -1,8 +1,10 @@
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useTheme } from "../../../context/ThemeContext";
 
 export default function SelectLabels({ options, setOptions, location }) {
+  const { theme } = useTheme();
   const handleChange = (event) => {
     setOptions(event.target.value);
   };
@@ -14,15 +16,20 @@ export default function SelectLabels({ options, setOptions, location }) {
           color: "white",
           fontWeight: "bold",
           marginTop: "0.5rem",
-          ".MuiInputLabel-root": { color: "#f2d492" }, // label color
+          ".MuiInputLabel-root": {
+            color: theme.foreground, // label color
+          },
           ".MuiOutlinedInput-root": {
-            "& fieldset": { borderColor: "#f2d492" }, // border color
-            "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
-            "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
+            "& fieldset": { borderColor: theme.foreground }, // border color
+            "&:hover fieldset": {
+              borderColor: theme.foreground, // hover border color
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: theme.foreground, // focus border color
+            },
           },
           ".MuiInputBase-input": { color: "white" },
-
-          ".MuiSvgIcon-root": { color: "#f2d492" }, // Dropdown arrow color
+          ".MuiSvgIcon-root": { color: theme.foreground }, // Dropdown arrow color
         }}
       >
         <Select

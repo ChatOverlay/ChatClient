@@ -84,11 +84,11 @@ export default function Login() {
             }}
             sx={{
               color: "white",
-              ".MuiInputLabel-root": { color: "#f2d492" }, // label color
+              ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` }, // label color
               ".MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#f2d492" }, // border color
-                "&:hover fieldset": { borderColor: "#f2d492" }, // hover border color
-                "&.Mui-focused fieldset": { borderColor: "#f2d492" }, // focus border color
+                "& fieldset": { borderColor: `${({ theme }) => theme.background}` }, // border color
+                "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` }, // hover border color
+                "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` }, // focus border color
               },
               ".MuiInputBase-input": { color: "white" }, // 여기에서 입력 텍스트 색상을 지정합니다.
             }}
@@ -130,11 +130,11 @@ const InputContainer = styled.div`
 const textFieldSx = {
   marginTop: "0.1rem",
   color: "white",
-  ".MuiInputLabel-root": { color: "#f2d492" },
+  ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` },
   ".MuiOutlinedInput-root": {
-    "& fieldset": { borderColor: "#f2d492" },
-    "&:hover fieldset": { borderColor: "#f2d492" },
-    "&.Mui-focused fieldset": { borderColor: "#f2d492" },
+    "& fieldset": { borderColor: `${({ theme }) => theme.background}` },
+    "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` },
+    "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` },
   },
   ".MuiInputBase-input": { color: "white" },
 };
@@ -143,13 +143,13 @@ const buttonSx = {
   marginTop: "0.1rem",
   maxHeight: "3.5rem",
   marginLeft: "1rem",
-  backgroundColor: "#f2d492",
-  color: "#202c39",
+  backgroundColor: `${({ theme }) => theme.background}`,
+  color: `${({ theme }) => theme.foreground}`,
   borderRadius: "1rem",
   transition: "all 0.3s ease",
   "&:hover": {
-    backgroundColor: "#f2d492",
-    color: "#202c39",
+    backgroundColor: `${({ theme }) => theme.background}`,
+    color: `${({ theme }) => theme.foreground}`,
     transform: "scale(1.05)",
   },
 };

@@ -4,13 +4,16 @@ import "./ListBox.css";
 import SelectLabels from "./select/SelectLabels";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useTheme } from "../../context/ThemeContext";
+import useThemeStyles from "../../hooks/useThemeStyles";
 
 export default function QuestionList() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
   const [selectedQuestion, setSelectedQuestion] = useState(null); // Step 1
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
-
+  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/questions`) // 서버 주소에 맞게 수정해주세요
       .then((response) => response.json())
@@ -59,7 +62,7 @@ export default function QuestionList() {
           </div>
         ))}
       <div className="icon-container" onClick={handleNewQuestion}>
-        <DriveFileRenameOutlineIcon sx={{ color: "#202c39" }} />
+        <DriveFileRenameOutlineIcon sx={{ color: `${({ theme }) => theme.foreground}` }} />
       </div>
     </div>
   );

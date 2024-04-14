@@ -5,6 +5,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useTheme } from "../../context/ThemeContext";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
@@ -14,6 +15,7 @@ export default function Chat() {
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
   const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
+  const { theme } = useTheme();
 
   const { titleName } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
@@ -39,24 +41,27 @@ export default function Chat() {
       console.log("User is not authenticated");
       return;
     }
-  
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/reportUser`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ reportedUserId })
-      });
-  
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/reportUser`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ reportedUserId }),
+        }
+      );
+
       const data = await response.json();
       alert(data.message);
     } catch (error) {
       console.error("Error reporting user:", error);
     }
   };
-  
+
   useEffect(() => {
     setMessages([]);
     socket.emit("joinRoom", titleName);
@@ -92,7 +97,7 @@ export default function Chat() {
 
   return (
     <>
-      <AppContainer show={closeOption}>
+      <AppContainer show={closeOption} theme={theme}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
@@ -107,7 +112,7 @@ export default function Chat() {
                   <ContentContainer user={msg.isCurrentUser ? "me" : ""}>
                     {msg.profilePictureUrl &&
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
-                        <IconContainer onClick={()=>handleReport(msg.userId)}>
+                        <IconContainer onClick={() => handleReport(msg.userId)}>
                           <img
                             src={msg.profilePictureUrl}
                             alt="profile"
@@ -123,10 +128,10 @@ export default function Chat() {
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
                         <AccountCircleIcon sx={{ fontSize: "2rem" }} />
                       )}
-                    <Message user={msg.isCurrentUser ? "me" : ""}>
+                    <Message theme={theme} user={msg.isCurrentUser ? "me" : ""}>
                       {msg.text}
                     </Message>
-                    <MessageTime>
+                    <MessageTime theme={theme}>
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -145,9 +150,10 @@ export default function Chat() {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요..."
+              theme={theme}
             />
-            <StyledButton onClick={sendMessage}>
-              <MileageContainer>{mileage} / 100</MileageContainer>
+            <StyledButton onClick={sendMessage} theme={theme}>
+              <MileageContainer theme={theme}>{mileage} / 100</MileageContainer>
               <SendIcon />
             </StyledButton>
           </InputContainer>
@@ -162,7 +168,7 @@ const AppContainer = styled.div`
   display: flex;
   position: relative;
   margin-left: ${({ show }) => (show ? "5vw" : "25.1vw")};
-  background-color: #202c39;
+  background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   transition: all 0.3s;
   z-index: 1;
@@ -188,7 +194,7 @@ const InputContainer = styled.div`
 
 //입력 칸
 const StyledInput = styled.input`
-  background-color: #202c39;
+  background-color: ${({ theme }) => theme.background};
   border: none;
   padding-left: 1rem;
   border-radius: 2rem;
@@ -205,8 +211,8 @@ const StyledButton = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem; // 버튼의 패딩을 조정하여 내용이 더 잘 들어맞도록 합니다.
-  color: #202c39;
-  background-color: #f2d492;
+  color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.foreground};
   border-radius: 2rem;
   cursor: pointer;
   &:hover {
@@ -218,8 +224,8 @@ const StyledButton = styled.div`
 const MileageContainer = styled.span`
   display: flex;
   align-items: center;
-  background-color: #202c39;
-  color: #fff;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   font-weight: bold;
   padding: 0.25rem 0.5rem;
   margin-right: 0.5rem;
@@ -260,7 +266,7 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -283,7 +289,7 @@ const ContentContainer = styled.div`
 // MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
 const MessageTime = styled.div`
   font-size: 0.7rem;
-  color: #b8b8b8;
+  color: ${({ theme }) => theme.foreground};
   margin: 0 0.5rem; // 메시지와 시간 사이의 간격을 추가합니다.
 `;
 
@@ -291,12 +297,12 @@ const MessageTime = styled.div`
 const Message = styled.div`
   padding: 0.5rem;
   border-radius: 20px;
-  margin-left : 0.3rem;
+  margin-left: 0.3rem;
   background-color: ${(props) =>
     props.user === "me"
-      ? "#f2d492"
+      ? `${({ theme }) => theme.foreground}`
       : "#fff"}; // 자신의 메시지와 상대방 메시지의 배경색
-  color: black; // 모든 텍스트 색상을 흑색으로 설정
+  color: ${({ theme }) => theme.background}; 
   word-wrap: break-word;
   overflow-wrap: anywhere;
 `;

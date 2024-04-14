@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Register from "../../components/login/Register";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function RegisterPage() {
+  const {theme} = useTheme();
   return (
-    <HomeContainer>
+    <HomeContainer theme={theme}>
       <Register />
     </HomeContainer>
   );
@@ -15,8 +17,8 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #202c39;
-  color: #f2d492;
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   font-family: "Roboto";
   position: relative;
   z-index: 100;

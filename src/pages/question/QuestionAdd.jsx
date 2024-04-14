@@ -3,6 +3,7 @@ import TopBar from "../../components/topbar/TopBar";
 import styled from "styled-components";
 import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -11,6 +12,7 @@ export default function QuestionAdd() {
   const [content, setContent] = useState(""); // 질문 내용을 위한 상태
   const [isSubmitting, setIsSubmitting] = useState(false); // 제출 중인지 여부를 나타내는 상태
 
+  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
   const navigate = useNavigate();
 
   // 폼 제출 핸들러
@@ -53,7 +55,7 @@ export default function QuestionAdd() {
   };
 
   return (
-    <AppContainer show={closeOption}>
+    <AppContainer show={closeOption} theme={theme}>
       <TopBar
         closeOption={closeOption}
         setCloseOption={setCloseOption}
@@ -93,8 +95,8 @@ const AppContainer = styled.div`
   position: relative;
   height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: #202c39;
-  border-left: 1px solid #f2d492;
+  background-color: ${({ theme }) => theme.background};
+  border-left: 1px solid ${({ theme }) => theme.background};
   transition: all 0.3s;
   z-index: 1;
 `;
@@ -123,7 +125,7 @@ const Header = styled.div`
 
 const TitleContainer = styled.input`
   background-color: #2b3e50;
-  border: 2px solid #f2d492;
+  border: 2px solid ${({ theme }) => theme.background};
   color: white;
   padding: 1rem;
   border-radius: 4px; // 입력 필드의 모서리를 둥글게 처리합니다.
@@ -137,7 +139,7 @@ const TitleContainer = styled.input`
 const ContentContainer = styled.textarea`
   resize: none;
   background-color: #2b3e50;
-  border: 2px solid #f2d492;
+  border: 2px solid ${({ theme }) => theme.background};
   color: white;
   padding: 10px;
   border-radius: 4px;
@@ -150,8 +152,8 @@ const ContentContainer = styled.textarea`
 `;
 
 const SaveButton = styled.button`
-  background-color: #f2d492;
-  color: #202c39;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   padding: 10px 20px;
   border: none;
   border-radius: 4px;

@@ -7,6 +7,8 @@ import CreateIcon from "@mui/icons-material/Create";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
+import useThemeStyles from "../../hooks/useThemeStyles";
+import { useTheme } from "../../context/ThemeContext";
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
@@ -16,6 +18,8 @@ export default function MyPage() {
   const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
+  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
 
   const fileInputRef = useRef(null);
 
@@ -102,11 +106,14 @@ export default function MyPage() {
       const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
       if (token) {
         try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
-            headers: {
-              Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
-            },
-          });
+          const response = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/user/info`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             console.log(data);
@@ -148,7 +155,7 @@ export default function MyPage() {
         <LikedPage setLikedPages={setLikedPages} />
       ) : (
         <div className="navbar__list">
-          <MyContainer>
+          <MyContainer theme={theme}>
             <input
               type="file"
               style={{ display: "none" }}
@@ -171,6 +178,7 @@ export default function MyPage() {
               {changeNameAble ? (
                 <InputContainer>
                   <NameInputContainer
+                    theme={theme}
                     onChange={(e) => setNickName(e.target.value)}
                     value={nickName}
                   />
@@ -181,8 +189,10 @@ export default function MyPage() {
               ) : (
                 <ProfileContainer>
                   <div>{nickName}</div>
-                  <IconContainer onClick={() => setChangeNameAble(true)}>
-                    <CreateIcon sx={{ fontSize: "1rem" }} />
+                  <IconContainer
+                    onClick={() => setChangeNameAble(true)}
+                  >
+                    <CreateIcon sx={{ fontSize: "1rem", color: `${({ theme }) => theme.foreground}` }} />
                   </IconContainer>
                 </ProfileContainer>
               )}
@@ -206,7 +216,8 @@ const MyContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 5vh 0;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.foreground};
 `;
 
 //아이콘 컨테이너
@@ -215,9 +226,9 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 3vw;
-  color: #f2d492;
   cursor: pointer;
   transition: all 0.3s;
+  
   &:hover {
     opacity: 0.6;
   }
@@ -228,7 +239,6 @@ const SaveButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 3vw;
-  color: #f2d492;
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -259,13 +269,13 @@ const InputContainer = styled.div`
 const NameInputContainer = styled.input`
   text-align: center;
   border: none;
-  background-color: #202c39;
+  background-color: ${({ theme }) => theme.background};
   color: white;
   font-weight: bold;
   font-size: 1rem;
   padding-bottom: 0.3rem;
   flex: 1;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.foreground};
   &:focus {
     outline: none;
   }

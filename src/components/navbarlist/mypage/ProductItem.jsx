@@ -2,9 +2,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product,theme }) => {
   return (
-    <ItemContainer>
+    <ItemContainer theme={theme}>
       <ProductName>{product.name}</ProductName>
       <Mileage>{product.mileage} 마일리지</Mileage>
     </ItemContainer>
@@ -12,7 +12,7 @@ const ProductItem = ({ product }) => {
 };
 
 const ItemContainer = styled.div`
-  background-color: #f2d492;
+  background-color: ${({ theme }) => theme.foreground};
   padding: 1rem;
   border-radius: 10px;
   cursor: pointer;

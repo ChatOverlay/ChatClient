@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Adoption() {
   const [classMileages, setClassMileages] = useState([]);
   const [closeOption, setCloseOption] = useState(false);
+  const { theme } = useTheme(); // 테마 데이터 사용
   useEffect(() => {
     const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
 
@@ -32,23 +34,23 @@ export default function Adoption() {
   }, []);
   return (
     <>
-      <AppContainer show={closeOption}>
+      <AppContainer show={closeOption} theme={theme}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName="채택 포인트"
         />
-        <AdoptiveContainer>
-          <AdoptiveInfo>채택 포인트</AdoptiveInfo>
+        <AdoptiveContainer theme={theme}>
+          <AdoptiveInfo theme={theme}>채택 포인트</AdoptiveInfo>
         </AdoptiveContainer>
-        <ClassContainer>
+        <ClassContainer theme={theme}>
           {classMileages.length === 0 ? (
-            <ClassMileageItem>
+            <ClassMileageItem theme={theme}>
               <h3>채택 포인트가 없습니다.</h3>
             </ClassMileageItem>
           ) : (
             classMileages.map((classMileage) => (
-              <ClassMileageItem key={classMileage.className}>
+              <ClassMileageItem key={classMileage.className} theme={theme}>
                 <h3>{classMileage.className}</h3>
                 <p>채택 포인트: {classMileage.points}</p>
               </ClassMileageItem>
@@ -67,9 +69,9 @@ const AppContainer = styled.div`
   position: relative;
   height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: #202c39;
+  background-color: ${({ theme }) => theme.background};
   color: white;
-  border-left: 1px solid #f2d492;
+  border-left: 1px solid ${({ theme }) => theme.foreground};
   transition: all 0.3s;
 
   z-index: 1;
@@ -77,8 +79,8 @@ const AppContainer = styled.div`
 
 const AdoptiveContainer = styled.div`
   padding: 2rem;
-  background-color: #f2d492;
-  border-bottom: 2px solid #f2d492; // 베이지색 하단 경계선
+  background-color: ${({ theme }) => theme.foreground};
+  border-bottom: 2px solid ${({ theme }) => theme.background};
   display: flex;
   flex-direction: column;
   align-items: center; // 내용 중앙 정렬
@@ -87,11 +89,11 @@ const AdoptiveContainer = styled.div`
 
 const AdoptiveInfo = styled.div`
   font-size: 1.2rem; // 폰트 크기 조정
-  color: #202c39; // 그레이 색상으로 정보 강조
+  color: ${({ theme }) => theme.foreground}; 
   font-weight: bold; // 글자 두껍게
   padding: 1rem 2rem;
   border-radius: 2rem; // 둥근 모서리
-  background-color: #f2d492; // 베이지 배경색
+  background-color: ${({ theme }) => theme.background}; 
   display: inline-block; // 콘텐츠 너비에 맞게 조정
 `;
 
@@ -112,8 +114,8 @@ const ClassContainer = styled.div`
 `;
 
 const ClassMileageItem = styled.div`
-  background-color: #f2d492;
-  color: #202c39;
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 10px;

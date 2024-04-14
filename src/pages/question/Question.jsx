@@ -9,6 +9,7 @@ import CommentAdd from "../../components/question/CommentAdd";
 import TopBar from "../../components/topbar/TopBar";
 
 import io from "socket.io-client";
+import { useTheme } from "../../context/ThemeContext";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`); // Adjust the URL as necessary
 
@@ -17,46 +18,47 @@ export default function Question() {
   const [questionData, setQuestionData] = useState(null);
   const { id } = useParams(); // URL에서 질문의 id를 가져옵니다.
   const [changeData, setChangeData] = useState(true);
+  const { theme } = useTheme(); // 테마 데이터 사용
+
   const addCommentToQuestion = (newComment) => {
     setQuestionData((prevQuestionData) => ({
       ...prevQuestionData,
       comments: [...prevQuestionData.comments, newComment],
     }));
   };
-  console.log(questionData);
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/questions/${id}`) // Adjust URL as necessary
+    fetch(`${process.env.REACT_APP_API_URL}/api/questions/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setQuestionData(data);
-        socket.emit("joinRoom", data.title); // Use a property that identifies the room, adjust as necessary
+        socket.emit("joinRoom", data.title);
       })
       .catch((error) =>
         console.error("Error fetching question detail:", error)
       );
 
     socket.on("message", (message) => {
-      console.log(message); // Handle real-time messages here
-      // You might want to update state to render messages
+      console.log(message);
     });
 
     return () => {
       socket.off("message");
-      socket.emit("leaveRoom", questionData?.title); // Handle leaving room when component unmounts, adjust as necessary
+      socket.emit("leaveRoom", questionData?.title);
     };
   }, [id, questionData?.title, changeData]);
 
   return (
     <>
-      <AppContainer show={closeOption}>
+      <AppContainer show={closeOption} theme={theme}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName={questionData?.question}
         />
-        <QuestionContainer>
-          <Questioner questionData={questionData} />
-          <QuestionContent questionData={questionData} />
+        <QuestionContainer theme={theme}>
+          <Questioner questionData={questionData} theme={theme} />
+          <QuestionContent questionData={questionData} theme={theme} />
           {questionData?.comments?.map((comment) => (
             <Comment
               key={comment.id}
@@ -64,6 +66,7 @@ export default function Question() {
               changeData={changeData}
               setChangeData={setChangeData}
               comment={comment}
+              theme={theme}
             />
           ))}
           <CommentAdd
@@ -71,6 +74,7 @@ export default function Question() {
             onAddComment={addCommentToQuestion}
             changeData={changeData}
             setChangeData={setChangeData}
+            theme={theme}
           />
         </QuestionContainer>
       </AppContainer>
@@ -78,26 +82,25 @@ export default function Question() {
   );
 }
 
-//App 컨테이너
+// App 컨테이너
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
   min-height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25.1vw")};
-  background-color: #202c39;
+  background-color: ${({ theme }) => theme.background}; // 테마 적용
   transition: all 0.3s;
   z-index: 1;
 `;
 
-//질문 컨테이너
+// 질문 컨테이너
 const QuestionContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
   min-height: 90vh;
-  color: white;
-  
-  overflow-y: auto; // 콘텐츠가 넘칠 때 스크롤 가능
-  margin-bottom: 5rem; // 여기로 이동
+  color: ${({ theme }) => theme.foreground}; // 테마 적용
+  overflow-y: auto;
+  margin-bottom: 5rem;
 `;

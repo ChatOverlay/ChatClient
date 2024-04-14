@@ -12,11 +12,13 @@ import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function VerticalAppBar() {
   const navigate = useNavigate(); //라우터 네비게이션
   const [section, setSection] = useState(0); //해당 섹션 설정
   const [isModalOpen, setIsModalOpen] = useState(false); //세팅열기
+  const { theme } = useTheme(); // 현재 테마
 
   //렌디렁 조건부
   const sectionComponents = {
@@ -40,7 +42,7 @@ export default function VerticalAppBar() {
 
   return (
     <>
-      <AppBar>
+      <AppBar theme={theme}>
         <div>
           <IconContainer onClick={() => handleChatList()}>
             <ChatIcon sx={{ fontSize: "2rem" }} />
@@ -69,22 +71,21 @@ const AppBar = styled.div`
   display: flex;
   position: fixed;
   flex-direction: column;
-  background-color: #f2d492;
+  background-color: ${props => props.theme.foreground};
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5vw;
-  border-right: 1px solid #202c39;
+  border-right: 1px solid ${({ theme }) => theme.foreground};
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
   `;
 
-//아이콘 컨테이너
-const IconContainer = styled.div`
+  const IconContainer = styled.div`
   margin-top: 3rem;
   cursor: pointer;
   transition: all 0.3s;
-  color: #202c39;
+  color: ${props => props.theme.background}; 
   &:hover {
     opacity: 0.6;
   }

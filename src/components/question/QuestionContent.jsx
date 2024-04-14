@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt"; // 비활성 상태 아이콘
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 
-export default function QuestionContent({ questionData }) {
+export default function QuestionContent({ questionData, theme }) {
   const commentsCount = questionData?.comments?.length || 0;
-  const [likesCount, setLikesCount] = useState(
-    questionData?.likes?.length || 0
-  );
+  const [likesCount, setLikesCount] = useState(questionData?.likes?.length || 0);
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    setLikesCount(questionData?.likes?.length || 0); // 좋아요 수 초기화
-
-    const checkLikedStatus = async () => {
-      const questionId = questionData?.id;
-      const token = localStorage.getItem("token");
-      if (token && questionId) {
+    const questionId = questionData?.id;
+    const token = localStorage.getItem("token");
+    if (token && questionId) {
+      const fetchLikeStatus = async () => {
         try {
           const response = await fetch(
             `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
             {
               method: "GET",
               headers: {
-                Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+                Authorization: `Bearer ${token}`,
               },
             }
           );
@@ -34,21 +30,19 @@ export default function QuestionContent({ questionData }) {
           }
 
           const data = await response.json();
-          setLiked(data.isLiked); // 서버로부터 받은 좋아요 상태로 업데이트
+          setLiked(data.isLiked);
         } catch (error) {
           console.error("Error checking like status:", error);
         }
-      }
-    };
-    if (questionData) {
-      checkLikedStatus();
+      };
+
+      fetchLikeStatus();
     }
   }, [questionData]);
 
-  // '좋아요' 버튼 클릭 핸들러
   const toggleLike = async () => {
     const questionId = questionData?.id;
-    const token = localStorage.getItem("token"); // 사용자 인증을 위한 토큰
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
@@ -56,7 +50,7 @@ export default function QuestionContent({ questionData }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -66,23 +60,23 @@ export default function QuestionContent({ questionData }) {
       }
 
       const data = await response.json();
-
       if (data.success) {
-        setLiked(!liked); // 좋아요 상태 토글
-        setLikesCount(data.likesCount); // 좋아요 수 업데이트
+        setLiked(!liked);
+        setLikesCount(data.likesCount);
       }
     } catch (error) {
       console.error("Error toggling like:", error);
     }
   };
+
   return (
-    <Box>
-      <Title>{questionData?.title}</Title>
-      <Content>{questionData?.content}</Content>
-      <LikeButton onClick={toggleLike}>
+    <Box theme={theme}>
+      <Title theme={theme}>{questionData?.title}</Title>
+      <Content theme={theme}>{questionData?.content}</Content>
+      <LikeButton theme={theme} onClick={toggleLike}>
         {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
       </LikeButton>
-      <IconContainer>
+      <IconContainer theme={theme}>
         <div>
           <ThumbUpAltIcon /> {likesCount}
         </div>
@@ -94,22 +88,23 @@ export default function QuestionContent({ questionData }) {
   );
 }
 
-//-----------질문 내용 부분-------------
 const Box = styled.div`
   padding: 0.5rem;
   padding-left: 2rem;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.highlight};
 `;
 
 const Title = styled.div`
   font-weight: bold;
   font-size: 2rem;
+  color: ${({ theme }) => theme.foreground};
 `;
 
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.8rem;
   padding: 0.2rem;
+  color: ${({ theme }) => theme.foreground};
 `;
 
 const IconContainer = styled.div`
@@ -118,7 +113,7 @@ const IconContainer = styled.div`
   flex-direction: row;
   padding: 0.2rem;
   gap: 1rem;
-  color: #f2d492;
+  color: ${({ theme }) => theme.foreground};
 `;
 
 const LikeButton = styled.div`
@@ -130,8 +125,8 @@ const LikeButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #202c39;
-  background-color: #f2d492;
+  color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.foreground};
   margin-left: 0.3rem;
   transition: all 0.3s;
   &:hover {

@@ -5,10 +5,14 @@ import "../ListBox.css";
 import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useTheme } from "../../../context/ThemeContext";
+import useThemeStyles from "../../../hooks/useThemeStyles";
 
 export default function LikedPage({ setLikedPages }) {
   const [likedPosts, setLikedPosts] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
   const navigate = useNavigate();
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
@@ -73,7 +77,7 @@ export default function LikedPage({ setLikedPages }) {
 const IconContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   padding: 1rem;
   &:hover {
     opacity: 0.6;
@@ -84,7 +88,7 @@ const LikedPageDetail = styled.div`
   padding-left: 1rem;
   height: 3rem;
   transition: all 0.3s;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.background};
 
   animation: slideInFromRight 0.3s ease-out forwards; /* 애니메이션 적용 */
 `;

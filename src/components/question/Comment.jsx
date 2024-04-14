@@ -11,6 +11,7 @@ export default function Comment({
   changeData,
   setChangeData,
   comment,
+  theme,
 }) {
   const [isQuestioner, setIsQuestioner] = useState(false); //질문자 확인용
   const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
@@ -168,7 +169,7 @@ export default function Comment({
 //댓글 컨테이너
 const CommentContainer = styled.div`
   padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid #f2d492;
+  border-bottom: 1px solid ${({ theme }) => theme.background};
   display: flex;
   justify-content: space-between;
 `;
@@ -180,13 +181,13 @@ const CommentProfileContainer = styled.div`
 // 채택된 댓글을 표시하기 위한 스타일 컴포넌트
 const AcceptedIndicator = styled.div`
   display: flex;
-  border: 1px solid #f2d492;
+  border: 1px solid ${({ theme }) => theme.background};
 
   border-radius: 0.5rem;
   padding: 0.1rem;
   align-items: center;
-  background-color: #f2d492; // 채택 아이콘과 텍스트 색상
-  color: #202c39;
+  background-color: ${({ theme }) => theme.background}; // 채택 아이콘과 텍스트 색상
+  color: ${({ theme }) => theme.foreground};
   font-weight: bold;
   svg {
     font-size: 1rem;
@@ -195,7 +196,7 @@ const AcceptedIndicator = styled.div`
 `;
 //댓글 프로필
 const CommentProfileIcon = styled.div`
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   padding-right: 0.3rem;
 `;
 
@@ -216,7 +217,7 @@ const CommentContent = styled.div`
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
-  color: #f2d492;
+  color: ${({ theme }) => theme.background};
   gap: 1rem;
 `;
 const StyledReportIcon = muiStyled(ReportIcon)({
@@ -243,7 +244,7 @@ const AcceptContainer = styled.div`
 
 // 채택 버튼 컴포넌트 스타일
 const AcceptButton = styled.button`
-  background-color: #f2d492; // 녹색 계열
+  background-color: ${({ theme }) => theme.background}; // 녹색 계열
 
   border: none;
   cursor: pointer;

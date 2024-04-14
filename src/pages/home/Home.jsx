@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Home() {
+  const {theme} = useTheme();
   const navigate = useNavigate();
 
   return (
-    <HomeContainer>
+    <HomeContainer theme={theme}>
       <Header>모두의 소리함</Header>
-      <Button onClick={()=>navigate("/Login")}>수업 채팅 시작하기</Button>
+      <Button onClick={()=>navigate("/Login")} theme={theme}>수업 채팅 시작하기</Button>
       <RegisterButton onClick={()=>navigate("./register")}>아이디가 없으신가요?</RegisterButton>
     </HomeContainer>
   );
@@ -20,8 +22,8 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #202c39;
-  color: #f2d492;
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   position: relative;
   z-index: 100;
   
@@ -35,8 +37,8 @@ const Header = styled.div`
 const Button = styled.div`
   width: 15rem;
   height: 50px;
-  background-color: #f2d492;
-  color: #202c39;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   border-radius: 2rem;
   cursor: pointer;
   display: flex;

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "../ListBox.css";
 export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
   const [selectedNavItem, setSelectedNavItem] = useState(""); // Added state to track selected navbar item
-
   const navigate = useNavigate();
   return (
     <div>
@@ -21,9 +19,9 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
         }}
       >
         하루 마일리지: {mileage} / 100
-        <IconContainer>
+        <div className="icon__arrow__container">
           <ArrowForwardIcon />
-        </IconContainer>
+        </div>
       </div>
       <div
         className={`navbar__list__item ${
@@ -35,9 +33,9 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
         }}
       >
         채택 포인트
-        <IconContainer>
+        <div className="icon__arrow__container">
           <ArrowForwardIcon />
-        </IconContainer>
+        </div>
       </div>
 
       <div
@@ -50,24 +48,10 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
         }}
       >
         좋아요 누른 게시글
-        <IconContainer>
+        <div className="icon__arrow__container">
           <ArrowForwardIcon />
-        </IconContainer>
+        </div>
       </div>
     </div>
   );
 }
-
-//아이콘 컨테이너
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3vw;
-  color: #f2d492;
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    opacity: 0.6;
-  }
-`;
