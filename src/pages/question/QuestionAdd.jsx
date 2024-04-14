@@ -107,7 +107,7 @@ const QuestionContainer = styled.div`
   position: relative;
   flex-direction: column;
   height: auto; // 높이를 auto로 조정하여 내용에 맞게 유동적으로 변경되도록 합니다.
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
   background-color: #2b3e50; // 배경색 추가로 인풋 필드와 대조됩니다.
   border-radius: 8px; // 모서리를 둥글게 처리합니다.
@@ -126,7 +126,7 @@ const Header = styled.div`
 const TitleContainer = styled.input`
   background-color: #2b3e50;
   border: 2px solid ${({ theme }) => theme.background};
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   padding: 1rem;
   border-radius: 4px; // 입력 필드의 모서리를 둥글게 처리합니다.
   width: 40%
@@ -140,7 +140,7 @@ const ContentContainer = styled.textarea`
   resize: none;
   background-color: #2b3e50;
   border: 2px solid ${({ theme }) => theme.background};
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   padding: 10px;
   border-radius: 4px;
   margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.

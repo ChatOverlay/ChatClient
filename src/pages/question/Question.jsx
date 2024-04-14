@@ -54,7 +54,7 @@ export default function Question() {
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          titleName={questionData?.question}
+          titleName={questionData?.title}
         />
         <QuestionContainer theme={theme}>
           <Questioner questionData={questionData} theme={theme} />

@@ -7,7 +7,6 @@ import CreateIcon from "@mui/icons-material/Create";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
-import useThemeStyles from "../../hooks/useThemeStyles";
 import { useTheme } from "../../context/ThemeContext";
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
@@ -19,7 +18,6 @@ export default function MyPage() {
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
   const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
-  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
 
   const fileInputRef = useRef(null);
 
@@ -270,7 +268,7 @@ const NameInputContainer = styled.input`
   text-align: center;
   border: none;
   background-color: ${({ theme }) => theme.background};
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   font-weight: bold;
   font-size: 1rem;
   padding-bottom: 0.3rem;

@@ -1,20 +1,25 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import useThemeStyles from '../hooks/useThemeStyles';
 
 // 테마 스타일 정의
 const themes = {
-  light: {
+  default: {
+    name : "default",
+    foreground: "#004e96",
+    background: "#fff",
+    primaryColor : "black",
+  },
+  dark: {
+    name : "dark",
+    foreground: "#f2d492",
+    background: "#202c39",
+    primaryColor : "#FFFFFF",
+  },
+  light : {
+    name : "light",
     foreground: "#F0EDCC",
     background: "#02343F",
     primaryColor: "#FFFFFF",
-  },
-  dark: {
-    foreground: "#f2d492",
-    background: "#202c39"
-  },
-  gachon: {
-    foreground: "#004e96",
-    background: "white",
-    primaryColor : "black",
   }
 };
 
@@ -23,8 +28,18 @@ const ThemeContext = createContext();
 
 // Provider 컴포넌트
 export const ThemeProvider = ({ children }) => {
-  const [themeName, setThemeName] = useState('light');  // 초기 테마 설정
+  const [themeName, setThemeName] = useState(() => {
+    // Get the theme from localStorage or default to 'default'
+    return localStorage.getItem('themeName') || 'default';
+  });
+
   const theme = themes[themeName];
+  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
+
+  // Update localStorage when themeName changes
+  useEffect(() => {
+    localStorage.setItem('themeName', themeName);
+  }, [themeName]);
 
   // Provider에 제공할 값
   const value = {
@@ -38,6 +53,7 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
 
 // 테마를 사용하기 위한 커스텀 훅
 export const useTheme = () => useContext(ThemeContext);

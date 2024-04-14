@@ -121,7 +121,7 @@ export default function Comment({
 
   return (
     <CommentContainer theme={theme}>
-      <div style={{color :"white"}}>
+      <div style={{color :theme.primaryColor}}>
         <CommentProfileContainer>
           <CommentProfileIcon theme={theme}>
             {comment.profilePictureUrl ? (
@@ -187,7 +187,7 @@ const AcceptedIndicator = styled.div`
   padding: 0.1rem;
   align-items: center;
   background-color: ${({ theme }) => theme.foreground}; // 채택 아이콘과 텍스트 색상
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   font-weight: bold;
   svg {
     font-size: 1rem;

@@ -17,92 +17,101 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState(false); // 비밀번호 오류 상태
 
   // 버튼 클릭 핸들러에서는 isVerified 상태를 true로 설정하여 Vertify 컴포넌트를 렌더링하도록 합니다.
-// 이메일 인증 코드 전송 요청
-const handleSendVerificationCode = async () => {
-  if (!email.endsWith("@gachon.ac.kr")) {
-    setEmailError(true);
-    alert("학교 이메일 형식이 올바르지 않습니다.");
-    return;
-  }
-
-  // 중복 이메일 검사 요청
-  try {
-    const checkResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/checkEmail`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
-    const checkData = await checkResponse.json();
-    if (checkData.exists) {
-      alert("이미 사용 중인 이메일 주소입니다. 다른 이메일 주소를 사용해 주세요.");
+  // 이메일 인증 코드 전송 요청
+  const handleSendVerificationCode = async () => {
+    if (!email.endsWith("@gachon.ac.kr")) {
       setEmailError(true);
+      alert("학교 이메일 형식이 올바르지 않습니다.");
       return;
     }
-  } catch (checkError) {
-    console.error('이메일 중복 검사 실패:', checkError);
-    alert('이메일 중복 검사 중 오류가 발생했습니다.');
-    return;
-  }
 
-  setIsEmailValid(true);
-  setEmailError(false);
-  // 인증 코드 전송 요청
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/sendVerificationCode`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    // 추가 처리 (예: 사용자에게 인증 코드 입력 요청)
-  } catch (error) {
-    console.error('인증 코드 전송 실패:', error);
-    alert('인증 코드 전송 중 오류가 발생했습니다.');
-  }
-};
-
-
-// 인증 코드 확인 및 검증
-const handleVerify = async (e) => {
-  const code = e.target.value;
-  setInputCode(code);
-
-  // 사용자가 입력한 인증 코드의 길이가 올바른 경우에만 검증 요청 실행
-  if (code.length === 6) {
+    // 중복 이메일 검사 요청
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/verifyCode`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, code }),
-      });
-
-      const data = await response.json();
-      if (data.verified) {
-        setIsVerified(1); // 서버로부터 인증 확인 시 다음 단계로 넘어갑니다.
-      } else {
-        alert('인증 코드가 일치하지 않습니다.'); // 인증 실패 시 메시지를 표시합니다.
-        setInputCode(""); // 인증 코드 입력 필드를 초기화합니다.
+      const checkResponse = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/checkEmail`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+      const checkData = await checkResponse.json();
+      if (checkData.exists) {
+        alert(
+          "이미 사용 중인 이메일 주소입니다. 다른 이메일 주소를 사용해 주세요."
+        );
+        setEmailError(true);
+        return;
       }
-    } catch (error) {
-      console.error('인증 코드 검증 실패:', error);
-      alert('인증 코드를 검증하는 중 오류가 발생했습니다.');
+    } catch (checkError) {
+      console.error("이메일 중복 검사 실패:", checkError);
+      alert("이메일 중복 검사 중 오류가 발생했습니다.");
+      return;
     }
-  }
-};
 
+    setIsEmailValid(true);
+    setEmailError(false);
+    // 인증 코드 전송 요청
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/sendVerificationCode`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // 추가 처리 (예: 사용자에게 인증 코드 입력 요청)
+    } catch (error) {
+      console.error("인증 코드 전송 실패:", error);
+      alert("인증 코드 전송 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 인증 코드 확인 및 검증
+  const handleVerify = async (e) => {
+    const code = e.target.value;
+    setInputCode(code);
+
+    // 사용자가 입력한 인증 코드의 길이가 올바른 경우에만 검증 요청 실행
+    if (code.length === 6) {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/verifyCode`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, code }),
+          }
+        );
+
+        const data = await response.json();
+        if (data.verified) {
+          setIsVerified(1); // 서버로부터 인증 확인 시 다음 단계로 넘어갑니다.
+        } else {
+          alert("인증 코드가 일치하지 않습니다."); // 인증 실패 시 메시지를 표시합니다.
+          setInputCode(""); // 인증 코드 입력 필드를 초기화합니다.
+        }
+      } catch (error) {
+        console.error("인증 코드 검증 실패:", error);
+        alert("인증 코드를 검증하는 중 오류가 발생했습니다.");
+      }
+    }
+  };
 
   // 비밀번호 설정 후 종료
   const handlePasswordFinishBtn = () => {
     const passwordRegex =
-    /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(password)) {
       setPasswordError(true); // 비밀번호가 정규식 조건을 만족하지 않으면 오류 상태를 true로 설정
@@ -113,40 +122,43 @@ const handleVerify = async (e) => {
     setIsVerified(2); // 비밀번호 유효성 검사 후 다음 단계로 진행
   };
 
-// 회원가입 정보를 서버로 전송하는 함수 (fetch 사용)
-const handleSubmit = async () => {
-  // 입력 검증 로직 추가 가능
-  if (isVerified !== 2) {
-    alert('모든 단계를 완료해주세요.');
-    return;
-  }
-
-  try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
-      method: 'POST', // 요청 메소드 지정
-      headers: {
-        'Content-Type': 'application/json', // 요청 본문의 타입 지정
-      },
-      body: JSON.stringify({
-        email,
-        nickName,
-        password,
-      }), // 요청 본문에 전송할 데이터
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  // 회원가입 정보를 서버로 전송하는 함수 (fetch 사용)
+  const handleSubmit = async () => {
+    // 입력 검증 로직 추가 가능
+    if (isVerified !== 2) {
+      alert("모든 단계를 완료해주세요.");
+      return;
     }
 
-    const data = await response.json(); // 응답 데이터를 JSON 형태로 파싱
-    console.log(data); // 성공 시 응답 데이터 로그
-    setIsVerified(3);
-    // 회원가입 성공 후 로직 추가 가능 (예: 로그인 페이지로 리다이렉트)
-  } catch (error) {
-    console.error('회원가입 실패:', error);
-    alert('회원가입에 실패했습니다.');
-  }
-};
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/register`,
+        {
+          method: "POST", // 요청 메소드 지정
+          headers: {
+            "Content-Type": "application/json", // 요청 본문의 타입 지정
+          },
+          body: JSON.stringify({
+            email,
+            nickName,
+            password,
+          }), // 요청 본문에 전송할 데이터
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json(); // 응답 데이터를 JSON 형태로 파싱
+      console.log(data); // 성공 시 응답 데이터 로그
+      setIsVerified(3);
+      // 회원가입 성공 후 로직 추가 가능 (예: 로그인 페이지로 리다이렉트)
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입에 실패했습니다.");
+    }
+  };
 
   return (
     <div>
@@ -187,14 +199,24 @@ const handleSubmit = async () => {
                 value={inputCode}
                 onChange={handleVerify}
                 sx={{
-                  color: "white",
-                  ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` }, // label color
+                  color: `${({ theme }) => theme.primaryColor}`,
+                  ".MuiInputLabel-root": {
+                    color: `${({ theme }) => theme.background}`,
+                  }, // label color
                   ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: `${({ theme }) => theme.background}` }, // border color
-                    "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` }, // hover border color
-                    "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` }, // focus border color
+                    "& fieldset": {
+                      borderColor: `${({ theme }) => theme.background}`,
+                    }, // border color
+                    "&:hover fieldset": {
+                      borderColor: `${({ theme }) => theme.background}`,
+                    }, // hover border color
+                    "&.Mui-focused fieldset": {
+                      borderColor: `${({ theme }) => theme.background}`,
+                    }, // focus border color
                   },
-                  ".MuiInputBase-input": { color: "white" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+                  ".MuiInputBase-input": {
+                    color: `${({ theme }) => theme.primaryColor}`,
+                  }, // 여기에서 입력 텍스트 색상을 지정합니다.
                 }}
               />
             </InputContainer>
@@ -281,7 +303,6 @@ const slideInRight = keyframes`
   }
 `;
 
-
 //이메일 컨테이너
 const EmailContainer = styled.div`
   will-change: transform, opacity;
@@ -305,17 +326,17 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const textFieldSx = {
+const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
-  color: "white",
-  ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` },
+  color: theme.primaryColor,
+  ".MuiInputLabel-root": { color: theme.background },
   ".MuiOutlinedInput-root": {
-    "& fieldset": { borderColor: `${({ theme }) => theme.background}` },
-    "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` },
-    "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` },
+    "& fieldset": { borderColor: theme.background },
+    "&:hover fieldset": { borderColor: theme.background },
+    "&.Mui-focused fieldset": { borderColor: theme.background },
   },
-  ".MuiInputBase-input": { color: "white" },
-};
+  ".MuiInputBase-input": { color: theme.primaryColor },
+});
 
 const buttonSx = {
   marginTop: "0.1rem",

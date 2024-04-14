@@ -143,7 +143,7 @@ export default function Chat() {
             ))}
             <div ref={messagesEndRef} />
           </MessagesContainer>
-          <InputContainer>
+          <InputContainer theme={theme}>
             <StyledInput
               type="text"
               value={message}
@@ -188,7 +188,7 @@ const InputContainer = styled.div`
   margin-bottom: 1rem;
   padding: 0.3rem;
   border-radius: 2rem;
-  border: 1px solid white;
+  border: 1px solid ${({ theme }) => theme.primaryColor};
   justify-content: space-between;
 `;
 
@@ -198,7 +198,7 @@ const StyledInput = styled.input`
   border: none;
   padding-left: 1rem;
   border-radius: 2rem;
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   width: 100%;
   &:focus {
     outline: none;
@@ -266,7 +266,7 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -290,7 +290,6 @@ const ContentContainer = styled.div`
 const MessageTime = styled.div`
   font-size: 0.7rem;
   color: ${({ theme }) => theme.foreground};
-  margin: 0 0.5rem; // 메시지와 시간 사이의 간격을 추가합니다.
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
@@ -298,7 +297,7 @@ const Message = styled.div`
   padding: 0.5rem;
   border-radius: 20px;
   margin-left: 0.3rem;
-  background-color: ${({ theme, user }) => user === "me" ? theme.foreground : "#fff"};
+  background-color: ${({ theme, user }) => user === "me" ? theme.foreground : theme.primaryColor};
   color: ${({ theme }) => theme.background};
   word-wrap: break-word;
   overflow-wrap: anywhere;

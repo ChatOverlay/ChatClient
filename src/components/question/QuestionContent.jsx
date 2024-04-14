@@ -73,8 +73,8 @@ export default function QuestionContent({ questionData, theme }) {
 
   return (
     <Box theme={theme}>
-      <Title>{questionData?.title}</Title>
-      <Content>{questionData?.content}</Content>
+      <Title theme={theme}>{questionData?.title}</Title>
+      <Content theme={theme}>{questionData?.content}</Content>
       <LikeButton theme={theme} onClick={toggleLike}>
         {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
       </LikeButton>
@@ -100,14 +100,14 @@ const Box = styled.div`
 const Title = styled.div`
   font-weight: bold;
   font-size: 2rem;
-  color : white;
+  color : ${({ theme }) => theme.primaryColor};
 `;
 
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.8rem;
   padding: 0.2rem;
-  color : white;
+  color : ${({ theme }) => theme.primaryColor};
 `;
 
 const IconContainer = styled.div`

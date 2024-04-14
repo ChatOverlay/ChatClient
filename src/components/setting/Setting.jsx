@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "../../context/ThemeContext";
 
 export default function Setting({ handleOption }) {
   const [isClosing, setIsClosing] = useState(false);
-  const { setThemeName } = useTheme(); // Use the setThemeName function
+  const { theme, setThemeName } = useTheme();
 
+
+  console.log(theme);
   const handleClose = () => {
     setIsClosing(true);
-    setTimeout(handleOption, 500);
+    setTimeout(() => handleOption(false), 500);
   };
 
-  const handleThemeChange = (event) => {
-    setThemeName(event.target.value);
+  const handleThemeChange = (themeValue) => {
+    setThemeName(themeValue);
   };
+
+  const themeOptions = [
+    { value: "default", label: "Gachon Theme", description: "Classic blue and white setup" },
+    { value: "light", label: "Light Theme", description: "Bright and clear appearance" },
+    { value: "dark", label: "Dark Theme", description: "Dark tones for night mode" }
+  ];
 
   return (
     <SettingContainer isClosing={isClosing}>
@@ -25,35 +33,34 @@ export default function Setting({ handleOption }) {
             <CloseIcon />
           </IconContainer>
         </SettingTitleContainer>
-        <ThemeSelector onChange={handleThemeChange}>
-          <option value="light">Light Theme</option>
-          <option value="dark">Dark Theme</option>
-          <option value="gachon">Gachon Theme</option>
-        </ThemeSelector>
+        <ThemeList>
+          {themeOptions.map(themes => (
+            <ThemeOption
+              key={themes.value}
+              isSelected={theme.name === themes.value}
+              onClick={() => handleThemeChange(themes.value)}
+            >
+              <ThemeLabel isSelected={theme.name === themes.value}>{themes.label}</ThemeLabel>
+              <ThemeDescription>{theme.description}</ThemeDescription>
+            </ThemeOption>
+          ))}
+        </ThemeList>
       </SettingBox>
     </SettingContainer>
   );
 }
 
 const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 `;
 const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 `;
 
 const SettingContainer = styled.div`
-  animation: ${({ isClosing }) => isClosing ? fadeOut : fadeIn} 0.5s ease-out forwards;
+  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.5s ease-out forwards;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,12 +74,11 @@ const SettingContainer = styled.div`
 `;
 
 const SettingBox = styled.div`
-  width: 30rem;  
-  height: auto; // Auto height based on content
+  width: 30rem;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-  padding: 1.25rem; 
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
 `;
@@ -83,7 +89,7 @@ const SettingTitleContainer = styled.div`
   align-items: center;
   width: 100%;
   padding-bottom: 0.625rem;
-  border-bottom: 1px solid #e1e1e1; // Lighter border for subtlety
+  border-bottom: 1px solid #e1e1e1;
 `;
 
 const Title = styled.div`
@@ -94,20 +100,30 @@ const Title = styled.div`
 const IconContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
+  &:hover { opacity: 0.6; }
+`;
+
+const ThemeList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+`;
+
+const ThemeOption = styled.div`
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: ${({ isSelected }) => isSelected ? "#e1e1e1" : "transparent"};
+  border-radius: 0.25rem;
   &:hover {
-    opacity: 0.6;
+    background-color: #f0f0f0;
   }
 `;
 
-const ThemeSelector = styled.select`
-  margin-top: 1.25rem;
-  padding: 0.625rem;
-  width: 100%;
-  font-size: 1rem;
-  border: 1px solid #e1e1e1; // Subtle border for input
-  border-radius: 0.25rem;
-  cursor: pointer;
-  &:focus {
-    border-color: #a8a8a8;
-  }
+const ThemeLabel = styled.div`
+  font-weight: ${({ isSelected }) => isSelected ? "bold" : "normal"};
+`;
+
+const ThemeDescription = styled.div`
+  font-size: 0.875rem;
+  color: #666;
 `;

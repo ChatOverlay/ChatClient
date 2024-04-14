@@ -7,7 +7,7 @@ function useThemeStyles(theme) {
     const root = document.documentElement;
     root.style.setProperty('--background-color', theme.background);
     root.style.setProperty('--foreground-color', theme.foreground);
-    root.style.setProperty('--highlight-color', theme.highlight);
+    root.style.setProperty('--primary-color', theme.primaryColor);
   }, [theme]); // 테마 객체가 변경될 때만 업데이트
 }
 

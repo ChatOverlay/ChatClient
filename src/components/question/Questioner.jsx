@@ -96,10 +96,10 @@ export default function Questioner({ questionData, theme }) {
           )}
         </QuestionerProfileIcon>
         <div>
-          <QuestionerProfileName theme={theme}>
+          <QuestionerProfileName>
             {questionData?.questionerName}
           </QuestionerProfileName>
-          <QuestionerDate theme={theme}>{questionData?.date}</QuestionerDate>
+          <QuestionerDate>{questionData?.date}</QuestionerDate>
         </div>
       </QuestionerProfileContainer>
       <ButtonContainer>
@@ -122,6 +122,7 @@ const QuestionerContainer = styled.div`
   justify-content: space-between;
   padding: 1.5rem;
   background-color: ${({ theme }) => theme.background}; // 배경 색상 적용
+  color: ${({ theme }) => theme.primaryColor}; // 텍스트 색상 적용
 `;
 
 const QuestionerProfileContainer = styled.div`
@@ -130,18 +131,15 @@ const QuestionerProfileContainer = styled.div`
 `;
 
 const QuestionerProfileIcon = styled.div`
-  color: ${({ theme }) => theme.highlight}; // 테마 색상 적용
   padding-right: 0.3rem;
 `;
 
 const QuestionerProfileName = styled.div`
   font-size: 1.2rem;
-  color: ${({ theme }) => theme.foreground}; // 테마 색상 적용
 `;
 
 const QuestionerDate = styled.div`
   font-size: 0.8rem;
-  color: ${({ theme }) => theme.foreground}; // 테마 색상 적용
 `;
 
 const ButtonContainer = styled.div`

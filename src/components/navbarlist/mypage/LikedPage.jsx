@@ -6,13 +6,11 @@ import styled from "styled-components";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useTheme } from "../../../context/ThemeContext";
-import useThemeStyles from "../../../hooks/useThemeStyles";
 
 export default function LikedPage({ setLikedPages }) {
   const [likedPosts, setLikedPosts] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
-  useThemeStyles(theme); // 커스텀 훅 호출하여 스타일 적용
   const navigate = useNavigate();
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
@@ -49,11 +47,11 @@ export default function LikedPage({ setLikedPages }) {
       >
         <ArrowBackIcon />
       </IconContainer>
-      <LikedPageDetail>좋아요 누른 게시글</LikedPageDetail>
+      <LikedPageDetail theme={theme}>좋아요 누른 게시글</LikedPageDetail>
       {likedPosts.map((post) => (
         <div
           className={`navbar__list__item ${
-            post.id === selectedQuestion ? "navbar__list__item--selected" : ""
+            post.id === selectedQuestion ? "selected" : ""
           }`}
           key={post.id}
           onClick={() => handleQuestionClick(post.id)}
@@ -88,7 +86,7 @@ const LikedPageDetail = styled.div`
   padding-left: 1rem;
   height: 3rem;
   transition: all 0.3s;
-  border-bottom: 1px solid ${({ theme }) => theme.background};
+  border-bottom: 1px solid ${({ theme }) => theme.foreground};
 
   animation: slideInFromRight 0.3s ease-out forwards; /* 애니메이션 적용 */
 `;

@@ -70,7 +70,7 @@ const AppContainer = styled.div`
   height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
   background-color: ${({ theme }) => theme.background};
-  color: white;
+  color: ${({ theme }) => theme.primaryColor};
   border-left: 1px solid ${({ theme }) => theme.foreground};
   transition: all 0.3s;
 

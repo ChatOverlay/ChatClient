@@ -13,6 +13,7 @@ const ProductItem = ({ product,theme }) => {
 
 const ItemContainer = styled.div`
   background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   padding: 1rem;
   border-radius: 10px;
   cursor: pointer;
@@ -26,12 +27,11 @@ const ItemContainer = styled.div`
 
 const ProductName = styled.div`
   font-size: 18px;
-  color: #333;
+  font-weight : bold;
 `;
 
 const Mileage = styled.div`
   font-size: 14px;
-  color: #666;
 `;
 
 export default ProductItem;

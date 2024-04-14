@@ -1,7 +1,7 @@
 :root {
   --background-color: #f2d492; /* 기본 배경 색상 */
   --foreground-color: var(--foreground-color); /* 기본 전경 색상 */
-  --highlight-color: white; /* 강조 색상 */
+  --primary-color: white; /* 강조 색상 */
 }
 @keyframes slideInFromLeft {
   from {
@@ -31,12 +31,11 @@
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
-  color: white;
   margin-left: 5vw;
   height: 100vh;
   width: 20vw;
   font-weight: bold;
-  
+  color : var(--primary-color);
   border-right: 1px solid var(--foreground-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 

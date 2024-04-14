@@ -182,7 +182,7 @@ const EditContainer = styled.div`
 // TextField 스타일 커스터마이징
 const StyledTextField = muiStyled(TextField)({
   '& .MuiInputBase-input': {
-    color: 'white', // 입력 글씨 색상
+    color: '${({ theme }) => theme.primaryColor}', // 입력 글씨 색상
   },
   '& fieldset': {
     borderColor: '${({ theme }) => theme.background}',

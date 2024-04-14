@@ -72,11 +72,11 @@ const AppBar = styled.div`
   position: fixed;
   flex-direction: column;
   background-color: ${props => props.theme.foreground};
+  color: ${props => props.theme.background};
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5vw;
-  border-right: 1px solid ${({ theme }) => theme.foreground};
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
   `;
@@ -84,8 +84,7 @@ const AppBar = styled.div`
   const IconContainer = styled.div`
   margin-top: 3rem;
   cursor: pointer;
-  transition: all 0.3s;
-  color: ${props => props.theme.background}; 
+  transition: all 0.3s; 
   &:hover {
     opacity: 0.6;
   }

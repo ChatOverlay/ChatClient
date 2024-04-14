@@ -83,14 +83,14 @@ export default function Login() {
               }
             }}
             sx={{
-              color: "white",
+              color: `${({ theme }) => theme.primaryColor}`,
               ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` }, // label color
               ".MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: `${({ theme }) => theme.background}` }, // border color
                 "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` }, // hover border color
                 "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` }, // focus border color
               },
-              ".MuiInputBase-input": { color: "white" }, // 여기에서 입력 텍스트 색상을 지정합니다.
+              ".MuiInputBase-input": { color: `${({ theme }) => theme.primaryColor}`}, // 여기에서 입력 텍스트 색상을 지정합니다.
             }}
           />
         </InputContainer>
@@ -127,17 +127,17 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const textFieldSx = {
+const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
-  color: "white",
-  ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` },
+  color: theme.primaryColor,
+  ".MuiInputLabel-root": { color: theme.background },
   ".MuiOutlinedInput-root": {
-    "& fieldset": { borderColor: `${({ theme }) => theme.background}` },
-    "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` },
-    "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` },
+    "& fieldset": { borderColor: theme.background },
+    "&:hover fieldset": { borderColor: theme.background },
+    "&.Mui-focused fieldset": { borderColor: theme.background },
   },
-  ".MuiInputBase-input": { color: "white" },
-};
+  ".MuiInputBase-input": { color: theme.primaryColor },
+});
 
 const buttonSx = {
   marginTop: "0.1rem",

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const WelcomeContainer = styled.div`
   font-size: 24px;
   font-weight: bold;
-  color: white; 
+  color: ${({ theme }) => theme.primaryColor}; 
 `;
 
 export default function Welcome({ nickName }) {

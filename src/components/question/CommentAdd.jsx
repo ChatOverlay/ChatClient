@@ -87,27 +87,23 @@ export default function CommentAdd({ questionData, onAddComment, changeData, set
 const CommentAddContainer = styled.div`
   display: flex;
   position: fixed;
-  bottom: 10px;
+  bottom: 0;
   right: 0;
   justify-content: center;
-  padding: 1rem;
-  width: 70%;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;  
+  width : 72vw;
 `;
 
 const CommentAddInput = styled.input`
   flex: 1;
-  height: 40px;
-  margin-right: 10px;
-  padding: 0 15px;
+  height: 3rem;
+  margin-right: 1vw;
+  padding: 0 1rem;
   font-size: 1rem;
   border: 2px solid ${({ theme }) => theme.foreground};
-  border-radius: 20px;
-  background-color: ${({ theme }) => theme.primaryColor};
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.background};
   }
 `;
 
@@ -115,11 +111,11 @@ const CommentAddIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 40px;
+  width: 4vw;
+  height: 3rem;
   background-color: ${({ theme }) => theme.foreground};
   color : ${({ theme }) => theme.background};
-  border-radius: 20px;
+  border-radius: 2rem;
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
