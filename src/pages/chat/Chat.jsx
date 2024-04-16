@@ -7,6 +7,8 @@ import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useTheme } from "../../context/ThemeContext";
 
+import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
+
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
@@ -167,11 +169,25 @@ export default function Chat() {
 const AppContainer = styled.div`
   display: flex;
   position: relative;
-  margin-left: ${({ show }) => (show ? "5vw" : "25.1vw")};
+  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
   background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   transition: all 0.3s;
   z-index: 1;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(${BackgroundImage}); // Set the background image
+    background-size: cover; // Cover the entire container
+    background-repeat: no-repeat; // Prevent repeating the background image
+    background-position: center; // Center the background image
+    opacity: 0.8; // Set the opacity for the background image only
+    z-index: -1; // Ensure the pseudo-element is behind the content
+  }
 `;
 
 //채팅 컨테이너
@@ -185,20 +201,19 @@ const ChatContainer = styled.div`
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   padding: 0.3rem;
   border-radius: 2rem;
-  border: 1px solid ${({ theme }) => theme.primaryColor};
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.primaryColor};
   justify-content: space-between;
 `;
 
 //입력 칸
 const StyledInput = styled.input`
-  background-color: ${({ theme }) => theme.background};
   border: none;
   padding-left: 1rem;
   border-radius: 2rem;
-  color: ${({ theme }) => theme.primaryColor};
   width: 100%;
   &:focus {
     outline: none;
@@ -228,7 +243,7 @@ const MileageContainer = styled.span`
   color: ${({ theme }) => theme.foreground};
   font-weight: bold;
   padding: 0.25rem 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   border-radius: 1rem;
   white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
 `;
