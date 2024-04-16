@@ -17,6 +17,12 @@ const themes = {
   },
   light : {
     name : "light",
+    foreground: "#EFBC9B",
+    background: "#FBF3D5",
+    primaryColor: "black",
+  },
+  light2 : {
+    name : "light",
     foreground: "#F0EDCC",
     background: "#02343F",
     primaryColor: "#FFFFFF",
