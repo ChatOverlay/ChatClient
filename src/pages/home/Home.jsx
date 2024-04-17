@@ -2,11 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useTheme } from "../../context/ThemeContext";
+import useIsAuth from "../../hooks/useIsAuth";
 
 export default function Home() {
   const {theme} = useTheme();
   const navigate = useNavigate();
-
+  useIsAuth();
   return (
     <HomeContainer theme={theme}>
       <Header>모두의 소리함</Header>

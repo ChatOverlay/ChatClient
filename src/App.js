@@ -11,6 +11,7 @@ import QuestionAdd from "./pages/question/QuestionAdd";
 import Mileage from "./pages/mypage/Mileage";
 import RegisterPage from "./pages/login/RegisterPage";
 import Adoption from "./pages/mypage/Adoption";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -18,15 +19,18 @@ function App() {
       <ThemeProvider>
         <VerticalAppBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/*" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/chatlist" element={<ChatList />} />
-          <Route path="/chat/:titleName" element={<Chat />} />
-          <Route path="/question/newquestion" element={<QuestionAdd />} />
-          <Route path="/question/:id" element={<Question />} />
-          <Route path="/mypage/mileage" element={<Mileage />} />
-          <Route path="/mypage/adoptedpoint" element={<Adoption />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/chatlist" element={<ChatList />} />
+           <Route path="/chat/:titleName" element={<Chat />} />
+            <Route path="/question/newquestion" element={<QuestionAdd />} />
+            <Route path="/question/:id" element={<Question />} />
+            <Route path="/mypage/mileage" element={<Mileage />} />
+            <Route path="/mypage/adoptedpoint" element={<Adoption />} />
+          </Route>
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

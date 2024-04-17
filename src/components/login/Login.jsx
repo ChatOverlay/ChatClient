@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
-import { TextField } from "@mui/material";
+import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [password, setPassword] = useState(""); // 사용자 비밀번호를 저장하는 상태
+  const [autoLogin, setAutoLogin] = useState(false);  // 자동 로그인 상태
+
   // 로그인 함수
   const handleLogin = async () => {
     if (!email || !password) {
@@ -18,18 +20,21 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, autoLogin}),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.accessToken);
-        navigate("../chatlist")
+        localStorage.setItem("token", data.accessToken);
+        navigate("../chatlist");
       } else {
         // 서버에서 오류 메시지를 보낼 경우
         const error = await response.json();
@@ -84,16 +89,36 @@ export default function Login() {
             }}
             sx={{
               color: `${({ theme }) => theme.primaryColor}`,
-              ".MuiInputLabel-root": { color: `${({ theme }) => theme.background}` }, // label color
+              ".MuiInputLabel-root": {
+                color: `${({ theme }) => theme.background}`,
+              }, // label color
               ".MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: `${({ theme }) => theme.background}` }, // border color
-                "&:hover fieldset": { borderColor: `${({ theme }) => theme.background}` }, // hover border color
-                "&.Mui-focused fieldset": { borderColor: `${({ theme }) => theme.background}` }, // focus border color
+                "& fieldset": {
+                  borderColor: `${({ theme }) => theme.background}`,
+                }, // border color
+                "&:hover fieldset": {
+                  borderColor: `${({ theme }) => theme.background}`,
+                }, // hover border color
+                "&.Mui-focused fieldset": {
+                  borderColor: `${({ theme }) => theme.background}`,
+                }, // focus border color
               },
-              ".MuiInputBase-input": { color: `${({ theme }) => theme.primaryColor}`}, // 여기에서 입력 텍스트 색상을 지정합니다.
+              ".MuiInputBase-input": {
+                color: `${({ theme }) => theme.primaryColor}`,
+              }, // 여기에서 입력 텍스트 색상을 지정합니다.
             }}
           />
         </InputContainer>
+        <FormControlLabel
+            control={
+              <Checkbox
+                checked={autoLogin}
+                onChange={(e) => setAutoLogin(e.target.checked)}
+                name="autoLogin"
+              />
+            }
+            label="자동 로그인"
+          />
       </EmailContainer>
     </div>
   );
@@ -120,7 +145,6 @@ const EmailContainer = styled.div`
   will-change: transform, opacity;
   animation: ${slideInRight} 0.5s forwards;
 `;
-
 
 //해당 입력칸
 const InputContainer = styled.div`

@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Register from "../../components/login/Register";
 import { useTheme } from "../../context/ThemeContext";
+import useIsAuth from "../../hooks/useIsAuth";
 
 export default function RegisterPage() {
   const {theme} = useTheme();
+  useIsAuth();
   return (
     <HomeContainer theme={theme}>
       <Register />
