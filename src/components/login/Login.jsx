@@ -5,12 +5,13 @@ import SendIcon from "@mui/icons-material/Send";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login(theme) {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [password, setPassword] = useState(""); // 사용자 비밀번호를 저장하는 상태
   const [autoLogin, setAutoLogin] = useState(false);  // 자동 로그인 상태
 
+  console.log(theme);
   // 로그인 함수
   const handleLogin = async () => {
     if (!email || !password) {
@@ -46,7 +47,7 @@ export default function Login() {
     }
   };
   return (
-    <div>
+    <LoginContainer theme={theme}>
       <EmailContainer>
         <WelcomeText>로그인</WelcomeText>
         <InputContainer>
@@ -120,9 +121,19 @@ export default function Login() {
             label="자동 로그인"
           />
       </EmailContainer>
-    </div>
+    </LoginContainer>
   );
 }
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index : 101;
+  background-color: white;
+  border-radius : 1rem;
+  padding : 3rem;
+`;
 
 const WelcomeText = styled.div`
   font-weight: bold;

@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Login from "../../components/login/Login";
 import { useTheme } from "../../context/ThemeContext";
 import useIsAuth from "../../hooks/useIsAuth";
+import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
 
 export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();
   return (
-    <HomeContainer theme={theme}>
-      <Login />
+    <HomeContainer>
+      <Login theme={theme}/>
     </HomeContainer>
   );
 }
@@ -19,9 +20,9 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
   font-family: "Roboto";
   position: relative;
   z-index: 100;
+  background: url(${BackgroundImage}) no-repeat center center;
+  background-size: cover; // Ensure the background covers the entire container
 `;

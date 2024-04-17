@@ -1,5 +1,4 @@
 :root {
-  --background-color: #f2d492; /* 기본 배경 색상 */
   --foreground-color: var(--foreground-color); /* 기본 전경 색상 */
   --primary-color: white; /* 강조 색상 */
 }
