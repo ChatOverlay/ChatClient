@@ -8,6 +8,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useTheme } from "../../context/ThemeContext";
 
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
+import { useSharedState } from "../../context/SharedStateContext";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
@@ -18,7 +19,8 @@ export default function Chat() {
   const [closeOption, setCloseOption] = useState(false);
   const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
   const { theme } = useTheme();
-
+  const { addNewData } = useSharedState();
+ 
   const { titleName } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,6 +37,7 @@ export default function Chat() {
       setMessage("");
       scrollToBottom();
       socket.emit("updateMileage", { token });
+      addNewData();
     }
   };
   const handleReport = async (reportedUserId) => {

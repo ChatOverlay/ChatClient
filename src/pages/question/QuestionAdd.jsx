@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
+import { useSharedState } from "../../context/SharedStateContext";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -11,7 +12,8 @@ export default function QuestionAdd() {
   const [title, setTitle] = useState(""); // 질문 제목을 위한 상태
   const [content, setContent] = useState(""); // 질문 내용을 위한 상태
   const [isSubmitting, setIsSubmitting] = useState(false); // 제출 중인지 여부를 나타내는 상태
-
+  const { addNewData } = useSharedState();
+ 
   const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
   const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ export default function QuestionAdd() {
       }
 
       const responseData = await response.json();
-      console.log('Question added:', responseData);
+      addNewData();   
       navigate(`/question/${responseData.id}`); // 해당 질문 페이지로 리디렉션
     } catch (error) {
       console.error('Error adding question:', error);

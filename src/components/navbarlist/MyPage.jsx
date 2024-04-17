@@ -8,6 +8,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
 import { useTheme } from "../../context/ThemeContext";
+import { useSharedState } from "../../context/SharedStateContext";
 const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
@@ -18,7 +19,8 @@ export default function MyPage() {
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
   const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
-
+  const { newAdded } = useSharedState();
+  
   const fileInputRef = useRef(null);
 
   //이미지 관련
@@ -128,6 +130,7 @@ export default function MyPage() {
 
     fetchUserInfo();
   }, [profilePictureUrl]);
+  
   useEffect(() => {
     // 마일리지 정보 갱신 리스너
     socket.on("mileageUpdated", (data) => {
@@ -138,7 +141,7 @@ export default function MyPage() {
     return () => {
       socket.off("mileageUpdated");
     };
-  }, []);
+  }, [newAdded]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -146,7 +149,7 @@ export default function MyPage() {
     socket.emit("getInitialMileage", { token });
 
     // 필요한 경우 여기서 초기 마일리지 정보를 받는 리스너도 설정할 수 있습니다.
-  }, []);
+  }, [newAdded]);
   return (
     <>
       {likedPages ? (

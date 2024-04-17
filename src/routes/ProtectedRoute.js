@@ -10,9 +10,9 @@ const ProtectedRoute = () => {
     };
 
     if (!isAuthenticated()) {
-      navigate("/login", { replace: true });
+      navigate("/login", { replace: true , state : "잘못된 접근입니다."});
     }
-  }, []);
+  }, [navigate]);
 
   return <Outlet />;
 };

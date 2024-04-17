@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <HomeContainer theme={theme}>
       <Header>모두의 소리함</Header>
-      <Button onClick={()=>navigate("/Login")} theme={theme}>수업 채팅 시작하기</Button>
+      <Button onClick={()=>navigate("/login")} theme={theme}>수업 채팅 시작하기</Button>
       <RegisterButton onClick={()=>navigate("./register")}>아이디가 없으신가요?</RegisterButton>
     </HomeContainer>
   );

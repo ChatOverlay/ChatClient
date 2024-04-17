@@ -4,19 +4,20 @@ import "./ListBox.css";
 import SelectLabels from "./select/SelectLabels";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useTheme } from "../../context/ThemeContext";
+import { useSharedState } from "../../context/SharedStateContext";
 export default function QuestionList() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
   const [selectedQuestion, setSelectedQuestion] = useState(null); // Step 1
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
-  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  const { newAdded } = useSharedState();
+  
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/questions`) // 서버 주소에 맞게 수정해주세요
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));
-  }, []);
+  }, [newAdded]);
 
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id); // Step 2
