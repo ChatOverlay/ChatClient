@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
+import { SharedStateProvider } from "./context/SharedStateContext";
 import Home from "./pages/home/Home";
 import LoginPage from "./pages/login/LoginPage";
 import Chat from "./pages/chat/Chat";
@@ -17,21 +18,23 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <VerticalAppBar />
-        <Routes>
-          <Route path="/*" element={<Home />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+        <SharedStateProvider>
+          <VerticalAppBar />
+          <Routes>
+            <Route path="/*" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path="/chatlist" element={<ChatList />} />
-           <Route path="/chat/:titleName" element={<Chat />} />
-            <Route path="/question/newquestion" element={<QuestionAdd />} />
-            <Route path="/question/:id" element={<Question />} />
-            <Route path="/mypage/mileage" element={<Mileage />} />
-            <Route path="/mypage/adoptedpoint" element={<Adoption />} />
-          </Route>
-        </Routes>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/chatlist" element={<ChatList />} />
+              <Route path="/chat/:titleName" element={<Chat />} />
+              <Route path="/question/newquestion" element={<QuestionAdd />} />
+              <Route path="/question/:id" element={<Question />} />
+              <Route path="/mypage/mileage" element={<Mileage />} />
+              <Route path="/mypage/adoptedpoint" element={<Adoption />} />
+            </Route>
+          </Routes>
+        </SharedStateProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
