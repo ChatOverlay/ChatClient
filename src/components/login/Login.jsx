@@ -3,14 +3,17 @@ import styled, { keyframes } from "styled-components";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+
+import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Login(theme) {
+export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [password, setPassword] = useState(""); // 사용자 비밀번호를 저장하는 상태
   const [autoLogin, setAutoLogin] = useState(false);  // 자동 로그인 상태
 
+  const {theme} = useTheme();
   console.log(theme);
   // 로그인 함수
   const handleLogin = async () => {
@@ -133,6 +136,7 @@ const LoginContainer = styled.div`
   background-color: white;
   border-radius : 1rem;
   padding : 3rem;
+  opacity : 0.8;
 `;
 
 const WelcomeText = styled.div`

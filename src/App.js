@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { SharedStateProvider } from "./context/SharedStateContext";
-import Home from "./pages/home/Home";
 import LoginPage from "./pages/login/LoginPage";
 import Chat from "./pages/chat/Chat";
 import VerticalAppBar from "./components/navbar/VerticalAppBar";
