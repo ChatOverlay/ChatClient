@@ -10,8 +10,9 @@ const TopBarContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.foreground};
   display: flex;
   font-size: 2rem;
-  color: ${({ theme }) => theme.foreground};
+  background-color: ${({ theme }) => theme.foreground};
   margin-bottom: 4.9vh;
+  color: ${({ theme }) => theme.background};
 `;
 
 const IconContainer = styled.div`
