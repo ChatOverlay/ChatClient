@@ -23,7 +23,7 @@ const HomeContainer = styled.div`
   font-family: "Roboto";
   position: relative;
   z-index: 100;
-  background-color: ${({theme})=>theme.background};
+  background-color: #202c39;
 `;
 
 const Logo = styled.img`

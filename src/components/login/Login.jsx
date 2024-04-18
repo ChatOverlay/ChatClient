@@ -136,7 +136,7 @@ const LoginContainer = styled.div`
   background-color: white;
   border-radius : 1rem;
   padding : 3rem;
-  opacity : 0.8;
+  opacity : 0.9;
 `;
 
 const WelcomeText = styled.div`
@@ -182,7 +182,7 @@ const buttonSx = {
   marginTop: "0.1rem",
   maxHeight: "3.5rem",
   marginLeft: "1rem",
-  backgroundColor: `${({ theme }) => theme.background}`,
+  backgroundColor: "#7EBCF2",
   color: `${({ theme }) => theme.foreground}`,
   borderRadius: "1rem",
   transition: "all 0.3s ease",
