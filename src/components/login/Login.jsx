@@ -34,7 +34,7 @@ export default function Login() {
           body: JSON.stringify({ email, password, autoLogin}),
         }
       );
-
+      
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.accessToken);
