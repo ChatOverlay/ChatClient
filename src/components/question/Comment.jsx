@@ -11,12 +11,12 @@ export default function Comment({
   changeData,
   setChangeData,
   comment,
-  theme,
+  theme
 }) {
   const [isQuestioner, setIsQuestioner] = useState(false); //질문자 확인용
   const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
   const isCurrentUser = comment.userId === currentUserId; //댓글자인지 확인
-  const [isItAccepted, setIsItAccepted] = useState(false);
+  const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
@@ -45,7 +45,7 @@ export default function Comment({
       try {
         // API 호출을 통해 댓글 삭제 요청
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/comments/${comment.id}`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}`,
           {
             method: "DELETE",
             headers: {
@@ -55,7 +55,6 @@ export default function Comment({
         );
         if (response.ok) {
           alert("댓글이 정상적으로 삭제가 되었습니다.");
-
           setChangeData(!changeData);
           // 여기에서 댓글 목록을 새로고침하거나 상태를 업데이트해야 합니다.
         } else {
@@ -72,7 +71,7 @@ export default function Comment({
       try {
         // 신고 API 호출
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/comments/${comment.id}/report`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/report`,
           {
             method: "POST",
             headers: {
@@ -92,13 +91,12 @@ export default function Comment({
       }
     }
   };
-  //채택 handler
   // 채택 버튼 클릭 핸들러
   const handleAccept = async () => {
     if (window.confirm("이 댓글을 채택하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/comments/${comment.id}/accept`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/accept`,
           {
             method: "POST",
             headers: {
@@ -187,8 +185,7 @@ const AcceptedIndicator = styled.div`
   padding: 0.1rem;
   align-items: center;
   background-color: ${({ theme }) => theme.foreground}; // 채택 아이콘과 텍스트 색상
-  color: ${({ theme }) => theme.primaryColor};
-  font-weight: bold;
+  color: ${({ theme }) => theme.background};
   svg {
     font-size: 1rem;
     margin-left: 0.2rem;

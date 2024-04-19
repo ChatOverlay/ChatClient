@@ -4,15 +4,23 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 
-export default function QuestionContent({ questionData, theme }) {
+export default function QuestionContent({
+  questionData,
+  theme,
+  editMode,
+  setEditMode,
+}) {
   const commentsCount = questionData?.comments?.length || 0;
   const [likesCount, setLikesCount] = useState(
     questionData?.likes?.length || 0
   );
   const [liked, setLiked] = useState(false);
+  
 
   useEffect(() => {
-    const questionId = questionData?.id;
+    setLikesCount(questionData?.likes?.length || 0);
+    setLiked(false); // Reset liked state on question change
+    const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     if (token && questionId) {
       const fetchLikeStatus = async () => {
@@ -43,7 +51,7 @@ export default function QuestionContent({ questionData, theme }) {
   }, [questionData]);
 
   const toggleLike = async () => {
-    const questionId = questionData?.id;
+    const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
@@ -100,14 +108,14 @@ const Box = styled.div`
 const Title = styled.div`
   font-weight: bold;
   font-size: 2rem;
-  color : ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.primaryColor};
 `;
 
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.8rem;
   padding: 0.2rem;
-  color : ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.primaryColor};
 `;
 
 const IconContainer = styled.div`

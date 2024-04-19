@@ -47,7 +47,7 @@ export default function QuestionAdd() {
 
       const responseData = await response.json();
       addNewData();   
-      navigate(`/question/${responseData.id}`); // 해당 질문 페이지로 리디렉션
+      navigate(`/question/${responseData._id}`); // 해당 질문 페이지로 리디렉션
     } catch (error) {
       console.error('Error adding question:', error);
       alert('질문 추가 중 문제가 발생했습니다.');
@@ -86,9 +86,6 @@ export default function QuestionAdd() {
     </AppContainer>
   );
 }
-
-// 이하 스타일드 컴포넌트는 생략됩니다...
-
 
 //App 컨테이너
 const AppContainer = styled.div`

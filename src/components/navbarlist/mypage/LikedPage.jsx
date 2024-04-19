@@ -51,10 +51,10 @@ export default function LikedPage({ setLikedPages }) {
       {likedPosts.map((post) => (
         <div
           className={`navbar__list__item ${
-            post.id === selectedQuestion ? "selected" : ""
+            post._id === selectedQuestion ? "selected" : ""
           }`}
           key={post.id}
-          onClick={() => handleQuestionClick(post.id)}
+          onClick={() => handleQuestionClick(post._id)}
         >
           <div className="question-container">
             <div className="question-title-container">

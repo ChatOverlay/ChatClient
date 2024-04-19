@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ModeIcon from "@mui/icons-material/Mode";
 
-export default function CommentAdd({ questionData, onAddComment, changeData, setChangeData, theme }) {
+export default function CommentAdd({ questionData, changeData, setChangeData, theme }) {
   const [newComment, setNewComment] = useState("");
-  const [nickName, setNickName] = useState("");
-  const [userId, setUserId] = useState("");
 
   const sendComment = async () => {
     const commentData = {
-      name: nickName,
       content: newComment,
     };
-    const questionId = questionData?.id;
     const token = localStorage.getItem("token");
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/comments`,
+        `${process.env.REACT_APP_API_URL}/api/questions/${questionData?._id}/comments`,
         {
           method: "POST",
           headers: {
@@ -29,12 +25,6 @@ export default function CommentAdd({ questionData, onAddComment, changeData, set
       );
       if (response.ok) {
         setChangeData(!changeData);
-        onAddComment({
-          ...commentData,
-          userId: userId,
-          name: nickName,
-          date: new Date().toLocaleString(),
-        });
       } else {
         console.error("Failed to add comment");
       }
@@ -44,30 +34,7 @@ export default function CommentAdd({ questionData, onAddComment, changeData, set
     setNewComment(""); // Reset input field after sending
   };
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setUserId(data.id);
-            setNickName(data.nickName);
-          } else {
-            console.error("Failed to fetch user info");
-          }
-        } catch (error) {
-          console.error("Error fetching user info:", error);
-        }
-      }
-    };
-    fetchUserInfo();
-  }, []);
+
 
   return (
     <CommentAddContainer theme={theme}>

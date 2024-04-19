@@ -45,7 +45,7 @@ export default function QuestionList() {
                 : ""
             }`}
             key={question.id}
-            onClick={() => handleQuestionClick(question.id)}
+            onClick={() => handleQuestionClick(question._id)}
           >
             <div className="question-container">
               <div className="question-title-container">

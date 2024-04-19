@@ -6,12 +6,12 @@ import { useTheme } from '../../context/ThemeContext';
 
 // 스타일 컴포넌트 정의
 const TopBarContainer = styled.div`
-  height: 5vh;
   border-bottom: 1px solid ${({ theme }) => theme.foreground};
   display: flex;
   font-size: 2rem;
   background-color: ${({ theme }) => theme.foreground};
   margin-bottom: 4.9vh;
+  font-weight: bold;
   color: ${({ theme }) => theme.background};
 `;
 

@@ -2,22 +2,23 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
+import { useSharedState } from "../../context/SharedStateContext";
 
-export default function Questioner({ questionData, theme }) {
+export default function Questioner({
+  questionData,
+  theme,
+  editMode,
+  setEditMode,
+}) {
   const [currentUserId, setCurrentUserId] = useState(null);
   const isCurrentUser = questionData?.questionerId === currentUserId;
-
+  const { addNewData } = useSharedState();
   const navigate = useNavigate();
-
-  const handleEdit = () => {
-    console.log("Edit Question");
-  };
-
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this question?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}`,
           {
             method: "DELETE",
             headers: {
@@ -27,6 +28,7 @@ export default function Questioner({ questionData, theme }) {
         );
         if (response.ok) {
           alert("질문이 성공적으로 삭제되었습니다.");
+          addNewData();
           navigate(-1);
         } else {
           const errorData = await response.json();
@@ -42,7 +44,7 @@ export default function Questioner({ questionData, theme }) {
     if (window.confirm("이 질문을 신고하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/report`,
+          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/report`,
           {
             method: "POST",
             headers: {
@@ -65,11 +67,14 @@ export default function Questioner({ questionData, theme }) {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/user/info`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         setCurrentUserId(data.id);
@@ -92,7 +97,9 @@ export default function Questioner({ questionData, theme }) {
               style={{ width: "3rem", height: "3rem", borderRadius: "50%" }}
             />
           ) : (
-            <AccountCircleIcon sx={{ fontSize: "3rem", color: theme.foreground }} />
+            <AccountCircleIcon
+              sx={{ fontSize: "3rem", color: theme.foreground }}
+            />
           )}
         </QuestionerProfileIcon>
         <div>
@@ -105,11 +112,17 @@ export default function Questioner({ questionData, theme }) {
       <ButtonContainer>
         {isCurrentUser ? (
           <>
-            <Button theme={theme} onClick={handleEdit}>수정</Button>
-            <Button theme={theme} onClick={handleDelete}>삭제</Button>
+            <Button theme={theme} onClick={() => setEditMode(!editMode)}>
+              {editMode ? "저장" : "수정"}
+            </Button>
+            <Button theme={theme} onClick={handleDelete}>
+              삭제
+            </Button>
           </>
         ) : (
-          <Button theme={theme} onClick={handleReport}>신고</Button>
+          <Button theme={theme} onClick={handleReport}>
+            신고
+          </Button>
         )}
       </ButtonContainer>
     </QuestionerContainer>
@@ -121,7 +134,6 @@ const QuestionerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem;
-  background-color: ${({ theme }) => theme.background}; // 배경 색상 적용
   color: ${({ theme }) => theme.primaryColor}; // 텍스트 색상 적용
 `;
 

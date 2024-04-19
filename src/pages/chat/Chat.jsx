@@ -188,7 +188,7 @@ const AppContainer = styled.div`
     background-size: cover; // Cover the entire container
     background-repeat: no-repeat; // Prevent repeating the background image
     background-position: center; // Center the background image
-    opacity: 0.8; // Set the opacity for the background image only
+    opacity: 0.3; // Set the opacity for the background image only
     z-index: -1; // Ensure the pseudo-element is behind the content
   }
 `;
@@ -205,7 +205,7 @@ const ChatContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   margin-bottom: 0.5rem;
-  padding: 0.3rem;
+  padding: 0.15rem;
   border-radius: 2rem;
   background-color: ${({ theme }) => theme.foreground};
   color: ${({ theme }) => theme.primaryColor};

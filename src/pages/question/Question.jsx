@@ -1,52 +1,31 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import { useParams } from "react-router-dom";
 import Questioner from "../../components/question/Questioner";
 import QuestionContent from "../../components/question/QuestionContent";
 import Comment from "../../components/question/Comment";
 import CommentAdd from "../../components/question/CommentAdd";
 import TopBar from "../../components/topbar/TopBar";
-
-import io from "socket.io-client";
 import { useTheme } from "../../context/ThemeContext";
-
-const socket = io(`${process.env.REACT_APP_API_URL}`); // Adjust the URL as necessary
 
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
   const [questionData, setQuestionData] = useState(null);
-  const { id } = useParams(); // URL에서 질문의 id를 가져옵니다.
+  const { id } = useParams();
   const [changeData, setChangeData] = useState(true);
-  const { theme } = useTheme(); // 테마 데이터 사용
-
-  const addCommentToQuestion = (newComment) => {
-    setQuestionData((prevQuestionData) => ({
-      ...prevQuestionData,
-      comments: [...prevQuestionData.comments, newComment],
-    }));
-  };
+  const [editMode, setEditMode] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/questions/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setQuestionData(data);
-        socket.emit("joinRoom", data.title);
       })
       .catch((error) =>
         console.error("Error fetching question detail:", error)
       );
-
-    socket.on("message", (message) => {
-      console.log(message);
-    });
-
-    return () => {
-      socket.off("message");
-      socket.emit("leaveRoom", questionData?.title);
-    };
-  }, [id, questionData?.title, changeData]);
+  }, [id,changeData]);
 
   return (
     <>
@@ -54,14 +33,14 @@ export default function Question() {
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          titleName={questionData?.title}
+          titleName={questionData?.className}
         />
         <QuestionContainer theme={theme}>
-          <Questioner questionData={questionData} theme={theme} />
-          <QuestionContent questionData={questionData} theme={theme} />
+          <Questioner questionData={questionData} theme={theme} editMode={editMode} setEditMode={setEditMode}/>
+          <QuestionContent questionData={questionData} theme={theme} editMode={editMode} setEditMode={setEditMode}/>
           {questionData?.comments?.map((comment) => (
             <Comment
-              key={comment.id}
+              key={comment._id}
               questionData={questionData}
               changeData={changeData}
               setChangeData={setChangeData}
@@ -71,7 +50,6 @@ export default function Question() {
           ))}
           <CommentAdd
             questionData={questionData}
-            onAddComment={addCommentToQuestion}
             changeData={changeData}
             setChangeData={setChangeData}
             theme={theme}
