@@ -6,7 +6,7 @@ const themes = {
   default: {
     name : "default",
     foreground: "#004e96",
-    background: "#fff",
+    background: "#FBF3D5",
     primaryColor : "black",
   },
   dark: {
@@ -18,7 +18,7 @@ const themes = {
   light : {
     name : "light",
     foreground: "#EFBC9B",
-    background: "#FBF3D5",
+    background: "#fff",
     primaryColor: "black",
   },
   light2 : {

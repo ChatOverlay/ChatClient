@@ -112,9 +112,10 @@ export default function Questioner({
       <ButtonContainer>
         {isCurrentUser ? (
           <>
+          {!editMode &&
             <Button theme={theme} onClick={() => setEditMode(!editMode)}>
-              {editMode ? "저장" : "수정"}
-            </Button>
+              수정
+            </Button>}
             <Button theme={theme} onClick={handleDelete}>
               삭제
             </Button>

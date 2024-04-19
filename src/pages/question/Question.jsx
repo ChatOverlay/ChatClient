@@ -25,7 +25,7 @@ export default function Question() {
       .catch((error) =>
         console.error("Error fetching question detail:", error)
       );
-  }, [id,changeData]);
+  }, [id,changeData,editMode]);
 
   return (
     <>

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
+import { Button, TextField } from "@mui/material";
 
 export default function QuestionContent({
   questionData,
@@ -15,11 +16,15 @@ export default function QuestionContent({
     questionData?.likes?.length || 0
   );
   const [liked, setLiked] = useState(false);
-  
+  const [editedTitle, setEditedTitle] = useState(questionData?.title || "");
+  const [editedContent, setEditedContent] = useState(questionData?.content || "");
+
 
   useEffect(() => {
     setLikesCount(questionData?.likes?.length || 0);
     setLiked(false); // Reset liked state on question change
+    setEditedTitle(questionData?.title);
+    setEditedContent(questionData?.content);
     const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     if (token && questionId) {
@@ -50,6 +55,40 @@ export default function QuestionContent({
     }
   }, [questionData]);
 
+  
+  const saveChanges = async () => {
+    const questionId = questionData?._id;
+    const token = localStorage.getItem("token");
+    const updatedData = {
+      title: editedTitle,
+      content: editedContent
+    };
+  
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions/${questionId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedData)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to update the question.");
+      }
+  
+      const data = await response.json();
+      console.log("Question updated:", data);
+  
+      // Optionally update the local state or perform any actions needed after a successful update
+      setEditMode(false); // Turn off edit mode on successful save
+    } catch (error) {
+      console.error("Error updating question:", error);
+    }
+  };
+  
+
   const toggleLike = async () => {
     const questionId = questionData?._id;
     const token = localStorage.getItem("token");
@@ -71,6 +110,7 @@ export default function QuestionContent({
 
       const data = await response.json();
       if (data.success) {
+        console.log(data);
         setLiked(!liked);
         setLikesCount(data.likesCount);
       }
@@ -81,22 +121,59 @@ export default function QuestionContent({
 
   return (
     <Box theme={theme}>
-      <Title theme={theme}>{questionData?.title}</Title>
-      <Content theme={theme}>{questionData?.content}</Content>
-      <LikeButton theme={theme} onClick={toggleLike}>
-        {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-      </LikeButton>
-      <IconContainer>
-        <div>
-          <ThumbUpAltIcon /> {likesCount}
-        </div>
-        <div>
-          <ChatIcon /> {commentsCount}
-        </div>
-      </IconContainer>
+      {editMode ? (
+        <>
+          <TextField
+            label="제목"
+            fullWidth
+            value={editedTitle}
+            onChange={(e)=>setEditedTitle(e.target.value)}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="내용"
+            fullWidth
+            multiline
+            rows={4}
+            value={editedContent}
+            onChange={(e)=>setEditedContent(e.target.value)}
+            margin="normal"
+            variant="outlined"
+          />
+          <Button
+          onClick={saveChanges}
+          variant="contained"
+          sx={{
+            backgroundColor: theme.foreground,
+            borderRadius: "0.5rem",
+          }}
+        >
+          저장
+        </Button>
+        
+        </>
+      ) : (
+        <>
+          <Title theme={theme}>{questionData?.title}</Title>
+          <Content theme={theme}>{questionData?.content}</Content>
+          <LikeButton theme={theme} onClick={toggleLike}>
+            {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+          </LikeButton>
+          <IconContainer>
+            <div>
+              <ThumbUpAltIcon /> {likesCount}
+            </div>
+            <div>
+              <ChatIcon /> {commentsCount}
+            </div>
+          </IconContainer>
+        </>
+      )}
     </Box>
   );
 }
+
 
 const Box = styled.div`
   padding: 0.5rem;
