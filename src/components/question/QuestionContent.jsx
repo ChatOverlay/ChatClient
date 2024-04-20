@@ -57,6 +57,11 @@ export default function QuestionContent({
 
   
   const saveChanges = async () => {
+    // 모든 필드가 입력되었는지 확인
+    if (!editedTitle.trim() || !editedContent.trim()) {
+      alert('제목, 내용을 모두 입력해주세요.');
+      return;
+    }
     const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     const updatedData = {
