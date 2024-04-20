@@ -8,19 +8,18 @@ import { useSharedState } from "../../context/SharedStateContext";
 export default function QuestionList() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
-  const [selectedQuestion, setSelectedQuestion] = useState(null); // Step 1
+  const [selectedQuestion, setSelectedQuestion] = useState(null); 
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
   const { newAdded } = useSharedState();
-  
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/questions`) // 서버 주소에 맞게 수정해주세요
+    fetch(`${process.env.REACT_APP_API_URL}/api/questions`) 
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));
   }, [newAdded]);
 
   const handleQuestionClick = (id) => {
-    setSelectedQuestion(id); // Step 2
+    setSelectedQuestion(id); 
     navigate(`/question/${id}`);
   };
 
@@ -40,9 +39,7 @@ export default function QuestionList() {
         .map((question) => (
           <div
             className={`navbar__list__item ${
-              question.id === selectedQuestion
-                ? "selected"
-                : ""
+              question.id === selectedQuestion ? "selected" : ""
             }`}
             key={question.id}
             onClick={() => handleQuestionClick(question._id)}
@@ -50,8 +47,8 @@ export default function QuestionList() {
             <div className="question-container">
               <div className="question-title-container">
                 <div>{question.title}</div>
-                <div className="question-date">{question.date}</div>
               </div>
+              <div className="question-date">{question.date}</div>
               <div className="sub-title-container">{question.className}</div>
             </div>
             <div className="icon__arrow__container">
@@ -60,7 +57,9 @@ export default function QuestionList() {
           </div>
         ))}
       <div className="icon-container" onClick={handleNewQuestion}>
-        <DriveFileRenameOutlineIcon sx={{ color: `${({ theme }) => theme.foreground}` }} />
+        <DriveFileRenameOutlineIcon
+          sx={{ color: `${({ theme }) => theme.foreground}` }}
+        />
       </div>
     </div>
   );

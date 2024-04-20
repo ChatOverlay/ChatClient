@@ -146,7 +146,7 @@ export default function Comment({
               <AcceptedIndicator theme={theme}>
                 채택됨
                 <CheckCircleIcon />
-              </AcceptedIndicator> // 변경된 부분
+              </AcceptedIndicator> 
             )}
           </AcceptContainer>
         </CommentProfileContainer>
@@ -176,6 +176,7 @@ const CommentContainer = styled.div`
 const CommentProfileContainer = styled.div`
   display: flex;
 `;
+
 // 채택된 댓글을 표시하기 위한 스타일 컴포넌트
 const AcceptedIndicator = styled.div`
   display: flex;
@@ -200,12 +201,12 @@ const CommentProfileIcon = styled.div`
 //댓글 프로필이름
 const CommentProfileName = styled.div`
   font-size: 0.8rem;
+  font-weight: 700;
 `;
 
 //댓글 프로필 날짜
 const CommentProfileDate = styled.div`
   font-size: 0.7rem;
-  opacity: 0.7;
 `;
 //댓글 내용
 const CommentContent = styled.div`
@@ -219,17 +220,17 @@ const CommentActions = styled.div`
 `;
 const StyledReportIcon = muiStyled(ReportIcon)({
   cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out", // opacity 변화에 대한 애니메이션 설정
+  transition: "opacity 0.2s ease-in-out", 
   "&:hover": {
-    opacity: 0.7, // hover 시 opacity 감소
+    opacity: 0.5, 
   },
 });
 
 const StyledDeleteIcon = muiStyled(DeleteIcon)({
   cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out", // 동일한 애니메이션 설정
+  transition: "opacity 0.2s ease-in-out", 
   "&:hover": {
-    opacity: 0.7, // hover 시 opacity 감소
+    opacity: 0.5, 
   },
 });
 
@@ -237,6 +238,7 @@ const AcceptContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 0.5rem;
+  font-weight: 700;
 `;
 
 // 채택 버튼 컴포넌트 스타일

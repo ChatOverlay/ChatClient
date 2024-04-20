@@ -43,6 +43,7 @@ export default function CommentAdd({ questionData, changeData, setChangeData, th
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && sendComment()}
+        placeholder="댓글을 입력하세요..."
       />
       <CommentAddIconContainer theme={theme} onClick={sendComment}>
         <ModeIcon sx={{ fontSize: "2rem", maxHeight: "100%" }} />
@@ -57,18 +58,18 @@ const CommentAddContainer = styled.div`
   bottom: 0;
   right: 0;
   justify-content: center;
-  padding: 1rem;  
-  width : 72vw;
+  padding: 1rem; 
 `;
 
 const CommentAddInput = styled.input`
-  flex: 1;
   height: 3rem;
-  margin-right: 1vw;
+  margin-right: 0.3vw;
   padding: 0 1rem;
   font-size: 1rem;
+  width: 40vw;
   border: 2px solid ${({ theme }) => theme.foreground};
   border-radius: 2rem;
+  font-family :'Noto Sans KR';
   &:focus {
     outline: none;
   }
@@ -78,7 +79,7 @@ const CommentAddIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 4vw;
+  width: 3vw;
   height: 3rem;
   background-color: ${({ theme }) => theme.foreground};
   color : ${({ theme }) => theme.background};

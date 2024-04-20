@@ -218,6 +218,7 @@ const StyledInput = styled.input`
   padding-left: 1rem;
   border-radius: 2rem;
   width: 100%;
+  font-family :'Noto Sans KR';
   &:focus {
     outline: none;
   }
@@ -249,6 +250,7 @@ const MileageContainer = styled.span`
   margin-right: 1rem;
   border-radius: 1rem;
   white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
+  font-family :'Noto Sans KR';
 `;
 
 const MessagesContainer = styled.div`
@@ -308,12 +310,13 @@ const ContentContainer = styled.div`
 const MessageTime = styled.div`
   font-size: 0.7rem;
   color: ${({ theme }) => theme.foreground};
+  font-family :'Noto Sans KR';
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
   padding: 0.5rem;
-  border-radius: 20px;
+  border-radius: 1rem;
   margin-left: 0.3rem;
   background-color: ${({ theme, user }) => user === "me" ? theme.foreground : theme.primaryColor};
   color: ${({ theme }) => theme.background};

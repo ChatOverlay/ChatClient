@@ -66,7 +66,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   position: relative;
   min-height: 100vh;
-  margin-left: ${({ show }) => (show ? "5vw" : "25.1vw")};
+  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
   background-color: ${({ theme }) => theme.background}; // 테마 적용
   transition: all 0.3s;
   z-index: 1;
@@ -79,6 +79,5 @@ const QuestionContainer = styled.div`
   flex-direction: column;
   min-height: 90vh;
   color: ${({ theme }) => theme.foreground}; // 테마 적용
-  overflow-y: auto;
-  margin-bottom: 5rem;
+  margin-bottom: 0.5rem;
 `;

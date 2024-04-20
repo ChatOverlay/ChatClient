@@ -21,7 +21,7 @@ const AppContainer = styled.div`
   opacity : 0.8;
   align-items: center;
   color: ${({ theme }) => theme.foreground};
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
   &::before {
     content: "";

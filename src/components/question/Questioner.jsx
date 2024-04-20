@@ -136,6 +136,7 @@ const QuestionerContainer = styled.div`
   justify-content: space-between;
   padding: 1.5rem;
   color: ${({ theme }) => theme.primaryColor}; // 텍스트 색상 적용
+  font-family :'Noto Sans KR';
 `;
 
 const QuestionerProfileContainer = styled.div`
@@ -149,6 +150,7 @@ const QuestionerProfileIcon = styled.div`
 
 const QuestionerProfileName = styled.div`
   font-size: 1.2rem;
+  font-weight: 700;
 `;
 
 const QuestionerDate = styled.div`
@@ -167,7 +169,8 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.2s;
   border-radius: 0.5rem;
-  font-weight: bold;
+  font-weight : 700;
+  font-family :'Noto Sans KR';
   background-color: ${({ theme }) => theme.foreground}; // 버튼 배경색 적용
   color: ${({ theme }) => theme.background}; // 버튼 텍스트 색상 적용
   &:hover {

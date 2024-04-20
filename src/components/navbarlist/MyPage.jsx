@@ -3,7 +3,6 @@ import "./ListBox.css";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LikedPage from "./mypage/LikedPage";
-import CreateIcon from "@mui/icons-material/Create";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
@@ -22,7 +21,7 @@ export default function MyPage() {
   const { newAdded } = useSharedState();
   
   const fileInputRef = useRef(null);
-
+  
   //이미지 관련
   const triggerFileInput = () => {
     fileInputRef.current.click();
@@ -116,7 +115,6 @@ export default function MyPage() {
           );
           if (response.ok) {
             const data = await response.json();
-            console.log(data);
             setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
             setProfilePictureUrl(data.profilePictureUrl); // 여기서 profilePictureUrl 상태 업데이트
           } else {
@@ -182,20 +180,19 @@ export default function MyPage() {
                     theme={theme}
                     onChange={(e) => setNickName(e.target.value)}
                     value={nickName}
+                    placeholder="닉네임을 입력하세요.."
                   />
                   <SaveButton onClick={() => updateNickName(nickName)}>
                     저장
                   </SaveButton>
                 </InputContainer>
               ) : (
-                <ProfileContainer>
+                <InputContainer>
                   <div>{nickName}</div>
-                  <IconContainer
-                    onClick={() => setChangeNameAble(true)}
-                  >
-                    <CreateIcon sx={{ fontSize: "1rem", color: `${({ theme }) => theme.foreground}` }} />
-                  </IconContainer>
-                </ProfileContainer>
+                  <SaveButton onClick={() =>setChangeNameAble(true)}>
+                    수정
+                  </SaveButton>
+                </InputContainer>
               )}
             </NickNameContainer>
           </MyContainer>
@@ -246,16 +243,10 @@ const SaveButton = styled.div`
     opacity: 0.6;
   }
 `;
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 3rem;
-`;
 
 //이름 컨테이너
 const NickNameContainer = styled.div`
   display: flex;
-  flex-direction: row;
   margin-top: 1rem;
 `;
 
@@ -269,14 +260,13 @@ const InputContainer = styled.div`
 
 const NameInputContainer = styled.input`
   text-align: center;
-  border: none;
   background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.foreground};
   font-weight: bold;
   font-size: 1rem;
-  padding-bottom: 0.3rem;
-  flex: 1;
-  border-bottom: 1px solid ${({ theme }) => theme.foreground};
+  padding: 0.5rem;
+  
+  border: 1px solid ${({ theme }) => theme.foreground};
   &:focus {
     outline: none;
   }

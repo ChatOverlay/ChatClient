@@ -30,6 +30,7 @@ export default function LikedPage({ setLikedPages }) {
         }
         const data = await response.json();
         setLikedPosts(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching liked posts:", error);
       }
@@ -59,8 +60,8 @@ export default function LikedPage({ setLikedPages }) {
           <div className="question-container">
             <div className="question-title-container">
               <div>{post.title}</div>
-              <div className="question-date">{post.date}</div>
             </div>
+            <div className="question-date">{post.date}</div>
             <div className="sub-title-container">{post.className}</div>
           </div>
           <div className="icon__arrow__container">

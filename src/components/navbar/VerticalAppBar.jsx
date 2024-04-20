@@ -76,7 +76,7 @@ const AppBar = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  width: 5vw;
+  min-width: 5vw;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
   `;

@@ -24,7 +24,6 @@
   }
 }
 
-/*navbar list 해당 큰 칸*/
 .navbar__list {
   position: fixed;
   display: flex;
@@ -33,30 +32,30 @@
   margin-left: 5vw;
   height: 100vh;
   width: 20vw;
-  font-weight: bold;
-  color : var(--primary-color);
+  min-width: 10vw;
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+  color: var(--primary-color);
   border-right: 1px solid var(--foreground-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
 }
 .navbar__list__item.selected {
-  background-color: var(--foreground-color); 
+  background-color: var(--foreground-color);
   color: var(--background-color);
 }
 
-/*navbar 아이템*/
 .navbar__list__item {
   display: flex;
   flex-direction: row;
-    cursor: pointer;
-    padding: 1rem;
-    height: 3rem;
-    justify-content: space-between;
-    transition: all 0.3s;
-    border-bottom: 1px solid var(--foreground-color);
-    &:hover {
-      background-color: var(--foreground-color);
-    }
+  cursor: pointer;
+  padding: 1rem;
+  height: 3rem;
+  justify-content: space-between;
+  transition: all 0.3s;
+  border-bottom: 1px solid var(--foreground-color);
+  &:hover {
+    background-color: var(--foreground-color);
+  }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
 }
 
@@ -73,35 +72,27 @@
   }
 }
 
-/* Container for each question */
 .question-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* Container for the question title and date */
 .question-title-container {
   display: flex;
   flex-direction: row;
 }
 
-/* Style for the date next to the question title */
 .question-date {
-  margin-left: 1vw;
-  padding-top: 0.6vh;
   font-size: 0.7rem;
   font-weight: normal;
 }
 
-/* Subtitle container, for the class name of the question */
 .sub-title-container {
-  padding-top: 0.3rem;
   font-weight: normal;
   font-size: 0.8rem;
 }
 
-/* The add new question icon container */
 .icon-container {
   display: flex;
   position: absolute;

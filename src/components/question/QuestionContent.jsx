@@ -86,8 +86,7 @@ export default function QuestionContent({
       const data = await response.json();
       console.log("Question updated:", data);
   
-      // Optionally update the local state or perform any actions needed after a successful update
-      setEditMode(false); // Turn off edit mode on successful save
+      setEditMode(false); 
     } catch (error) {
       console.error("Error updating question:", error);
     }
