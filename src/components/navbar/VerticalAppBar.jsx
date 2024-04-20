@@ -4,6 +4,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -40,23 +41,39 @@ export default function VerticalAppBar() {
     setIsModalOpen(!isModalOpen); // 모달 열기
   };
 
+  const handleLogout = () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      localStorage.removeItem("token");
+      alert("성공적으로 로그아웃 되었습니다.");
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <AppBar theme={theme}>
         <div>
           <IconContainer onClick={() => handleChatList()}>
             <ChatIcon sx={{ fontSize: "2rem" }} />
+            <span>채팅</span>
           </IconContainer>
           <IconContainer onClick={() => setSection(1)}>
             <FilterFramesIcon sx={{ fontSize: "2rem" }} />
-          </IconContainer>{" "}
+            <span>질문 게시판</span>
+          </IconContainer>
           <IconContainer onClick={() => setSection(2)}>
             <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+            <span>MY</span>
           </IconContainer>
         </div>
         <div style={{ marginBottom: "2rem" }}>
           <IconContainer onClick={() => handleOption()}>
             <SettingsIcon sx={{ fontSize: "2rem" }} />
+            <span>설정</span>
+          </IconContainer>
+          <IconContainer onClick={handleLogout}>
+            <LogoutIcon sx={{ fontSize: "2rem" }} />
+            <span>로그아웃</span>
           </IconContainer>
         </div>
       </AppBar>
@@ -71,24 +88,42 @@ const AppBar = styled.div`
   display: flex;
   position: fixed;
   flex-direction: column;
-  background-color: ${props => props.theme.foreground};
-  color: ${props => props.theme.background};
+  background-color: ${(props) => props.theme.foreground};
+  color: ${(props) => props.theme.background};
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   min-width: 5vw;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
-  `;
+`;
 
-  const IconContainer = styled.div`
+const IconContainer = styled.div`
+  position: relative;
   margin-top: 3rem;
   cursor: pointer;
-  transition: all 0.3s; 
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   &:hover {
-    opacity: 0.6;
+    opacity: 0.8;
+
+    span {
+      visibility: visible;
+      opacity: 1;
+    }
   }
+
   &:first-child {
     margin-top: 1rem;
+  }
+
+  span {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.1s linear;
+    font-size: 0.8rem;
   }
 `;

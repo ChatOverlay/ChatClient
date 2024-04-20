@@ -4,7 +4,7 @@ import Login from "../../components/login/Login";
 import useIsAuth from "../../hooks/useIsAuth";
 import LogoImg from "../../assets/backgroundImg/clasome.png";
 import { useTheme } from "../../context/ThemeContext";
-import BackgroundImg from "../../assets/backgroundImg/sky.png"
+import BackgroundImg from "../../assets/backgroundImg/sky4.png"
 export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();

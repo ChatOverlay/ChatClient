@@ -130,6 +130,9 @@ export default function Login() {
             }
           }}
         />
+        <RegisterLink onClick={() => navigate('/register')}>
+  아이디가 없으시다구요?
+</RegisterLink>
       </EmailContainer>
     </LoginContainer>
   );
@@ -202,3 +205,13 @@ const buttonSx = {
     transform: "scale(1.05)",
   },
 };
+const RegisterLink = styled.div`
+  color: ${({ theme }) => theme.background};
+  cursor: pointer;
+  text-decoration: underline;
+  transition: all 0.5s;
+  &:hover {
+    color: ${({ theme }) => theme.primaryColor};
+    font-weight: bold;
+  }
+`;

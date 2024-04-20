@@ -182,14 +182,14 @@ export default function MyPage() {
                     value={nickName}
                     placeholder="닉네임을 입력하세요.."
                   />
-                  <SaveButton onClick={() => updateNickName(nickName)}>
+                  <SaveButton theme={theme} onClick={() => updateNickName(nickName)}>
                     저장
                   </SaveButton>
                 </InputContainer>
               ) : (
                 <InputContainer>
                   <div>{nickName}</div>
-                  <SaveButton onClick={() =>setChangeNameAble(true)}>
+                  <SaveButton theme={theme} onClick={() =>setChangeNameAble(true)}>
                     수정
                   </SaveButton>
                 </InputContainer>
@@ -237,17 +237,23 @@ const SaveButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 3vw;
+  font-size: 1rem;
   cursor: pointer;
+  border-radius: 0.5rem;
+  border: 1px solid ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.foreground};
   transition: all 0.3s;
   &:hover {
-    opacity: 0.6;
+    transform: scale(1.05);
+    opacity: 0.8;
   }
 `;
 
 //이름 컨테이너
 const NickNameContainer = styled.div`
   display: flex;
-  margin-top: 1rem;
+  font-size: 1.5rem;
 `;
 
 const InputContainer = styled.div`
@@ -262,10 +268,11 @@ const NameInputContainer = styled.input`
   text-align: center;
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.foreground};
+  max-width : 10rem;
   font-weight: bold;
-  font-size: 1rem;
-  padding: 0.5rem;
-  
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 0.3rem;
   border: 1px solid ${({ theme }) => theme.foreground};
   &:focus {
     outline: none;

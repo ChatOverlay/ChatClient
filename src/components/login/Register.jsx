@@ -201,6 +201,7 @@ export default function Register() {
                 sx={{
                   color: `${({ theme }) => theme.primaryColor}`,
                   ".MuiInputLabel-root": {
+                    fontFamily: "Noto Sans KR",
                     color: `${({ theme }) => theme.background}`,
                   }, // label color
                   ".MuiOutlinedInput-root": {
@@ -329,7 +330,8 @@ const InputContainer = styled.div`
 const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
   color: theme.primaryColor,
-  ".MuiInputLabel-root": { color: theme.background },
+  ".MuiInputLabel-root": { color: theme.background,
+    fontFamily: "Noto Sans KR", },
   ".MuiOutlinedInput-root": {
     "& fieldset": { borderColor: theme.background },
     "&:hover fieldset": { borderColor: theme.background },

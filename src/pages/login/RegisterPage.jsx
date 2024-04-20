@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import Register from "../../components/login/Register";
-import { useTheme } from "../../context/ThemeContext";
 import useIsAuth from "../../hooks/useIsAuth";
-
-export default function RegisterPage() {
+import LogoImg from "../../assets/backgroundImg/clasome.png";
+import { useTheme } from "../../context/ThemeContext";
+import BackgroundImg from "../../assets/backgroundImg/sky4.png"
+import Register from "../../components/login/Register";
+export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();
   return (
     <HomeContainer theme={theme}>
+      <Logo src={LogoImg} alt="Clasome Logo" />
       <Register />
     </HomeContainer>
   );
@@ -19,9 +21,13 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
-  font-family: "Roboto";
   position: relative;
   z-index: 100;
+  background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
+  background-size: cover; // Ensure the background covers the entire container
+`;
+
+const Logo = styled.img`
+  margin-bottom : 3rem;
+  width : 30rem;
 `;

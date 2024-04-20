@@ -222,5 +222,6 @@ const LikeButton = styled.div`
   transition: all 0.3s;
   &:hover {
     opacity: 0.8;
+    transform: scale(1.05);
   }
 `;

@@ -5,9 +5,10 @@ import useThemeStyles from '../hooks/useThemeStyles';
 const themes = {
   default: {
     name : "default",
-    foreground: "#004e96",
+    foreground: "#006fc5ff",
     background: "#FBF3D5",
     primaryColor : "black",
+    secondaryColor : "#f3ddaa",
   },
   dark: {
     name : "dark",

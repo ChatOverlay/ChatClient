@@ -40,13 +40,13 @@ export default function Question() {
           <QuestionContent questionData={questionData} theme={theme} editMode={editMode} setEditMode={setEditMode}/>
           {questionData?.comments?.map((comment) => (
             <Comment
-              key={comment._id}
-              questionData={questionData}
-              changeData={changeData}
-              setChangeData={setChangeData}
-              comment={comment}
-              theme={theme}
-            />
+            key={comment._id}
+            questionData={questionData}
+            changeData={changeData}
+            setChangeData={setChangeData}
+            comment={comment}
+            theme={theme}
+          />
           ))}
           <CommentAdd
             questionData={questionData}
@@ -79,5 +79,5 @@ const QuestionContainer = styled.div`
   flex-direction: column;
   min-height: 90vh;
   color: ${({ theme }) => theme.foreground}; // 테마 적용
-  margin-bottom: 0.5rem;
+  margin-bottom: 5rem;
 `;

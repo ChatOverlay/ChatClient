@@ -5,6 +5,7 @@ import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useSharedState } from "../../context/SharedStateContext";
+import { Button, TextField } from "@mui/material";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -58,41 +59,38 @@ export default function QuestionAdd() {
 
   return (
     <AppContainer show={closeOption} theme={theme}>
-      <TopBar
-        closeOption={closeOption}
-        setCloseOption={setCloseOption}
-        titleName="새로운 질문 만들기"
-      />
-      <QuestionContainer as="form" onSubmit={handleSubmit}>
-        <Header>
-          <TitleContainer
-            placeholder="질문 제목을 입력하세요"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <SelectLabels
-            options={options}
-            setOptions={setOptions}
-            location="QuestionAdd"
-          />
-        </Header>
-        <ContentContainer
-          placeholder="질문 내용을 입력하세요"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+    <TopBar
+      closeOption={closeOption}
+      setCloseOption={setCloseOption}
+      titleName="새로운 질문 만들기"
+    />
+    <QuestionContainer as="form" onSubmit={handleSubmit} theme={theme}>
+      <Header>
+        <TitleContainer
+          placeholder="질문 제목을 입력하세요"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <SaveButton type="submit" disabled={isSubmitting}>저장</SaveButton>
-      </QuestionContainer>
-    </AppContainer>
+        <SelectLabels
+          options={options}
+          setOptions={setOptions}
+          location="QuestionAdd"
+        />
+      </Header>
+      <ContentContainer
+        placeholder="질문 내용을 입력하세요"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+      <SaveButton type="submit" disabled={isSubmitting} theme={theme}>저장</SaveButton>
+    </QuestionContainer>
+  </AppContainer>
   );
 }
 
 //App 컨테이너
 const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100vh;
+
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
   background-color: ${({ theme }) => theme.background};
   border-left: 1px solid ${({ theme }) => theme.background};
@@ -103,15 +101,13 @@ const AppContainer = styled.div`
 //질문 컨테이너
 const QuestionContainer = styled.div`
   display: flex;
-  position: relative;
+  margin: 1rem;
   flex-direction: column;
-  height: auto; // 높이를 auto로 조정하여 내용에 맞게 유동적으로 변경되도록 합니다.
-  color: ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.foreground};
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
-  background-color: #2b3e50; // 배경색 추가로 인풋 필드와 대조됩니다.
+  background-color: ${({ theme }) => theme.secondaryColor};
   border-radius: 8px; // 모서리를 둥글게 처리합니다.
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // 그림자 효과를 추가하여 입체감을 줍니다.
-  margin: 1rem; 
+
 `;
 
 const Header = styled.div`
@@ -123,46 +119,40 @@ const Header = styled.div`
 `;
 
 const TitleContainer = styled.input`
-  background-color: #2b3e50;
-  border: 2px solid ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.primaryColor};
+  border : 1px solid black;
+  font-family : 'Noto Sans KR';
   padding: 1rem;
-  border-radius: 4px; // 입력 필드의 모서리를 둥글게 처리합니다.
+  border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
   width: 40%
   &:focus {
     outline: none;
-    border-color: #c9a063; // 포커스 시 테두리 색상 변경을 통해 시각적 피드백을 제공합니다.
   }
 `;
 
 const ContentContainer = styled.textarea`
   resize: none;
-  background-color: #2b3e50;
-  border: 2px solid ${({ theme }) => theme.background};
+  font-family : 'Noto Sans KR';
   color: ${({ theme }) => theme.primaryColor};
   padding: 10px;
   border-radius: 4px;
   margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.
-  height: 150px; // 콘텐츠 입력 필드의 초기 높이를 지정합니다.
-  &:focus {
-    outline: none;
-    border-color: #c9a063;
-  }
+  height : 50vh;
 `;
 
 const SaveButton = styled.button`
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.foreground};
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 20px; // 콘텐츠 입력 필드와의 여백을 추가합니다.
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: #c9a063; // 호버 시 버튼의 배경색을 변경합니다.
+    opacity: 0.8;
   }
 `;
 

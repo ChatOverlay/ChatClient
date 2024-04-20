@@ -8,13 +8,19 @@ export default function SelectLabels({ options, setOptions, location }) {
   const handleChange = (event) => {
     setOptions(event.target.value);
   };
+    // 선택 값이 없을 때 표시할 스타일을 정의
+    const renderValue = (value) => {
+      if (value === "") {
+        return <span style={{ opacity: 0.6, fontFamily: 'Noto Sans KR' }}>수업을 골라주세요</span>;
+      }
+      return value;
+    };
   return (
     <div>
       <FormControl
         sx={{
           m: 1,
           color: theme.primaryColor,
-          marginTop: "0.5rem",
           ".MuiInputLabel-root": {
             color: theme.foreground, // Label color
           },
@@ -37,7 +43,12 @@ export default function SelectLabels({ options, setOptions, location }) {
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
           sx={{fontFamily:'Noto Sans KR'}}
+          renderValue={renderValue}
         >
+        <MenuItem value="" disabled dense>
+        {options === "" ? "수업을 골라주세요" : ""}
+      </MenuItem>
+      
           {location !== "QuestionAdd" && (
             <MenuItem value="전체 보기">전체 보기</MenuItem>
           )}

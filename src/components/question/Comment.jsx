@@ -140,7 +140,7 @@ export default function Comment({
             {isQuestioner &&
               !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
               currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-                <AcceptButton onClick={handleAccept}>채택</AcceptButton>
+                <AcceptButton onClick={handleAccept} theme={theme}>채택</AcceptButton>
               )}
             {comment.isAccepted && (
               <AcceptedIndicator theme={theme}>
@@ -170,6 +170,7 @@ const CommentContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.foreground};
   display: flex;
   justify-content: space-between;
+  
 `;
 
 //댓글 프로필 상단
@@ -243,11 +244,13 @@ const AcceptContainer = styled.div`
 
 // 채택 버튼 컴포넌트 스타일
 const AcceptButton = styled.button`
-  background-color: ${({ theme }) => theme.background}; // 녹색 계열
-
+  background-color: ${({ theme }) => theme.foreground}; 
+  color: ${({ theme }) => theme.background}; 
   border: none;
   cursor: pointer;
   padding: 0.4rem;
+  font-family: "Noto Sans KR";
+
   border-radius: 0.5rem;
   transition: opacity 0.2s;
 
