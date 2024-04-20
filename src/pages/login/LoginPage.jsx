@@ -20,7 +20,6 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-family: "Roboto";
   position: relative;
   z-index: 100;
   background-color: #202c39;

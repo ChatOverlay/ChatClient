@@ -11,9 +11,9 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [password, setPassword] = useState(""); // 사용자 비밀번호를 저장하는 상태
-  const [autoLogin, setAutoLogin] = useState(false);  // 자동 로그인 상태
+  const [autoLogin, setAutoLogin] = useState(false); // 자동 로그인 상태
 
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   console.log(theme);
   // 로그인 함수
   const handleLogin = async () => {
@@ -31,10 +31,10 @@ export default function Login() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, password, autoLogin}),
+          body: JSON.stringify({ email, password, autoLogin }),
         }
       );
-      
+
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.accessToken);
@@ -95,6 +95,7 @@ export default function Login() {
               color: `${({ theme }) => theme.primaryColor}`,
               ".MuiInputLabel-root": {
                 color: `${({ theme }) => theme.background}`,
+                fontFamily: "Noto Sans KR",
               }, // label color
               ".MuiOutlinedInput-root": {
                 "& fieldset": {
@@ -114,15 +115,21 @@ export default function Login() {
           />
         </InputContainer>
         <FormControlLabel
-            control={
-              <Checkbox
-                checked={autoLogin}
-                onChange={(e) => setAutoLogin(e.target.checked)}
-                name="autoLogin"
-              />
+          control={
+            <Checkbox
+              checked={autoLogin}
+              onChange={(e) => setAutoLogin(e.target.checked)}
+              name="autoLogin"
+            />
+          }
+          label="자동 로그인 (30일 유효)"
+          sx={{
+            '.MuiTypography-root': {
+              fontFamily: 'Noto Sans KR', 
+              marginTop: "-0.1rem",
             }
-            label="자동 로그인"
-          />
+          }}
+        />
       </EmailContainer>
     </LoginContainer>
   );
@@ -132,11 +139,11 @@ const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index : 101;
+  z-index: 101;
   background-color: white;
-  border-radius : 1rem;
-  padding : 3rem;
-  opacity : 0.9;
+  border-radius: 1rem;
+  padding: 3rem;
+  opacity: 0.9;
 `;
 
 const WelcomeText = styled.div`
@@ -169,7 +176,10 @@ const InputContainer = styled.div`
 const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
   color: theme.primaryColor,
-  ".MuiInputLabel-root": { color: theme.background },
+  ".MuiInputLabel-root": {
+    color: theme.background,
+    fontFamily: "Noto Sans KR",
+  },
   ".MuiOutlinedInput-root": {
     "& fieldset": { borderColor: theme.background },
     "&:hover fieldset": { borderColor: theme.background },
