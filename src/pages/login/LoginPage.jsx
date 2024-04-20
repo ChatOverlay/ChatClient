@@ -4,6 +4,7 @@ import Login from "../../components/login/Login";
 import useIsAuth from "../../hooks/useIsAuth";
 import LogoImg from "../../assets/backgroundImg/clasome.png";
 import { useTheme } from "../../context/ThemeContext";
+import BackgroundImg from "../../assets/backgroundImg/sky.png"
 export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();
@@ -22,7 +23,8 @@ const HomeContainer = styled.div`
   height: 100vh;
   position: relative;
   z-index: 100;
-  background-color: #202c39;
+  background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
+  background-size: cover; // Ensure the background covers the entire container
 `;
 
 const Logo = styled.img`
