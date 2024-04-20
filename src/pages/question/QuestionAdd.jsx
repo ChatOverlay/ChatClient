@@ -5,41 +5,63 @@ import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { useSharedState } from "../../context/SharedStateContext";
-import { Button, TextField } from "@mui/material";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
   const [options, setOptions] = useState("");
-  const [title, setTitle] = useState(""); // 질문 제목을 위한 상태
-  const [content, setContent] = useState(""); // 질문 내용을 위한 상태
-  const [isSubmitting, setIsSubmitting] = useState(false); // 제출 중인지 여부를 나타내는 상태
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [images, setImages] = useState([]);
+  const [previews, setPreviews] = useState([]);
   const { addNewData } = useSharedState();
- 
-  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
-  // 폼 제출 핸들러
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(prev => [...prev, ...files]);
+
+    files.forEach(file => {
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviews(prev => [...prev, reader.result]);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages(images.filter((_, i) => i !== index));
+    setPreviews(previews.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 폼의 기본 제출 동작을 방지
-    // 모든 필드가 입력되었는지 확인
+    e.preventDefault();
     if (!title.trim() || !content.trim() || !options.trim()) {
       alert('제목, 내용, 옵션을 모두 입력해주세요.');
       return;
     }
 
-    setIsSubmitting(true); // 제출 시작
-
+    setIsSubmitting(true);
     const token = localStorage.getItem('token');
-    const questionData = { title, content, options }; // 사용자가 입력한 질문 데이터
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('options', options);
+    images.forEach(image => {
+      formData.append('images', image);
+    });
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(questionData)
+        body: formData
       });
 
       if (!response.ok) {
@@ -48,49 +70,68 @@ export default function QuestionAdd() {
 
       const responseData = await response.json();
       addNewData();   
-      navigate(`/question/${responseData._id}`); // 해당 질문 페이지로 리디렉션
+      navigate(`/question/${responseData._id}`);
     } catch (error) {
       console.error('Error adding question:', error);
       alert('질문 추가 중 문제가 발생했습니다.');
     } finally {
-      setIsSubmitting(false); // 제출 완료
+      setIsSubmitting(false);
     }
   };
 
   return (
     <AppContainer show={closeOption} theme={theme}>
-    <TopBar
-      closeOption={closeOption}
-      setCloseOption={setCloseOption}
-      titleName="새로운 질문 만들기"
-    />
-    <QuestionContainer as="form" onSubmit={handleSubmit} theme={theme}>
-      <Header>
-        <TitleContainer
-          placeholder="질문 제목을 입력하세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <SelectLabels
-          options={options}
-          setOptions={setOptions}
-          location="QuestionAdd"
-        />
-      </Header>
-      <ContentContainer
-        placeholder="질문 내용을 입력하세요"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+      <TopBar
+        closeOption={closeOption}
+        setCloseOption={setCloseOption}
+        titleName="새로운 질문 만들기"
       />
-      <SaveButton type="submit" disabled={isSubmitting} theme={theme}>저장</SaveButton>
-    </QuestionContainer>
-  </AppContainer>
+      <QuestionContainer as="form" onSubmit={handleSubmit} theme={theme}>
+        <Header>
+          <TitleContainer
+            placeholder="질문 제목을 입력하세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <SelectLabels
+            options={options}
+            setOptions={setOptions}
+            location="QuestionAdd"
+          />
+        </Header>
+        <ContentContainer
+          placeholder="질문 내용을 입력하세요"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <ImageUploadContainer>
+        <div>
+          <ImageInputLabel>이미지 첨부:</ImageInputLabel>
+          <ImageInput
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
+          </div>
+          <PreviewContainer>
+            {previews.map((preview, index) => (
+              <PreviewItem key={index}>
+                <ImagePreview src={preview} alt={`미리보기 이미지 ${index + 1}`} />
+                <DeleteButton onClick={() => handleRemoveImage(index)}>X</DeleteButton>
+              </PreviewItem>
+            ))}
+          </PreviewContainer>
+        </ImageUploadContainer>
+        <SaveButton type="submit" disabled={isSubmitting} theme={theme}>저장</SaveButton>
+      </QuestionContainer>
+    </AppContainer>
   );
 }
 
+
 //App 컨테이너
 const AppContainer = styled.div`
-
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
   background-color: ${({ theme }) => theme.background};
   border-left: 1px solid ${({ theme }) => theme.background};
@@ -106,8 +147,7 @@ const QuestionContainer = styled.div`
   color: ${({ theme }) => theme.foreground};
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
   background-color: ${({ theme }) => theme.secondaryColor};
-  border-radius: 8px; // 모서리를 둥글게 처리합니다.
-
+  border-radius: 0.5rem; // 모서리를 둥글게 처리합니다.
 `;
 
 const Header = styled.div`
@@ -132,12 +172,12 @@ const TitleContainer = styled.input`
 
 const ContentContainer = styled.textarea`
   resize: none;
-  font-family : 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   color: ${({ theme }) => theme.primaryColor};
   padding: 10px;
   border-radius: 4px;
   margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.
-  height : 50vh;
+  height: 35vh;
 `;
 
 const SaveButton = styled.button`
@@ -147,7 +187,7 @@ const SaveButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 20px; // 콘텐츠 입력 필드와의 여백을 추가합니다.
+  margin-top: 1rem;
   font-weight: bold;
   transition: all 0.3s ease;
 
@@ -155,4 +195,53 @@ const SaveButton = styled.button`
     opacity: 0.8;
   }
 `;
+const ImageUploadContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
 
+const ImageInputLabel = styled.label`
+  font-size: 1rem;
+  margin-right: 0.3rem;
+  font-family: "Noto Sans KR";
+`;
+
+const ImageInput = styled.input`
+  font-size: 1rem;
+  font-family: "Noto Sans KR";
+`;
+
+
+const PreviewContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+`;
+
+const PreviewItem = styled.div`
+  position: relative;
+  margin-right: 0.8rem;
+`;
+
+const ImagePreview = styled.img`
+  width: 5rem;
+  height: auto;
+  border-radius: 4px;
+`;
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  z-index : 1;
+  transition: all 0.3s ease;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
