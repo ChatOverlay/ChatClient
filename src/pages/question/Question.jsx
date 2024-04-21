@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled ,{keyframes}from "styled-components";
 import { useParams } from "react-router-dom";
 import Questioner from "../../components/question/Questioner";
 import QuestionContent from "../../components/question/QuestionContent";
@@ -26,7 +26,9 @@ export default function Question() {
         console.error("Error fetching question detail:", error)
       );
   }, [id,changeData,editMode]);
-
+  useEffect(() => {
+    setEditMode(false); 
+  }, [id]);
   return (
     <>
       <AppContainer show={closeOption} theme={theme}>
@@ -59,6 +61,15 @@ export default function Question() {
     </>
   );
 }
+const slideInFromLeft = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 
 // App 컨테이너
 const AppContainer = styled.div`
@@ -70,6 +81,8 @@ const AppContainer = styled.div`
   background-color: ${({ theme }) => theme.background}; // 테마 적용
   transition: all 0.3s;
   z-index: 1;
+  animation: ${slideInFromLeft} 1s ease-out forwards; // Apply the animation
+  
 `;
 
 // 질문 컨테이너

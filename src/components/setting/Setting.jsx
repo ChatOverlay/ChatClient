@@ -19,21 +19,21 @@ export default function Setting({ handleOption }) {
   };
 
   const themeOptions = [
-    { value: "default", label: "Gachon Theme", description: "Classic blue and white setup" },
-    { value: "light", label: "Light Theme", description: "Bright and clear appearance" },
-    { value: "dark", label: "Dark Theme", description: "Dark tones for night mode" }
+    { value: "default", label: "가천 스페셜 모드",},
+    { value: "light", label: "라이트 모드", },
+    { value: "dark", label: "다크 모드",  }
   ];
 
   return (
     <SettingContainer isClosing={isClosing}>
       <SettingBox>
         <SettingTitleContainer>
-          <Title>Settings</Title>
+          <Title>테마 설정</Title>
           <IconContainer onClick={handleClose}>
             <CloseIcon />
           </IconContainer>
         </SettingTitleContainer>
-        <ThemeList>
+        <ThemeList>        
           {themeOptions.map(themes => (
             <ThemeOption
               key={themes.value}
@@ -60,7 +60,7 @@ const fadeOut = keyframes`
 `;
 
 const SettingContainer = styled.div`
-  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.5s ease-out forwards;
+  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.1s ease-out forwards;
   display: flex;
   justify-content: center;
   align-items: center;

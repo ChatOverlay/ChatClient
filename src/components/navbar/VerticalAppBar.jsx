@@ -19,6 +19,7 @@ export default function VerticalAppBar() {
   const navigate = useNavigate(); //라우터 네비게이션
   const [section, setSection] = useState(0); //해당 섹션 설정
   const [isModalOpen, setIsModalOpen] = useState(false); //세팅열기
+  const [activeIcon, setActiveIcon] = useState(null); 
   const { theme } = useTheme(); // 현재 테마
 
   //렌디렁 조건부
@@ -35,6 +36,7 @@ export default function VerticalAppBar() {
   const handleChatList = () => {
     navigate("/chatlist");
     setSection(0);
+    setActiveIcon(0);
   };
 
   const handleOption = () => {
@@ -53,18 +55,18 @@ export default function VerticalAppBar() {
     <>
       <AppBar theme={theme}>
         <div>
-          <IconContainer onClick={() => handleChatList()}>
-            <ChatIcon sx={{ fontSize: "2rem" }} />
-            <span>채팅</span>
-          </IconContainer>
-          <IconContainer onClick={() => setSection(1)}>
-            <FilterFramesIcon sx={{ fontSize: "2rem" }} />
-            <span>질문 게시판</span>
-          </IconContainer>
-          <IconContainer onClick={() => setSection(2)}>
-            <AccountCircleIcon sx={{ fontSize: "2rem" }} />
-            <span>MY</span>
-          </IconContainer>
+        <IconContainer onClick={handleChatList} active={activeIcon === 0}>
+        <ChatIcon sx={{ fontSize: "2rem" }} />
+        <span>채팅</span>
+      </IconContainer>
+      <IconContainer onClick={() => {setSection(1); setActiveIcon(1);}} active={activeIcon === 1}>
+        <FilterFramesIcon sx={{ fontSize: "2rem" }} />
+        <span>질문 게시판</span>
+      </IconContainer>
+      <IconContainer onClick={() => {setSection(2); setActiveIcon(2);}} active={activeIcon === 2}>
+        <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+        <span>MY</span>
+      </IconContainer>
         </div>
         <div style={{ marginBottom: "2rem" }}>
           <IconContainer onClick={() => handleOption()}>
@@ -93,7 +95,7 @@ const AppBar = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  min-width: 5vw;
+  width: 5vw;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
 `;
@@ -106,9 +108,10 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: ${(props) => (props.active ? '1' : '0.8')}; /* Change opacity based on active state */
 
   &:hover {
-    opacity: 0.8;
+    opacity: 1;
 
     span {
       visibility: visible;
@@ -121,8 +124,8 @@ const IconContainer = styled.div`
   }
 
   span {
-    visibility: hidden;
-    opacity: 0;
+    visibility: ${(props) => (props.active ? 'visible' : 'hidden')};
+    opacity: ${(props) => (props.active ? '1' : '0')};
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.8rem;
   }

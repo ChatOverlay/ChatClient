@@ -1,15 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useTheme } from "../../context/ThemeContext";
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
 
 export default function ChatList() {
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   return (
-      <AppContainer theme={theme}>수업을 클릭하여 참가해보세요.</AppContainer>
+    <AppContainer theme={theme}>수업을 클릭하여 참가해보세요.</AppContainer>
   );
 }
-//App 컨테이너
+
+// Define the animation using keyframes
+const slideInFromLeft = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+`;
+
+// AppContainer with animation
 const AppContainer = styled.div`
   display: flex;
   position: relative;
@@ -18,11 +29,12 @@ const AppContainer = styled.div`
   background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   justify-content: center;
-  opacity : 0.8;
+  opacity: 0.8;
   align-items: center;
   color: ${({ theme }) => theme.foreground};
   font-size: 2.5rem;
   font-weight: bold;
+  animation: ${slideInFromLeft} 0.5s ease-out forwards; // Apply the animation
   &::before {
     content: "";
     position: absolute;
@@ -30,11 +42,11 @@ const AppContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(${BackgroundImage}); // Set the background image
-    background-size: cover; // Cover the entire container
-    background-repeat: no-repeat; // Prevent repeating the background image
-    background-position: center; // Center the background image
-    opacity: 0.8; // Set the opacity for the background image only
-    z-index: -1; // Ensure the pseudo-element is behind the content
+    background-image: url(${BackgroundImage});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    z-index: -1;
   }
 `;

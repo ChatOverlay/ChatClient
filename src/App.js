@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { SharedStateProvider } from "./context/SharedStateContext";
 import LoginPage from "./pages/login/LoginPage";
@@ -18,11 +18,10 @@ function App() {
     <BrowserRouter>
       <ThemeProvider>
         <SharedStateProvider>
-          <VerticalAppBar />
+          <AppBarCondition />
           <Routes>
             <Route path="/*" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-
             <Route element={<ProtectedRoute />}>
               <Route path="/chatlist" element={<ChatList />} />
               <Route path="/chat/:titleName" element={<Chat />} />
@@ -36,6 +35,13 @@ function App() {
       </ThemeProvider>
     </BrowserRouter>
   );
+}
+
+// VerticalAppBar를 조건부로 렌더링하는 별도의 컴포넌트
+function AppBarCondition() {
+  const location = useLocation(); 
+  const hideAppBar = ["/", "/register"].includes(location.pathname);
+  return !hideAppBar && <VerticalAppBar />;
 }
 
 export default App;

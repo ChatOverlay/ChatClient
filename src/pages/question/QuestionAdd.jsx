@@ -20,13 +20,13 @@ export default function QuestionAdd() {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages(prev => [...prev, ...files]);
+    setImages((prev) => [...prev, ...files]);
 
-    files.forEach(file => {
+    files.forEach((file) => {
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setPreviews(prev => [...prev, reader.result]);
+          setPreviews((prev) => [...prev, reader.result]);
         };
         reader.readAsDataURL(file);
       }
@@ -40,42 +40,47 @@ export default function QuestionAdd() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim() || !options.trim()) {
-      alert('제목, 내용, 옵션을 모두 입력해주세요.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    const token = localStorage.getItem('token');
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('options', options);
-    images.forEach(image => {
-      formData.append('images', image);
-    });
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/questions`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    if (window.confirm("질문을 추가하시겠습니까?")) {
+      if (!title.trim() || !content.trim() || !options.trim()) {
+        alert("제목, 내용, 옵션을 모두 입력해주세요.");
+        return;
       }
 
-      const responseData = await response.json();
-      addNewData();   
-      navigate(`/question/${responseData._id}`);
-    } catch (error) {
-      console.error('Error adding question:', error);
-      alert('질문 추가 중 문제가 발생했습니다.');
-    } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(true);
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("options", options);
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
+
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/questions`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+        addNewData();
+        navigate(`/question/${responseData._id}`);
+      } catch (error) {
+        console.error("Error adding question:", error);
+        alert("질문 추가 중 문제가 발생했습니다.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -105,30 +110,36 @@ export default function QuestionAdd() {
           onChange={(e) => setContent(e.target.value)}
         />
         <ImageUploadContainer>
-        <div>
-          <ImageInputLabel>이미지 첨부:</ImageInputLabel>
-          <ImageInput
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
+          <div>
+            <ImageInputLabel>이미지 첨부:</ImageInputLabel>
+            <ImageInput
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+            />
           </div>
           <PreviewContainer>
             {previews.map((preview, index) => (
               <PreviewItem key={index}>
-                <ImagePreview src={preview} alt={`미리보기 이미지 ${index + 1}`} />
-                <DeleteButton onClick={() => handleRemoveImage(index)}>X</DeleteButton>
+                <ImagePreview
+                  src={preview}
+                  alt={`미리보기 이미지 ${index + 1}`}
+                />
+                <DeleteButton onClick={() => handleRemoveImage(index)}>
+                  X
+                </DeleteButton>
               </PreviewItem>
             ))}
           </PreviewContainer>
         </ImageUploadContainer>
-        <SaveButton type="submit" disabled={isSubmitting} theme={theme}>저장</SaveButton>
+        <SaveButton type="submit" disabled={isSubmitting} theme={theme}>
+          저장
+        </SaveButton>
       </QuestionContainer>
     </AppContainer>
   );
 }
-
 
 //App 컨테이너
 const AppContainer = styled.div`
@@ -212,7 +223,6 @@ const ImageInput = styled.input`
   font-family: "Noto Sans KR";
 `;
 
-
 const PreviewContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -239,7 +249,7 @@ const DeleteButton = styled.button`
   cursor: pointer;
   border-radius: 0.3rem;
   font-size: 0.8rem;
-  z-index : 1;
+  z-index: 1;
   transition: all 0.3s ease;
   &:hover {
     opacity: 0.7;

@@ -15,7 +15,7 @@ export default function Questioner({
   const { addNewData } = useSharedState();
   const navigate = useNavigate();
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this question?")) {
+    if (window.confirm("이 질문을 삭제하시겠습니까?")) {
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}`,

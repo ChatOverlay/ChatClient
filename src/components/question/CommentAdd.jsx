@@ -79,7 +79,7 @@ const CommentAddIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3vw;
+  width: 5vw;
   height: 3rem;
   background-color: ${({ theme }) => theme.foreground};
   color : ${({ theme }) => theme.background};

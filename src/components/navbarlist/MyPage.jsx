@@ -236,7 +236,8 @@ const SaveButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3vw;
+  min-width: 3vw;
+  padding : 0 0.5rem;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 0.5rem;

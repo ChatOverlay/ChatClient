@@ -77,20 +77,25 @@
   justify-content: center;
 }
 
-.question-title-container {
-  display: flex;
-  flex-direction: row;
-}
-
 .question-date {
   font-size: 0.7rem;
   font-weight: normal;
 }
 
+.question-title-container {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap; /* Prevent the text from wrapping */
+  text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
+}
+
 .sub-title-container {
   font-weight: normal;
   font-size: 0.8rem;
+  white-space: nowrap; /* Prevent the text from wrapping */
+  text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
 }
+
 
 .icon-container {
   display: flex;
