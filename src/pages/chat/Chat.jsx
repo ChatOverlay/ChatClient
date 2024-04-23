@@ -176,6 +176,7 @@ const AppContainer = styled.div`
   background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   transition: all 0.3s;
+  height : 100vh;
   z-index: 1;
   &::before {
     content: "";
