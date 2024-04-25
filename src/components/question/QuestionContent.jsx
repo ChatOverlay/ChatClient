@@ -42,7 +42,7 @@ export default function QuestionContent({
       const fetchLikeStatus = async () => {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
+            `${import.meta.env.VITE_API_URL}/api/questions/${questionId}/like`,
             {
               method: "GET",
               headers: {
@@ -105,7 +105,7 @@ export default function QuestionContent({
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionId}`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionId}`,
           {
             method: "PUT",
             headers: {
@@ -135,7 +135,7 @@ export default function QuestionContent({
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/questions/${questionId}/like`,
+        `${import.meta.env.VITE_API_URL}/api/questions/${questionId}/like`,
         {
           method: "POST",
           headers: {

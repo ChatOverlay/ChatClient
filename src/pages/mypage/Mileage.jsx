@@ -24,7 +24,7 @@ export default function Mileage() {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/products`
+          `${import.meta.env.VITE_API_URL}/api/products`
         );
         if (!response.ok) {
           throw new Error("서버로부터 상품 데이터를 가져오는 데 실패했습니다.");

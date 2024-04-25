@@ -19,7 +19,7 @@ export default function Comment({
   const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -45,7 +45,7 @@ export default function Comment({
       try {
         // API 호출을 통해 댓글 삭제 요청
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}`,
           {
             method: "DELETE",
             headers: {
@@ -71,7 +71,7 @@ export default function Comment({
       try {
         // 신고 API 호출
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/report`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/report`,
           {
             method: "POST",
             headers: {
@@ -96,7 +96,7 @@ export default function Comment({
     if (window.confirm("이 댓글을 채택하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/accept`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/accept`,
           {
             method: "POST",
             headers: {

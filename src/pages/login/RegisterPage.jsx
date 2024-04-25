@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useIsAuth from "../../hooks/useIsAuth";
 import LogoImg from "../../assets/backgroundImg/clasome.png";
 import { useTheme } from "../../context/ThemeContext";
-import BackgroundImg from "../../assets/backgroundImg/sky4.png"
+import BackgroundImg from "../../assets/backgroundImg/sky.png"
 import Register from "../../components/login/Register";
 export default function LoginPage() {
   const {theme} = useTheme();

@@ -17,7 +17,7 @@ export default function Question() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/questions/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/questions/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setQuestionData(data);

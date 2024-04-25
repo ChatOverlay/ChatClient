@@ -18,7 +18,7 @@ export default function CommentBackup({
   const [editedContent, setEditedContent] = useState(comment.content); // Add state to store edited comment content
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/info`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/info`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -43,7 +43,7 @@ export default function CommentBackup({
       try {
         // API 호출을 통해 댓글 삭제 요청
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/comments/${comment.id}`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData.id}/comments/${comment.id}`,
           {
             method: "DELETE",
             headers: {
@@ -69,7 +69,7 @@ export default function CommentBackup({
     try {
       // API 호출을 통해 댓글 수정 요청
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/questions/${questionData.id}/comments/${comment.id}`,
+        `${import.meta.env.VITE_API_URL}/api/questions/${questionData.id}/comments/${comment.id}`,
         {
           method: "PUT",
           headers: {

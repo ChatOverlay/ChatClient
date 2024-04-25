@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
 import { useTheme } from "../../context/ThemeContext";
 import { useSharedState } from "../../context/SharedStateContext";
-const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
+const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
@@ -41,7 +41,7 @@ export default function MyPage() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/user/upload-profile-picture`,
+        `${import.meta.env.VITE_API_URL}/api/user/upload-profile-picture`,
         {
           method: "POST",
           body: formData,
@@ -77,7 +77,7 @@ export default function MyPage() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/user/update-nickname`,
+        `${import.meta.env.VITE_API_URL}/api/user/update-nickname`,
         {
           method: "POST",
           headers: {
@@ -106,7 +106,7 @@ export default function MyPage() {
       if (token) {
         try {
           const response = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/user/info`,
+            `${import.meta.env.VITE_API_URL}/api/user/info`,
             {
               headers: {
                 Authorization: `Bearer ${token}`, // 헤더에 토큰 포함

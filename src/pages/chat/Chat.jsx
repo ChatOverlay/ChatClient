@@ -10,7 +10,7 @@ import { useTheme } from "../../context/ThemeContext";
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
 import { useSharedState } from "../../context/SharedStateContext";
 
-const socket = io(`${process.env.REACT_APP_API_URL}`); // 여러분의 서버 주소로 변경하세요
+const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
   const [message, setMessage] = useState(""); //메시지
@@ -49,7 +49,7 @@ export default function Chat() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/reportUser`,
+        `${import.meta.env.VITE_API_URL}/api/reportUser`,
         {
           method: "POST",
           headers: {

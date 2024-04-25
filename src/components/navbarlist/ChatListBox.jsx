@@ -8,7 +8,7 @@ export default function ChatListBox() {
   const [selectedRoom, setSelectedRoom] = useState(null); 
   const [chatRooms, setChatRooms] = useState([]);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/chatrooms`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/chatrooms`)
       .then(response => response.json())
       .then(data => setChatRooms(data))
       .catch(error => console.error("Fetching chat rooms failed:", error));

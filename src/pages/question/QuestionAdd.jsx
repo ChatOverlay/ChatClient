@@ -58,7 +58,7 @@ export default function QuestionAdd() {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions`,
+          `${import.meta.env.VITE_API_URL}/api/questions`,
           {
             method: "POST",
             headers: {

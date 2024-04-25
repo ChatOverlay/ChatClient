@@ -28,7 +28,7 @@ export default function Register() {
     // 중복 이메일 검사 요청
     try {
       const checkResponse = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/checkEmail`,
+        `${import.meta.env.VITE_API_URL}/api/checkEmail`,
         {
           method: "POST",
           headers: {
@@ -56,7 +56,7 @@ export default function Register() {
     // 인증 코드 전송 요청
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/sendVerificationCode`,
+        `${import.meta.env.VITE_API_URL}/api/sendVerificationCode`,
         {
           method: "POST",
           headers: {
@@ -84,7 +84,7 @@ export default function Register() {
     if (code.length === 6) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/verifyCode`,
+          `${import.meta.env.VITE_API_URL}/api/verifyCode`,
           {
             method: "POST",
             headers: {
@@ -132,7 +132,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/register`,
+        `${import.meta.env.VITE_API_URL}/api/register`,
         {
           method: "POST", // 요청 메소드 지정
           headers: {

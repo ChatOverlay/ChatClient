@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+import Logo from "../../assets/backgroundImg/clasome.png"
 
 import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/login`,
+        `${import.meta.env.VITE_API_URL}/api/login`,
         {
           method: "POST",
           headers: {
@@ -51,12 +52,13 @@ export default function Login() {
   };
   return (
     <LoginContainer theme={theme}>
-      <EmailContainer>
+      <Container>
+      <img src={Logo} alt="CLASOME Logo" />
         <WelcomeText>로그인</WelcomeText>
         <InputContainer>
           <TextField
             id="outlined-basic"
-            label="학교이메일"
+            label="학교 아이디"
             variant="outlined"
             value={email}
             onChange={(e) => {
@@ -68,12 +70,6 @@ export default function Login() {
               }
             }}
             sx={textFieldSx}
-          />
-          <Button
-            variant="contained"
-            onClick={handleLogin}
-            sx={buttonSx}
-            startIcon={<SendIcon />}
           />
         </InputContainer>
         <InputContainer>
@@ -92,6 +88,7 @@ export default function Login() {
               }
             }}
             sx={{
+              width : "20rem",
               color: `${({ theme }) => theme.primaryColor}`,
               ".MuiInputLabel-root": {
                 color: `${({ theme }) => theme.background}`,
@@ -114,6 +111,7 @@ export default function Login() {
             }}
           />
         </InputContainer>
+        <div>
         <FormControlLabel
           control={
             <Checkbox
@@ -124,16 +122,22 @@ export default function Login() {
           }
           label="자동 로그인 (30일 유효)"
           sx={{
-            '.MuiTypography-root': {
-              fontFamily: 'Noto Sans KR', 
+            ".MuiTypography-root": {
+              fontFamily: "Noto Sans KR",
               marginTop: "-0.1rem",
-            }
+            },
           }}
         />
-        <RegisterLink onClick={() => navigate('/register')}>
-  아이디가 없으시다구요?
-</RegisterLink>
-      </EmailContainer>
+        </div>
+        <ButtonContainer>
+          <Button
+            variant="contained"
+            onClick={handleLogin}
+            sx={buttonSx}
+            startIcon={<SendIcon />}
+          />
+        </ButtonContainer>
+      </Container>
     </LoginContainer>
   );
 }
@@ -141,15 +145,21 @@ export default function Login() {
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  z-index: 101;
-  background-color: white;
+  z-index: 100;
+  background-color: #fff;
+  color: #0064d8;
   border-radius: 1rem;
+  width: 50rem;
+  height: 30rem;
   padding: 3rem;
   opacity: 0.9;
 `;
 
 const WelcomeText = styled.div`
+  display: flex;
+  justify-content: center;
   font-weight: bold;
   margin-bottom: 1rem;
 `;
@@ -166,9 +176,12 @@ const slideInRight = keyframes`
 `;
 
 //이메일 컨테이너
-const EmailContainer = styled.div`
+const Container = styled.div`
   will-change: transform, opacity;
   animation: ${slideInRight} 0.5s forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 //해당 입력칸
@@ -178,6 +191,7 @@ const InputContainer = styled.div`
 `;
 const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
+  width : "20rem",
   color: theme.primaryColor,
   ".MuiInputLabel-root": {
     color: theme.background,
@@ -191,13 +205,20 @@ const textFieldSx = (theme) => ({
   ".MuiInputBase-input": { color: theme.primaryColor },
 });
 
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const buttonSx = {
+  display : "flex",
+  justifyContent : "center",
+  alignProperty : "center",
   marginTop: "0.1rem",
-  maxHeight: "3.5rem",
-  marginLeft: "1rem",
+  height: "4rem",
   backgroundColor: "#7EBCF2",
   color: `${({ theme }) => theme.foreground}`,
-  borderRadius: "1rem",
+  borderRadius: "10rem",
   transition: "all 0.3s ease",
   "&:hover": {
     backgroundColor: `${({ theme }) => theme.background}`,
@@ -205,13 +226,16 @@ const buttonSx = {
     transform: "scale(1.05)",
   },
 };
-const RegisterLink = styled.div`
-  color: ${({ theme }) => theme.background};
-  cursor: pointer;
-  text-decoration: underline;
-  transition: all 0.5s;
-  &:hover {
-    color: ${({ theme }) => theme.primaryColor};
-    font-weight: bold;
-  }
-`;
+// const RegisterLink = styled.div`
+//   color: ${({ theme }) => theme.background};
+//   cursor: pointer;
+//   text-decoration: underline;
+//   transition: all 0.5s;
+//   &:hover {
+//     color: ${({ theme }) => theme.primaryColor};
+//     font-weight: bold;
+//   }
+// `;
+// <RegisterLink onClick={() => navigate("/register")}>
+// 아이디가 없으시다구요?
+// </RegisterLink>

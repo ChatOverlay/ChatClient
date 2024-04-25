@@ -13,7 +13,7 @@ export default function Adoption() {
     const fetchClassMileages = async () => {
       try {
         // 예제 URL, 실제 API 엔드포인트로 대체해야 합니다.
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/userPoints`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/userPoints`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

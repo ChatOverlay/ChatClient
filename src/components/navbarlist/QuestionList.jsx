@@ -12,7 +12,7 @@ export default function QuestionList() {
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
   const { newAdded } = useSharedState();
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/questions`) 
+    fetch(`${import.meta.env.VITE_API_URL}/api/questions`) 
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));

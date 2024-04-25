@@ -13,7 +13,7 @@ export default function CommentAdd({ questionData, changeData, setChangeData, th
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/questions/${questionData?._id}/comments`,
+        `${import.meta.env.VITE_API_URL}/api/questions/${questionData?._id}/comments`,
         {
           method: "POST",
           headers: {

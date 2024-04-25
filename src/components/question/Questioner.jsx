@@ -18,7 +18,7 @@ export default function Questioner({
     if (window.confirm("이 질문을 삭제하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}`,
           {
             method: "DELETE",
             headers: {
@@ -44,7 +44,7 @@ export default function Questioner({
     if (window.confirm("이 질문을 신고하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/questions/${questionData._id}/report`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/report`,
           {
             method: "POST",
             headers: {
@@ -68,7 +68,7 @@ export default function Questioner({
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/user/info`,
+        `${import.meta.env.VITE_API_URL}/api/user/info`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
