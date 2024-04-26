@@ -2,11 +2,15 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useTheme } from "../../context/ThemeContext";
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
+import { useLocation } from "react-router-dom"; // Import useLocation hook
 
 export default function ChatList() {
   const { theme } = useTheme();
+  const location = useLocation(); // Get location object
+  const message = location.state?.message || '수업을 클릭하여 참가해보세요.'; // Default message or state-passed message
+
   return (
-    <AppContainer theme={theme}>수업을 클릭하여 참가해보세요.</AppContainer>
+    <AppContainer theme={theme}>{message}</AppContainer>
   );
 }
 
@@ -34,7 +38,7 @@ const AppContainer = styled.div`
   color: ${({ theme }) => theme.foreground};
   font-size: 2.5rem;
   font-weight: bold;
-  animation: ${slideInFromLeft} 0.5s ease-out forwards; // Apply the animation
+  animation: ${slideInFromLeft} 0.5s ease-out forwards;
   &::before {
     content: "";
     position: absolute;

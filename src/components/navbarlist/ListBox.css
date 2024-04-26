@@ -37,10 +37,15 @@
   color: var(--primary-color);
   border-right: 1px solid var(--foreground-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 .navbar__list__item.selected {
   background-color: var(--foreground-color);
   color: var(--background-color);
+}
+.navbar__list__item.inactive {
+  opacity: 0.4;
+  color: #a1acad; 
 }
 
 .navbar__list__item {
@@ -49,15 +54,35 @@
   cursor: pointer;
   padding: 1rem;
   height: 3rem;
+  margin : 0.2rem 0.5rem;
+  border-radius : 0.5rem;
   justify-content: space-between;
   transition: all 0.3s;
-  border-bottom: 1px solid var(--foreground-color);
+  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--foreground-color);
+  &:first-child {
+    margin-top: 1rem;
+  }
   &:hover {
     background-color: var(--foreground-color);
   }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
 }
-
+.mypage__list__item {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    padding: 1rem;
+    height: 3rem;
+    justify-content: space-between;
+    transition: all 0.3s;
+    border-bottom: 1px solid var(--foreground-color);
+    &:hover {
+      background-color: var(--foreground-color);
+    }
+    animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
+}
 .icon__arrow__container {
   display: flex;
   justify-content: center;
