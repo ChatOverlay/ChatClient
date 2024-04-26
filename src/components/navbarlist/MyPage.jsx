@@ -223,10 +223,11 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3vw;
+  width: 5rem;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s;
-  
+  border : 1px solid var(--foreground-color);
   &:hover {
     opacity: 0.6;
   }

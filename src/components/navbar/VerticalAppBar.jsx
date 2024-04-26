@@ -56,15 +56,15 @@ export default function VerticalAppBar() {
       <AppBar theme={theme}>
         <div>
         <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-        <ChatIcon sx={{ fontSize: "2rem" }} />
+        <ChatIcon sx={{ fontSize: "2rem", paddingBottom : "0.3rem" }} />
         <span>채팅</span>
       </IconContainer>
       <IconContainer onClick={() => {setSection(1); setActiveIcon(1);}} active={activeIcon === 1}>
-        <FilterFramesIcon sx={{ fontSize: "2rem" }} />
+        <FilterFramesIcon sx={{ fontSize: "2rem", marginBottom : "0.3rem" }} />
         <span>질문 게시판</span>
       </IconContainer>
       <IconContainer onClick={() => {setSection(2); setActiveIcon(2);}} active={activeIcon === 2}>
-        <AccountCircleIcon sx={{ fontSize: "2rem" }} />
+        <AccountCircleIcon sx={{ fontSize: "2rem", marginBottom : "0.3rem" }} />
         <span>MY</span>
       </IconContainer>
         </div>

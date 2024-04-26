@@ -11,7 +11,7 @@ export default function Comment({
   changeData,
   setChangeData,
   comment,
-  theme
+  theme,
 }) {
   const [isQuestioner, setIsQuestioner] = useState(false); //질문자 확인용
   const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
@@ -19,11 +19,14 @@ export default function Comment({
   const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/info`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/info`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         setIsQuestioner(data.id === questionData?.questionerId);
@@ -45,7 +48,9 @@ export default function Comment({
       try {
         // API 호출을 통해 댓글 삭제 요청
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${
+            questionData._id
+          }/comments/${comment._id}`,
           {
             method: "DELETE",
             headers: {
@@ -71,7 +76,9 @@ export default function Comment({
       try {
         // 신고 API 호출
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/report`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${
+            questionData._id
+          }/comments/${comment._id}/report`,
           {
             method: "POST",
             headers: {
@@ -96,7 +103,9 @@ export default function Comment({
     if (window.confirm("이 댓글을 채택하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/comments/${comment._id}/accept`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${
+            questionData._id
+          }/comments/${comment._id}/accept`,
           {
             method: "POST",
             headers: {
@@ -119,7 +128,7 @@ export default function Comment({
 
   return (
     <CommentContainer theme={theme}>
-      <div style={{color :theme.primaryColor}}>
+      <div style={{ color: theme.primaryColor }}>
         <CommentProfileContainer>
           <CommentProfileIcon theme={theme}>
             {comment.profilePictureUrl ? (
@@ -133,21 +142,25 @@ export default function Comment({
             )}
           </CommentProfileIcon>
           <div>
-            <CommentProfileName>{comment.name}</CommentProfileName>
+            <CommentProfileName>
+              {comment.name}{" "}
+              {comment.isAccepted && (
+                <AcceptedIndicator theme={theme}>
+                  채택됨
+                  <CheckCircleIcon />
+                </AcceptedIndicator>
+              )}
+            </CommentProfileName>
             <CommentProfileDate>{comment.date}</CommentProfileDate>
           </div>
           <AcceptContainer>
             {isQuestioner &&
               !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
               currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-                <AcceptButton onClick={handleAccept} theme={theme}>채택</AcceptButton>
+                <AcceptButton onClick={handleAccept} theme={theme}>
+                  채택
+                </AcceptButton>
               )}
-            {comment.isAccepted && (
-              <AcceptedIndicator theme={theme}>
-                채택됨
-                <CheckCircleIcon />
-              </AcceptedIndicator> 
-            )}
           </AcceptContainer>
         </CommentProfileContainer>
         <CommentContent>{comment.content}</CommentContent>
@@ -170,7 +183,6 @@ const CommentContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.foreground};
   display: flex;
   justify-content: space-between;
-  
 `;
 
 //댓글 프로필 상단
@@ -182,11 +194,13 @@ const CommentProfileContainer = styled.div`
 const AcceptedIndicator = styled.div`
   display: flex;
   border: 1px solid ${({ theme }) => theme.foreground};
-
+  margin-left : 0.3rem;
+  margin-top : -0.1rem;
   border-radius: 0.5rem;
-  padding: 0.1rem;
+  padding: 0.05rem;
   align-items: center;
-  background-color: ${({ theme }) => theme.foreground}; // 채택 아이콘과 텍스트 색상
+  background-color: ${({ theme }) =>
+    theme.foreground}; // 채택 아이콘과 텍스트 색상
   color: ${({ theme }) => theme.background};
   svg {
     font-size: 1rem;
@@ -201,6 +215,7 @@ const CommentProfileIcon = styled.div`
 
 //댓글 프로필이름
 const CommentProfileName = styled.div`
+  display: flex;
   font-size: 0.8rem;
   font-weight: 700;
 `;
@@ -221,17 +236,17 @@ const CommentActions = styled.div`
 `;
 const StyledReportIcon = muiStyled(ReportIcon)({
   cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out", 
+  transition: "opacity 0.2s ease-in-out",
   "&:hover": {
-    opacity: 0.5, 
+    opacity: 0.5,
   },
 });
 
 const StyledDeleteIcon = muiStyled(DeleteIcon)({
   cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out", 
+  transition: "opacity 0.2s ease-in-out",
   "&:hover": {
-    opacity: 0.5, 
+    opacity: 0.5,
   },
 });
 
@@ -244,8 +259,8 @@ const AcceptContainer = styled.div`
 
 // 채택 버튼 컴포넌트 스타일
 const AcceptButton = styled.button`
-  background-color: ${({ theme }) => theme.foreground}; 
-  color: ${({ theme }) => theme.background}; 
+  background-color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.background};
   border: none;
   cursor: pointer;
   padding: 0.4rem;

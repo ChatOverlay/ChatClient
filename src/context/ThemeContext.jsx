@@ -5,8 +5,8 @@ import useThemeStyles from '../hooks/useThemeStyles';
 const themes = {
   default: {
     name : "default",
-    foreground: "#006fc5ff",
-    background: "#FBF3D5",
+    foreground: "#0164D8",
+    background: "#fff",
     primaryColor : "black",
     secondaryColor : "#f3ddaa",
   },
@@ -19,7 +19,7 @@ const themes = {
   light : {
     name : "light",
     foreground: "#EFBC9B",
-    background: "#fff",
+    background: "#FBF3D5",
     primaryColor: "black",
   },
   light2 : {
