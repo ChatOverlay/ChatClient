@@ -8,7 +8,7 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
   return (
     <div>
       <div
-        className={`navbar__list__item ${
+        className={`mypage__list__item ${
           selectedNavItem === "mileage" ? "selected" : ""
         }`} // Conditionally apply the .selected class
         onClick={() => {
@@ -24,7 +24,7 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
         </div>
       </div>
       <div
-        className={`navbar__list__item ${
+        className={`mypage__list__item ${
           selectedNavItem === "adoptedpoint" ? "selected" : ""
         }`}
         onClick={() => {
@@ -39,7 +39,7 @@ export default function MyNavbarList({ mileage, totalMileage, setLikedPages }) {
       </div>
 
       <div
-        className={`navbar__list__item ${
+        className={`mypage__list__item ${
           selectedNavItem === "likedPages" ? "selected" : ""
         }`}
         onClick={() => {
