@@ -16,6 +16,7 @@ export default function QuestionList() {
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));
+
   }, [newAdded]);
 
   const handleQuestionClick = (id) => {
@@ -39,9 +40,9 @@ export default function QuestionList() {
         .map((question) => (
           <div
             className={`navbar__list__item ${
-              question.id === selectedQuestion ? "selected" : ""
+              question._id === selectedQuestion ? "selected" : ""
             }`}
-            key={question.id}
+            key={question._id}
             onClick={() => handleQuestionClick(question._id)}
           >
             <div className="question-container">

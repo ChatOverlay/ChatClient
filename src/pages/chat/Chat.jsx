@@ -20,7 +20,7 @@ export default function Chat() {
   const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
   const { theme } = useTheme();
   const { addNewData } = useSharedState();
- 
+  const [courseName, setCourseName] = useState(""); 
   const { titleName } = useParams(); // Extract roomId from URL
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -70,7 +70,9 @@ export default function Chat() {
   useEffect(() => {
     setMessages([]);
     socket.emit("joinRoom", titleName);
-
+    socket.on("roomJoined", (data) => {
+      setCourseName(data.courseName); // Set the course name received from the server
+    });
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
@@ -82,6 +84,8 @@ export default function Chat() {
     });
 
     return () => {
+      
+      socket.off("roomJoined");
       socket.off("message");
       socket.off("mileageUpdated");
     };
@@ -106,7 +110,7 @@ export default function Chat() {
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
-          titleName={titleName}
+          titleName={courseName}
         />
         <ChatContainer>
           <MessagesContainer>
@@ -176,7 +180,7 @@ const AppContainer = styled.div`
   background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   transition: all 0.3s;
-  height : 100vh;
+  height: 100vh;
   z-index: 1;
   &::before {
     content: "";
@@ -199,6 +203,7 @@ const ChatContainer = styled.div`
   height: 90vh;
   padding: 0 1rem;
   display: flex;
+  font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
 `;
 
@@ -218,8 +223,10 @@ const StyledInput = styled.input`
   border: none;
   padding-left: 1rem;
   border-radius: 2rem;
+
+  font-size: 1.3rem;
   width: 100%;
-  font-family :'Noto Sans KR';
+  font-family: "Noto Sans KR";
   &:focus {
     outline: none;
   }
@@ -249,9 +256,9 @@ const MileageContainer = styled.span`
   font-weight: bold;
   padding: 0.25rem 0.5rem;
   margin-right: 1rem;
-  border-radius: 1rem;
+  border-radius: 2rem;
   white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
-  font-family :'Noto Sans KR';
+  font-family: "Noto Sans KR";
 `;
 
 const MessagesContainer = styled.div`
@@ -311,15 +318,19 @@ const ContentContainer = styled.div`
 const MessageTime = styled.div`
   font-size: 0.7rem;
   color: ${({ theme }) => theme.foreground};
-  font-family :'Noto Sans KR';
+  font-family: "Noto Sans KR";
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
-  padding: 0.5rem;
-  border-radius: 1rem;
+display : flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem;
+  border-radius: 1.5rem;
   margin-left: 0.3rem;
-  background-color: ${({ theme, user }) => user === "me" ? theme.foreground : theme.primaryColor};
+  background-color: ${({ theme, user }) =>
+    user === "me" ? theme.foreground : theme.primaryColor};
   color: ${({ theme }) => theme.background};
   word-wrap: break-word;
   overflow-wrap: anywhere;

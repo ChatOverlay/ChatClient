@@ -29,7 +29,7 @@ const AppContainer = styled.div`
   background-color: ${({ theme }) => theme.background};
   flex-direction: column;
   justify-content: center;
-  opacity: 0.8;
+  opacity: 1;
   align-items: center;
   color: ${({ theme }) => theme.foreground};
   font-size: 2.5rem;
@@ -46,7 +46,7 @@ const AppContainer = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    opacity: 0.8;
+    opacity: 0.5;
     z-index: -1;
   }
 `;

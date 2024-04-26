@@ -3,27 +3,28 @@ import styled, { keyframes } from "styled-components";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import Logo from "../../assets/backgroundImg/clasome.png"
+import Logo from "../../assets/backgroundImg/clasome.png";
 
 import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import LoadingModal from "../modals/LoadingModal";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(""); // 사용자 이메일을 저장하는 상태
   const [password, setPassword] = useState(""); // 사용자 비밀번호를 저장하는 상태
   const [autoLogin, setAutoLogin] = useState(false); // 자동 로그인 상태
+  const [loading, setLoading] = useState(false);
 
   const { theme } = useTheme();
-  console.log(theme);
   // 로그인 함수
   const handleLogin = async () => {
     if (!email || !password) {
-      // 필수 입력 항목 확인
       alert("이메일과 비밀번호를 모두 입력해주세요.");
       return;
     }
 
+    setLoading(true); // Show loading spinner
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/login`,
@@ -41,7 +42,6 @@ export default function Login() {
         localStorage.setItem("token", data.accessToken);
         navigate("../chatlist");
       } else {
-        // 서버에서 오류 메시지를 보낼 경우
         const error = await response.json();
         alert(error.message);
       }
@@ -49,11 +49,14 @@ export default function Login() {
       console.error("로그인 실패:", error);
       alert("로그인에 실패했습니다.");
     }
+    setLoading(false); // Hide loading spinner
   };
+
   return (
     <LoginContainer theme={theme}>
+      {loading && <LoadingModal />}
       <Container>
-      <img src={Logo} alt="CLASOME Logo" />
+        <img src={Logo} alt="CLASOME Logo" />
         <WelcomeText>로그인</WelcomeText>
         <InputContainer>
           <TextField
@@ -88,7 +91,7 @@ export default function Login() {
               }
             }}
             sx={{
-              width : "20rem",
+              width: "20rem",
               color: `${({ theme }) => theme.primaryColor}`,
               ".MuiInputLabel-root": {
                 color: `${({ theme }) => theme.background}`,
@@ -112,22 +115,22 @@ export default function Login() {
           />
         </InputContainer>
         <div>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={autoLogin}
-              onChange={(e) => setAutoLogin(e.target.checked)}
-              name="autoLogin"
-            />
-          }
-          label="자동 로그인 (30일 유효)"
-          sx={{
-            ".MuiTypography-root": {
-              fontFamily: "Noto Sans KR",
-              marginTop: "-0.1rem",
-            },
-          }}
-        />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={autoLogin}
+                onChange={(e) => setAutoLogin(e.target.checked)}
+                name="autoLogin"
+              />
+            }
+            label="자동 로그인 (30일 유효)"
+            sx={{
+              ".MuiTypography-root": {
+                fontFamily: "Noto Sans KR",
+                marginTop: "-0.1rem",
+              },
+            }}
+          />
         </div>
         <ButtonContainer>
           <Button
@@ -145,6 +148,7 @@ export default function Login() {
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   justify-content: center;
   align-items: center;
   z-index: 100;
@@ -191,7 +195,7 @@ const InputContainer = styled.div`
 `;
 const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
-  width : "20rem",
+  width: "20rem",
   color: theme.primaryColor,
   ".MuiInputLabel-root": {
     color: theme.background,
@@ -211,9 +215,9 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 const buttonSx = {
-  display : "flex",
-  justifyContent : "center",
-  alignProperty : "center",
+  display: "flex",
+  justifyContent: "center",
+  alignProperty: "center",
   marginTop: "0.1rem",
   height: "4rem",
   backgroundColor: "#7EBCF2",
@@ -227,7 +231,7 @@ const buttonSx = {
   },
 };
 // const RegisterLink = styled.div`
-//   color: ${({ theme }) => theme.background};
+//  color: ${({ theme }) => theme.background};
 //   cursor: pointer;
 //   text-decoration: underline;
 //   transition: all 0.5s;
