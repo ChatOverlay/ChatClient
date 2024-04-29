@@ -15,7 +15,7 @@ export default function LoadingModal() {
       }
     };
 
-    intervalId = setInterval(updateProgress, 100);
+    intervalId = setInterval(updateProgress, 150);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -37,7 +37,7 @@ const LoadingMessage = styled.span`
   
 `;
 const getBorderColor = (progress) => {
-  const hue = progress * 3.6;
+  const hue = progress * 2;
   return `hsl(${hue}, 100%, 50%)`;
 };
 
