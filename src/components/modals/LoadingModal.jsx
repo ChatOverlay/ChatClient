@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ModalBackdrop } from "./ImageModal";
 
 export default function LoadingModal() {
+  const [loadingProgress, setLoadingProgress] = useState(0);
+
+  useEffect(() => {
+    let intervalId;
+    const updateProgress = () => {
+      if (loadingProgress < 100) {
+        setLoadingProgress((prevProgress) => prevProgress + 1);
+      } else {
+        clearInterval(intervalId);
+      }
+    };
+
+    intervalId = setInterval(updateProgress, 100);
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <ModalBackdrop style={{flexDirection : "column"}}>
+    <ModalBackdrop style={{ flexDirection: "column" }}>
       <Loader />
       <LoadingMessage>
         정보를 가져오는 중입니다. 잠시만 기다려주세요..
+        <LoadingProgress>{loadingProgress}%</LoadingProgress>
       </LoadingMessage>
     </ModalBackdrop>
   );
@@ -19,6 +36,11 @@ const LoadingMessage = styled.span`
   margin-top : 30px;
   
 `;
+const getBorderColor = (progress) => {
+  const hue = progress * 3.6;
+  return `hsl(${hue}, 100%, 50%)`;
+};
+
 
 const Loader = styled.div`
   width: 64px;
@@ -26,7 +48,8 @@ const Loader = styled.div`
   border-radius: 50%;
   border: 6px solid rgba(0, 0, 0, 0.1);
   border-left-color: #09f;
-  animation: spin 1s infinite linear;
+  animation: spin 2s infinite linear;
+  
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -35,4 +58,17 @@ const Loader = styled.div`
       transform: rotate(360deg);
     }
   }
+
+  @keyframes progress {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(${(props) => props.progress * 3.6}deg);
+    }
+  }
+`;
+const LoadingProgress = styled.span`
+  margin-left: 10px;
+  font-weight: bold;
 `;

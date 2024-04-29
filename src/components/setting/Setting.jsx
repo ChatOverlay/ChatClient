@@ -2,7 +2,9 @@ import React, { useState} from "react";
 import styled, { keyframes } from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "../../context/ThemeContext";
-
+import CloudDefaultImg from "../../assets/backgroundImg/cloud.png"
+import CloudDarkImg from "../../assets/backgroundImg/clouddark.png"
+import CloudLightImg from "../../assets/backgroundImg/cloudlight.png"
 export default function Setting({ handleOption }) {
   const [isClosing, setIsClosing] = useState(false);
   const { theme, setThemeName } = useTheme();
@@ -19,9 +21,9 @@ export default function Setting({ handleOption }) {
   };
 
   const themeOptions = [
-    { value: "default", label: "기본 모드",},
-    { value: "dark", label: "다크 모드",  },
-    { value: "light", label: "푸근한 모드", },
+    { value: "default", label: "기본 모드", img : CloudDefaultImg},
+    { value: "dark", label: "다크 모드", img : CloudDarkImg },
+    { value: "light", label: "푸근한 모드",img : CloudLightImg },
   ];
 
   return (
@@ -40,7 +42,8 @@ export default function Setting({ handleOption }) {
               isSelected={theme.name === themes.value}
               onClick={() => handleThemeChange(themes.value)}
             >
-              <ThemeLabel isSelected={theme.name === themes.value}>{themes.label}</ThemeLabel>
+              <ThemeLabel isSelected={theme.name === themes.value}>{themes.label}
+              <img src={themes.img} alt="cloud" style={{marginLeft : "0.1rem",width : "1rem"}}/></ThemeLabel>
               <ThemeDescription>{theme.description}</ThemeDescription>
             </ThemeOption>
           ))}

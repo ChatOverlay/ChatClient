@@ -56,7 +56,9 @@ export default function Login() {
     <LoginContainer>
       {loading && <LoadingModal />}
       <Container>
-        <img src={Logo} alt="CLASOME Logo" />
+        <StyledImgContainer>
+          <StyledImg src={Logo} alt="CLASOME Logo" />
+        </StyledImgContainer>
         <WelcomeText>로그인</WelcomeText>
         <InputContainer>
           <TextField
@@ -91,7 +93,7 @@ export default function Login() {
               }
             }}
             sx={{
-              width: "20rem",
+              width: "100%",
               color: `${({ theme }) => theme.primaryColor}`,
               ".MuiInputLabel-root": {
                 color: `${({ theme }) => theme.background}`,
@@ -114,7 +116,7 @@ export default function Login() {
             }}
           />
         </InputContainer>
-        <div>
+        <FormContainer>
           <FormControlLabel
             control={
               <Checkbox
@@ -123,15 +125,16 @@ export default function Login() {
                 name="autoLogin"
               />
             }
-            label="자동 로그인 (30일 유효)"
+            label="자동 로그인"
             sx={{
               ".MuiTypography-root": {
                 fontFamily: "Noto Sans KR",
                 marginTop: "-0.1rem",
               },
+              marginRight: "0",
             }}
           />
-        </div>
+        </FormContainer>
         <ButtonContainer>
           <Button
             variant="contained"
@@ -159,8 +162,22 @@ const LoginContainer = styled.div`
   height: 30rem;
   padding: 3rem;
   opacity: 0.9;
+  @media (max-width: 768px) {
+    width: 15rem;
+    height: 20rem;
+  }
 `;
-
+const StyledImgContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const StyledImg = styled.img`
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 10rem;
+  }
+`;
 const WelcomeText = styled.div`
   display: flex;
   justify-content: center;
@@ -185,17 +202,20 @@ const Container = styled.div`
   animation: ${slideInRight} 0.5s forwards;
   display: flex;
   flex-direction: column;
-  align-items: center;
+
+  justify-content: flex-end; /* FormContainer를 우측으로 정렬 */
 `;
 
 //해당 입력칸
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
 `;
+
 const textFieldSx = (theme) => ({
   marginTop: "0.1rem",
-  width: "20rem",
+  width: "100%",
   color: theme.primaryColor,
   ".MuiInputLabel-root": {
     color: theme.background,
@@ -209,6 +229,11 @@ const textFieldSx = (theme) => ({
   ".MuiInputBase-input": { color: theme.primaryColor },
 });
 
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 0;
+`;
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
@@ -217,19 +242,19 @@ const ButtonContainer = styled.div`
 const buttonSx = {
   display: "flex",
   justifyContent: "center",
-  alignProperty: "center",
   marginTop: "0.1rem",
+  paddingRight: "0.1rem",
   height: "4rem",
-  backgroundColor: "#7EBCF2",
-  color: `${({ theme }) => theme.foreground}`,
+  backgroundColor: "var(--foreground-color)",
+  color: "var(--background-color)",
   borderRadius: "10rem",
   transition: "all 0.3s ease",
   "&:hover": {
-    backgroundColor: `${({ theme }) => theme.background}`,
-    color: `${({ theme }) => theme.foreground}`,
+    opacity: "0.8",
     transform: "scale(1.05)",
   },
 };
+
 // const RegisterLink = styled.div`
 //  color: var(--background-color);
 //   cursor: pointer;

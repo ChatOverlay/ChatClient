@@ -166,7 +166,6 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
   align-items: center;
   margin-bottom: 1.5rem; // 여백을 조금 더 늘려주어 시각적으로 여유를 줍니다.
 `;
@@ -175,7 +174,7 @@ const TitleContainer = styled.input`
   border : 2px solid var(--foreground-color);
   font-family : 'Noto Sans KR';
   padding: 1rem;
-  
+  color: var(--primary-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
   width: 40%
@@ -224,8 +223,31 @@ const ImageInputLabel = styled.label`
 `;
 
 const ImageInput = styled.input`
-  font-size: 1rem;
-  font-family: "Noto Sans KR";
+  padding: 0.5rem;  // 좋은 클릭감과 타이핑 경험을 위한 패딩
+  margin-top: 0.5rem;  // 주변 요소와의 적절한 간격
+  font-size: 1rem;  // 적당한 글꼴 크기
+  font-family: "Noto Sans KR";  // 일관된 글꼴 사용
+  width : 7rem;
+  background-color: #b3b3b3;
+  color: var(--background-color);  
+  border-radius: 0.5rem;  // 모서리 둥글게 처리
+  cursor: pointer;  // 마우스 오버 시 커서 변경
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;  // 부드러운 전환 효과
+
+  &:hover {
+    background-color: var(--foreground-color);  // 호버 시 테두리 색 변경
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);  // 부드러운 그림자 효과
+  }
+
+  &:focus {
+    outline: none;  // 기본 포커스 윤곽선 제거
+    border-color: var(--primary-color);  // 포커스 시 테두리 색 강조
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.2);  // 포커스 시 그림자 강조
+  }
+
+  &::file-selector-button {
+    display: none;  // 기본 파일 선택 버튼 숨기기
+  }
 `;
 
 const PreviewContainer = styled.div`
