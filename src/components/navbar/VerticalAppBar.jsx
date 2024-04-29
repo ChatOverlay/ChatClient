@@ -19,7 +19,7 @@ export default function VerticalAppBar() {
   const navigate = useNavigate(); //라우터 네비게이션
   const [section, setSection] = useState(0); //해당 섹션 설정
   const [isModalOpen, setIsModalOpen] = useState(false); //세팅열기
-  const [activeIcon, setActiveIcon] = useState(null); 
+  const [activeIcon, setActiveIcon] = useState(null);
   const { theme } = useTheme(); // 현재 테마
 
   //렌디렁 조건부
@@ -53,20 +53,36 @@ export default function VerticalAppBar() {
 
   return (
     <>
-      <AppBar theme={theme}>
+      <AppBar>
         <div>
-        <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-        <ChatIcon sx={{ fontSize: "2rem", paddingBottom : "0.3rem" }} />
-        <span>채팅</span>
-      </IconContainer>
-      <IconContainer onClick={() => {setSection(1); setActiveIcon(1);}} active={activeIcon === 1}>
-        <FilterFramesIcon sx={{ fontSize: "2rem", marginBottom : "0.3rem" }} />
-        <span>질문 게시판</span>
-      </IconContainer>
-      <IconContainer onClick={() => {setSection(2); setActiveIcon(2);}} active={activeIcon === 2}>
-        <AccountCircleIcon sx={{ fontSize: "2rem", marginBottom : "0.3rem" }} />
-        <span>MY</span>
-      </IconContainer>
+          <IconContainer onClick={handleChatList} active={activeIcon === 0}>
+            <ChatIcon sx={{ fontSize: "2rem", paddingBottom: "0.3rem" }} />
+            <span>채팅</span>
+          </IconContainer>
+          <IconContainer
+            onClick={() => {
+              setSection(1);
+              setActiveIcon(1);
+            }}
+            active={activeIcon === 1}
+          >
+            <FilterFramesIcon
+              sx={{ fontSize: "2rem", marginBottom: "0.3rem" }}
+            />
+            <span>질문 게시판</span>
+          </IconContainer>
+          <IconContainer
+            onClick={() => {
+              setSection(2);
+              setActiveIcon(2);
+            }}
+            active={activeIcon === 2}
+          >
+            <AccountCircleIcon
+              sx={{ fontSize: "2rem", marginBottom: "0.3rem" }}
+            />
+            <span>MY</span>
+          </IconContainer>
         </div>
         <div style={{ marginBottom: "2rem" }}>
           <IconContainer onClick={() => handleOption()}>
@@ -90,8 +106,8 @@ const AppBar = styled.div`
   display: flex;
   position: fixed;
   flex-direction: column;
-  background-color: ${(props) => props.theme.foreground};
-  color: ${(props) => props.theme.background};
+  background-color: var(--foreground-color); 
+  color: var(--background-color); 
   align-items: center;
   justify-content: space-between;
   height: 100vh;
@@ -108,7 +124,8 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: ${(props) => (props.active ? '1' : '0.8')}; /* Change opacity based on active state */
+  opacity: ${(props) =>
+    props.active ? "1" : "0.8"}; /* Change opacity based on active state */
 
   &:hover {
     opacity: 1;
@@ -124,8 +141,8 @@ const IconContainer = styled.div`
   }
 
   span {
-    visibility: ${(props) => (props.active ? 'visible' : 'hidden')};
-    opacity: ${(props) => (props.active ? '1' : '0')};
+    visibility: ${(props) => (props.active ? "visible" : "hidden")};
+    opacity: ${(props) => (props.active ? "1" : "0")};
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.8rem;
   }

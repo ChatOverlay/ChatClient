@@ -154,7 +154,7 @@ export default function MyPage() {
         <LikedPage setLikedPages={setLikedPages} />
       ) : (
         <div className="navbar__list">
-          <MyContainer theme={theme}>
+          <MyContainer >
             <input
               type="file"
               style={{ display: "none" }}
@@ -177,19 +177,19 @@ export default function MyPage() {
               {changeNameAble ? (
                 <InputContainer>
                   <NameInputContainer
-                    theme={theme}
+                    
                     onChange={(e) => setNickName(e.target.value)}
                     value={nickName}
                     placeholder="닉네임을 입력하세요.."
                   />
-                  <SaveButton theme={theme} onClick={() => updateNickName(nickName)}>
+                  <SaveButton  onClick={() => updateNickName(nickName)}>
                     저장
                   </SaveButton>
                 </InputContainer>
               ) : (
                 <InputContainer>
                   <div>{nickName}</div>
-                  <SaveButton theme={theme} onClick={() =>setChangeNameAble(true)}>
+                  <SaveButton  onClick={() =>setChangeNameAble(true)}>
                     수정
                   </SaveButton>
                 </InputContainer>
@@ -214,8 +214,8 @@ const MyContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 5vh 0;
-  border-bottom: 1px solid ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.foreground};
+  border-bottom: 1px solid var(--foreground-color);
+  color: var(--foreground-color);
 `;
 
 //아이콘 컨테이너
@@ -242,9 +242,9 @@ const SaveButton = styled.div`
   font-size: 1rem;
   cursor: pointer;
   border-radius: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
-  background-color: ${({ theme }) => theme.foreground};
+  border: 1px solid var(--foreground-color);
+  color: var(--background-color);
+  background-color: var(--foreground-color);
   transition: all 0.3s;
   &:hover {
     transform: scale(1.05);
@@ -268,14 +268,14 @@ const InputContainer = styled.div`
 
 const NameInputContainer = styled.input`
   text-align: center;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.foreground};
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   max-width : 10rem;
   font-weight: bold;
   font-size: 1.2rem;
   padding: 5px;
   border-radius: 0.3rem;
-  border: 1px solid ${({ theme }) => theme.foreground};
+  border: 1px solid var(--foreground-color);
   &:focus {
     outline: none;
   }

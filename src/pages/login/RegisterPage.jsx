@@ -9,7 +9,7 @@ export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();
   return (
-    <HomeContainer theme={theme}>
+    <HomeContainer >
       <Logo src={LogoImg} alt="Clasome Logo" />
       <Register />
     </HomeContainer>

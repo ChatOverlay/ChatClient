@@ -9,9 +9,9 @@ export default function Home() {
   const navigate = useNavigate();
   useIsAuth();
   return (
-    <HomeContainer theme={theme}>
+    <HomeContainer >
       <Header>모두의 소리함</Header>
-      <Button onClick={()=>navigate("/login")} theme={theme}>수업 채팅 시작하기</Button>
+      <Button onClick={()=>navigate("/login")} >수업 채팅 시작하기</Button>
       <RegisterButton onClick={()=>navigate("./register")}>아이디가 없으신가요?</RegisterButton>
     </HomeContainer>
   );
@@ -23,8 +23,8 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   position: relative;
   z-index: 100;
   
@@ -38,8 +38,8 @@ const Header = styled.div`
 const Button = styled.div`
   width: 15rem;
   height: 50px;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.foreground};
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   border-radius: 2rem;
   cursor: pointer;
   display: flex;

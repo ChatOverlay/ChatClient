@@ -106,7 +106,7 @@ export default function Chat() {
 
   return (
     <>
-      <AppContainer show={closeOption} theme={theme}>
+      <AppContainer show={closeOption} >
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
@@ -137,10 +137,10 @@ export default function Chat() {
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
                         <AccountCircleIcon sx={{ fontSize: "2.5rem" }} />
                       )}
-                    <Message theme={theme} user={msg.isCurrentUser ? "me" : ""}>
+                    <Message  user={msg.isCurrentUser ? "me" : ""}>
                       {msg.text}
                     </Message>
-                    <MessageTime theme={theme}>
+                    <MessageTime >
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -152,17 +152,17 @@ export default function Chat() {
             ))}
             <div ref={messagesEndRef} />
           </MessagesContainer>
-          <InputContainer theme={theme}>
+          <InputContainer >
             <StyledInput
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요..."
-              theme={theme}
+              
             />
-            <StyledButton onClick={sendMessage} theme={theme}>
-              <MileageContainer theme={theme}>{mileage} / 100</MileageContainer>
+            <StyledButton onClick={sendMessage} >
+              <MileageContainer >{mileage} / 100</MileageContainer>
               <SendIcon />
             </StyledButton>
           </InputContainer>
@@ -177,7 +177,7 @@ const AppContainer = styled.div`
   display: flex;
   position: relative;
   margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
-  background-color: ${({ theme }) => theme.background};
+  background-color: var(--background-color);
   flex-direction: column;
   transition: all 0.3s;
   height: 100vh;
@@ -213,8 +213,8 @@ const InputContainer = styled.div`
   margin-bottom: 0.5rem;
   padding: 0.15rem;
   border-radius: 2rem;
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.primaryColor};
+  background-color: var(--foreground-color);
+  color: var(--primary-color);
   justify-content: space-between;
 `;
 
@@ -238,8 +238,8 @@ const StyledButton = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem; // 버튼의 패딩을 조정하여 내용이 더 잘 들어맞도록 합니다.
-  color: ${({ theme }) => theme.background};
-  background-color: ${({ theme }) => theme.foreground};
+  color: var(--background-color);
+  background-color: var(--foreground-color);
   border-radius: 2rem;
   cursor: pointer;
   &:hover {
@@ -251,8 +251,8 @@ const StyledButton = styled.div`
 const MileageContainer = styled.span`
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.foreground};
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   font-weight: bold;
   padding: 0.25rem 0.5rem;
   margin-right: 1rem;
@@ -294,7 +294,7 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -317,7 +317,7 @@ const ContentContainer = styled.div`
 // MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
 const MessageTime = styled.div`
   font-size: 0.7rem;
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   font-family: "Noto Sans KR";
 `;
 
@@ -331,7 +331,7 @@ display : flex;
   margin-left: 0.3rem;
   background-color: ${({ theme, user }) =>
     user === "me" ? theme.foreground : theme.primaryColor};
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: anywhere;
 `;

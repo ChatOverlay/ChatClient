@@ -157,7 +157,7 @@ export default function Comment({
             {isQuestioner &&
               !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
               currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-                <AcceptButton onClick={handleAccept} theme={theme}>
+                <AcceptButton onClick={handleAccept} >
                   채택
                 </AcceptButton>
               )}
@@ -180,7 +180,7 @@ export default function Comment({
 //댓글 컨테이너
 const CommentContainer = styled.div`
   padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid ${({ theme }) => theme.foreground};
+  border-bottom: 1px solid var(--foreground-color);
   display: flex;
   justify-content: space-between;
 `;
@@ -193,7 +193,7 @@ const CommentProfileContainer = styled.div`
 // 채택된 댓글을 표시하기 위한 스타일 컴포넌트
 const AcceptedIndicator = styled.div`
   display: flex;
-  border: 1px solid ${({ theme }) => theme.foreground};
+  border: 1px solid var(--foreground-color);
   margin-left : 0.3rem;
   margin-top : -0.1rem;
   border-radius: 0.5rem;
@@ -201,7 +201,7 @@ const AcceptedIndicator = styled.div`
   align-items: center;
   background-color: ${({ theme }) =>
     theme.foreground}; // 채택 아이콘과 텍스트 색상
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   svg {
     font-size: 1rem;
     margin-left: 0.2rem;
@@ -209,7 +209,7 @@ const AcceptedIndicator = styled.div`
 `;
 //댓글 프로필
 const CommentProfileIcon = styled.div`
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   padding-right: 0.3rem;
 `;
 
@@ -231,7 +231,7 @@ const CommentContent = styled.div`
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   gap: 1rem;
 `;
 const StyledReportIcon = muiStyled(ReportIcon)({
@@ -259,8 +259,8 @@ const AcceptContainer = styled.div`
 
 // 채택 버튼 컴포넌트 스타일
 const AcceptButton = styled.button`
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   border: none;
   cursor: pointer;
   padding: 0.4rem;

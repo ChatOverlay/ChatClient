@@ -48,7 +48,7 @@ export default function LikedPage({ setLikedPages }) {
       >
         <ArrowBackIcon />
       </IconContainer>
-      <LikedPageDetail theme={theme}>좋아요 누른 게시글</LikedPageDetail>
+      <LikedPageDetail >좋아요 누른 게시글</LikedPageDetail>
       {likedPosts.map((post) => (
         <div
           className={`navbar__list__item ${
@@ -76,7 +76,7 @@ export default function LikedPage({ setLikedPages }) {
 const IconContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   padding: 1rem;
   &:hover {
     opacity: 0.6;
@@ -87,7 +87,7 @@ const LikedPageDetail = styled.div`
   padding-left: 1rem;
   height: 3rem;
   transition: all 0.3s;
-  border-bottom: 1px solid ${({ theme }) => theme.foreground};
+  border-bottom: 1px solid var(--foreground-color);
 
   animation: slideInFromRight 0.3s ease-out forwards; /* 애니메이션 적용 */
 `;

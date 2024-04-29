@@ -53,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <LoginContainer theme={theme}>
+    <LoginContainer>
       {loading && <LoadingModal />}
       <Container>
         <img src={Logo} alt="CLASOME Logo" />
@@ -231,12 +231,12 @@ const buttonSx = {
   },
 };
 // const RegisterLink = styled.div`
-//  color: ${({ theme }) => theme.background};
+//  color: var(--background-color);
 //   cursor: pointer;
 //   text-decoration: underline;
 //   transition: all 0.5s;
 //   &:hover {
-//     color: ${({ theme }) => theme.primaryColor};
+//     color: var(--primary-color);
 //     font-weight: bold;
 //   }
 // `;

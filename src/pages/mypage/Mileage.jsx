@@ -41,24 +41,24 @@ export default function Mileage() {
 
   return (
     <>
-      <AppContainer show={closeOption} theme={theme}>
+      <AppContainer show={closeOption} >
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName="수업 참여 마일리지"
         />
-        <MileageContainer theme={theme}>
-          <MileageInfo theme={theme}>
+        <MileageContainer >
+          <MileageInfo >
             <div>{todayDate}</div>
             하루 최대 마일리지 : {mileage} / 100
           </MileageInfo>
-          <TotalMileage theme={theme}>
+          <TotalMileage >
             총 마일리지 : {totalMileage}
           </TotalMileage>
         </MileageContainer>
         <ProductsContainer>
           {products.map((product) => (
-            <ProductItem key={product.id} product={product} theme={theme} />
+            <ProductItem key={product.id} product={product}  />
           ))}
         </ProductsContainer>
       </AppContainer>
@@ -73,9 +73,9 @@ const AppContainer = styled.div`
   position: relative;
   height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.primaryColor};
-  border-left: 1px solid ${({ theme }) => theme.foreground};
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border-left: 1px solid var(--foreground-color);
   transition: all 0.3s;
 
   z-index: 1;
@@ -83,8 +83,8 @@ const AppContainer = styled.div`
 
 const MileageContainer = styled.div`
   padding: 2rem;
-  background-color: ${({ theme }) => theme.foreground}; // 하얀색 배경
-  border-bottom: 2px solid ${({ theme }) => theme.background}; // 하단 경계선
+  background-color: var(--foreground-color); // 하얀색 배경
+  border-bottom: 2px solid var(--background-color); // 하단 경계선
   display: flex;
   flex-direction: column;
   align-items: center; // 내용 중앙 정렬
@@ -96,17 +96,17 @@ const MileageInfo = styled.div`
   text-align: center;
   justify-content: center;
   font-size: 1.2rem; // 폰트 크기 조정
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   font-weight: bold; // 글자 두껍게
   padding: 1rem 2rem;
   border-radius: 20px; // 둥근 모서리
-  background-color: ${({ theme }) => theme.background};
+  background-color: var(--background-color);
   display: inline-block; // 콘텐츠 너비에 맞게 조정
 `;
 
 const TotalMileage = styled.div`
   font-size: 1rem;
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
 `;
 
 // 상품들을 나열할 컨테이너

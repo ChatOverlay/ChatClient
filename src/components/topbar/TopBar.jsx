@@ -6,13 +6,13 @@ import { useTheme } from '../../context/ThemeContext';
 
 // 스타일 컴포넌트 정의
 const TopBarContainer = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.foreground};
+  border-bottom: 1px solid var(--foreground-color);
   display: flex;
   font-size: 2rem;
-  background-color: ${({ theme }) => theme.foreground};
+  background-color: var(--foreground-color);
   margin-bottom: 4.9vh;
   font-weight: bold;
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
 `;
 
 const IconContainer = styled.div`
@@ -36,7 +36,7 @@ const NumberContainer = styled.div`
 export default function TopBar({closeOption, setCloseOption, titleName}) {
   const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
   return (
-    <TopBarContainer theme={theme}>
+    <TopBarContainer >
       <IconContainer onClick={() => setCloseOption(!closeOption)}>
         {closeOption ? <KeyboardDoubleArrowRightIcon /> : <KeyboardDoubleArrowLeftIcon />}
       </IconContainer>

@@ -34,23 +34,23 @@ export default function Adoption() {
   }, []);
   return (
     <>
-      <AppContainer show={closeOption} theme={theme}>
+      <AppContainer show={closeOption} >
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName="채택 포인트"
         />
-        <AdoptiveContainer theme={theme}>
-          <AdoptiveInfo theme={theme}>채택 포인트</AdoptiveInfo>
+        <AdoptiveContainer >
+          <AdoptiveInfo >채택 포인트</AdoptiveInfo>
         </AdoptiveContainer>
-        <ClassContainer theme={theme}>
+        <ClassContainer >
           {classMileages.length === 0 ? (
-            <ClassMileageItem theme={theme}>
+            <ClassMileageItem >
               <h3>채택 포인트가 없습니다.</h3>
             </ClassMileageItem>
           ) : (
             classMileages.map((classMileage) => (
-              <ClassMileageItem key={classMileage.className} theme={theme}>
+              <ClassMileageItem key={classMileage.className} >
                 <h3>{classMileage.className}</h3>
                 <p>채택 포인트: {classMileage.points}</p>
               </ClassMileageItem>
@@ -69,9 +69,9 @@ const AppContainer = styled.div`
   position: relative;
   height: 100vh;
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.primaryColor};
-  border-left: 1px solid ${({ theme }) => theme.foreground};
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border-left: 1px solid var(--foreground-color);
   transition: all 0.3s;
 
   z-index: 1;
@@ -79,8 +79,8 @@ const AppContainer = styled.div`
 
 const AdoptiveContainer = styled.div`
   padding: 2rem;
-  background-color: ${({ theme }) => theme.foreground};
-  border-bottom: 2px solid ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  border-bottom: 2px solid var(--background-color);
   display: flex;
   flex-direction: column;
   align-items: center; // 내용 중앙 정렬
@@ -89,11 +89,11 @@ const AdoptiveContainer = styled.div`
 
 const AdoptiveInfo = styled.div`
   font-size: 1.2rem; // 폰트 크기 조정
-  color: ${({ theme }) => theme.foreground}; 
+  color: var(--foreground-color); 
   font-weight: bold; // 글자 두껍게
   padding: 1rem 2rem;
   border-radius: 2rem; // 둥근 모서리
-  background-color: ${({ theme }) => theme.background}; 
+  background-color: var(--background-color); 
   display: inline-block; // 콘텐츠 너비에 맞게 조정
 `;
 
@@ -114,8 +114,8 @@ const ClassContainer = styled.div`
 `;
 
 const ClassMileageItem = styled.div`
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 10px;

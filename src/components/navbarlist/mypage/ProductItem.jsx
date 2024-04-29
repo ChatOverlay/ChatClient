@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const ProductItem = ({ product,theme }) => {
   return (
-    <ItemContainer theme={theme}>
+    <ItemContainer >
       <ProductName>{product.name}</ProductName>
       <Mileage>{product.mileage} 마일리지</Mileage>
     </ItemContainer>
@@ -12,8 +12,8 @@ const ProductItem = ({ product,theme }) => {
 };
 
 const ItemContainer = styled.div`
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   padding: 1rem;
   border-radius: 10px;
   cursor: pointer;

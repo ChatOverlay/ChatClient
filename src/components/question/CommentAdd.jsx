@@ -37,15 +37,15 @@ export default function CommentAdd({ questionData, changeData, setChangeData, th
 
 
   return (
-    <CommentAddContainer theme={theme}>
+    <CommentAddContainer >
       <CommentAddInput
-        theme={theme}
+        
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && sendComment()}
         placeholder="댓글을 입력하세요..."
       />
-      <CommentAddIconContainer theme={theme} onClick={sendComment}>
+      <CommentAddIconContainer  onClick={sendComment}>
         <ModeIcon sx={{ fontSize: "2rem", maxHeight: "100%" }} />
       </CommentAddIconContainer>
     </CommentAddContainer>
@@ -67,7 +67,7 @@ const CommentAddInput = styled.input`
   padding: 0 1rem;
   font-size: 1rem;
   width: 40vw;
-  border: 2px solid ${({ theme }) => theme.foreground};
+  border: 2px solid var(--foreground-color);
   border-radius: 2rem;
   font-family :'Noto Sans KR';
   &:focus {
@@ -81,8 +81,8 @@ const CommentAddIconContainer = styled.div`
   align-items: center;
   width: 5vw;
   height: 3rem;
-  background-color: ${({ theme }) => theme.foreground};
-  color : ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color : var(--background-color);
   border-radius: 2rem;
   cursor: pointer;
   transition: all 0.3s;

@@ -44,7 +44,9 @@ export default function Questioner({
     if (window.confirm("이 질문을 신고하시겠습니까?")) {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/questions/${questionData._id}/report`,
+          `${import.meta.env.VITE_API_URL}/api/questions/${
+            questionData._id
+          }/report`,
           {
             method: "POST",
             headers: {
@@ -87,9 +89,9 @@ export default function Questioner({
   }, []);
 
   return (
-    <QuestionerContainer theme={theme}>
+    <QuestionerContainer>
       <QuestionerProfileContainer>
-        <QuestionerProfileIcon theme={theme}>
+        <QuestionerProfileIcon>
           {questionData?.profilePictureUrl ? (
             <img
               src={questionData.profilePictureUrl}
@@ -112,18 +114,13 @@ export default function Questioner({
       <ButtonContainer>
         {isCurrentUser ? (
           <>
-          {!editMode &&
-            <Button theme={theme} onClick={() => setEditMode(!editMode)}>
-              수정
-            </Button>}
-            <Button theme={theme} onClick={handleDelete}>
-              삭제
-            </Button>
+            {!editMode && (
+              <Button onClick={() => setEditMode(!editMode)}>수정</Button>
+            )}
+            <Button onClick={handleDelete}>삭제</Button>
           </>
         ) : (
-          <Button theme={theme} onClick={handleReport}>
-            신고
-          </Button>
+          <Button onClick={handleReport}>신고</Button>
         )}
       </ButtonContainer>
     </QuestionerContainer>
@@ -135,8 +132,8 @@ const QuestionerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem;
-  color: ${({ theme }) => theme.primaryColor}; // 텍스트 색상 적용
-  font-family :'Noto Sans KR';
+  color: var(--primary-color); // 텍스트 색상 적용
+  font-family: "Noto Sans KR";
 `;
 
 const QuestionerProfileContainer = styled.div`
@@ -169,10 +166,10 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.2s;
   border-radius: 0.5rem;
-  font-weight : 700;
-  font-family :'Noto Sans KR';
-  background-color: ${({ theme }) => theme.foreground}; // 버튼 배경색 적용
-  color: ${({ theme }) => theme.background}; // 버튼 텍스트 색상 적용
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+  background-color: var(--foreground-color); // 버튼 배경색 적용
+  color: var(--background-color); // 버튼 텍스트 색상 적용
   &:hover {
     transform: scale(1.05);
     opacity: 0.8;

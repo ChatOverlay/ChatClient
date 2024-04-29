@@ -133,7 +133,7 @@ export default function CommentBackup({
 //댓글 컨테이너
 const CommentContainer = styled.div`
   padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid ${({ theme }) => theme.background};
+  border-bottom: 1px solid var(--background-color);
   display: flex;
   justify-content: space-between;
 `;
@@ -146,7 +146,7 @@ const CommentProfileContainer = styled.div`
 
 //댓글 프로필
 const CommentProfileIcon = styled.div`
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   padding-right: 0.3rem;
 `;
 
@@ -169,7 +169,7 @@ const CommentContent = styled.div`
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.background};
+  color: var(--background-color);
   gap: 1rem;
 `;
 

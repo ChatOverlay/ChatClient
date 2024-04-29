@@ -24,6 +24,7 @@ export default function QuestionContent({
   const [previews, setPreviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  
   const handleImageClick = (url) => {
     setSelectedImage(url);
     setShowModal(true);
@@ -66,30 +67,7 @@ export default function QuestionContent({
     }
   }, [questionData]);
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages((prev) => [
-      ...prev,
-      ...files.map((file) => URL.createObjectURL(file)),
-    ]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviews((prev) => [...prev, reader.result]);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleRemoveImage = (index) => {
-    setImages(images.filter((_, i) => i !== index));
-    setPreviews(previews.filter((_, i) => i !== index));
-  };
-
   const saveChanges = async () => {
-    // 모든 필드가 입력되었는지 확인
-
     if (window.confirm("이 질문을 수정하시겠습니까?")) {
       if (!editedTitle.trim() || !editedContent.trim()) {
         alert("제목, 내용을 모두 입력해주세요.");
@@ -97,38 +75,60 @@ export default function QuestionContent({
       }
       const questionId = questionData?._id;
       const token = localStorage.getItem("token");
-      const updatedData = {
-        title: editedTitle,
-        content: editedContent,
-        images,
-      };
-
+      const formData = new FormData();
+      formData.append("title", editedTitle);
+      formData.append("content", editedContent);
+      images.forEach((image) => {
+        if (typeof image === "string") {
+          formData.append("existingImages", image);
+        } else {
+          formData.append("images", image);
+        }
+      });
+  
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/questions/${questionId}`,
           {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(updatedData),
+            body: formData,
           }
         );
-
+  
         if (!response.ok) {
           throw new Error("Failed to update the question.");
         }
-
+  
         const data = await response.json();
         console.log("Question updated:", data);
-
         setEditMode(false);
       } catch (error) {
         console.error("Error updating question:", error);
       }
     }
   };
+  
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach((file) => {
+      setImages((prev) => [...prev, file]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviews((prev) => [...prev, reader.result]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  const handleRemoveImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+
+
+  
 
   const toggleLike = async () => {
     const questionId = questionData?._id;
@@ -161,7 +161,7 @@ export default function QuestionContent({
   };
 
   return (
-    <Box theme={theme}>
+    <Box >
       {editMode ? (
         <>
           <TextField
@@ -220,8 +220,8 @@ export default function QuestionContent({
         </>
       ) : (
         <>
-          <Title theme={theme}>{questionData?.title}</Title>
-          <Content theme={theme}>{questionData?.content}</Content>
+          <Title >{questionData?.title}</Title>
+          <Content >{questionData?.content}</Content>
           {questionData?.imageUrls &&
             questionData?.imageUrls.map((url, index) => (
               <StyledImg
@@ -231,7 +231,7 @@ export default function QuestionContent({
                 onClick={() => handleImageClick(url)}
               />
             ))}
-          <LikeButton theme={theme} onClick={toggleLike}>
+          <LikeButton  onClick={toggleLike}>
             {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
           </LikeButton>
           <IconContainer>
@@ -255,20 +255,20 @@ const Box = styled.div`
   padding: 0.5rem;
   padding-left: 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.highlight};
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
 `;
 
 const Title = styled.div`
   font-weight: bold;
   font-size: 2rem;
-  color: ${({ theme }) => theme.primaryColor};
+  color: var(--primary-color);
 `;
 
 const Content = styled.div`
   font-size: 1rem;
   margin-top: 0.8rem;
   padding: 0.2rem;
-  color: ${({ theme }) => theme.primaryColor};
+  color: var(--primary-color);
 `;
 
 const IconContainer = styled.div`
@@ -288,8 +288,8 @@ const LikeButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: ${({ theme }) => theme.background};
-  background-color: ${({ theme }) => theme.foreground};
+  color: var(--background-color);
+  background-color: var(--foreground-color);
   margin-left: 0.3rem;
   transition: all 0.3s;
   &:hover {
@@ -307,7 +307,7 @@ const StyledImg = styled.img`
   transition: opacity 0.2s; // Smooth transform effect on hover
   border: 1px solid black;
   &:hover {
-    opacity: 0.4;
+    opacity: 0.6;
   }
 `;
 

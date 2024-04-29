@@ -22,7 +22,7 @@ export default function ChatListBox() {
         return response.json();
       })
       .then((data) => {
-        data.forEach(room => {
+        data.forEach((room) => {
           room.isActive = isLectureInSession(room.lectureTimes); // Calculate active status
         });
         // Sort rooms so that active ones are at the top
@@ -73,19 +73,25 @@ export default function ChatListBox() {
         `${currentKoreaTime.format("YYYY-MM-DD")} ${end}`,
         "Asia/Seoul"
       );
-      return todayInKorea === today && currentKoreaTime.isBetween(startTime, endTime);
+      return (
+        todayInKorea === today && currentKoreaTime.isBetween(startTime, endTime)
+      );
     });
   };
 
   const handleRoomClick = (room, activeSession) => {
     setSelectedRoom(room.name);
     if (activeSession) {
-      navigate(`/chat/${room.id}`);
+      navigate(`/chat/${room.id}`, {
+        state: { lectureRoom: room.lectureRoom },
+      });
     } else {
-      navigate('/chatlist', { state: { message: '해당 수업시간이 아닙니다.' } });
+      navigate("/chatlist", {
+        state: { message: "해당 수업시간이 아닙니다." },
+      });
     }
   };
-  
+
   return (
     <div className="navbar__list">
       {chatRooms.map((room) => {
@@ -93,28 +99,22 @@ export default function ChatListBox() {
         const itemClasses = `navbar__list__item ${
           room.name === selectedRoom ? "selected" : ""
         } ${!activeSession ? "inactive" : ""}`; // Adding 'inactive' class conditionally
-  
+
         return (
           <div
             className={itemClasses}
             key={room.id}
-            onClick={() => handleRoomClick(room ,activeSession)}
+            onClick={() => handleRoomClick(room, activeSession)}
           >
             <div className="question-container">
               <div className="question-title-container">
                 <div>
                   {room.name}
-                  {activeSession ? (
-                    <span>🟢</span>
-                  ) : (
-                    <span>⚪</span>
-                  )}
+                  {activeSession ? <span>🟢</span> : <span>⚪</span>}
                 </div>
               </div>
               <div className="question-date">{room.lectureRoom}</div>
-              <div className="sub-title-container">
-                {room.lectureTimes}
-              </div>
+              <div className="sub-title-container">{room.lectureTimes}</div>
             </div>
             <div className="icon__arrow__container">
               <ArrowForwardIcon />
@@ -123,5 +123,5 @@ export default function ChatListBox() {
         );
       })}
     </div>
-  );  
+  );
 }

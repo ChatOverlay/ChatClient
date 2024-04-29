@@ -12,7 +12,7 @@ const themes = {
   },
   dark: {
     name : "dark",
-    foreground: "#f2d492",
+    foreground: "#0164D8",
     background: "#202c39",
     primaryColor : "#FFFFFF",
   },

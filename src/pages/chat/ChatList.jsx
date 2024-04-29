@@ -10,7 +10,7 @@ export default function ChatList() {
   const message = location.state?.message || '수업을 클릭하여 참가해보세요.'; // Default message or state-passed message
 
   return (
-    <AppContainer theme={theme}>{message}</AppContainer>
+    <AppContainer >{message}</AppContainer>
   );
 }
 
@@ -30,12 +30,12 @@ const AppContainer = styled.div`
   position: relative;
   margin-left: 25vw;
   height: 100vh;
-  background-color: ${({ theme }) => theme.background};
+  background-color: var(--background-color);
   flex-direction: column;
   justify-content: center;
   opacity: 1;
   align-items: center;
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   font-size: 2.5rem;
   font-weight: bold;
   animation: ${slideInFromLeft} 0.5s ease-out forwards;

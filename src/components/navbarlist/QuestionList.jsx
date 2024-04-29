@@ -8,19 +8,18 @@ import { useSharedState } from "../../context/SharedStateContext";
 export default function QuestionList() {
   const navigate = useNavigate();
   const [options, setOptions] = useState("전체 보기");
-  const [selectedQuestion, setSelectedQuestion] = useState(null); 
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [questionList, setQuestionList] = useState([]); // 상태를 빈 배열로 초기화
   const { newAdded } = useSharedState();
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/questions`) 
+    fetch(`${import.meta.env.VITE_API_URL}/api/questions`)
       .then((response) => response.json())
       .then((data) => setQuestionList(data))
       .catch((error) => console.error("Error fetching questions:", error));
-
   }, [newAdded]);
 
   const handleQuestionClick = (id) => {
-    setSelectedQuestion(id); 
+    setSelectedQuestion(id);
     navigate(`/question/${id}`);
   };
 
@@ -31,7 +30,9 @@ export default function QuestionList() {
 
   return (
     <div className="navbar__list">
-      <SelectLabels options={options} setOptions={setOptions} />
+      <div className="sticky-container">
+        <SelectLabels options={options} setOptions={setOptions} />
+      </div>
       {questionList
         .filter(
           (question) =>

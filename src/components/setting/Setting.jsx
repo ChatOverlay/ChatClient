@@ -19,9 +19,9 @@ export default function Setting({ handleOption }) {
   };
 
   const themeOptions = [
-    { value: "default", label: "가천 스페셜 모드",},
-    { value: "light", label: "라이트 모드", },
-    { value: "dark", label: "다크 모드",  }
+    { value: "default", label: "기본 모드",},
+    { value: "dark", label: "다크 모드",  },
+    { value: "light", label: "푸근한 모드", },
   ];
 
   return (

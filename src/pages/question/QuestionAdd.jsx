@@ -85,13 +85,13 @@ export default function QuestionAdd() {
   };
 
   return (
-    <AppContainer show={closeOption} theme={theme}>
+    <AppContainer show={closeOption} >
       <TopBar
         closeOption={closeOption}
         setCloseOption={setCloseOption}
         titleName="새로운 질문 만들기"
       />
-      <QuestionContainer as="form" onSubmit={handleSubmit} theme={theme}>
+      <QuestionContainer as="form" onSubmit={handleSubmit} >
         <Header>
           <TitleContainer
             placeholder="질문 제목을 입력하세요"
@@ -133,7 +133,7 @@ export default function QuestionAdd() {
             ))}
           </PreviewContainer>
         </ImageUploadContainer>
-        <SaveButton type="submit" disabled={isSubmitting} theme={theme}>
+        <SaveButton type="submit" disabled={isSubmitting} >
           저장
         </SaveButton>
       </QuestionContainer>
@@ -144,8 +144,8 @@ export default function QuestionAdd() {
 //App 컨테이너
 const AppContainer = styled.div`
   margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: ${({ theme }) => theme.background};
-  border-left: 1px solid ${({ theme }) => theme.background};
+  background-color: var(--background-color);
+  border-left: 1px solid var(--background-color);
   transition: all 0.3s;
   z-index: 1;
 `;
@@ -155,9 +155,10 @@ const QuestionContainer = styled.div`
   display: flex;
   margin: 1rem;
   flex-direction: column;
-  color: ${({ theme }) => theme.foreground};
+  color: var(--foreground-color);
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
-  background-color: ${({ theme }) => theme.secondaryColor};
+  border : 2px solid var(--foreground-color);
+  background-color: var(--background-color);
   border-radius: 0.5rem; // 모서리를 둥글게 처리합니다.
 `;
 
@@ -165,15 +166,17 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  
   align-items: center;
   margin-bottom: 1.5rem; // 여백을 조금 더 늘려주어 시각적으로 여유를 줍니다.
 `;
 
 const TitleContainer = styled.input`
-  color: ${({ theme }) => theme.primaryColor};
-  border : 1px solid black;
+  border : 2px solid var(--foreground-color);
   font-family : 'Noto Sans KR';
   padding: 1rem;
+  
+  background-color: var(--background-color);
   border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
   width: 40%
   &:focus {
@@ -184,16 +187,18 @@ const TitleContainer = styled.input`
 const ContentContainer = styled.textarea`
   resize: none;
   font-family: "Noto Sans KR";
-  color: ${({ theme }) => theme.primaryColor};
+  color: var(--primary-color);
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 0.5rem;
+  background-color: var(--background-color);
+  border : 2px solid var(--foreground-color);
   margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.
   height: 35vh;
 `;
 
 const SaveButton = styled.button`
-  background-color: ${({ theme }) => theme.foreground};
-  color: ${({ theme }) => theme.background};
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   padding: 10px 20px;
   border: none;
   border-radius: 4px;

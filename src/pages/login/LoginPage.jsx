@@ -8,7 +8,7 @@ export default function LoginPage() {
   const {theme} = useTheme();
   useIsAuth();
   return (
-    <HomeContainer theme={theme}>
+    <HomeContainer >
       <Login />
     </HomeContainer>
   );
