@@ -43,14 +43,14 @@
 /* 스크롤바 전체를 스타일링합니다 */
 .navbar__list::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
-  background-color: #f9f9f9; /* 스크롤바의 배경 색상 */
+  background-color: var(--background-color); /* 스크롤바의 배경 색상 */
 }
 
 /* 스크롤바 핸들 (움직이는 부분)을 스타일링합니다 */
 .navbar__list::-webkit-scrollbar-thumb {
   background-color: var(--foreground-color); /* 스크롤바 핸들의 색상 */
   border-radius: 5px; /* 스크롤바 핸들의 모서리를 둥글게 */
-  border: 2px solid #f9f9f9; /* 스크롤바 핸들 주변에 테두리 추가 */
+  border: 2px solid var(--background-color); /* 스크롤바 핸들 주변에 테두리 추가 */
 }
 
 /* 스크롤바 핸들이 호버될 때의 스타일 */
@@ -102,6 +102,7 @@
   }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
 }
+
 .icon__arrow__container {
   display: flex;
   justify-content: center;
@@ -119,11 +120,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: 10vw;
 }
 
 .question-date {
   font-size: 0.7rem;
   font-weight: normal;
+  white-space: nowrap; /* Prevent the text from wrapping */
+  text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
 }
 
 .question-title-container {
@@ -155,6 +159,7 @@
   width: 3rem;
   cursor: pointer;
   transition: all 0.3s;
+  border: 2px solid var(--background-color);
 }
 
 .icon-container:hover {

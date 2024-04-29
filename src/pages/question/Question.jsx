@@ -50,21 +50,22 @@ export default function Question() {
             editMode={editMode}
             setEditMode={setEditMode}
           />
-          {questionData?.comments?.map((comment) => (
-            <Comment
-              key={comment._id}
-              questionData={questionData}
-              changeData={changeData}
-              setChangeData={setChangeData}
-              comment={comment}
-              theme={theme}
-            />
-          ))}
+          <CommentContainer>
+            {questionData?.comments?.map((comment) => (
+              <Comment
+                key={comment._id}
+                questionData={questionData}
+                changeData={changeData}
+                setChangeData={setChangeData}
+                comment={comment}
+                theme={theme}
+              />
+            ))}
+          </CommentContainer>
           <CommentAdd
             questionData={questionData}
             changeData={changeData}
             setChangeData={setChangeData}
-            
             theme={theme}
           />
         </QuestionContainer>
@@ -92,29 +93,34 @@ const AppContainer = styled.div`
   transition: all 0.3s;
   z-index: 1;
   animation: ${slideInFromLeft} 1s ease-out forwards; // Apply the animation
+  overflow: hidden; // 스크롤바 숨기기
 `;
 
 const QuestionContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  min-height: 90vh;
+  height: 90vh;
   color: var(--foreground-color);
-  margin-bottom: 5rem;
-  overflow-y: auto; // 스크롤바가 필요할 경우 표시
 
+`;
+
+const CommentContainer = styled.div`
+  max-height: 50vh;
+  overflow-y: auto;  // 내용이 30vh를 초과할 경우 스크롤바 표시
+  border-bottom : 1px solid var(--foreground-color);
   &::-webkit-scrollbar {
-    width: 10px;
-    background-color: #f9f9f9;
+    width: 8px;  // 스크롤바 폭
+    background-color: var(--background-color);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--foreground-color); // 여기서 적절한 테마 색상을 사용
+    background-color: var(--foreground-color);
     border-radius: 5px;
-    border: 2px solid #f9f9f9;
+    border: 2px solid var(--background-color);
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #b3b3b3;
+    background-color: #b3b3b3;  // 호버 시 스크롤바 색상 변경
   }
 `;
