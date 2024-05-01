@@ -102,15 +102,15 @@ const QuestionContainer = styled.div`
   flex-direction: column;
   height: 90vh;
   color: var(--foreground-color);
-
 `;
 
 const CommentContainer = styled.div`
-  max-height: 50vh;
-  overflow-y: auto;  // 내용이 30vh를 초과할 경우 스크롤바 표시
-  border-bottom : 1px solid var(--foreground-color);
+  height: 40vh;
+  max-height: 40vh;
+  overflow-y: auto; // 내용이 30vh를 초과할 경우 스크롤바 표시
+  border-bottom: 1px solid var(--foreground-color);
   &::-webkit-scrollbar {
-    width: 8px;  // 스크롤바 폭
+    width: 8px; // 스크롤바 폭
     background-color: var(--background-color);
   }
 
@@ -121,6 +121,6 @@ const CommentContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #b3b3b3;  // 호버 시 스크롤바 색상 변경
+    background-color: #b3b3b3; // 호버 시 스크롤바 색상 변경
   }
 `;

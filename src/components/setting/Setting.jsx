@@ -28,7 +28,7 @@ export default function Setting({ handleOption }) {
 
   return (
     <SettingContainer isClosing={isClosing}>
-      <SettingBox>
+      <SettingBox onClick={e => e.stopPropagation()}>
         <SettingTitleContainer>
           <Title>테마 설정</Title>
           <IconContainer onClick={handleClose}>

@@ -28,6 +28,7 @@ export default function Comment({
         }
       );
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
         setIsQuestioner(data.id === questionData?.questionerId);
         setCurrentUserId(data.id);
@@ -231,7 +232,7 @@ const CommentContent = styled.div`
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`
   display: flex;
-  color: var(--background-color);
+  color: var(--foreground-color);
   gap: 1rem;
 `;
 const StyledReportIcon = muiStyled(ReportIcon)({
