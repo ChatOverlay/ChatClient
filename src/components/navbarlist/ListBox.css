@@ -146,9 +146,10 @@
 
 .icon-container {
   display: flex;
-  position: sticky;
-  bottom: 1rem;
-  left : 19rem;
+  position: fixed;
+  bottom : 2vh;
+  left : 20vw;
+  z-index: 1000000;
   align-items: center;
   justify-content: center;
   font-size: 2rem;

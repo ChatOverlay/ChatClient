@@ -6,8 +6,8 @@ import LikedPage from "./mypage/LikedPage";
 
 import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
-import { useTheme } from "../../context/ThemeContext";
 import { useSharedState } from "../../context/SharedStateContext";
+import ProfileModal from "../modals/ProfileModal";
 const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function MyPage() {
@@ -17,21 +17,50 @@ export default function MyPage() {
   const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const [mileage, setMileage] = useState(0); // 마일리지 상태 추가
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
-  const { theme } = useTheme(); // 테마 컨텍스트에서 현재 테마 가져오기
+  const [showModal, setShowModal] = useState(false);
   const { newAdded } = useSharedState();
-  
+
   const fileInputRef = useRef(null);
-  
-  //이미지 관련
-  const triggerFileInput = () => {
-    fileInputRef.current.click();
+  const handleModal = () => {
+    setShowModal(!showModal);
   };
+
+  const handleResetDefault = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/reset-profile-picture`, {
+        method: "DELETE",
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+  
+      if (response.ok) {
+        setProfilePictureUrl(''); // 상태를 빈 문자열로 설정하여 UI에서 프로필 이미지를 제거
+        setShowModal(false);
+      } else {
+        console.error("Failed to reset profile picture to default.");
+      }
+    } catch (error) {
+      console.error("Error resetting profile picture to default:", error);
+    }
+  };
+  //이미지 관련
+  const handleChangePicture = () => {
+    // 파일 입력 트리거
+    fileInputRef.current.click();
+    setShowModal(false);
+  };
+  
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) {
       console.error("No file selected.");
       return;
     }
+
+    setShowModal(false);
     handleFileUpload(file); // 파일 업로드 처리 함수 호출
   };
   const handleFileUpload = async (file) => {
@@ -128,14 +157,13 @@ export default function MyPage() {
 
     fetchUserInfo();
   }, [profilePictureUrl]);
-  
+
   useEffect(() => {
     // 마일리지 정보 갱신 리스너
     socket.on("mileageUpdated", (data) => {
       setMileage(data.newMileage);
       setTotalMileage(data.totalMileage);
     });
-
     return () => {
       socket.off("mileageUpdated");
     };
@@ -143,10 +171,7 @@ export default function MyPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // 서버로부터 초기 마일리지 정보를 요청합니다.
     socket.emit("getInitialMileage", { token });
-
-    // 필요한 경우 여기서 초기 마일리지 정보를 받는 리스너도 설정할 수 있습니다.
   }, [newAdded]);
   return (
     <>
@@ -154,14 +179,14 @@ export default function MyPage() {
         <LikedPage setLikedPages={setLikedPages} />
       ) : (
         <div className="navbar__list">
-          <MyContainer >
+          <MyContainer>
             <input
               type="file"
               style={{ display: "none" }}
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            <IconContainer onClick={triggerFileInput}>
+            <IconContainer onClick={handleModal}>
               {profilePictureUrl ? (
                 <img
                   src={profilePictureUrl}
@@ -172,24 +197,22 @@ export default function MyPage() {
                 <AccountCircleIcon sx={{ fontSize: "5rem" }} />
               )}
             </IconContainer>
-
             <NickNameContainer>
               {changeNameAble ? (
                 <InputContainer>
                   <NameInputContainer
-                    
                     onChange={(e) => setNickName(e.target.value)}
                     value={nickName}
                     placeholder="닉네임을 입력하세요.."
                   />
-                  <SaveButton  onClick={() => updateNickName(nickName)}>
+                  <SaveButton onClick={() => updateNickName(nickName)}>
                     저장
                   </SaveButton>
                 </InputContainer>
               ) : (
                 <InputContainer>
                   <div>{nickName}</div>
-                  <SaveButton  onClick={() =>setChangeNameAble(true)}>
+                  <SaveButton onClick={() => setChangeNameAble(true)}>
                     수정
                   </SaveButton>
                 </InputContainer>
@@ -202,6 +225,13 @@ export default function MyPage() {
             setLikedPages={setLikedPages}
           />
         </div>
+      )}
+      {showModal && (
+        <ProfileModal
+          onClose={handleModal}
+          onResetDefault={handleResetDefault}
+          onChangePicture={handleChangePicture}
+        />
       )}
     </>
   );
@@ -227,7 +257,7 @@ const IconContainer = styled.div`
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s;
-  border : 1px solid var(--foreground-color);
+  border: 1px solid var(--foreground-color);
   &:hover {
     opacity: 0.6;
   }
@@ -238,7 +268,7 @@ const SaveButton = styled.div`
   justify-content: center;
   align-items: center;
   min-width: 3vw;
-  padding : 0 0.5rem;
+  padding: 0 0.5rem;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 0.5rem;
@@ -270,7 +300,7 @@ const NameInputContainer = styled.input`
   text-align: center;
   background-color: var(--background-color);
   color: var(--foreground-color);
-  max-width : 10rem;
+  max-width: 10rem;
   font-weight: bold;
   font-size: 1.2rem;
   padding: 5px;
