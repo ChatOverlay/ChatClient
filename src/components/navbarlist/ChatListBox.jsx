@@ -9,7 +9,6 @@ export default function ChatListBox() {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [chatRooms, setChatRooms] = useState([]);
-
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/chatrooms`, {
       headers: {
@@ -48,7 +47,7 @@ export default function ChatListBox() {
 
   return (
     <div className="navbar__list">
-      {chatRooms.map((room) => {
+      {chatRooms.filter(room => room.lectureRoom).map((room) => {
         const activeSession = isLectureInSession(room.lectureTimes);
         const itemClasses = `navbar__list__item ${
           room.name === selectedRoom ? "selected" : ""
