@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useTheme } from "../../context/ThemeContext";
 
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
 import { useSharedState } from "../../context/SharedStateContext";
+import { isLectureInSession } from "../../utils/timeUtils";
 
 const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
@@ -18,15 +18,21 @@ export default function Chat() {
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
   const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
-  const { theme } = useTheme();
   const { addNewData } = useSharedState();
-  const [courseName, setCourseName] = useState(""); 
+  const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
+  const [courseTime, setCourseTime] = useState("");
+  const navigate = useNavigate();
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const sendMessage = () => {
+    if (!courseTime) { 
+      alert("해당 수업 시간이 아닙니다.");
+      navigate('/chatlist'); 
+      return; 
+    }
     if (message) {
       const token = localStorage.getItem("token");
       const messageObject = {
@@ -71,7 +77,9 @@ export default function Chat() {
     setMessages([]);
     socket.emit("joinRoom", titleName);
     socket.on("roomJoined", (data) => {
-      setCourseName(data.courseName); // Set the course name received from the server
+      setCourseTime(isLectureInSession(data.courseTime)); // Set the course name received from the server
+
+      setCourseName(data.courseName);
     });
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -84,7 +92,6 @@ export default function Chat() {
     });
 
     return () => {
-      
       socket.off("roomJoined");
       socket.off("message");
       socket.off("mileageUpdated");
@@ -106,7 +113,7 @@ export default function Chat() {
 
   return (
     <>
-      <AppContainer show={closeOption} >
+      <AppContainer show={closeOption}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
@@ -137,10 +144,10 @@ export default function Chat() {
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
                         <AccountCircleIcon sx={{ fontSize: "2.5rem" }} />
                       )}
-                    <Message  user={msg.isCurrentUser ? "me" : ""}>
+                    <Message user={msg.isCurrentUser ? "me" : ""}>
                       {msg.text}
                     </Message>
-                    <MessageTime >
+                    <MessageTime>
                       {new Date(msg.timestamp).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -152,17 +159,16 @@ export default function Chat() {
             ))}
             <div ref={messagesEndRef} />
           </MessagesContainer>
-          <InputContainer >
+          <InputContainer>
             <StyledInput
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요..."
-              
             />
-            <StyledButton onClick={sendMessage} >
-              <MileageContainer >{mileage} / 100</MileageContainer>
+            <StyledButton onClick={sendMessage}>
+              <MileageContainer>{mileage} / 100</MileageContainer>
               <SendIcon />
             </StyledButton>
           </InputContainer>
@@ -323,14 +329,14 @@ const MessageTime = styled.div`
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
 const Message = styled.div`
-display : flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.6rem;
   border-radius: 1.5rem;
   margin-left: 0.3rem;
-  background-color: ${({ theme, user }) =>
-    user === "me" ? theme.foreground : theme.primaryColor};
+  background-color: ${({ user }) =>
+    user === "me" ? "var(--foreground-color)" : "var(--primary-color)"};
   color: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: anywhere;
