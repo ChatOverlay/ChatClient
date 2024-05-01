@@ -21,6 +21,7 @@ export default function Chat() {
   const { addNewData } = useSharedState();
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
+  console.log(titleName);
   const [courseTime, setCourseTime] = useState("");
   const navigate = useNavigate();
   const scrollToBottom = () => {
@@ -28,10 +29,10 @@ export default function Chat() {
   };
 
   const sendMessage = () => {
-    if (!courseTime) { 
+    if (!courseTime) {
       alert("해당 수업 시간이 아닙니다.");
-      navigate('/chatlist'); 
-      return; 
+      navigate("/chatlist");
+      return;
     }
     if (message) {
       const token = localStorage.getItem("token");
@@ -78,7 +79,11 @@ export default function Chat() {
     socket.emit("joinRoom", titleName);
     socket.on("roomJoined", (data) => {
       setCourseTime(isLectureInSession(data.courseTime)); // Set the course name received from the server
-
+      if (!courseTime) {
+        alert("해당 수업 시간이 아닙니다.");
+        navigate("/chatlist");
+        return;
+      }
       setCourseName(data.courseName);
     });
     socket.on("message", (receivedMessage) => {
@@ -90,13 +95,20 @@ export default function Chat() {
     socket.on("mileageUpdated", (data) => {
       setMileage(data.newMileage);
     });
-
+    socket.on("error", (error) => {
+      if (error.message) {
+        alert(error.message); // Display error message
+        navigate("/chatlist"); // Redirect if the course is not found
+      }
+    });
     return () => {
       socket.off("roomJoined");
       socket.off("message");
+
+      socket.off("error");
       socket.off("mileageUpdated");
     };
-  }, [titleName]);
+  }, [navigate, titleName]);
 
   useEffect(() => {
     scrollToBottom(); // 메시지 목록이 업데이트 될 때마다 스크롤
