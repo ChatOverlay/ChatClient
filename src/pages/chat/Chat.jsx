@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
 import styled from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
@@ -13,6 +13,9 @@ import { isLectureInSession } from "../../utils/timeUtils";
 const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
 export default function Chat() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const roomId = location.state?.roomId;
   const [message, setMessage] = useState(""); //메시지
   const [messages, setMessages] = useState([]); //메시지 배열
   const messagesEndRef = useRef(null);
@@ -21,9 +24,7 @@ export default function Chat() {
   const { addNewData } = useSharedState();
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
-  console.log(titleName);
-  const [courseTime, setCourseTime] = useState("");
-  const navigate = useNavigate();
+  const [courseTime, setCourseTime] = useState(false);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -75,17 +76,31 @@ export default function Chat() {
   };
 
   useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/course/${roomId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const activeSession = isLectureInSession(data.courseTime); // Set the course name received from the server
+        setCourseName(data.courseName);
+        setCourseTime(activeSession);
+      })
+      .catch((error) => {
+        alert("해당 수업을 클릭해서 접속해주세요."); // Custom alert message
+        console.error("직접적인 접속을 제어합니다.", error);
+      });
+  }, [navigate, courseTime]);
+  useEffect(() => {
     setMessages([]);
     socket.emit("joinRoom", titleName);
-    socket.on("roomJoined", (data) => {
-      setCourseTime(isLectureInSession(data.courseTime)); // Set the course name received from the server
-      if (!courseTime) {
-        alert("해당 수업 시간이 아닙니다.");
-        navigate("/chatlist");
-        return;
-      }
-      setCourseName(data.courseName);
-    });
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
@@ -119,10 +134,7 @@ export default function Chat() {
     const token = localStorage.getItem("token");
     // 서버로부터 초기 마일리지 정보를 요청합니다.
     socket.emit("getInitialMileage", { token });
-
-    // 필요한 경우 여기서 초기 마일리지 정보를 받는 리스너도 설정할 수 있습니다.
   }, []);
-
   return (
     <>
       <AppContainer show={closeOption}>

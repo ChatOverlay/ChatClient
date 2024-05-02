@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import moment from "moment-timezone";
 import "./ListBox.css";
 import { isLectureInSession } from "../../utils/timeUtils";
 
@@ -35,7 +34,7 @@ export default function ChatListBox() {
   const handleRoomClick = (room, activeSession) => {
     setSelectedRoom(room.name);
     if (activeSession) {
-      navigate(`/chat/${room.lectureRoom}`); 
+      navigate(`/chat/${room.lectureRoom}`, {state : {roomId : room.id}}); 
     } else {
       navigate("/chatlist", {
         state: { message: "해당 수업시간이 아닙니다." },
