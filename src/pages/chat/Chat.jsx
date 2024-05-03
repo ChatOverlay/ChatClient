@@ -166,7 +166,12 @@ export default function Chat() {
                       )}
                     {!msg.profilePictureUrl &&
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
-                        <AccountCircleIcon sx={{ fontSize: "2.5rem" }} />
+                        <AccountCircleIcon
+                          sx={{
+                            fontSize: "2.5rem",
+                            color: "  var(--primary-color)",
+                          }}
+                        />
                       )}
                     <Message user={msg.isCurrentUser ? "me" : ""}>
                       {msg.text}
@@ -241,7 +246,7 @@ const ChatContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   margin-bottom: 0.5rem;
-  padding: 0.15rem;
+  padding: 0.25rem;
   border-radius: 2rem;
   background-color: var(--foreground-color);
   color: var(--primary-color);
@@ -314,9 +319,10 @@ const MessageContainer = styled.div`
 
 // 사용자 이름을 표시하는 스타일 컴포넌트입니다.
 const UserName = styled.div`
-  margin-bottom: 4px;
   font-size: 0.8rem;
-  color: #a8a8a8; // 이름의 색상을 설정합니다.
+  font-weight: bold;
+  margin-left: 0.1rem;
+  color: var(--primary-color);
   text-align: ${(props) => (props.user === "me" ? "right" : "left")};
 `;
 //아이콘 컨테이너
@@ -347,8 +353,10 @@ const ContentContainer = styled.div`
 // MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
 const MessageTime = styled.div`
   font-size: 0.7rem;
-  color: var(--foreground-color);
+  margin-left : 0.2rem;
+  color: var(--primary-color);
   font-family: "Noto Sans KR";
+  padding-bottom : 0.15rem;
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
@@ -356,8 +364,9 @@ const Message = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem;
+  padding: 0.4rem 0.7rem;
   border-radius: 1.5rem;
+  font-weight: bold;
   margin-left: 0.3rem;
   background-color: ${({ user }) =>
     user === "me" ? "var(--foreground-color)" : "var(--primary-color)"};

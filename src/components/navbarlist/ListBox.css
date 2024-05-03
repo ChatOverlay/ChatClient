@@ -108,6 +108,7 @@
   justify-content: center;
   align-items: center;
   width: 3rem;
+  margin-right : -0.5rem;
   color: var(--foreground-color);
   cursor: pointer;
   transition: all 0.3s;
@@ -120,6 +121,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap : 0.2rem;
   max-width: 10vw;
 }
 
@@ -149,7 +151,7 @@
   position: fixed;
   bottom : 2vh;
   left : 20rem;
-  z-index: 1000000;
+  z-index: 100;
   align-items: center;
   justify-content: center;
   font-size: 2rem;

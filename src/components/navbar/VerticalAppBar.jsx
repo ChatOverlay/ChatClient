@@ -56,7 +56,7 @@ export default function VerticalAppBar() {
       <AppBar>
         <div>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-            <ChatIcon sx={{ fontSize: "2rem", paddingBottom: "0.3rem" }} />
+            <ChatIcon sx={{ fontSize: "2.5rem", paddingBottom: "0.3rem" }} />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
@@ -67,7 +67,7 @@ export default function VerticalAppBar() {
             active={activeIcon === 1}
           >
             <FilterFramesIcon
-              sx={{ fontSize: "2rem", marginBottom: "0.3rem" }}
+              sx={{ fontSize: "2.5rem", marginBottom: "0.3rem" }}
             />
             <span>질문 게시판</span>
           </IconContainer>
@@ -79,18 +79,18 @@ export default function VerticalAppBar() {
             active={activeIcon === 2}
           >
             <AccountCircleIcon
-              sx={{ fontSize: "2rem", marginBottom: "0.3rem" }}
+              sx={{ fontSize: "2.5rem", marginBottom: "0.3rem" }}
             />
             <span>MY</span>
           </IconContainer>
         </div>
         <div style={{ marginBottom: "2rem" }}>
           <IconContainer onClick={() => handleOption()}>
-            <SettingsIcon sx={{ fontSize: "2rem" }} />
+            <SettingsIcon sx={{ fontSize: "2.5rem" }} />
             <span>설정</span>
           </IconContainer>
           <IconContainer onClick={handleLogout}>
-            <LogoutIcon sx={{ fontSize: "2rem" }} />
+            <LogoutIcon sx={{ fontSize: "2.5rem" }} />
             <span>로그아웃</span>
           </IconContainer>
         </div>
@@ -144,6 +144,6 @@ const IconContainer = styled.div`
     visibility: ${(props) => (props.active ? "visible" : "hidden")};
     opacity: ${(props) => (props.active ? "1" : "0")};
     transition: visibility 0s, opacity 0.1s linear;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 `;
