@@ -245,7 +245,7 @@ const buttonSx = {
   marginTop: "0.1rem",
   paddingRight: "0.1rem",
   height: "4rem",
-  backgroundColor: "var(--foreground-color)",
+  backgroundColor: "0164D8",
   color: "var(--background-color)",
   borderRadius: "10rem",
   transition: "all 0.3s ease",
