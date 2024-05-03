@@ -111,15 +111,14 @@ const AppBar = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  width: 5vw;
-  min-width : 3rem;
+  width: 5rem;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
 `;
 
 const IconContainer = styled.div`
   position: relative;
-  margin-top: 3rem;
+  margin-top: 5vh;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;

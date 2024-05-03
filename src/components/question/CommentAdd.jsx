@@ -71,7 +71,6 @@ export default function CommentAdd({
 
 const CommentAddContainer = styled.div`
   display: flex;
-  position: absolute;
   width: 100%;
   bottom: 0;
   right: 0;

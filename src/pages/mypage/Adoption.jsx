@@ -68,10 +68,9 @@ const AppContainer = styled.div`
   flex-direction: column;
   position: relative;
   height: 100vh;
-  margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
+  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
   background-color: var(--background-color);
   color: var(--primary-color);
-  border-left: 1px solid var(--foreground-color);
   transition: all 0.3s;
 
   z-index: 1;

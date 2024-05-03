@@ -5,7 +5,7 @@ import { ModalBackdrop } from './ImageModal';
 
 const ModalContainer = styled.div`
   background: white;
-  width : 50%;
+  width : 30%;
   padding: 20px;
   border-radius: 10px;
   display: flex;
@@ -19,6 +19,8 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s;
+  font-size : 1rem;
+  font-family : "Noto Sans KR";
   &:hover {
     background-color: #ccc;
   }

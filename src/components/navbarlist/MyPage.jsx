@@ -243,7 +243,7 @@ const MyContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 5vh 0;
+  padding: 3rem 0;
   border-bottom: 1px solid var(--foreground-color);
   color: var(--foreground-color);
 `;
@@ -267,7 +267,7 @@ const SaveButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 3vw;
+  min-width: 3rem;
   padding: 0 0.5rem;
   font-size: 1rem;
   cursor: pointer;

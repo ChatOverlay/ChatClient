@@ -35,7 +35,7 @@ const slideInFromLeft = keyframes`
 const AppContainer = styled.div`
   display: flex;
   position: relative;
-  margin-left: 25.05vw;
+  margin-left: 25.05rem;
   height: 100vh;
   background-color: var(--background-color);
   flex-direction: column;

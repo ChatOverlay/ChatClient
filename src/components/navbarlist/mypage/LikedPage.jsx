@@ -76,7 +76,7 @@ export default function LikedPage({ setLikedPages }) {
 const IconContainer = styled.div`
   cursor: pointer;
   transition: all 0.3s;
-  color: var(--background-color);
+  color: var(--foreground-color);
   padding: 1rem;
   &:hover {
     opacity: 0.6;
@@ -85,7 +85,8 @@ const IconContainer = styled.div`
 
 const LikedPageDetail = styled.div`
   padding-left: 1rem;
-  height: 3rem;
+  height: 2rem;
+  margin-bottom : 0.5rem;
   transition: all 0.3s;
   border-bottom: 1px solid var(--foreground-color);
 

@@ -50,7 +50,6 @@ export default function Question() {
             editMode={editMode}
             setEditMode={setEditMode}
           />
-          <CommentContainer>
             {questionData?.comments?.map((comment) => (
               <Comment
                 key={comment._id}
@@ -61,7 +60,6 @@ export default function Question() {
                 theme={theme}
               />
             ))}
-          </CommentContainer>
           <CommentAdd
             questionData={questionData}
             changeData={changeData}
@@ -87,30 +85,15 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 100vh;
-  margin-left: ${({ show }) => (show ? "5vw" : "25.05vw")};
+  height :  100vh;
+  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
   background-color: var(--background-color); // 테마 적용
   transition: all 0.3s;
   z-index: 1;
   animation: ${slideInFromLeft} 1s ease-out forwards; // Apply the animation
-  overflow: hidden; // 스크롤바 숨기기
-`;
-
-const QuestionContainer = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  height: 90vh;
-  color: var(--foreground-color);
-`;
-
-const CommentContainer = styled.div`
-  height: 40vh;
-  max-height: 40vh;
-  overflow-y: auto; // 내용이 30vh를 초과할 경우 스크롤바 표시
-  border-bottom: 1px solid var(--foreground-color);
+  overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 8px; // 스크롤바 폭
+    width: 10px; // 스크롤바 폭
     background-color: var(--background-color);
   }
 
@@ -123,4 +106,11 @@ const CommentContainer = styled.div`
   &::-webkit-scrollbar-thumb:hover {
     background-color: #b3b3b3; // 호버 시 스크롤바 색상 변경
   }
+`;
+
+const QuestionContainer = styled.div`
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  color: var(--foreground-color);
 `;
