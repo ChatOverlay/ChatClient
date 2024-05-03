@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import TopBar from "../../components/topbar/TopBar";
 import styled from "styled-components";
 import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
 import { useSharedState } from "../../context/SharedStateContext";
 
 export default function QuestionAdd() {
@@ -15,8 +15,26 @@ export default function QuestionAdd() {
   const [images, setImages] = useState([]);
   const [previews, setPreviews] = useState([]);
   const { addNewData } = useSharedState();
-  const { theme } = useTheme();
   const navigate = useNavigate();
+
+  const onDrop = useCallback((acceptedFiles) => {
+    setImages((prev) => [...prev, ...acceptedFiles]);
+
+    acceptedFiles.forEach((file) => {
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviews((prev) => [...prev, reader.result]);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/*",
+  });
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -85,13 +103,13 @@ export default function QuestionAdd() {
   };
 
   return (
-    <AppContainer show={closeOption} >
+    <AppContainer show={closeOption}>
       <TopBar
         closeOption={closeOption}
         setCloseOption={setCloseOption}
         titleName="새로운 질문 만들기"
       />
-      <QuestionContainer as="form" onSubmit={handleSubmit} >
+      <QuestionContainer as="form" onSubmit={handleSubmit}>
         <Header>
           <TitleContainer
             placeholder="질문 제목을 입력하세요"
@@ -110,15 +128,17 @@ export default function QuestionAdd() {
           onChange={(e) => setContent(e.target.value)}
         />
         <ImageUploadContainer>
-          <div>
-            <ImageInputLabel>이미지 첨부:</ImageInputLabel>
-            <ImageInput
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
-            />
-          </div>
+          <ImageUploader {...getRootProps()}>
+            <DropArea isActive={isDragActive}>
+              {isDragActive ? (
+                <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
+              ) : (
+                <DropMessage>
+                  이미지 파일을 드래그 앤 드롭하거나 클릭해서 선택하세요.
+                </DropMessage>
+              )}
+            </DropArea>
+          </ImageUploader>
           <PreviewContainer>
             {previews.map((preview, index) => (
               <PreviewItem key={index}>
@@ -133,8 +153,8 @@ export default function QuestionAdd() {
             ))}
           </PreviewContainer>
         </ImageUploadContainer>
-        <SaveButton type="submit" disabled={isSubmitting} >
-          저장
+        <SaveButton type="submit" disabled={isSubmitting}>
+          질문 게시하기
         </SaveButton>
       </QuestionContainer>
     </AppContainer>
@@ -143,9 +163,12 @@ export default function QuestionAdd() {
 
 //App 컨테이너
 const AppContainer = styled.div`
-  margin-left: ${({ show }) => (show ? "5vw" : "25vw")};
-  background-color: var(--background-color);
-  border-left: 1px solid var(--background-color);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100vh;
+  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
+  background-color: var(--background-color); // 테마 적용
   transition: all 0.3s;
   z-index: 1;
 `;
@@ -157,7 +180,7 @@ const QuestionContainer = styled.div`
   flex-direction: column;
   color: var(--foreground-color);
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
-  border : 2px solid var(--foreground-color);
+  border: 2px solid var(--foreground-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 모서리를 둥글게 처리합니다.
 `;
@@ -190,7 +213,7 @@ const ContentContainer = styled.textarea`
   padding: 10px;
   border-radius: 0.5rem;
   background-color: var(--background-color);
-  border : 2px solid var(--foreground-color);
+  border: 2px solid var(--foreground-color);
   margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.
   height: 35vh;
 `;
@@ -199,8 +222,10 @@ const SaveButton = styled.button`
   background-color: var(--foreground-color);
   color: var(--background-color);
   padding: 10px 20px;
+  font-size: 1.3rem;
+  font-family: "Noto Sans KR";
   border: none;
-  border-radius: 4px;
+  border-radius: 0.5rem;
   cursor: pointer;
   margin-top: 1rem;
   font-weight: bold;
@@ -216,38 +241,42 @@ const ImageUploadContainer = styled.div`
   flex-direction: column;
 `;
 
-const ImageInputLabel = styled.label`
+const ImageUploader = styled.label`
   font-size: 1rem;
   margin-right: 0.3rem;
   font-family: "Noto Sans KR";
-`;
+  border-radius: 0.5rem;
+  border: 2px solid var(--foreground-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
 
-const ImageInput = styled.input`
-  padding: 0.5rem;  // 좋은 클릭감과 타이핑 경험을 위한 패딩
-  margin-top: 0.5rem;  // 주변 요소와의 적절한 간격
-  font-size: 1rem;  // 적당한 글꼴 크기
-  font-family: "Noto Sans KR";  // 일관된 글꼴 사용
-  width : 7rem;
-  background-color: #b3b3b3;
-  color: var(--background-color);  
-  border-radius: 0.5rem;  // 모서리 둥글게 처리
-  cursor: pointer;  // 마우스 오버 시 커서 변경
-  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;  // 부드러운 전환 효과
-
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; // 부드러운 전환 효과
   &:hover {
-    background-color: var(--foreground-color);  // 호버 시 테두리 색 변경
-    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);  // 부드러운 그림자 효과
+    background-color: #b3b3b3; // 호버 시 테두리 색 변경
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); // 부드러운 그림자 효과
   }
 
   &:focus {
-    outline: none;  // 기본 포커스 윤곽선 제거
-    border-color: var(--primary-color);  // 포커스 시 테두리 색 강조
-    box-shadow: 0px 0px 8px rgba(0,0,0,0.2);  // 포커스 시 그림자 강조
+    outline: none; // 기본 포커스 윤곽선 제거
+    border-color: var(--primary-color); // 포커스 시 테두리 색 강조
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2); // 포커스 시 그림자 강조
   }
+`;
+const DropArea = styled.div`
+  width : 100%;
+  text-align: center;
+  border-radius : 0.5rem;
+  background-color: ${({ isActive }) =>
+    isActive ? "#f4f4f4" : "transparent"}; // 활성화 시 배경색 변경
+  transition: all 0.3s ease;
+`;
 
-  &::file-selector-button {
-    display: none;  // 기본 파일 선택 버튼 숨기기
-  }
+const DropMessage = styled.p`
+  font-size: 1.2rem;
+  color: ${({ isActive }) =>
+    isActive ? "#4CAF50" : "#aaa"}; // 활성화 상태에 따라 텍스트 색상 변경
+  font-weight: bold;
 `;
 
 const PreviewContainer = styled.div`
