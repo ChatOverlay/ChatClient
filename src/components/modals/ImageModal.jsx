@@ -15,7 +15,8 @@ export const ModalBackdrop = styled.div`
 `;
 
 const ModalContent = styled.div`
-  width: 50rem;
+  width: 80%;
+  height : 80%;
   position: relative; /* Added relative positioning */
   display: flex;
   align-items: center;
@@ -47,7 +48,7 @@ export default function ImageModal({ src, onClose }) {
         <img
           src={src}
           alt="Enlarged"
-          style={{ maxWidth: "60%", maxHeight: "60%" }}
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
         />
         <CloseButton onClick={onClose}>&times;</CloseButton>
       </ModalContent>
