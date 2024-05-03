@@ -23,7 +23,7 @@ export default function LoadingModal() {
     <ModalBackdrop style={{ flexDirection: "column" }}>
       <Loader />
       <LoadingMessage>
-        정보를 가져오는 중입니다. 잠시만 기다려주세요..
+        처음에만 정보 수집을 위해 조금만 기다려주세요...
         <LoadingProgress>{loadingProgress}%</LoadingProgress>
       </LoadingMessage>
     </ModalBackdrop>
