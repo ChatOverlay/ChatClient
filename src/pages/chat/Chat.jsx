@@ -48,30 +48,29 @@ export default function Chat() {
       addNewData();
     }
   };
-  const handleReport = async (reportedUserId) => {
+  const handleReport = async (reportedUserId, verify) => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("User is not authenticated");
-      return;
-    }
+    if (!verify) {
+      if (window.confirm("해당 유저를 신고하시겠습니까?")) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/reportUser`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ reportedUserId }),
+            }
+          );
 
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/reportUser`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ reportedUserId }),
+          const data = await response.json();
+          alert(data.message);
+        } catch (error) {
+          console.error("Error reporting user:", error);
         }
-      );
-
-      const data = await response.json();
-      alert(data.message);
-    } catch (error) {
-      console.error("Error reporting user:", error);
+      }
     }
   };
 
@@ -147,12 +146,17 @@ export default function Chat() {
           <MessagesContainer>
             {messages.map((msg, index) => (
               <React.Fragment key={index}>
-                <MessageContainer user={msg.isCurrentUser ? "me" : ""}>
+                <MessageContainer
+                  user={msg.isCurrentUser ? "me" : ""}
+                  onClick={() =>
+                    handleReport(msg.userId, msg.isCurrentUser ? "me" : "")
+                  }
+                >
                   {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
                   <ContentContainer user={msg.isCurrentUser ? "me" : ""}>
                     {msg.profilePictureUrl &&
                       !msg.isCurrentUser && ( // 여기에 조건을 추가
-                        <IconContainer onClick={() => handleReport(msg.userId)}>
+                        <IconContainer>
                           <img
                             src={msg.profilePictureUrl}
                             alt="profile"
@@ -315,6 +319,11 @@ const MessageContainer = styled.div`
   flex-direction: column;
   align-items: ${(props) => (props.user === "me" ? "flex-end" : "flex-start")};
   margin-bottom: 1rem;
+  cursor: ${(props) => (props.user === "me" ? "" : "pointer")};
+  transition: all 0.3s;
+  &:hover {
+    opacity: ${(props) => (props.user === "me" ? "" : "0.6")};
+  }
 `;
 
 // 사용자 이름을 표시하는 스타일 컴포넌트입니다.
@@ -331,11 +340,6 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: var(--foreground-color);
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    opacity: 0.6;
-  }
 `;
 
 // 메시지 및 시간을 포함하는 ContentContainer에 적용할 스타일을 업데이트합니다.
@@ -353,10 +357,10 @@ const ContentContainer = styled.div`
 // MessageTime 스타일 컴포넌트에 margin-left를 추가하여 메시지와 시간 사이 간격을 조정합니다.
 const MessageTime = styled.div`
   font-size: 0.7rem;
-  margin-left : 0.2rem;
+  margin-left: 0.2rem;
   color: var(--primary-color);
   font-family: "Noto Sans KR";
-  padding-bottom : 0.15rem;
+  padding-bottom: 0.15rem;
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
