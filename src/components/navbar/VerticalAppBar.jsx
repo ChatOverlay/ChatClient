@@ -11,14 +11,12 @@ import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
-import { useTheme } from "../../context/ThemeContext";
 
 export default function VerticalAppBar() {
   const navigate = useNavigate();
   const [section, setSection] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIcon, setActiveIcon] = useState(null);
-  const { theme } = useTheme();
 
   const sectionComponents = {
     0: <ChatList />,
@@ -49,6 +47,22 @@ export default function VerticalAppBar() {
 
   return (
     <>
+      <Footer>
+        <FooterTitle>채팅</FooterTitle>
+        <FooterIconContainer>
+          <IconContainer
+            onClick={() => handleOption()}
+            style={{ marginRight: "1rem" }}
+          >
+            <SettingsIcon />
+          </IconContainer>
+          {activeIcon === 2 && (
+            <IconContainer onClick={handleLogout}>
+              <LogoutIcon sx={IconSx} />
+            </IconContainer>
+          )}
+        </FooterIconContainer>
+      </Footer>
       <AppBar>
         <FirstIconWrapper>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
@@ -110,7 +124,7 @@ const AppBar = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    height: 8%;
+    height: 9%;
     top: auto;
     bottom: 0;
     justify-content: space-between;
@@ -139,6 +153,7 @@ const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   opacity: ${(props) => (props.active ? "1" : "0.8")};
 
   &:hover {
@@ -150,22 +165,53 @@ const IconContainer = styled.div`
   }
 
   span {
-    visibility: ${(props) => (props.active ? "visible" : "hidden")};
-    opacity: ${(props) => (props.active ? "1" : "0")};
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.9rem;
+    @media (max-width: 768px) {
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
   }
 
   @media (max-width: 768px) {
     margin-top: 0;
-    flex-direction: row;
-    span {
-      display: none; // Optionally hide text labels on mobile
-    }
+    flex-direction: column;
   }
 `;
 
 const IconSx = {
   fontSize: "2.5rem",
   marginBottom: "0.3rem",
+  "@media (max-width: 768px)": {
+    fontSize: "1.5rem",
+  },
 };
+const Footer = styled.div`
+  display: none; // 기본적으로는 숨김
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+    height: 9%;
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    border-bottom: 1px solid var(--foreground-color);
+    align-items: center;
+    position: fixed;
+    left: 0;
+    z-index: 20;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const FooterTitle = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+`;
+
+const FooterIconContainer = styled.div`
+  display: flex;
+  margin-right: 1rem;
+  transition: all 0.3s;
+`;
