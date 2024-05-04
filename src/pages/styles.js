@@ -42,6 +42,7 @@ export const AppContainer = styled.div`
   z-index: 100;
   animation: ${slideInFromLeft} 0.2s ease-out forwards;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // iOS에서 부드러운 스크롤 제공
 
   &::-webkit-scrollbar {
     width: 10px;

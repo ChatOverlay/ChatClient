@@ -35,6 +35,7 @@ export default function QuestionAdd() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: "image/*",
+  noClick: true,  // Dropzone을 클릭해도 파일 선택 창이 열리지 않도록 설정
   });
 
   const handleImageChange = (e) => {
@@ -130,6 +131,7 @@ export default function QuestionAdd() {
         />
         <ImageUploadContainer>
           <ImageUploader {...getRootProps()}>
+          <input {...getInputProps()} style={{ display: 'none' }} />
             <DropArea isActive={isDragActive}>
               {isDragActive ? (
                 <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
@@ -183,8 +185,8 @@ const Header = styled.div`
 `;
 
 const TitleContainer = styled.input`
-  border : 2px solid var(--foreground-color);
-  font-family : 'Noto Sans KR';
+  border: 2px solid var(--foreground-color);
+  font-family: "Noto Sans KR";
   padding: 1rem;
   color: var(--primary-color);
   background-color: var(--background-color);
@@ -253,9 +255,9 @@ const ImageUploader = styled.label`
   }
 `;
 const DropArea = styled.div`
-  width : 100%;
+  width: 100%;
   text-align: center;
-  border-radius : 0.5rem;
+  border-radius: 0.5rem;
   background-color: ${({ isActive }) =>
     isActive ? "#f4f4f4" : "transparent"}; // 활성화 시 배경색 변경
   transition: all 0.3s ease;
