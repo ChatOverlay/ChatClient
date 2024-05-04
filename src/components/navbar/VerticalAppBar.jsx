@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-
-import ChatIcon from "@mui/icons-material/Chat";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import SmsIcon from "@mui/icons-material/Sms";
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 
 import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
@@ -16,13 +14,12 @@ import Setting from "../setting/Setting";
 import { useTheme } from "../../context/ThemeContext";
 
 export default function VerticalAppBar() {
-  const navigate = useNavigate(); //라우터 네비게이션
-  const [section, setSection] = useState(0); //해당 섹션 설정
-  const [isModalOpen, setIsModalOpen] = useState(false); //세팅열기
+  const navigate = useNavigate();
+  const [section, setSection] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIcon, setActiveIcon] = useState(null);
-  const { theme } = useTheme(); // 현재 테마
+  const { theme } = useTheme();
 
-  //렌디렁 조건부
   const sectionComponents = {
     0: <ChatList />,
     1: <QuestionList />,
@@ -32,7 +29,6 @@ export default function VerticalAppBar() {
   const renderSectionComponent = (section) =>
     sectionComponents[section] || null;
 
-  //ChatList 클릭할 시
   const handleChatList = () => {
     navigate("/chatlist");
     setSection(0);
@@ -40,7 +36,7 @@ export default function VerticalAppBar() {
   };
 
   const handleOption = () => {
-    setIsModalOpen(!isModalOpen); // 모달 열기
+    setIsModalOpen(!isModalOpen);
   };
 
   const handleLogout = () => {
@@ -54,9 +50,9 @@ export default function VerticalAppBar() {
   return (
     <>
       <AppBar>
-        <div>
+        <FirstIconWrapper>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-            <ChatIcon sx={{ fontSize: "2.5rem", paddingBottom: "0.3rem" }} />
+            <SmsIcon sx={IconSx} />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
@@ -66,9 +62,7 @@ export default function VerticalAppBar() {
             }}
             active={activeIcon === 1}
           >
-            <FilterFramesIcon
-              sx={{ fontSize: "2.5rem", marginBottom: "0.3rem" }}
-            />
+            <FilterFramesIcon sx={IconSx} />
             <span>질문 게시판</span>
           </IconContainer>
           <IconContainer
@@ -78,22 +72,20 @@ export default function VerticalAppBar() {
             }}
             active={activeIcon === 2}
           >
-            <AccountCircleIcon
-              sx={{ fontSize: "2.5rem", marginBottom: "0.3rem" }}
-            />
+            <AccountCircleIcon sx={IconSx} />
             <span>MY</span>
           </IconContainer>
-        </div>
-        <div style={{ marginBottom: "2rem" }}>
+        </FirstIconWrapper>
+        <SecondIconWrapper>
           <IconContainer onClick={() => handleOption()}>
-            <SettingsIcon sx={{ fontSize: "2.5rem" }} />
+            <SettingsIcon sx={IconSx} />
             <span>설정</span>
           </IconContainer>
           <IconContainer onClick={handleLogout}>
-            <LogoutIcon sx={{ fontSize: "2.5rem" }} />
+            <LogoutIcon sx={IconSx} />
             <span>로그아웃</span>
           </IconContainer>
-        </div>
+        </SecondIconWrapper>
       </AppBar>
       {renderSectionComponent(section)}
       {isModalOpen && <Setting handleOption={handleOption} />}
@@ -101,43 +93,60 @@ export default function VerticalAppBar() {
   );
 }
 
-//총 앱 사이즈
 const AppBar = styled.div`
   display: flex;
   position: fixed;
+  top: 0;
+  left: 0;
   flex-direction: column;
-  background-color: var(--foreground-color); 
-  color: var(--background-color); 
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5rem;
   z-index: 2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Example shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 5rem;
+    top: auto;
+    bottom: 0;
+    justify-content: space-between;
+  }
 `;
 
+const FirstIconWrapper = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    width: 80%;
+    height: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const SecondIconWrapper = styled.div`
+  margin-bottom: 2rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 const IconContainer = styled.div`
-  position: relative;
   margin-top: 5vh;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: ${(props) =>
-    props.active ? "1" : "0.8"}; /* Change opacity based on active state */
+  opacity: ${(props) => (props.active ? "1" : "0.8")};
 
   &:hover {
     opacity: 1;
-
     span {
       visibility: visible;
       opacity: 1;
     }
-  }
-
-  &:first-child {
-    margin-top: 1rem;
   }
 
   span {
@@ -146,4 +155,17 @@ const IconContainer = styled.div`
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.9rem;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+    flex-direction: row;
+    span {
+      display: none; // Optionally hide text labels on mobile
+    }
+  }
 `;
+
+const IconSx = {
+  fontSize: "2.5rem",
+  marginBottom: "0.3rem",
+};
