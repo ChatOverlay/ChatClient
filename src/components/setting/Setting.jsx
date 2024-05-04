@@ -73,7 +73,7 @@ const SettingContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 1000;
 `;
 
 const SettingBox = styled.div`
