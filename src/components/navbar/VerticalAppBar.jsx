@@ -110,7 +110,7 @@ const AppBar = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    height: 5rem;
+    height: 8%;
     top: auto;
     bottom: 0;
     justify-content: space-between;

@@ -39,12 +39,17 @@ const AppContainer = styled.div`
   height: 100vh;
   background-color: var(--background-color);
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   opacity: 1;
-  align-items: center;
   gap : 1rem;
   color: var(--foreground-color);
   font-size: 2.5rem;
   font-weight: bold;
+  transition: all 0.3s;
   animation: ${slideInFromLeft} 0.5s ease-out forwards;
+  
+  @media (max-width: 768px) {
+    display : none;
+  }
 `;

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
 import ProductItem from "../../components/navbarlist/mypage/ProductItem";
 import { useTheme } from "../../context/ThemeContext";
+import { AppContainer } from "../styles";
 
 export default function Mileage() {
   const location = useLocation();
@@ -66,19 +67,6 @@ export default function Mileage() {
   );
 }
 
-//App 컨테이너
-const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100vh;
-  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  transition: all 0.3s;
-
-  z-index: 1;
-`;
 
 const MileageContainer = styled.div`
   padding: 2rem;

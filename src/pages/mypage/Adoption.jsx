@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
 import { useTheme } from "../../context/ThemeContext";
+import { AppContainer } from "../styles";
 
 export default function Adoption() {
   const [classMileages, setClassMileages] = useState([]);
@@ -62,19 +63,6 @@ export default function Adoption() {
   );
 }
 
-//App 컨테이너
-const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100vh;
-  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  transition: all 0.3s;
-
-  z-index: 1;
-`;
 
 const AdoptiveContainer = styled.div`
   padding: 2rem;

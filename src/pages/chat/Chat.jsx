@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
@@ -211,6 +211,27 @@ export default function Chat() {
   );
 }
 
+const slideUpFromBottom = keyframes`
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const slideDownToBottom = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+`;
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
@@ -218,9 +239,9 @@ const AppContainer = styled.div`
   margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
   background-color: var(--background-color);
   flex-direction: column;
-  transition: all 0.3s;
+  transition: opacity 0.3s ease-in; // Apply transition only to opacity
   max-height: 100vh;
-  z-index: 1;
+  z-index: 10;
   &::before {
     content: "";
     position: absolute;
@@ -235,6 +256,12 @@ const AppContainer = styled.div`
     opacity: 0.3; // Set the opacity for the background image only
     z-index: -1; // Ensure the pseudo-element is behind the content
   }
+    @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100vw;
+    height: 100vh;
+    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
+  }
 `;
 
 //채팅 컨테이너
@@ -244,6 +271,8 @@ const ChatContainer = styled.div`
   display: flex;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
+  z-index : 100;
+
 `;
 
 //입력 컨테이너
