@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import SmsIcon from "@mui/icons-material/Sms";
+
+import { IconMessageCircle } from '@tabler/icons-react';
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -72,7 +73,7 @@ export default function VerticalAppBar() {
       <AppBar>
         <FirstIconWrapper>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-            <SmsIcon sx={IconSx} />
+            <IconMessageCircle  sx={IconSx} />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
