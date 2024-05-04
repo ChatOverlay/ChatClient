@@ -43,7 +43,7 @@ export default function Setting({ handleOption }) {
               onClick={() => handleThemeChange(themes.value)}
             >
               <ThemeLabel isSelected={theme.name === themes.value}>{themes.label}
-              <img src={themes.img} alt="cloud" style={{marginLeft : "0.1rem",width : "1rem"}}/></ThemeLabel>
+              <img src={themes.img} alt="cloud" style={{marginLeft : "0.2rem",width : "1rem"}}/></ThemeLabel>
               <ThemeDescription>{theme.description}</ThemeDescription>
             </ThemeOption>
           ))}
