@@ -58,12 +58,11 @@ export default function VerticalAppBar() {
         <FooterIconContainer>
           <IconContainer
             onClick={() => handleOption()}
-            style={{ marginRight: "1rem" }}
           >
             <SettingsIcon />
           </IconContainer>
           {activeIcon === 2 && (
-            <IconContainer onClick={handleLogout}>
+            <IconContainer onClick={handleLogout} style={{marginTop : "0.3rem"}}>
               <LogoutIcon sx={IconSx} />
             </IconContainer>
           )}
@@ -218,6 +217,7 @@ const FooterTitle = styled.div`
 
 const FooterIconContainer = styled.div`
   display: flex;
-  margin-right: 1rem;
+  margin-right : 1rem;
+  gap : 1rem;
   transition: all 0.3s;
 `;

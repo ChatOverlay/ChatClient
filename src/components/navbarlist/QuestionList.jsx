@@ -58,7 +58,9 @@ export default function QuestionList() {
               <div className="question-date">{question.date}</div>
               <div className="sub-title-container">{question.className}</div>
             </div>
-            <div className="icon__arrow__container">
+            <div className={`icon__arrow__container ${
+              question._id === selectedQuestion ? "selected" : ""
+            }`}>
               <ArrowForwardIcon />
             </div>
           </div>
