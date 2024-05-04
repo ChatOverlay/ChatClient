@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./ListBox.css";
 import { isLectureInSession } from "../../utils/timeUtils";
-import { hideScrollbarOnMobile, addBounceEffect } from "../../utils/scrollUtils";
+import {
+  addBounceEffect,
+} from "../../utils/scrollUtils";
 
 export default function ChatListBox() {
   const navigate = useNavigate();
@@ -17,19 +19,19 @@ export default function ChatListBox() {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      return response.json();
-    })
-    .then((data) => {
-      data.forEach((room) => room.isActive = isLectureInSession(room.lectureTimes));
-      data.sort((a, b) => b.isActive - a.isActive);
-      setChatRooms(data);
-    })
-    .catch((error) => console.error("Fetching chat rooms failed:", error));
-
-    // Apply custom scroll behaviors
-    hideScrollbarOnMobile();
+      .then((response) => {
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        data.forEach(
+          (room) => (room.isActive = isLectureInSession(room.lectureTimes))
+        );
+        data.sort((a, b) => b.isActive - a.isActive);
+        setChatRooms(data);
+      })
+      .catch((error) => console.error("Fetching chat rooms failed:", error));
     addBounceEffect();
   }, []);
 
@@ -39,35 +41,48 @@ export default function ChatListBox() {
       navigate(`/chat/${room.lectureRoom}`, { state: { roomId: room.id } });
     } else {
       alert("해당 수업시간이 아닙니다.");
-      navigate("/chatlist", { state: { message: "해당 수업시간이 아닙니다." } });
+      navigate("/chatlist", {
+        state: { message: "해당 수업시간이 아닙니다." },
+      });
     }
   };
 
   return (
     <div className="navbar__list">
-      {chatRooms.filter(room => room.lectureRoom).map((room) => {
-        const activeSession = isLectureInSession(room.lectureTimes);
-        const itemClasses = `navbar__list__item ${
-          room.name === selectedRoom ? "selected" : ""
-        } ${!activeSession ? "inactive" : ""}`;
+      {chatRooms
+        .filter((room) => room.lectureRoom)
+        .map((room) => {
+          const activeSession = isLectureInSession(room.lectureTimes);
+          const itemClasses = `navbar__list__item ${
+            room.name === selectedRoom ? "selected" : ""
+          } ${!activeSession ? "inactive" : ""}`;
 
-        return (
-          <div className={itemClasses} key={room.id} onClick={() => handleRoomClick(room, activeSession)}>
-            <div className="question-container">
-              <div className="question-title-container">
-                <div>{room.name}{activeSession ? <span>🟢</span> : <span>⚪</span>}</div>
+          return (
+              <div
+                className={itemClasses}
+                key={room.id}
+                onClick={() => handleRoomClick(room, activeSession)}
+              >
+                <div className="question-container">
+                  <div className="question-title-container">
+                    <div>
+                      {room.name}
+                      {activeSession ? <span> 🟢</span> : <span> ⚪</span>}
+                    </div>
+                  </div>
+                  <div className="question-date">{room.lectureRoom}</div>
+                  <div className="sub-title-container">{room.lectureTimes}</div>
+                </div>
+                <div
+                  className={`icon__arrow__container ${
+                    room.name === selectedRoom ? "selected" : ""
+                  }`}
+                >
+                  <ArrowForwardIcon />
+                </div>
               </div>
-              <div className="question-date">{room.lectureRoom}</div>
-              <div className="sub-title-container">{room.lectureTimes}</div>
-            </div>
-            <div className={`icon__arrow__container ${
-              room.name === selectedRoom ? "selected" : ""
-            }`}>
-              <ArrowForwardIcon />
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }
