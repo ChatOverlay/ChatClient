@@ -21,7 +21,7 @@ export default function VerticalAppBar() {
   const sectionTitles = {
     0: "채팅",
     1: "질문 게시판",
-    2: "MY"
+    2: "MY",
   };
 
   const sectionComponents = {
@@ -56,13 +56,14 @@ export default function VerticalAppBar() {
       <Footer>
         <FooterTitle>{sectionTitles[section]}</FooterTitle>
         <FooterIconContainer>
-          <IconContainer
-            onClick={() => handleOption()}
-          >
+          <IconContainer style={{ opacity: 1 }} onClick={() => handleOption()}>
             <SettingsIcon />
           </IconContainer>
           {activeIcon === 2 && (
-            <IconContainer onClick={handleLogout} style={{marginTop : "0.3rem"}}>
+            <IconContainer
+              onClick={handleLogout}
+              style={{ marginTop: "0.3rem", opacity: 1 }}
+            >
               <LogoutIcon sx={IconSx} />
             </IconContainer>
           )}
@@ -159,7 +160,7 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  opacity: ${(props) => (props.active ? "1" : "0.8")};
+  opacity: ${(props) => (props.active ? "1" : "0.6")};
 
   &:hover {
     opacity: 1;
@@ -217,7 +218,7 @@ const FooterTitle = styled.div`
 
 const FooterIconContainer = styled.div`
   display: flex;
-  margin-right : 1rem;
-  gap : 1rem;
+  margin-right: 1rem;
+  gap: 1rem;
   transition: all 0.3s;
 `;

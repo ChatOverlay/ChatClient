@@ -35,23 +35,8 @@ export default function QuestionAdd() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: "image/*",
-  noClick: true,  // Dropzone을 클릭해도 파일 선택 창이 열리지 않도록 설정
+    noClick: true, // Dropzone을 클릭해도 파일 선택 창이 열리지 않도록 설정
   });
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages((prev) => [...prev, ...files]);
-
-    files.forEach((file) => {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviews((prev) => [...prev, reader.result]);
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  };
 
   const handleRemoveImage = (index) => {
     setImages(images.filter((_, i) => i !== index));
@@ -131,7 +116,7 @@ export default function QuestionAdd() {
         />
         <ImageUploadContainer>
           <ImageUploader {...getRootProps()}>
-          <input {...getInputProps()} style={{ display: 'none' }} />
+            <input {...getInputProps()} style={{ display: "none" }} />
             <DropArea isActive={isDragActive}>
               {isDragActive ? (
                 <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>

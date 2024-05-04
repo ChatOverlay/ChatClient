@@ -44,7 +44,7 @@
   @media (max-width: 768px) {
     width: 100%;
     top: 9%;
-    height: 81%;
+    height: 82%;
     margin-left: 0; /* Remove margin to cover full width */
     border-right: none; /* Optional: remove border if it interferes visually on a small screen */
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
