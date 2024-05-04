@@ -18,6 +18,12 @@ export default function VerticalAppBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIcon, setActiveIcon] = useState(null);
 
+  const sectionTitles = {
+    0: "채팅",
+    1: "질문 게시판",
+    2: "MY"
+  };
+
   const sectionComponents = {
     0: <ChatList />,
     1: <QuestionList />,
@@ -48,7 +54,7 @@ export default function VerticalAppBar() {
   return (
     <>
       <Footer>
-        <FooterTitle>채팅</FooterTitle>
+        <FooterTitle>{sectionTitles[section]}</FooterTitle>
         <FooterIconContainer>
           <IconContainer
             onClick={() => handleOption()}
