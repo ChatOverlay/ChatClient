@@ -33,6 +33,10 @@ export default function QuestionList() {
     <div className="navbar__list">
       <div className="sticky-container">
         <SelectLabels options={options} setOptions={setOptions} />
+        <div className="mobile-icon-container" onClick={handleNewQuestion}>
+          작성하기
+          
+        </div>
       </div>
       {questionList
         .filter(

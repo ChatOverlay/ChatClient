@@ -174,8 +174,30 @@
   transition: all 0.3s;
   border: 2px solid var(--background-color);
   
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
-
+.mobile-icon-container{
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--background-color);
+    background-color: var(--foreground-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding : 1rem;
+    border: 2px solid var(--background-color);
+    margin-right : 0.5rem;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
 .icon-container:hover {
   opacity: 0.6;
 }
@@ -184,4 +206,7 @@
   top: 0; /* 뷰포트 상단에 고정 */
   z-index: 50; /* 다른 요소들 위에 표시 */
   background-color:var(--background-color); /* 배경 색상 설정 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

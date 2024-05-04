@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
 import { useSharedState } from "../../context/SharedStateContext";
+import { AppContainer } from "../styles";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -60,7 +61,7 @@ export default function QuestionAdd() {
     e.preventDefault();
     if (window.confirm("질문을 추가하시겠습니까?")) {
       if (!title.trim() || !content.trim() || !options.trim()) {
-        alert("제목, 내용, 옵션을 모두 입력해주세요.");
+        alert("제목, 수업, 내용을 모두 입력해주세요.");
         return;
       }
 
@@ -161,18 +162,6 @@ export default function QuestionAdd() {
   );
 }
 
-//App 컨테이너
-const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100vh;
-  margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
-  background-color: var(--background-color); // 테마 적용
-  transition: all 0.3s;
-  z-index: 1;
-`;
-
 //질문 컨테이너
 const QuestionContainer = styled.div`
   display: flex;
@@ -200,7 +189,7 @@ const TitleContainer = styled.input`
   color: var(--primary-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
-  width: 40%
+  width: 40%;
   &:focus {
     outline: none;
   }
