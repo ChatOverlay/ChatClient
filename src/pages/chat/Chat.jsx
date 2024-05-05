@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
-import styled, {keyframes} from "styled-components";
+import styled, { keyframes } from "styled-components";
 import SendIcon from "@mui/icons-material/Send";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
@@ -9,6 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
 import { useSharedState } from "../../context/SharedStateContext";
 import { isLectureInSession } from "../../utils/timeUtils";
+import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
 
@@ -25,6 +26,7 @@ export default function Chat() {
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
   const [courseTime, setCourseTime] = useState(false);
+  useMobileNavigate(closeOption, "/chatlist");
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -211,28 +213,27 @@ export default function Chat() {
   );
 }
 
-const slideInFromRight = keyframes`
-  from {
-    transform: translateX(100%); // 오른쪽 끝에서 시작
+const slideUpFromBottom = keyframes`
+  0% {
+    transform: translateY(100%);
     opacity: 0;
   }
-  to {
-    transform: translateX(0); // 원래 위치로 이동
+  100% {
+    transform: translateY(0);
     opacity: 1;
   }
 `;
 
-const slideOutToLeft = keyframes`
-  from {
-    transform: translateX(0); // 원래 위치에서 시작
+const slideDownToBottom = keyframes`
+  0% {
+    transform: translateY(0);
     opacity: 1;
   }
-  to {
-    transform: translateX(-100%); // 왼쪽으로 이동
+  100% {
+    transform: translateY(100%);
     opacity: 0;
   }
 `;
-
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
@@ -242,8 +243,8 @@ const AppContainer = styled.div`
   flex-direction: column;
   transition: opacity 0.3s ease-in; // Apply transition only to opacity
   max-height: 100vh;
+  transititon: all 0.3s ease-in;
   z-index: 100;
-  transition : all 0.3s ease-in;
   &::before {
     content: "";
     position: absolute;
@@ -258,11 +259,12 @@ const AppContainer = styled.div`
     opacity: 0.3; // Set the opacity for the background image only
     z-index: -1; // Ensure the pseudo-element is behind the content
   }
-    @media (max-width: 768px) {
+  @media (max-width: 768px) {
     margin-left: 0;
     width: 100vw;
     height: 100vh;
-    animation: ${({ show }) => (!show ? slideOutToLeft : slideInFromRight)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
+    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)}
+      0.4s ease-in-out forwards;
   }
 `;
 
@@ -273,8 +275,7 @@ const ChatContainer = styled.div`
   display: flex;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
-  z-index : 100;
-
+  z-index: 100;
 `;
 
 //입력 컨테이너
@@ -300,6 +301,10 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 // 제출 버튼 컴포넌트
@@ -314,6 +319,9 @@ const StyledButton = styled.div`
   cursor: pointer;
   &:hover {
     opacity: 0.8;
+  }
+  @media (max-width: 768px) {
+    font-size: 1rem;
   }
 `;
 
@@ -371,6 +379,7 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: var(--foreground-color);
+  
 `;
 
 // 메시지 및 시간을 포함하는 ContentContainer에 적용할 스타일을 업데이트합니다.
