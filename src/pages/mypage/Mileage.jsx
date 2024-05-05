@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
 import ProductItem from "../../components/navbarlist/mypage/ProductItem";
-import { useTheme } from "../../context/ThemeContext";
 import { AppContainer } from "../styles";
+import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 export default function Mileage() {
   const location = useLocation();
-  const { theme } = useTheme(); // 테마 데이터 사용
   const mileage = location.state.mileage;
   const totalMileage = location.state.totalMileage;
   const [closeOption, setCloseOption] = useState(false);
   const [products, setProducts] = useState([]); // 상태로 상품 데이터를 관리합니다.
   const [todayDate, setTodayDate] = useState("");
-
+  
+  useMobileNavigate(closeOption, "/mypage");
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toISOString().slice(5, 10); // Format YYYY-MM-DD
@@ -39,34 +39,31 @@ export default function Mileage() {
 
     fetchProducts();
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행합니다.
-
+  
   return (
     <>
-      <AppContainer show={closeOption} >
+      <AppContainer show={closeOption}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName="수업 참여 마일리지"
         />
-        <MileageContainer >
-          <MileageInfo >
+        <MileageContainer>
+          <MileageInfo>
             <div>{todayDate}</div>
             하루 최대 마일리지 : {mileage} / 100
           </MileageInfo>
-          <TotalMileage >
-            총 마일리지 : {totalMileage}
-          </TotalMileage>
+          <TotalMileage>총 마일리지 : {totalMileage}</TotalMileage>
         </MileageContainer>
         <ProductsContainer>
           {products.map((product) => (
-            <ProductItem key={product.id} product={product}  />
+            <ProductItem key={product.id} product={product} />
           ))}
         </ProductsContainer>
       </AppContainer>
     </>
   );
 }
-
 
 const MileageContainer = styled.div`
   padding: 2rem;

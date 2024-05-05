@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { IconMessageCircle ,IconLogout  } from '@tabler/icons-react';
+import { IconMessageCircle } from '@tabler/icons-react';
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -63,9 +63,9 @@ export default function VerticalAppBar() {
           {activeIcon === 2 && (
             <IconContainer
               onClick={handleLogout}
-              style={{ opacity: 1 }}
+              style={{ marginTop: "0.3rem", opacity: 1 }}
             >
-              <IconLogout sx={IconSx} />
+              <LogoutIcon sx={IconSx} />
             </IconContainer>
           )}
         </FooterIconContainer>
@@ -103,7 +103,7 @@ export default function VerticalAppBar() {
             <span>설정</span>
           </IconContainer>
           <IconContainer onClick={handleLogout}>
-            <IconLogout sx={IconSx} />
+            <LogoutIcon sx={IconSx} />
             <span>로그아웃</span>
           </IconContainer>
         </SecondIconWrapper>

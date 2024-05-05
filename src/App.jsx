@@ -25,8 +25,12 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/chatlist" element={<ChatList />} />
               <Route path="/chat/:titleName" element={<Chat />} />
+
+              <Route path="/question" element={<ChatList />} />
               <Route path="/question/newquestion" element={<QuestionAdd />} />
               <Route path="/question/:id" element={<Question />} />
+
+              <Route path="/mypage" element={<ChatList />} />
               <Route path="/mypage/mileage" element={<Mileage />} />
               <Route path="/mypage/adoptedpoint" element={<Adoption />} />
             </Route>
@@ -39,7 +43,7 @@ function App() {
 
 // VerticalAppBar를 조건부로 렌더링하는 별도의 컴포넌트
 function AppBarCondition() {
-  const location = useLocation(); 
+  const location = useLocation();
   const hideAppBar = ["/", "/register"].includes(location.pathname);
   return !hideAppBar && <VerticalAppBar />;
 }

@@ -8,6 +8,7 @@ import CommentAdd from "../../components/question/CommentAdd";
 import TopBar from "../../components/topbar/TopBar";
 import { useTheme } from "../../context/ThemeContext";
 import { AppContainer } from "../styles";
+import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
@@ -17,16 +18,20 @@ export default function Question() {
   const [editMode, setEditMode] = useState(false);
   const { theme } = useTheme();
 
-  useEffect(() => {
+  useMobileNavigate(closeOption, "/question");
+
+ // 조건부 API 요청
+ useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setQuestionData(data);
       })
-      .catch((error) =>
-        console.error("Error fetching question detail:", error)
-      );
-  }, [id, changeData, editMode]);
+      .catch(error => {
+        console.error("Error fetching question detail:", error);
+      });
+}, [id, changeData, editMode]);
+
   useEffect(() => {
     setEditMode(false);
     setCloseOption(false);
@@ -53,16 +58,16 @@ export default function Question() {
             editMode={editMode}
             setEditMode={setEditMode}
           />
-            {questionData?.comments?.map((comment) => (
-              <Comment
-                key={comment._id}
-                questionData={questionData}
-                changeData={changeData}
-                setChangeData={setChangeData}
-                comment={comment}
-                theme={theme}
-              />
-            ))}
+          {questionData?.comments?.map((comment) => (
+            <Comment
+              key={comment._id}
+              questionData={questionData}
+              changeData={changeData}
+              setChangeData={setChangeData}
+              comment={comment}
+              theme={theme}
+            />
+          ))}
           <CommentAdd
             questionData={questionData}
             changeData={changeData}

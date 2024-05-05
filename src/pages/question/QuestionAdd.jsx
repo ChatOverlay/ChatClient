@@ -6,6 +6,7 @@ import SelectLabels from "../../components/navbarlist/select/SelectLabels";
 import { useNavigate } from "react-router-dom";
 import { useSharedState } from "../../context/SharedStateContext";
 import { AppContainer } from "../styles";
+import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -17,6 +18,7 @@ export default function QuestionAdd() {
   const [previews, setPreviews] = useState([]);
   const { addNewData } = useSharedState();
   const navigate = useNavigate();
+  useMobileNavigate(closeOption, "/question");
 
   const onDrop = useCallback((acceptedFiles) => {
     setImages((prev) => [...prev, ...acceptedFiles]);

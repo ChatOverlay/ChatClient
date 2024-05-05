@@ -70,8 +70,11 @@
 }
 
 .navbar__list__item.selected {
+  
+  @media (min-width: 768px) {
   background-color: var(--foreground-color);
   color: var(--background-color);
+  }
 }
 .navbar__list__item.inactive {
   opacity: 0.4;
@@ -91,9 +94,6 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--foreground-color);
-  &:first-child {
-    margin-top: 1rem;
-  }
   &:hover {
     background-color: var(--foreground-color);
   }
@@ -136,7 +136,9 @@
 
 }
 .icon__arrow__container.selected {
-  color: var(--background-color);
+  @media (min-width: 768px) {
+    color: var(--background-color);
+    }
 }
 .question-container {
   display: flex;

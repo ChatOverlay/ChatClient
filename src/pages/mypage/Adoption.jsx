@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TopBar from "../../components/topbar/TopBar";
-import { useTheme } from "../../context/ThemeContext";
 import { AppContainer } from "../styles";
+import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 export default function Adoption() {
   const [classMileages, setClassMileages] = useState([]);
   const [closeOption, setCloseOption] = useState(false);
-  const { theme } = useTheme(); // 테마 데이터 사용
+  useMobileNavigate(closeOption, "/mypage");
+
   useEffect(() => {
     const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
 
     const fetchClassMileages = async () => {
       try {
         // 예제 URL, 실제 API 엔드포인트로 대체해야 합니다.
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/userPoints`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/userPoints`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch class mileages");
         }
@@ -35,23 +39,23 @@ export default function Adoption() {
   }, []);
   return (
     <>
-      <AppContainer show={closeOption} >
+      <AppContainer show={closeOption}>
         <TopBar
           closeOption={closeOption}
           setCloseOption={setCloseOption}
           titleName="채택 포인트"
         />
-        <AdoptiveContainer >
-          <AdoptiveInfo >채택 포인트</AdoptiveInfo>
+        <AdoptiveContainer>
+          <AdoptiveInfo>채택 포인트</AdoptiveInfo>
         </AdoptiveContainer>
-        <ClassContainer >
+        <ClassContainer>
           {classMileages.length === 0 ? (
-            <ClassMileageItem >
+            <ClassMileageItem>
               <h3>채택 포인트가 없습니다.</h3>
             </ClassMileageItem>
           ) : (
             classMileages.map((classMileage) => (
-              <ClassMileageItem key={classMileage.className} >
+              <ClassMileageItem key={classMileage.className}>
                 <h3>{classMileage.className}</h3>
                 <p>채택 포인트: {classMileage.points}</p>
               </ClassMileageItem>
@@ -62,7 +66,6 @@ export default function Adoption() {
     </>
   );
 }
-
 
 const AdoptiveContainer = styled.div`
   padding: 2rem;
@@ -76,11 +79,11 @@ const AdoptiveContainer = styled.div`
 
 const AdoptiveInfo = styled.div`
   font-size: 1.2rem; // 폰트 크기 조정
-  color: var(--foreground-color); 
+  color: var(--foreground-color);
   font-weight: bold; // 글자 두껍게
   padding: 1rem 2rem;
   border-radius: 2rem; // 둥근 모서리
-  background-color: var(--background-color); 
+  background-color: var(--background-color);
   display: inline-block; // 콘텐츠 너비에 맞게 조정
 `;
 
