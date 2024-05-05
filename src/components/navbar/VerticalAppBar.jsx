@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { IconMessageCircle } from '@tabler/icons-react';
+import { IconMessageCircle } from "@tabler/icons-react";
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -12,7 +12,16 @@ import ChatList from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
-
+const ChatIcon = () => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
+    <g clipPath="url(#clip0_14_38)">
+      <path d="M3 20L4.29899 16.1052C1.97679 12.6727 2.8741 8.24358 6.39736 5.74489C9.92063 3.2472 14.9807 3.45193 18.2332 6.22426C21.4856 8.99758 21.9253 13.4806 19.2614 16.7114C16.5974 19.9421 11.6523 20.9208 7.69635 19.0013L3 20Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="8" cy="12" r="1" fill="currentColor"/>
+      <circle cx="12" cy="12" r="1" fill="currentColor"/>
+      <circle cx="16" cy="12" r="1" fill="currentColor"/>
+    </g>
+  </svg>
+);
 export default function VerticalAppBar() {
   const navigate = useNavigate();
   const [section, setSection] = useState(0);
@@ -61,11 +70,8 @@ export default function VerticalAppBar() {
             <SettingsIcon />
           </IconContainer>
           {activeIcon === 2 && (
-            <IconContainer
-              onClick={handleLogout}
-              style={{ marginTop: "0.3rem", opacity: 1 }}
-            >
-              <LogoutIcon sx={IconSx} />
+            <IconContainer onClick={handleLogout} style={{ opacity: 1 }}>
+              <LogoutIcon />
             </IconContainer>
           )}
         </FooterIconContainer>
@@ -73,7 +79,7 @@ export default function VerticalAppBar() {
       <AppBar>
         <FirstIconWrapper>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-            <IconMessageCircle style={{fontSize : "2rem"}} />
+            <ChatIcon />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
@@ -83,7 +89,7 @@ export default function VerticalAppBar() {
             }}
             active={activeIcon === 1}
           >
-            <FilterFramesIcon sx={IconSx} />
+            <FilterFramesIcon/>
             <span>질문 게시판</span>
           </IconContainer>
           <IconContainer
@@ -93,17 +99,17 @@ export default function VerticalAppBar() {
             }}
             active={activeIcon === 2}
           >
-            <AccountCircleIcon sx={IconSx} />
+            <AccountCircleIcon />
             <span>MY</span>
           </IconContainer>
         </FirstIconWrapper>
         <SecondIconWrapper>
           <IconContainer onClick={() => handleOption()}>
-            <SettingsIcon sx={IconSx} />
+            <SettingsIcon />
             <span>설정</span>
           </IconContainer>
           <IconContainer onClick={handleLogout}>
-            <LogoutIcon sx={IconSx} />
+            <LogoutIcon  />
             <span>로그아웃</span>
           </IconContainer>
         </SecondIconWrapper>
@@ -131,7 +137,7 @@ const AppBar = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    height: 9%;
+    height: 6%;
     top: auto;
     bottom: 0;
     justify-content: space-between;
@@ -154,6 +160,7 @@ const SecondIconWrapper = styled.div`
     display: none;
   }
 `;
+
 const IconContainer = styled.div`
   margin-top: 5vh;
   cursor: pointer;
@@ -163,6 +170,10 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   opacity: ${(props) => (props.active ? "1" : "0.6")};
+  
+  &:focus {
+    outline: none;
+  }
 
   &:hover {
     opacity: 1;
@@ -171,7 +182,15 @@ const IconContainer = styled.div`
       opacity: 1;
     }
   }
-
+  svg {
+    font-size: 2.5rem; /* 기본 크기 */
+    margin-bottom: 0.5rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1.6rem; /* 모바일에서의 크기 */
+      margin-bottom: 0;
+    }
+  }
   span {
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.9rem;
@@ -187,23 +206,14 @@ const IconContainer = styled.div`
   }
 `;
 
-const IconSx = {
-  fontSize: "2.5rem",
-  marginBottom: "0.3rem",
-  "@media (maxWidth: 768px)": {
-    fontSize: "1.5rem",
-  },
-};
-
 const Footer = styled.div`
   display: none; // 기본적으로는 숨김
   @media (max-width: 768px) {
     display: flex;
     width: 100%;
-    height: 9%;
+    height: 6%;
     background-color: var(--background-color);
     color: var(--foreground-color);
-    border-bottom: 1px solid var(--foreground-color);
     align-items: center;
     position: fixed;
     left: 0;

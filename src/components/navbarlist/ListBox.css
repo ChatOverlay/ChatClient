@@ -41,8 +41,8 @@
   /* Media query for screens that are 768px wide or less */
   @media (max-width: 768px) {
     width: 100%;
-    top: 9%;
-    height: 82%;
+    top: 6%;
+    height: 88%;
     margin: 0; /* Remove margin to cover full width */
     border-right: none; /* Optional: remove border if it interferes visually on a small screen */
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
@@ -51,6 +51,7 @@
 .scrollable-list-items {
   flex-grow: 1;
   overflow-y: auto;
+  scroll-behavior: smooth;
   padding-bottom: 1rem;
 }
 .scrollable-list-items::-webkit-scrollbar {
@@ -81,11 +82,15 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--foreground-color);
-  
+
   scroll-behavior: smooth;
   overflow-y: auto;
   &:hover {
     background-color: var(--foreground-color);
+    color: var(--background-color);
+    .icon__arrow__container, .likes-count, .comments-count{
+      color: var(--background-color);
+    } 
   }
   &:first-child {
     margin-top: 1rem;
@@ -106,6 +111,9 @@
   @media (min-width: 768px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
+    .likes-count, .comments-count{
+      color: var(--background-color);
+    } 
   }
 }
 .navbar__list__item.inactive {
@@ -124,8 +132,16 @@
   border-bottom: 1px solid var(--foreground-color);
   &:hover {
     background-color: var(--foreground-color);
+    color: var(--background-color);
   }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
+}
+
+.mypage__list__item.selected {
+  @media (min-width: 768px) {
+    background-color: var(--foreground-color);
+    color: var(--background-color);
+  }
 }
 
 .icon__arrow__container {
@@ -141,11 +157,8 @@
     color: var(--background-color);
   }
 }
-.icon__arrow__container.selected {
-  @media (min-width: 768px) {
-    color: var(--background-color);
-  }
-}
+
+
 .question-container {
   display: flex;
   flex-direction: column;
@@ -161,6 +174,7 @@
   text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
 }
 
+
 .question-title-container {
   display: flex;
   flex-direction: row;
@@ -169,10 +183,28 @@
 }
 
 .sub-title-container {
+  display: flex;
+  gap : 0.2rem;
   font-weight: normal;
   font-size: 0.8rem;
   white-space: nowrap; /* Prevent the text from wrapping */
   text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
+}
+.likes-count svg, .comments-count svg {
+  font-size: 1.2rem; /* Adjust the icon size here */
+  color: inherit; /* Ensure the icons inherit the text color */
+}
+
+.likes-count, .comments-count {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem; /* Space between the icon and the number */
+  color: var(--primary-color); /* Use foreground color for text */
+  transition: all 0.3s ease-in;
+}
+
+.icon-liked {
+  color: var(--foreground-color); /* 사용자가 좋아요를 누른 경우 검은색으로 표시 */
 }
 
 .icon-container {
@@ -228,10 +260,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  width : 100%;
+  width: 100%;
   top: 0;
   border-bottom: 1px solid var(--foreground-color);
   @media (max-width: 768px) {
-  padding: 1rem 0;
+    padding: 1rem 0;
   }
 }

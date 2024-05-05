@@ -15,15 +15,16 @@ export const ModalBackdrop = styled.div`
 `;
 
 const ModalContent = styled.div`
-  width: 80%;
-  height : 80%;
+  height: 80%;
+  max-width: 80%;
+  max-height : 80%;
   position: relative; /* Added relative positioning */
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 2rem;
 `;
 
 const CloseButton = styled.button`
@@ -33,7 +34,7 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   color: black;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {

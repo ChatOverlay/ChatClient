@@ -5,6 +5,7 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Button, TextField } from "@mui/material";
 import ImageModal from "../modals/ImageModal";
+import { useSharedState } from "../../context/SharedStateContext";
 export default function QuestionContent({
   questionData,
   theme,
@@ -24,6 +25,7 @@ export default function QuestionContent({
   const [previews, setPreviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const {addNewData} = useSharedState();
   
   const handleImageClick = (url) => {
     setSelectedImage(url);
@@ -152,6 +154,7 @@ export default function QuestionContent({
       const data = await response.json();
       if (data.success) {
         console.log(data);
+        addNewData();
         setLiked(!liked);
         setLikesCount(data.likesCount);
       }

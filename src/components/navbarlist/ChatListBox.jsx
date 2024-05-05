@@ -72,11 +72,7 @@ export default function ChatListBox() {
                   <div className="question-date">{room.lectureRoom}</div>
                   <div className="sub-title-container">{room.lectureTimes}</div>
                 </div>
-                <div
-                  className={`icon__arrow__container ${
-                    room.name === selectedRoom ? "selected" : ""
-                  }`}
-                >
+                <div className="icon__arrow__container">
                   <ArrowForwardIcon />
                 </div>
               </div>

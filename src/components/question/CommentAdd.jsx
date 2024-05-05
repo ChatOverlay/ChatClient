@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ModeIcon from "@mui/icons-material/Mode";
+import { useSharedState } from "../../context/SharedStateContext";
 
 export default function CommentAdd({
   questionData,
@@ -9,7 +10,7 @@ export default function CommentAdd({
   theme,
 }) {
   const [newComment, setNewComment] = useState("");
-
+  const { addNewData } = useSharedState();
   const sendComment = async () => {
     if (!newComment.trim()) {
       alert("입력할 댓글이 없습니다.");
@@ -40,6 +41,7 @@ export default function CommentAdd({
         if (response.ok) {
           setChangeData(!changeData); // 데이터 상태 변경으로 UI 업데이트 트리거
           setNewComment(""); // 성공적으로 전송 후 입력 필드 초기화
+          addNewData();
         } else {
           console.error("Failed to add comment");
         }
