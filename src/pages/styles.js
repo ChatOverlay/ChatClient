@@ -62,6 +62,7 @@ export const AppContainer = styled.div`
   @media (max-width: 768px) {
     margin-left: 0;
     width: 100vw;
+    
     height: 100vh; // Ensure consistent height management
     animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
   }

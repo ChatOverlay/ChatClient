@@ -211,27 +211,28 @@ export default function Chat() {
   );
 }
 
-const slideUpFromBottom = keyframes`
-  0% {
-    transform: translateY(100%);
+const slideInFromRight = keyframes`
+  from {
+    transform: translateX(100%); // 오른쪽 끝에서 시작
     opacity: 0;
   }
-  100% {
-    transform: translateY(0);
+  to {
+    transform: translateX(0); // 원래 위치로 이동
     opacity: 1;
   }
 `;
 
-const slideDownToBottom = keyframes`
-  0% {
-    transform: translateY(0);
+const slideOutToLeft = keyframes`
+  from {
+    transform: translateX(0); // 원래 위치에서 시작
     opacity: 1;
   }
-  100% {
-    transform: translateY(100%);
+  to {
+    transform: translateX(-100%); // 왼쪽으로 이동
     opacity: 0;
   }
 `;
+
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
@@ -241,7 +242,8 @@ const AppContainer = styled.div`
   flex-direction: column;
   transition: opacity 0.3s ease-in; // Apply transition only to opacity
   max-height: 100vh;
-  z-index: 10;
+  z-index: 100;
+  transition : all 0.3s ease-in;
   &::before {
     content: "";
     position: absolute;
@@ -260,7 +262,7 @@ const AppContainer = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 100vh;
-    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
+    animation: ${({ show }) => (!show ? slideOutToLeft : slideInFromRight)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
   }
 `;
 

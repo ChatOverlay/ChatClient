@@ -146,9 +146,9 @@ export default function Comment({
             <CommentProfileName>
               {comment.name}{" "}
               {comment.isAccepted && (
-                <AcceptedIndicator theme={theme}>
+                <AcceptedIndicator>
                   채택됨
-                  <CheckCircleIcon />
+                  <CheckCircleIcon sx={{marginTop : "0.1rem"}} />
                 </AcceptedIndicator>
               )}
             </CommentProfileName>
@@ -195,17 +195,16 @@ const CommentProfileContainer = styled.div`
 const AcceptedIndicator = styled.div`
   display: flex;
   border: 1px solid var(--foreground-color);
-  margin-left : 0.3rem;
-  margin-top : -0.1rem;
+  margin-left : 0.2rem;
   border-radius: 0.5rem;
-  padding: 0.05rem;
+  font-size : 0.8rem;
+  padding: 0 0.15rem;
   align-items: center;
-  background-color: ${({ theme }) =>
-    theme.foreground}; // 채택 아이콘과 텍스트 색상
+  background-color: var(--foreground-color);
   color: var(--background-color);
   svg {
-    font-size: 1rem;
-    margin-left: 0.2rem;
+    font-size: 0.8rem;
+    margin-left: 0.1rem;
   }
 `;
 //댓글 프로필
@@ -217,7 +216,6 @@ const CommentProfileIcon = styled.div`
 //댓글 프로필이름
 const CommentProfileName = styled.div`
   display: flex;
-  font-size: 0.8rem;
   font-weight: 700;
 `;
 

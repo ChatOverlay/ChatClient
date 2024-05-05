@@ -18,10 +18,10 @@ export default function SelectLabels({ options, setOptions, location }) {
   };
 
   return (
-    <div>
+    <div style={{height : "100%"}}>
       <FormControl
         sx={{
-          m: 1,
+          marginLeft: 1,
           ".MuiInputLabel-root": {
             color: theme.foreground, // Label color
           },
@@ -37,19 +37,26 @@ export default function SelectLabels({ options, setOptions, location }) {
           input={<OutlinedInput sx={{
             borderRadius: "0.5rem", // Apply borderRadius here
             color: theme.primaryColor,
-            "& fieldset": { borderColor: theme.foreground }, // Border color
+            "& fieldset": {
+              borderColor: theme.foreground, // Border color
+              borderWidth: '2px', // Set the border width here
+            },
             "&:hover fieldset": {
               borderColor: theme.foreground, // Hover border color
+              borderWidth: '2px',
             },
             "&.Mui-focused fieldset": {
               borderColor: theme.foreground, // Focus border color
+              borderWidth: '2px',
             },
             ".MuiInputBase-input": { color: theme.primaryColor },
           }} />}
-        > {options === "" &&
-          <MenuItem value="" disabled dense>
-          "수업을 골라주세요" 
-          </MenuItem>}
+        >
+          {options === "" &&
+            <MenuItem value="" disabled dense>
+              "수업을 골라주세요" 
+            </MenuItem>
+          }
           {location !== "QuestionAdd" && (
             <MenuItem value="전체 보기">전체 보기</MenuItem>
           )}

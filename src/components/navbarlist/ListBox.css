@@ -37,48 +37,35 @@
   color: var(--primary-color);
   border-right: 1px solid var(--foreground-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  scroll-behavior: smooth;
 
   /* Media query for screens that are 768px wide or less */
   @media (max-width: 768px) {
     width: 100%;
     top: 9%;
     height: 82%;
-    margin-left: 0; /* Remove margin to cover full width */
+    margin: 0; /* Remove margin to cover full width */
     border-right: none; /* Optional: remove border if it interferes visually on a small screen */
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
   }
 }
-
-/* 스크롤바 전체를 스타일링합니다 */
-.navbar__list::-webkit-scrollbar {
+.scrollable-list-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
+}
+.scrollable-list-items::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
   background-color: var(--background-color); /* 스크롤바의 배경 색상 */
 }
 
-/* 스크롤바 핸들 (움직이는 부분)을 스타일링합니다 */
-.navbar__list::-webkit-scrollbar-thumb {
+.scrollable-list-items::-webkit-scrollbar-thumb {
   background-color: var(--foreground-color); /* 스크롤바 핸들의 색상 */
   border-radius: 5px; /* 스크롤바 핸들의 모서리를 둥글게 */
   border: 2px solid var(--background-color); /* 스크롤바 핸들 주변에 테두리 추가 */
 }
 
-/* 스크롤바 핸들이 호버될 때의 스타일 */
-.navbar__list::-webkit-scrollbar-thumb:hover {
+.scrollable-list-items::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
-}
-
-.navbar__list__item.selected {
-  
-  @media (min-width: 768px) {
-  background-color: var(--foreground-color);
-  color: var(--background-color);
-  }
-}
-.navbar__list__item.inactive {
-  opacity: 0.4;
-  color: #a1acad;
 }
 
 .navbar__list__item {
@@ -94,8 +81,17 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--foreground-color);
+  
+  scroll-behavior: smooth;
+  overflow-y: auto;
   &:hover {
     background-color: var(--foreground-color);
+  }
+  &:first-child {
+    margin-top: 1rem;
+    @media (max-width: 768px) {
+      margin-top: 0;
+    }
   }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
   @media (max-width: 768px) {
@@ -106,6 +102,17 @@
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
   }
 }
+.navbar__list__item.selected {
+  @media (min-width: 768px) {
+    background-color: var(--foreground-color);
+    color: var(--background-color);
+  }
+}
+.navbar__list__item.inactive {
+  opacity: 0.4;
+  color: #a1acad;
+}
+
 .mypage__list__item {
   display: flex;
   flex-direction: row;
@@ -133,12 +140,11 @@
   &:hover {
     color: var(--background-color);
   }
-
 }
 .icon__arrow__container.selected {
   @media (min-width: 768px) {
     color: var(--background-color);
-    }
+  }
 }
 .question-container {
   display: flex;
@@ -203,7 +209,7 @@
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.3s;
-    padding: 1rem;
+    padding: 0.8rem 0.4rem;
     border: 2px solid var(--background-color);
     margin-right: 0.5rem;
     &:hover {
@@ -221,8 +227,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 0;
+  width : 100%;
+  top: 0;
+  border-bottom: 1px solid var(--foreground-color);
   @media (max-width: 768px) {
-    top: 0;
-    border-bottom: 1px solid var(--foreground-color);
+  padding: 1rem 0;
   }
 }

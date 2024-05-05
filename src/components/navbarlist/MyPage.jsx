@@ -206,14 +206,14 @@ export default function MyPage() {
                     placeholder="닉네임을 입력하세요.."
                   />
                   <SaveButton onClick={() => updateNickName(nickName)}>
-                    저장
+                    닉네임 저장하기
                   </SaveButton>
                 </InputContainer>
               ) : (
                 <InputContainer>
                   <div>{nickName}</div>
                   <SaveButton onClick={() => setChangeNameAble(true)}>
-                    수정
+                    닉네임 수정하기
                   </SaveButton>
                 </InputContainer>
               )}
@@ -263,24 +263,27 @@ const IconContainer = styled.div`
   }
 `;
 
-const SaveButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 3rem;
-  padding: 0 0.5rem;
-  font-size: 1rem;
+
+const SaveButton = styled.button`
+  padding : 0.3rem 0.5rem;
+  border: none;
   cursor: pointer;
+  font-size : 1rem;
+  transition: all 0.2s;
   border-radius: 0.5rem;
-  border: 1px solid var(--foreground-color);
-  color: var(--background-color);
-  background-color: var(--foreground-color);
-  transition: all 0.3s;
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+  background-color: var(--foreground-color); // 버튼 배경색 적용
+  color: var(--background-color); // 버튼 텍스트 색상 적용
   &:hover {
     transform: scale(1.05);
     opacity: 0.8;
   }
+  &:focus {
+    outline: none;
+  }
 `;
+
 
 //이름 컨테이너
 const NickNameContainer = styled.div`

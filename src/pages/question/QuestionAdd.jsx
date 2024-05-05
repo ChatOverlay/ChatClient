@@ -21,18 +21,31 @@ export default function QuestionAdd() {
   useMobileNavigate(closeOption, "/question");
 
   const onDrop = useCallback((acceptedFiles) => {
-    setImages((prev) => [...prev, ...acceptedFiles]);
-
+    const supportedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Define supported extensions
+    const newImages = [];
+    const newPreviews = [];
+  
     acceptedFiles.forEach((file) => {
-      if (file.type.startsWith("image/")) {
+      const fileExtension = file.name.split('.').pop().toLowerCase();
+      if (file.type.startsWith("image/") && supportedExtensions.includes(fileExtension)) {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setPreviews((prev) => [...prev, reader.result]);
+          newPreviews.push(reader.result);
+          setPreviews((prev) => [...prev, ...newPreviews]);
         };
         reader.readAsDataURL(file);
+        newImages.push(file);
+      } else {
+        alert(`${fileExtension}은 지원하지 않는 확장명입니다. `);
       }
     });
+  
+    if (newImages.length > 0) {
+      setImages((prev) => [...prev, ...newImages]);
+    }
   }, []);
+  
+  
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -174,7 +187,8 @@ const Header = styled.div`
 const TitleContainer = styled.input`
   border: 2px solid var(--foreground-color);
   font-family: "Noto Sans KR";
-  padding: 1rem;
+  padding: 1rem 0.8rem;
+  font-size : 1rem;
   color: var(--primary-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
@@ -188,12 +202,15 @@ const ContentContainer = styled.textarea`
   resize: none;
   font-family: "Noto Sans KR";
   color: var(--primary-color);
-  padding: 10px;
+  font-size : 1rem;
+  padding: 0.8rem;
   border-radius: 0.5rem;
   background-color: var(--background-color);
   border: 2px solid var(--foreground-color);
-  margin-top: 1rem; // 타이틀 필드와의 여백을 추가합니다.
   height: 35vh;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SaveButton = styled.button`
@@ -221,7 +238,6 @@ const ImageUploadContainer = styled.div`
 
 const ImageUploader = styled.label`
   font-size: 1rem;
-  margin-right: 0.3rem;
   font-family: "Noto Sans KR";
   border-radius: 0.5rem;
   border: 2px solid var(--foreground-color);
@@ -231,7 +247,7 @@ const ImageUploader = styled.label`
 
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; // 부드러운 전환 효과
   &:hover {
-    background-color: #b3b3b3; // 호버 시 테두리 색 변경
+    background-color: #f4f4f4; // 호버 시 테두리 색 변경
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); // 부드러운 그림자 효과
   }
 
@@ -255,6 +271,9 @@ const DropMessage = styled.p`
   color: ${({ isActive }) =>
     isActive ? "#4CAF50" : "#aaa"}; // 활성화 상태에 따라 텍스트 색상 변경
   font-weight: bold;
+  @media (max-width : 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const PreviewContainer = styled.div`

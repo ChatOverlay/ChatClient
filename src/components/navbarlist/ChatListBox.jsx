@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./ListBox.css";
 import { isLectureInSession } from "../../utils/timeUtils";
-import {
-  addBounceEffect,
-} from "../../utils/scrollUtils";
+import { addBounceEffect } from "../../utils/scrollUtils";
 
 export default function ChatListBox() {
   const navigate = useNavigate();
@@ -49,15 +47,16 @@ export default function ChatListBox() {
 
   return (
     <div className="navbar__list">
-      {chatRooms
-        .filter((room) => room.lectureRoom)
-        .map((room) => {
-          const activeSession = isLectureInSession(room.lectureTimes);
-          const itemClasses = `navbar__list__item ${
-            room.name === selectedRoom ? "selected" : ""
-          } ${!activeSession ? "inactive" : ""}`;
+      <div className="scrollable-list-items">
+        {chatRooms
+          .filter((room) => room.lectureRoom)
+          .map((room) => {
+            const activeSession = isLectureInSession(room.lectureTimes);
+            const itemClasses = `navbar__list__item ${
+              room.name === selectedRoom ? "selected" : ""
+            } ${!activeSession ? "inactive" : ""}`;
 
-          return (
+            return (
               <div
                 className={itemClasses}
                 key={room.id}
@@ -81,8 +80,9 @@ export default function ChatListBox() {
                   <ArrowForwardIcon />
                 </div>
               </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function VerticalAppBar() {
       <AppBar>
         <FirstIconWrapper>
           <IconContainer onClick={handleChatList} active={activeIcon === 0}>
-            <IconMessageCircle  sx={IconSx} />
+            <IconMessageCircle style={{fontSize : "2rem"}} />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
@@ -135,6 +135,7 @@ const AppBar = styled.div`
     top: auto;
     bottom: 0;
     justify-content: space-between;
+    box-shadow: none;
   }
 `;
 
@@ -189,10 +190,11 @@ const IconContainer = styled.div`
 const IconSx = {
   fontSize: "2.5rem",
   marginBottom: "0.3rem",
-  "@media (max-width: 768px)": {
+  "@media (maxWidth: 768px)": {
     fontSize: "1.5rem",
   },
 };
+
 const Footer = styled.div`
   display: none; // 기본적으로는 숨김
   @media (max-width: 768px) {
