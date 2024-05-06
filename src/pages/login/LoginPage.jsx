@@ -20,6 +20,7 @@ const HomeContainer = styled.div`
   align-items: center;
   height: 100%;
   position: relative;
+  scrollable: false;
   z-index: 10000;
   background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
   background-size: cover; // Ensure the background covers the entire container
