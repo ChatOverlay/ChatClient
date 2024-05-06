@@ -18,7 +18,7 @@ const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   position: relative;
   scrollable: false;
   z-index: 10000;
