@@ -73,6 +73,9 @@ export default function QuestionList() {
             const isLikedByCurrentUser = question.likes.some(
               (like) => like.userId === currentUserId
             );
+            const isCommentedByCurrentUser = question.comments.some(
+              (comment) => comment.userId === currentUserId
+            );
 
             return (
               <div
@@ -102,7 +105,7 @@ export default function QuestionList() {
                     )}
                     {question.comments.length > 0 && (
                       <span className={`comments-count ${
-                        isLikedByCurrentUser ? "icon-liked" : ""
+                        isCommentedByCurrentUser ? "icon-liked" : ""
                       }`}
                     >
                         <ChatIcon /> {question.comments.length}

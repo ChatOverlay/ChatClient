@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { styled as muiStyled } from "@mui/system";
 import ReportIcon from "@mui/icons-material/Report";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // 채택 아이콘 추가
+import { useSharedState } from "../../context/SharedStateContext";
 
 export default function Comment({
   questionData,
@@ -17,6 +18,7 @@ export default function Comment({
   const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
   const isCurrentUser = comment.userId === currentUserId; //댓글자인지 확인
   const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
+  const {addNewData} =useSharedState();
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(
@@ -62,7 +64,8 @@ export default function Comment({
         if (response.ok) {
           alert("댓글이 정상적으로 삭제가 되었습니다.");
           setChangeData(!changeData);
-          // 여기에서 댓글 목록을 새로고침하거나 상태를 업데이트해야 합니다.
+          addNewData();
+
         } else {
           console.error("Failed to delete the comment.");
         }
@@ -198,7 +201,7 @@ const AcceptedIndicator = styled.div`
   margin-left : 0.2rem;
   border-radius: 0.5rem;
   font-size : 0.8rem;
-  padding: 0 0.15rem;
+  padding: 0 0.2rem 0.05rem 0.2rem;
   align-items: center;
   background-color: var(--foreground-color);
   color: var(--background-color);

@@ -242,7 +242,7 @@ const AppContainer = styled.div`
   background-color: var(--background-color);
   flex-direction: column;
   transition: opacity 0.3s ease-in; // Apply transition only to opacity
-  max-height: 100vh;
+  height: 100vh;
   transititon: all 0.3s ease-in;
   z-index: 100;
   &::before {
@@ -263,14 +263,13 @@ const AppContainer = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 100vh;
-    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)}
-      0.4s ease-in-out forwards;
+    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards;
   }
 `;
 
 //채팅 컨테이너
 const ChatContainer = styled.div`
-  height: 90vh;
+  height: 100%;
   padding: 0 1rem;
   display: flex;
   font-size: 1.3rem;
@@ -401,6 +400,7 @@ const MessageTime = styled.div`
   color: var(--primary-color);
   font-family: "Noto Sans KR";
   padding-bottom: 0.15rem;
+  
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
@@ -417,4 +417,9 @@ const Message = styled.div`
   color: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: anywhere;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    font-weight : 500;
+  }
+
 `;
