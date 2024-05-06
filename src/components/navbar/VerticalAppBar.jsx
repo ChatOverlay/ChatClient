@@ -8,7 +8,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import ChatList from "../navbarlist/ChatListBox";
+import ChatListBox from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
@@ -26,7 +26,7 @@ export default function VerticalAppBar() {
   const navigate = useNavigate();
   const [section, setSection] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeIcon, setActiveIcon] = useState(null);
+  const [activeIcon, setActiveIcon] = useState(0);
 
   const sectionTitles = {
     0: "채팅",
@@ -35,7 +35,7 @@ export default function VerticalAppBar() {
   };
 
   const sectionComponents = {
-    0: <ChatList />,
+    0: <ChatListBox />,
     1: <QuestionList />,
     2: <MyPage />,
   };
