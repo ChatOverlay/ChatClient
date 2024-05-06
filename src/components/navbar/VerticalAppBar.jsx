@@ -62,11 +62,10 @@ export default function VerticalAppBar() {
   };
 
   useEffect(() => {
-    // Corrected the useEffect to simply initialize the state
     setSection(0);
     setActiveIcon(0);
   }, []);
-  
+
   return (
     <>
       <Footer>

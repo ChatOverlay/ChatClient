@@ -5,7 +5,22 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Button, TextField } from "@mui/material";
 import ImageModal from "../modals/ImageModal";
+import { useDropzone } from "react-dropzone";
 import { useSharedState } from "../../context/SharedStateContext";
+import { useImageDrop } from "../../hooks/useImageDrop";
+import {
+  ContentContainer,
+  DeleteButton,
+  DropArea,
+  DropMessage,
+  Header,
+  ImagePreview,
+  ImageUploadContainer,
+  ImageUploader,
+  PreviewContainer,
+  PreviewItem,
+  TitleContainer,
+} from "../../pages/question/QuestionStyle";
 export default function QuestionContent({
   questionData,
   theme,
@@ -25,20 +40,34 @@ export default function QuestionContent({
   const [previews, setPreviews] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const {addNewData} = useSharedState();
-  
+  const { addNewData } = useSharedState();
+
+  const onDrop = useImageDrop(setPreviews, setImages);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/*",
+    noClick: true, // Dropzone을 클릭해도 파일 선택 창이 열리지 않도록 설정
+  });
+
   const handleImageClick = (url) => {
     setSelectedImage(url);
     setShowModal(true);
   };
-
+  const handleRemoveImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  };
+  
   useEffect(() => {
     setLikesCount(questionData?.likes?.length || 0);
     setLiked(false); // Reset liked state on question change
     setEditedTitle(questionData?.title);
     setEditedContent(questionData?.content);
     setImages(questionData?.imageUrls || []);
+    setPreviews(questionData?.imageUrls || []);
 
+    console.log(previews);
     const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     if (token && questionId) {
@@ -72,7 +101,7 @@ export default function QuestionContent({
   const saveChanges = async () => {
     if (window.confirm("이 질문을 수정하시겠습니까?")) {
       if (!editedTitle.trim() || !editedContent.trim()) {
-        alert("제목, 내용을 모두 입력해주세요.");
+        alert("제목과 내용을 모두 입력해주세요.");
         return;
       }
       const questionId = questionData?._id;
@@ -87,7 +116,7 @@ export default function QuestionContent({
           formData.append("images", image);
         }
       });
-  
+
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/questions/${questionId}`,
@@ -99,38 +128,19 @@ export default function QuestionContent({
             body: formData,
           }
         );
-  
+
         if (!response.ok) {
-          throw new Error("Failed to update the question.");
+          throw new Error("질문 업데이트 실패.");
         }
-  
+
         const data = await response.json();
-        console.log("Question updated:", data);
+        console.log("질문이 업데이트되었습니다:", data);
         setEditMode(false);
       } catch (error) {
-        console.error("Error updating question:", error);
+        console.error("질문 업데이트 중 오류 발생:", error);
       }
     }
   };
-  
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    files.forEach((file) => {
-      setImages((prev) => [...prev, file]);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviews((prev) => [...prev, reader.result]);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-  const handleRemoveImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
-  };
-
-
-  
 
   const toggleLike = async () => {
     const questionId = questionData?._id;
@@ -164,43 +174,40 @@ export default function QuestionContent({
   };
 
   return (
-    <Box >
+    <Box>
       {editMode ? (
-        <>
-          <TextField
-            label="제목"
-            fullWidth
-            value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            label="내용"
-            fullWidth
-            multiline
-            rows={4}
+        <EditContainer>
+          <Header>
+            <TitleContainer
+              placeholder="질문 제목을 입력하세요"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+            />
+          </Header>
+          <ContentContainer
+            placeholder="질문 내용을 입력하세요"
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            margin="normal"
-            variant="outlined"
+            style={{ height: "0%" }}
           />
           <ImageUploadContainer>
-            <ImageInputLabel htmlFor="image-upload">
-              이미지 첨부:
-            </ImageInputLabel>
-            <ImageInput
-              id="image-upload"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
-            />
+            <ImageUploader {...getRootProps()}>
+              <input {...getInputProps()} style={{ display: "none" }} />
+              <DropArea isActive={isDragActive}>
+                {isDragActive ? (
+                  <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
+                ) : (
+                  <DropMessage>
+                    이미지 파일을 드래그 앤 드롭하거나 클릭해서 선택하세요.
+                  </DropMessage>
+                )}
+              </DropArea>
+            </ImageUploader>
             <PreviewContainer>
               {previews.map((preview, index) => (
                 <PreviewItem key={index}>
                   <ImagePreview
-                    src={preview}
+                  src={preview}
                     alt={`미리보기 이미지 ${index + 1}`}
                   />
                   <DeleteButton onClick={() => handleRemoveImage(index)}>
@@ -216,15 +223,19 @@ export default function QuestionContent({
             sx={{
               backgroundColor: theme.foreground,
               borderRadius: "0.5rem",
+              width: "20%",
+              fontFamily: "Noto Sans KR",
+              fontWeight: "bold",
+              fontSize: "1rem",
             }}
           >
             저장
           </Button>
-        </>
+        </EditContainer>
       ) : (
         <>
-          <Title >{questionData?.title}</Title>
-          <Content >{questionData?.content}</Content>
+          <Title>{questionData?.title}</Title>
+          <Content>{questionData?.content}</Content>
           {questionData?.imageUrls &&
             questionData?.imageUrls.map((url, index) => (
               <StyledImg
@@ -234,7 +245,7 @@ export default function QuestionContent({
                 onClick={() => handleImageClick(url)}
               />
             ))}
-          <LikeButton  onClick={toggleLike}>
+          <LikeButton onClick={toggleLike}>
             {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
           </LikeButton>
           <IconContainer>
@@ -314,53 +325,8 @@ const StyledImg = styled.img`
   }
 `;
 
-const ImageUploadContainer = styled.div`
-  margin-top: 1rem;
+const EditContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ImageInputLabel = styled.label`
-  font-size: 1rem;
-  margin-right: 0.3rem;
-  font-family: "Noto Sans KR";
-`;
-
-const ImageInput = styled.input`
-  font-size: 1rem;
-  font-family: "Noto Sans KR";
-`;
-
-const PreviewContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-`;
-
-const PreviewItem = styled.div`
-  position: relative;
-  margin-right: 0.8rem;
-`;
-
-const ImagePreview = styled.img`
-  width: 5rem;
-  height: auto;
-  border-radius: 4px;
-`;
-
-const DeleteButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: red;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.3rem;
-  font-size: 0.8rem;
-  z-index: 1;
-  transition: all 0.3s ease;
-  &:hover {
-    opacity: 0.7;
-  }
+  width: 80%;
 `;
