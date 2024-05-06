@@ -109,12 +109,12 @@ export default function QuestionContent({
       const formData = new FormData();
       formData.append("title", editedTitle);
       formData.append("content", editedContent);
-      images.forEach((image) => {
-        if (typeof image === "string") {
-          formData.append("existingImages", image);
-        } else {
-          formData.append("images", image);
-        }
+      const existingImages = images.filter(image => typeof image === "string");
+      const newImages = images.filter(image => typeof image !== "string");
+  
+      formData.append("existingImages", JSON.stringify(existingImages));
+      newImages.forEach((image) => {
+        formData.append("images", image);
       });
 
       try {
