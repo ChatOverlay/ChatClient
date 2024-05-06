@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -61,6 +61,12 @@ export default function VerticalAppBar() {
     }
   };
 
+  useEffect(() => {
+    // Corrected the useEffect to simply initialize the state
+    setSection(0);
+    setActiveIcon(0);
+  }, []);
+  
   return (
     <>
       <Footer>
