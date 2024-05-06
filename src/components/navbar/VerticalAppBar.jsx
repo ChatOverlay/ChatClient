@@ -171,8 +171,11 @@ const IconContainer = styled.div`
   justify-content: center;
   opacity: ${(props) => (props.active ? "1" : "0.6")};
   
+  box-shadow: none; 
+  -webkit-tap-highlight-color: transparent; 
   &:focus {
     outline: none;
+    box-shadow: none; 
   }
 
   &:hover {

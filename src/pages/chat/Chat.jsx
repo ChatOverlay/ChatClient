@@ -243,7 +243,6 @@ const AppContainer = styled.div`
   flex-direction: column;
   transition: opacity 0.3s ease-in; // Apply transition only to opacity
   height: 100vh;
-  transititon: all 0.3s ease-in;
   z-index: 100;
   &::before {
     content: "";
