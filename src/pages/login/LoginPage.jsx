@@ -19,6 +19,7 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  max-height : 100vh;
   position: relative;
   z-index: 10000;
   background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
