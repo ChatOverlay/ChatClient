@@ -19,8 +19,9 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: fixed;
+  position: relative;
   z-index: 10000;
+  background-attachment: fixed; // Helps to fix background in place
   background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
   background-size: cover; // Ensure the background covers the entire container
 `;
