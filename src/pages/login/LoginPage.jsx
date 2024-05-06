@@ -18,8 +18,7 @@ const HomeContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  max-height : 100vh;
+  height: 100%;
   position: relative;
   z-index: 10000;
   background: url(${BackgroundImg}) no-repeat center center fixed; // Use the background image
