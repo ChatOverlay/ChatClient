@@ -12,16 +12,19 @@ import { useSharedState } from "../../context/SharedStateContext";
 
 export default function QuestionList() {
   const navigate = useNavigate();
-  const [options, setOptions] = useState("전체 보기");
+  const [selectedOption, setSelectedOption] = useState({
+    id: "",
+    name: "전체 보기",
+  }); // Initialize as an object
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [questionList, setQuestionList] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const { newAdded } = useSharedState();
-  console.log(questionList);
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // JWT 토큰을 로컬 스토리지에서 가져옴
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((response) => response.json())
@@ -32,14 +35,34 @@ export default function QuestionList() {
           console.error("User ID not found");
         }
       })
-      .catch((error) => {
-        console.error("Error fetching user ID:", error);
-      });
-    fetch(`${import.meta.env.VITE_API_URL}/api/questions`)
+      .catch((error) => console.error("Error fetching user ID:", error));
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/courses`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        const sortedData = data.sort((a, b) => b._id.localeCompare(a._id));
-        setQuestionList(sortedData);
+        setCourses([
+          { label: "전체 보기", value: "" },
+          ...data
+            .filter((course) => course.id !== undefined)
+            .map((course) => ({ label: course.name, value: course.id })),
+        ]);
+      })
+      .catch((error) => console.error("Error fetching courses:", error));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setQuestionList(data.sort((a, b) => b._id.localeCompare(a._id)));
       })
       .catch((error) => console.error("Error fetching questions:", error));
   }, [newAdded]);
@@ -50,14 +73,17 @@ export default function QuestionList() {
   };
 
   const handleNewQuestion = () => {
-    setSelectedQuestion(null);
     navigate("question/newquestion");
   };
 
   return (
     <div className="navbar__list">
       <div className="sticky-container">
-        <SelectLabels options={options} setOptions={setOptions} />
+        <SelectLabels
+          options={courses}
+          selectedOption={selectedOption.id}
+          setSelectedOption={(option) => setSelectedOption(option)}
+        />
         <div className="mobile-icon-container" onClick={handleNewQuestion}>
           작성하기
         </div>
@@ -66,17 +92,16 @@ export default function QuestionList() {
         {questionList
           .filter(
             (question) =>
-              options === "전체 보기" || question.className === options
+              selectedOption.id === "" ||
+              question.className === selectedOption.name
           )
           .map((question) => {
-            // 현재 사용자가 이 질문을 좋아요 했는지 검사
             const isLikedByCurrentUser = question.likes.some(
               (like) => like.userId === currentUserId
             );
             const isCommentedByCurrentUser = question.comments.some(
               (comment) => comment.userId === currentUserId
             );
-
             return (
               <div
                 className={`navbar__list__item ${
@@ -85,7 +110,7 @@ export default function QuestionList() {
                 key={question._id}
                 onClick={() => handleQuestionClick(question._id)}
               >
-                <div className="question-container">
+                <div className="question-container" >
                   <div className="question-title-container">
                     <div>{question.title}</div>
                   </div>
@@ -104,10 +129,11 @@ export default function QuestionList() {
                       </span>
                     )}
                     {question.comments.length > 0 && (
-                      <span className={`comments-count ${
-                        isCommentedByCurrentUser ? "icon-liked" : ""
-                      }`}
-                    >
+                      <span
+                        className={`comments-count ${
+                          isCommentedByCurrentUser ? "icon-liked" : ""
+                        }`}
+                      >
                         <ChatIcon /> {question.comments.length}
                       </span>
                     )}
@@ -121,9 +147,7 @@ export default function QuestionList() {
           })}
       </div>
       <div className="icon-container" onClick={handleNewQuestion}>
-        <DriveFileRenameOutlineIcon
-          sx={{ color: `${({ theme }) => theme.foreground}` }}
-        />
+        <DriveFileRenameOutlineIcon />
       </div>
     </div>
   );

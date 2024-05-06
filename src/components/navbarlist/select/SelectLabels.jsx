@@ -2,68 +2,55 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "../../../context/ThemeContext";
-import OutlinedInput from "@mui/material/OutlinedInput"; // Import OutlinedInput
+import OutlinedInput from "@mui/material/OutlinedInput";
 
-export default function SelectLabels({ options, setOptions, location }) {
+export default function SelectLabels({ options, selectedOption, setSelectedOption, location }) {
   const { theme } = useTheme();
+
   const handleChange = (event) => {
-    setOptions(event.target.value);
+    const selectedValue = event.target.value;
+    const selectedCourse = options.find(option => option.value === selectedValue);
+    setSelectedOption({ id: selectedCourse.value, name: selectedCourse.label });
   };
 
   const renderValue = (value) => {
-    if (value === "") {
-      return <span style={{ opacity: 0.6, fontFamily: 'Noto Sans KR' }}>수업을 골라주세요</span>;
-    }
-    return value;
+    // "수업을 선택해주세요" 또는 다른 설명적 텍스트를 보여줌
+    return options.find(option => option.value === value)?.label || "수업을 선택해주세요";
   };
 
   return (
-    <div style={{height : "100%"}}>
-      <FormControl
-        sx={{
-          marginLeft: 1,
-          ".MuiInputLabel-root": {
-            color: theme.foreground, // Label color
+    <FormControl fullWidth sx={{ m: 1 }}>
+      <Select
+        value={selectedOption}
+        onChange={handleChange}
+        displayEmpty
+        inputProps={{ "aria-label": "Without label" }}
+        renderValue={renderValue}
+        input={<OutlinedInput sx={{
+          borderRadius: "0.5rem",
+          color: theme.primaryColor,
+          "& fieldset": {
+            borderColor: theme.foreground,
+            borderWidth: '2px',
           },
-          ".MuiSvgIcon-root": { color: theme.foreground }, // Dropdown arrow color
-        }}
+          "&:hover fieldset": {
+            borderColor: theme.foreground,
+            borderWidth: '2px',
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: theme.foreground,
+            borderWidth: '2px',
+          },
+          ".MuiInputBase-input": { color: theme.primaryColor },
+        }} />}
       >
-        <Select
-          value={options}
-          onChange={handleChange}
-          displayEmpty
-          inputProps={{ "aria-label": "Without label" }}
-          renderValue={renderValue}
-          input={<OutlinedInput sx={{
-            borderRadius: "0.5rem", // Apply borderRadius here
-            color: theme.primaryColor,
-            "& fieldset": {
-              borderColor: theme.foreground, // Border color
-              borderWidth: '2px', // Set the border width here
-            },
-            "&:hover fieldset": {
-              borderColor: theme.foreground, // Hover border color
-              borderWidth: '2px',
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: theme.foreground, // Focus border color
-              borderWidth: '2px',
-            },
-            ".MuiInputBase-input": { color: theme.primaryColor },
-          }} />}
-        >
-          {options === "" &&
-            <MenuItem value="" disabled dense>
-              "수업을 골라주세요" 
-            </MenuItem>
-          }
-          {location !== "QuestionAdd" && (
-            <MenuItem value="전체 보기">전체 보기</MenuItem>
-          )}
-          <MenuItem value="소프트웨어공학">소프트웨어공학</MenuItem>
-          <MenuItem value="IT와 창업">IT와 창업</MenuItem>
-        </Select>
-      </FormControl>
-    </div>
+        {options.map((option, index) => (
+          // "수업을 선택해주세요"는 질문 추가 위치에서만 비활성화
+          <MenuItem key={option.value} value={option.value} disabled={location === "QuestionAdd" && index === 0}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

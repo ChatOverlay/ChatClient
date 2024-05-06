@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import TopBar from "../../components/topbar/TopBar";
 import styled from "styled-components";
@@ -10,7 +10,9 @@ import useMobileNavigate from "../../hooks/useMobileNavigate";
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
-  const [options, setOptions] = useState("");
+
+  const [courses, setCourses] = useState([]);
+  const [selectedOption, setSelectedOption] = useState({ id: "", name: "" });
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,13 +23,16 @@ export default function QuestionAdd() {
   useMobileNavigate(closeOption, "/question");
 
   const onDrop = useCallback((acceptedFiles) => {
-    const supportedExtensions = ['jpg', 'jpeg', 'png', 'gif']; // Define supported extensions
+    const supportedExtensions = ["jpg", "jpeg", "png", "gif"]; // Define supported extensions
     const newImages = [];
     const newPreviews = [];
-  
+
     acceptedFiles.forEach((file) => {
-      const fileExtension = file.name.split('.').pop().toLowerCase();
-      if (file.type.startsWith("image/") && supportedExtensions.includes(fileExtension)) {
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+      if (
+        file.type.startsWith("image/") &&
+        supportedExtensions.includes(fileExtension)
+      ) {
         const reader = new FileReader();
         reader.onloadend = () => {
           newPreviews.push(reader.result);
@@ -39,13 +44,11 @@ export default function QuestionAdd() {
         alert(`${fileExtension}은 지원하지 않는 확장명입니다. `);
       }
     });
-  
+
     if (newImages.length > 0) {
       setImages((prev) => [...prev, ...newImages]);
     }
   }, []);
-  
-  
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -57,11 +60,10 @@ export default function QuestionAdd() {
     setImages(images.filter((_, i) => i !== index));
     setPreviews(previews.filter((_, i) => i !== index));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (window.confirm("질문을 추가하시겠습니까?")) {
-      if (!title.trim() || !content.trim() || !options.trim()) {
+      if (!title.trim() || !content.trim() || !selectedOption.id.trim()) {
         alert("제목, 수업, 내용을 모두 입력해주세요.");
         return;
       }
@@ -71,7 +73,8 @@ export default function QuestionAdd() {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
-      formData.append("options", options);
+      formData.append("courseId", selectedOption.id);
+      formData.append("courseName", selectedOption.name);
       images.forEach((image) => {
         formData.append("images", image);
       });
@@ -103,7 +106,23 @@ export default function QuestionAdd() {
       }
     }
   };
-
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/courses`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCourses([
+          { label: "수업을 선택해주세요", value: "" },
+          ...data
+            .filter((course) => course.id !== undefined)
+            .map((course) => ({ label: course.name, value: course.id })),
+        ]);
+      })
+      .catch((error) => console.error("Error fetching courses:", error));
+  }, []);
   return (
     <AppContainer show={closeOption}>
       <TopBar
@@ -119,8 +138,9 @@ export default function QuestionAdd() {
             onChange={(e) => setTitle(e.target.value)}
           />
           <SelectLabels
-            options={options}
-            setOptions={setOptions}
+            options={courses}
+            selectedOption={selectedOption.id} // Pass the id of the selected option
+            setSelectedOption={(option) => setSelectedOption(option)}
             location="QuestionAdd"
           />
         </Header>
@@ -188,7 +208,7 @@ const TitleContainer = styled.input`
   border: 2px solid var(--foreground-color);
   font-family: "Noto Sans KR";
   padding: 1rem 0.8rem;
-  font-size : 1rem;
+  font-size: 1rem;
   color: var(--primary-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
@@ -202,7 +222,7 @@ const ContentContainer = styled.textarea`
   resize: none;
   font-family: "Noto Sans KR";
   color: var(--primary-color);
-  font-size : 1rem;
+  font-size: 1rem;
   padding: 0.8rem;
   border-radius: 0.5rem;
   background-color: var(--background-color);
@@ -271,7 +291,7 @@ const DropMessage = styled.p`
   color: ${({ isActive }) =>
     isActive ? "#4CAF50" : "#aaa"}; // 활성화 상태에 따라 텍스트 색상 변경
   font-weight: bold;
-  @media (max-width : 768px) {
+  @media (max-width: 768px) {
     font-size: 1rem;
   }
 `;
