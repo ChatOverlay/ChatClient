@@ -88,9 +88,11 @@
   &:hover {
     background-color: var(--foreground-color);
     color: var(--background-color);
-    .icon__arrow__container, .likes-count, .comments-count{
+    .icon__arrow__container,
+    .likes-count,
+    .comments-count {
       color: var(--background-color);
-    } 
+    }
   }
   &:first-child {
     margin-top: 1rem;
@@ -111,9 +113,10 @@
   @media (min-width: 768px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
-    .likes-count, .comments-count{
+    .likes-count,
+    .comments-count {
       color: var(--background-color);
-    } 
+    }
   }
 }
 .navbar__list__item.inactive {
@@ -158,7 +161,6 @@
   }
 }
 
-
 .question-container {
   display: flex;
   flex-direction: column;
@@ -174,7 +176,6 @@
   text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
 }
 
-
 .question-title-container {
   display: flex;
   flex-direction: row;
@@ -184,18 +185,20 @@
 
 .sub-title-container {
   display: flex;
-  gap : 0.2rem;
+  gap: 0.2rem;
   font-weight: normal;
   font-size: 0.8rem;
   white-space: nowrap; /* Prevent the text from wrapping */
   text-overflow: ellipsis; /* Add ellipsis (...) at the end if the text overflows */
 }
-.likes-count svg, .comments-count svg {
+.likes-count svg,
+.comments-count svg {
   font-size: 1.2rem; /* Adjust the icon size here */
   color: inherit; /* Ensure the icons inherit the text color */
 }
 
-.likes-count, .comments-count {
+.likes-count,
+.comments-count {
   display: flex;
   align-items: center;
   gap: 0.2rem; /* Space between the icon and the number */
@@ -204,7 +207,9 @@
 }
 
 .icon-liked {
-  color: var(--foreground-color); /* 사용자가 좋아요를 누른 경우 검은색으로 표시 */
+  color: var(
+    --foreground-color
+  ); /* 사용자가 좋아요를 누른 경우 검은색으로 표시 */
 }
 
 .icon-container {
@@ -243,7 +248,7 @@
     transition: all 0.3s;
     padding: 0.8rem 0.4rem;
     border: 2px solid var(--background-color);
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
     &:hover {
       opacity: 0.6;
     }
@@ -259,11 +264,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
   width: 100%;
   top: 0;
   border-bottom: 1px solid var(--foreground-color);
   @media (max-width: 768px) {
-    padding: 1rem 0;
+    padding-bottom : 0.2rem;
+    &:nth-child(1) {
+      padding-left: 0.5rem;
+    }
   }
 }

@@ -202,17 +202,25 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem; // 여백을 조금 더 늘려주어 시각적으로 여유를 줍니다.
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const TitleContainer = styled.input`
   border: 2px solid var(--foreground-color);
   font-family: "Noto Sans KR";
-  padding: 1rem 0.8rem;
+  padding: 0.5rem 0.2rem;
   font-size: 1rem;
   color: var(--primary-color);
   background-color: var(--background-color);
-  border-radius: 0.5rem; // 입력 필드의 모서리를 둥글게 처리합니다.
-  width: 40%;
+
+  border: none;
+  border-bottom: 1px solid var(--foreground-color);
+  width: auto;
   &:focus {
     outline: none;
   }

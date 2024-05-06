@@ -1,25 +1,49 @@
+import React, { useState, useEffect } from 'react';
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useTheme } from "../../../context/ThemeContext";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
-export default function SelectLabels({ options, selectedOption, setSelectedOption, location }) {
+export default function SelectLabels({
+  options,
+  selectedOption,
+  setSelectedOption,
+  location,
+}) {
   const { theme } = useTheme();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleChange = (event) => {
     const selectedValue = event.target.value;
-    const selectedCourse = options.find(option => option.value === selectedValue);
+    const selectedCourse = options.find(
+      (option) => option.value === selectedValue
+    );
     setSelectedOption({ id: selectedCourse.value, name: selectedCourse.label });
   };
 
   const renderValue = (value) => {
-    // "수업을 선택해주세요" 또는 다른 설명적 텍스트를 보여줌
-    return options.find(option => option.value === value)?.label || "수업을 선택해주세요";
+    return (
+      options.find((option) => option.value === value)?.label ||
+      "수업을 선택해주세요"
+    );
   };
+  const horizontalPosition = location === "QuestionAdd" ? (windowWidth <= 768 ? 'left' : 'right') : 'left';
 
   return (
-    <FormControl fullWidth sx={{ m: 1 }}>
+    <FormControl fullWidth sx={{ m: location === "QuestionAdd" ? 0 : 1, width: "auto" }}>
       <Select
         value={selectedOption}
         onChange={handleChange}
@@ -29,24 +53,32 @@ export default function SelectLabels({ options, selectedOption, setSelectedOptio
         input={<OutlinedInput sx={{
           borderRadius: "0.5rem",
           color: theme.primaryColor,
-          "& fieldset": {
-            borderColor: theme.foreground,
-            borderWidth: '2px',
-          },
-          "&:hover fieldset": {
-            borderColor: theme.foreground,
-            borderWidth: '2px',
-          },
-          "&.Mui-focused fieldset": {
-            borderColor: theme.foreground,
-            borderWidth: '2px',
-          },
+          fontFamily: "Noto Sans KR",
+          "& fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
+          "&:hover fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
+          "&.Mui-focused fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
           ".MuiInputBase-input": { color: theme.primaryColor },
         }} />}
+        MenuProps={{
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: horizontalPosition,
+          },
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: horizontalPosition,
+          },
+          PaperProps: {
+            style: {
+              borderRadius: "0.5rem",
+              width: "auto"
+            }
+          }
+        }}
       >
         {options.map((option, index) => (
-          // "수업을 선택해주세요"는 질문 추가 위치에서만 비활성화
-          <MenuItem key={option.value} value={option.value} disabled={location === "QuestionAdd" && index === 0}>
+          <MenuItem key={option.value} value={option.value} style={{ fontFamily: "Noto Sans KR" }}
+            disabled={location === "QuestionAdd" && index === 0}>
             {option.label}
           </MenuItem>
         ))}
