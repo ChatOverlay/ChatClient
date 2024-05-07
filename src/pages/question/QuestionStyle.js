@@ -49,7 +49,7 @@ export const ContentContainer = styled.textarea`
   border-radius: 0.5rem;
   background-color: var(--background-color);
   border: 2px solid var(--foreground-color);
-  min-height: 20rem;
+  min-height: 20vh;
   height : auto;
   &:focus {
     outline: none;
