@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -19,10 +19,10 @@ export default function SelectLabels({
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -35,51 +35,76 @@ export default function SelectLabels({
   };
 
   const renderValue = (value) => {
+    const returnValue =
+      location === "QuestionAdd" ? "수업을 선택해주세요" : "전체 보기";
     return (
-      options.find((option) => option.value === value)?.label ||
-      "수업을 선택해주세요"
+      options.find((option) => option.value === value)?.label || returnValue
     );
   };
-  const horizontalPosition = location === "QuestionAdd" ? (windowWidth <= 768 ? 'left' : 'right') : 'left';
+  const horizontalPosition =
+    location === "QuestionAdd"
+      ? windowWidth <= 768
+        ? "left"
+        : "right"
+      : "left";
 
   return (
-    <FormControl fullWidth sx={{ m: location === "QuestionAdd" ? 0 : 1, width: "auto" }}>
+    <FormControl
+      fullWidth
+      sx={{ m: location === "QuestionAdd" ? 0 : 1, width: "auto" }}
+    >
       <Select
         value={selectedOption}
         onChange={handleChange}
         displayEmpty
         inputProps={{ "aria-label": "Without label" }}
         renderValue={renderValue}
-        input={<OutlinedInput sx={{
-          borderRadius: "0.4rem",
-          color: theme.primaryColor,
-          fontFamily: "Noto Sans KR",
-          "& fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
-          "&:hover fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
-          "&.Mui-focused fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
-          ".MuiInputBase-input": { color: theme.primaryColor },
-        }} />}
-        
+        input={
+          <OutlinedInput
+            sx={{
+              borderRadius: "0.4rem",
+              color: theme.primaryColor,
+              fontFamily: "Noto Sans KR",
+              "& fieldset": {
+                borderColor: theme.foreground,
+                borderWidth: "2px",
+              },
+              "&:hover fieldset": {
+                borderColor: theme.foreground,
+                borderWidth: "2px",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: theme.foreground,
+                borderWidth: "2px",
+              },
+              ".MuiInputBase-input": { color: theme.primaryColor },
+            }}
+          />
+        }
         MenuProps={{
           anchorOrigin: {
-            vertical: 'bottom',
+            vertical: "bottom",
             horizontal: horizontalPosition,
           },
           transformOrigin: {
-            vertical: 'top',
+            vertical: "top",
             horizontal: horizontalPosition,
           },
           PaperProps: {
             style: {
               borderRadius: "0.5rem",
-              width: "auto"
-            }
-          }
+              width: "auto",
+            },
+          },
         }}
       >
         {options.map((option, index) => (
-          <MenuItem key={option.value} value={option.value} style={{ fontFamily: "Noto Sans KR" }}
-            disabled={location === "QuestionAdd" && index === 0}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            style={{ fontFamily: "Noto Sans KR" }}
+            disabled={location === "QuestionAdd" && index === 0}
+          >
             {option.label}
           </MenuItem>
         ))}

@@ -411,8 +411,8 @@ const Message = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.4rem 0.7rem;
-  max-width: 90%;
   border-radius: 1.5rem;
+  max-width : 85%;
   font-weight: bold;
   margin-left: 0.3rem;
   background-color: ${({ user }) =>
