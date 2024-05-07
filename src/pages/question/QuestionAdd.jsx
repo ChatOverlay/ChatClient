@@ -122,6 +122,7 @@ export default function QuestionAdd() {
         <ContentContainer
           placeholder="질문 내용을 입력하세요"
           value={content}
+          style={{ height: "30vh" }}
           onChange={(e) => setContent(e.target.value)}
         />
         <ImageUploadContainer>
