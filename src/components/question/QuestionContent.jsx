@@ -4,7 +4,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Button, TextField } from "@mui/material";
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ImageModal from "../modals/ImageModal";
 import { useDropzone } from "react-dropzone";
 import { useSharedState } from "../../context/SharedStateContext";
@@ -59,7 +59,7 @@ export default function QuestionContent({
     setImages((prev) => prev.filter((_, i) => i !== index));
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
-  
+
   useEffect(() => {
     setLikesCount(questionData?.likes?.length || 0);
     setLiked(false); // Reset liked state on question change
@@ -110,9 +110,11 @@ export default function QuestionContent({
       const formData = new FormData();
       formData.append("title", editedTitle);
       formData.append("content", editedContent);
-      const existingImages = images.filter(image => typeof image === "string");
-      const newImages = images.filter(image => typeof image !== "string");
-  
+      const existingImages = images.filter(
+        (image) => typeof image === "string"
+      );
+      const newImages = images.filter((image) => typeof image !== "string");
+
       formData.append("existingImages", JSON.stringify(existingImages));
       newImages.forEach((image) => {
         formData.append("images", image);
@@ -195,8 +197,10 @@ export default function QuestionContent({
             <ImageUploader {...getRootProps()}>
               <input {...getInputProps()} style={{ display: "none" }} />
               <DropArea isActive={isDragActive}>
-              <AddPhotoAlternateIcon sx={{fontSize : "2rem", paddingTop:"1rem"}}/>
-              
+                <AddPhotoAlternateIcon
+                  sx={{ fontSize: "2rem", paddingTop: "1rem" }}
+                />
+
                 {isDragActive ? (
                   <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
                 ) : (
@@ -210,7 +214,7 @@ export default function QuestionContent({
               {previews.map((preview, index) => (
                 <PreviewItem key={index}>
                   <ImagePreview
-                  src={preview}
+                    src={preview}
                     alt={`미리보기 이미지 ${index + 1}`}
                   />
                   <DeleteButton onClick={() => handleRemoveImage(index)}>
@@ -239,15 +243,17 @@ export default function QuestionContent({
         <>
           <Title>{questionData?.title}</Title>
           <Content>{questionData?.content}</Content>
-          {questionData?.imageUrls &&
-            questionData?.imageUrls.map((url, index) => (
-              <StyledImg
-                key={index}
-                src={url}
-                alt="Attached"
-                onClick={() => handleImageClick(url)}
-              />
-            ))}
+          <ImgContainer>
+            {questionData?.imageUrls &&
+              questionData?.imageUrls.map((url, index) => (
+                <StyledImg
+                  key={index}
+                  src={url}
+                  alt="Attached"
+                  onClick={() => handleImageClick(url)}
+                />
+              ))}
+          </ImgContainer>
           <LikeButton onClick={toggleLike}>
             {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
           </LikeButton>
@@ -315,6 +321,10 @@ const LikeButton = styled.div`
   }
 `;
 
+const ImgContainer = styled.div`
+display : flex;
+  gap : 0.5rem;
+`;
 const StyledImg = styled.img`
   max-width: 100%; // Ensure it does not overflow its container
   max-height: 10rem; // Maximum height adjusted
