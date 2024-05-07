@@ -299,6 +299,7 @@ const StyledInput = styled.input`
   padding-left: 1rem;
   border-radius: 2rem;
 
+  background-color: var(--background-color);
   font-size: 1.3rem;
   width: 100%;
   font-family: "Noto Sans KR";
@@ -332,8 +333,8 @@ const StyledButton = styled.div`
 const MileageContainer = styled.span`
   display: flex;
   align-items: center;
-  background-color: var(--foreground-color);
-  color: var(--background-color);
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   font-weight: bold;
   padding: 0.3rem 0.6rem;
   margin-right: 1rem;

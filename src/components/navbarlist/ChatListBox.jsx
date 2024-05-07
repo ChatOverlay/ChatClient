@@ -3,48 +3,60 @@ import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import "./ListBox.css";
 import { isLectureInSession } from "../../utils/timeUtils";
-import { addBounceEffect } from "../../utils/scrollUtils";
 
 export default function ChatListBox() {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [chatRooms, setChatRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch chat rooms from API
-    fetch(`${import.meta.env.VITE_API_URL}/api/chatrooms`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok)
+    const fetchChatRooms = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chatrooms`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
+        }
+        const data = await response.json();
         data.forEach(
           (room) => (room.isActive = isLectureInSession(room.lectureTimes))
         );
         data.sort((a, b) => b.isActive - a.isActive);
         setChatRooms(data);
-      })
-      .catch((error) => console.error("Fetching chat rooms failed:", error));
-    addBounceEffect();
-  }, []);
+        setError(null);
+      } catch (err) {
+        setError("Failed to load chat rooms.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChatRooms();
+  }, []); // Ensure this is only called once on initial render.
 
   const handleRoomClick = (room, activeSession) => {
     setSelectedRoom(room.name);
-    if (!activeSession) {
-      setSelectedRoom(room.name);
+    if (activeSession) {
       navigate(`/chat/${room.lectureRoom}`, { state: { roomId: room.id } });
     } else {
       alert("해당 수업시간이 아닙니다.");
-      navigate("/chatlist", {
-        state: { message: "해당 수업시간이 아닙니다." },
-      });
     }
   };
+
+  if (loading) {
+    return <div>Loading chat rooms...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="navbar__list">
