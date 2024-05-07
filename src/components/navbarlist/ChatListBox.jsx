@@ -36,6 +36,7 @@ export default function ChatListBox() {
   const handleRoomClick = (room, activeSession) => {
     setSelectedRoom(room.name);
     if (activeSession) {
+      setSelectedRoom(room.name);
       navigate(`/chat/${room.lectureRoom}`, { state: { roomId: room.id } });
     } else {
       alert("해당 수업시간이 아닙니다.");
@@ -53,7 +54,7 @@ export default function ChatListBox() {
           .map((room) => {
             const activeSession = isLectureInSession(room.lectureTimes);
             const itemClasses = `navbar__list__item ${
-              room.name === selectedRoom ? "selected" : ""
+              activeSession && room.name === selectedRoom ? "selected" : ""
             } ${!activeSession ? "inactive" : ""}`;
 
             return (

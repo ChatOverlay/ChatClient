@@ -4,6 +4,7 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import { Button, TextField } from "@mui/material";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import ImageModal from "../modals/ImageModal";
 import { useDropzone } from "react-dropzone";
 import { useSharedState } from "../../context/SharedStateContext";
@@ -194,6 +195,8 @@ export default function QuestionContent({
             <ImageUploader {...getRootProps()}>
               <input {...getInputProps()} style={{ display: "none" }} />
               <DropArea isActive={isDragActive}>
+              <AddPhotoAlternateIcon sx={{fontSize : "2rem", paddingTop:"1rem"}}/>
+              
                 {isDragActive ? (
                   <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
                 ) : (

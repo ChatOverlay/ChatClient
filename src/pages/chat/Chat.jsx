@@ -50,10 +50,10 @@ export default function Chat() {
       addNewData();
     }
   };
-  const handleReport = async (reportedUserId, verify) => {
+  const handleReport = async (reportedUserId, reportedUsername,verify) => {
     const token = localStorage.getItem("token");
     if (!verify) {
-      if (window.confirm("해당 유저를 신고하시겠습니까?")) {
+      if (window.confirm(`${reportedUsername}을(를) 신고하시겠습니까?`)) {
         try {
           const response = await fetch(
             `${import.meta.env.VITE_API_URL}/api/reportUser`,
@@ -151,7 +151,7 @@ export default function Chat() {
                 <MessageContainer
                   user={msg.isCurrentUser ? "me" : ""}
                   onClick={() =>
-                    handleReport(msg.userId, msg.isCurrentUser ? "me" : "")
+                    handleReport(msg.userId,msg.userName, msg.isCurrentUser ? "me" : "")
                   }
                 >
                   {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
@@ -243,6 +243,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   transition: opacity 0.3s ease-in; // Apply transition only to opacity
   height: 100vh;
+  max-height: 100vh;
   z-index: 100;
   &::before {
     content: "";
@@ -269,7 +270,6 @@ const AppContainer = styled.div`
 //채팅 컨테이너
 const ChatContainer = styled.div`
   height: 100%;
-  padding: 0 1rem;
   display: flex;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
@@ -279,10 +279,8 @@ const ChatContainer = styled.div`
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
-  margin-bottom: 0.5rem;
   padding: 0.25rem;
-  border-radius: 2rem;
-  background-color: var(--foreground-color);
+  background-color: var(--background-color);
   color: var(--primary-color);
   justify-content: space-between;
 `;
@@ -311,8 +309,7 @@ const StyledButton = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem; // 버튼의 패딩을 조정하여 내용이 더 잘 들어맞도록 합니다.
-  color: var(--background-color);
-  background-color: var(--foreground-color);
+  color: var(--foreground-color);
   border-radius: 2rem;
   cursor: pointer;
   &:hover {
@@ -327,12 +324,12 @@ const StyledButton = styled.div`
 const MileageContainer = styled.span`
   display: flex;
   align-items: center;
-  background-color: var(--background-color);
-  color: var(--foreground-color);
+  background-color: var(--foreground-color);
+  color: var(--background-color);
   font-weight: bold;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem 0.6rem;
   margin-right: 1rem;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   white-space: nowrap; // 텍스트가 줄바꿈 되지 않도록 설정
   font-family: "Noto Sans KR";
 `;
@@ -347,7 +344,7 @@ const MessagesContainer = styled.div`
   }
   display: flex;
   flex-direction: column; // 메시지를 위에서 아래로 쌓음
-  width: 100%;
+  width: 98%;
 `;
 
 // 메시지 컨테이너에 이름을 표시하는 부분을 추가합니다.
@@ -367,7 +364,7 @@ const MessageContainer = styled.div`
 const UserName = styled.div`
   font-size: 0.8rem;
   font-weight: bold;
-  margin-left: 0.1rem;
+  margin-left: 0.3rem;
   color: var(--primary-color);
   text-align: ${(props) => (props.user === "me" ? "right" : "left")};
 `;
@@ -408,6 +405,7 @@ const Message = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.4rem 0.7rem;
+  max-width : 90%;
   border-radius: 1.5rem;
   font-weight: bold;
   margin-left: 0.3rem;

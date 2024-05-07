@@ -51,7 +51,7 @@ export default function SelectLabels({
         inputProps={{ "aria-label": "Without label" }}
         renderValue={renderValue}
         input={<OutlinedInput sx={{
-          borderRadius: "0.5rem",
+          borderRadius: "0.4rem",
           color: theme.primaryColor,
           fontFamily: "Noto Sans KR",
           "& fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
@@ -59,6 +59,7 @@ export default function SelectLabels({
           "&.Mui-focused fieldset": { borderColor: theme.foreground, borderWidth: "2px" },
           ".MuiInputBase-input": { color: theme.primaryColor },
         }} />}
+        
         MenuProps={{
           anchorOrigin: {
             vertical: 'bottom',

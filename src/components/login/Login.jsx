@@ -59,7 +59,6 @@ export default function Login() {
         <StyledImgContainer>
           <StyledImg src={Logo} alt="CLASOME Logo" />
         </StyledImgContainer>
-        <WelcomeText>로그인</WelcomeText>
         <InputContainer>
           <TextField
             id="outlined-basic"
@@ -136,12 +135,9 @@ export default function Login() {
           />
         </FormContainer>
         <ButtonContainer>
-          <Button
-            variant="contained"
-            onClick={handleLogin}
-            sx={buttonSx}
-            startIcon={<SendIcon />}
-          />
+          <LoginButton 
+            onClick={handleLogin}>로그인</LoginButton>
+
         </ButtonContainer>
       </Container>
     </LoginContainer>
@@ -170,6 +166,7 @@ const LoginContainer = styled.div`
 const StyledImgContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom : 1rem;
 `;
 const StyledImg = styled.img`
   display: flex;
@@ -231,40 +228,46 @@ const textFieldSx = (theme) => ({
 
 const FormContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-right: 0;
+
 `;
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 0.5rem;
 `;
-const buttonSx = {
-  display: "flex",
-  justifyContent: "center",
-  marginTop: "0.1rem",
-  paddingRight: "0.1rem",
-  height: "4rem",
-  backgroundColor: "0164D8",
-  color: "var(--background-color)",
-  borderRadius: "10rem",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    opacity: "0.8",
-    transform: "scale(1.05)",
-  },
-};
 
-// const RegisterLink = styled.div`
-//  color: var(--background-color);
-//   cursor: pointer;
-//   text-decoration: underline;
-//   transition: all 0.5s;
-//   &:hover {
-//     color: var(--primary-color);
-//     font-weight: bold;
-//   }
-// `;
-// <RegisterLink onClick={() => navigate("/register")}>
-// 아이디가 없으시다구요?
-// </RegisterLink>
+// const buttonSx = {
+//   display: "flex",
+//   justifyContent: "center",
+//   marginTop: "0.1rem",
+//   paddingRight: "0.1rem",
+//   height: "4rem",
+//   backgroundColor: "0164D8",
+//   color: "var(--background-color)",
+//   borderRadius: "10rem",
+//   transition: "all 0.3s ease",
+//   "&:hover": {
+//     opacity: "0.8",
+//     transform: "scale(1.05)",
+//   },
+// };
+const LoginButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+  font-size : 1.1rem;
+  font-weight : bold;
+  background-color: var(--foreground-color);
+  color: var(--background-color);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+`;

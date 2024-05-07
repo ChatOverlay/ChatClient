@@ -113,8 +113,9 @@ export const DropMessage = styled.p`
   color: ${({ isActive }) =>
     isActive ? "#4CAF50" : "#aaa"}; // 활성화 상태에 따라 텍스트 색상 변경
   font-weight: bold;
+  padding : 0 2.5rem;
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -150,3 +151,4 @@ export const DeleteButton = styled.button`
     opacity: 0.7;
   }
 `;
+

@@ -8,6 +8,7 @@ import { AppContainer } from "../styles";
 import useMobileNavigate from "../../hooks/useMobileNavigate";
 import { useImageDrop } from "../../hooks/useImageDrop";
 import { ContentContainer, DeleteButton, DropArea, DropMessage, Header, ImagePreview, ImageUploadContainer, ImageUploader, PreviewContainer, PreviewItem, QuestionContainer, SaveButton, TitleContainer } from "./QuestionStyle";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 export default function QuestionAdd() {
   const [closeOption, setCloseOption] = useState(false);
@@ -127,6 +128,7 @@ export default function QuestionAdd() {
           <ImageUploader {...getRootProps()}>
             <input {...getInputProps()} style={{ display: "none" }} />
             <DropArea isActive={isDragActive}>
+              <AddPhotoAlternateIcon sx={{fontSize : "2rem", paddingTop:"1rem"}}/>
               {isDragActive ? (
                 <DropMessage>이미지를 여기에 드롭하세요!</DropMessage>
               ) : (

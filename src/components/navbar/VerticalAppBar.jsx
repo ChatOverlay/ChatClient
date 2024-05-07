@@ -12,13 +12,31 @@ import ChatListBox from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
+
+import CloudDefaultImg from "../../assets/backgroundImg/cloud.png";
+import CloudDarkImg from "../../assets/backgroundImg/clouddark.png";
+import CloudLightImg from "../../assets/backgroundImg/cloudlight.png";
+import { useTheme } from "../../context/ThemeContext";
+
 const ChatIcon = () => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <g clipPath="url(#clip0_14_38)">
-      <path d="M3 20L4.29899 16.1052C1.97679 12.6727 2.8741 8.24358 6.39736 5.74489C9.92063 3.2472 14.9807 3.45193 18.2332 6.22426C21.4856 8.99758 21.9253 13.4806 19.2614 16.7114C16.5974 19.9421 11.6523 20.9208 7.69635 19.0013L3 20Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <circle cx="8" cy="12" r="1" fill="currentColor"/>
-      <circle cx="12" cy="12" r="1" fill="currentColor"/>
-      <circle cx="16" cy="12" r="1" fill="currentColor"/>
+      <path
+        d="M3 20L4.29899 16.1052C1.97679 12.6727 2.8741 8.24358 6.39736 5.74489C9.92063 3.2472 14.9807 3.45193 18.2332 6.22426C21.4856 8.99758 21.9253 13.4806 19.2614 16.7114C16.5974 19.9421 11.6523 20.9208 7.69635 19.0013L3 20Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="8" cy="12" r="1" fill="currentColor" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" />
+      <circle cx="16" cy="12" r="1" fill="currentColor" />
     </g>
   </svg>
 );
@@ -27,13 +45,24 @@ export default function VerticalAppBar() {
   const [section, setSection] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIcon, setActiveIcon] = useState(0);
-
+  const { theme } = useTheme();
   const sectionTitles = {
     0: "채팅",
     1: "질문 게시판",
     2: "MY",
   };
 
+  let cloudImg;
+  switch (theme.name) {
+    case "dark":
+      cloudImg = CloudDefaultImg;
+      break;
+    case "light":
+      cloudImg = CloudLightImg;
+      break;
+    default:
+      cloudImg = CloudDefaultImg;
+  }
   const sectionComponents = {
     0: <ChatListBox />,
     1: <QuestionList />,
@@ -69,7 +98,14 @@ export default function VerticalAppBar() {
   return (
     <>
       <Footer>
-        <FooterTitle>{sectionTitles[section]}</FooterTitle>
+        <FooterTitle>
+          {sectionTitles[section]}{" "}
+          <img
+            src={cloudImg}
+            alt="cloud"
+            style={{ paddingTop: "0.5rem", width: "1.5rem" }}
+          />
+        </FooterTitle>
         <FooterIconContainer>
           <IconContainer style={{ opacity: 1 }} onClick={() => handleOption()}>
             <SettingsIcon />
@@ -94,7 +130,7 @@ export default function VerticalAppBar() {
             }}
             active={activeIcon === 1}
           >
-            <FilterFramesIcon/>
+            <FilterFramesIcon />
             <span>질문 게시판</span>
           </IconContainer>
           <IconContainer
@@ -114,7 +150,7 @@ export default function VerticalAppBar() {
             <span>설정</span>
           </IconContainer>
           <IconContainer onClick={handleLogout}>
-            <LogoutIcon  />
+            <LogoutIcon />
             <span>로그아웃</span>
           </IconContainer>
         </SecondIconWrapper>
@@ -175,12 +211,12 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   opacity: ${(props) => (props.active ? "1" : "0.6")};
-  
-  box-shadow: none; 
-  -webkit-tap-highlight-color: transparent; 
+
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
   &:focus {
     outline: none;
-    box-shadow: none; 
+    box-shadow: none;
   }
 
   &:hover {
@@ -193,7 +229,7 @@ const IconContainer = styled.div`
   svg {
     font-size: 2.5rem; /* 기본 크기 */
     margin-bottom: 0.5rem;
-    
+
     @media (max-width: 768px) {
       font-size: 1.6rem; /* 모바일에서의 크기 */
       margin-bottom: 0;
@@ -235,6 +271,9 @@ const FooterTitle = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
   margin-left: 1rem;
+  display : flex;
+  gap : 0.2rem;
+  align-items: center;
 `;
 
 const FooterIconContainer = styled.div`
