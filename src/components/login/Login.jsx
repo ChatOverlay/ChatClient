@@ -137,7 +137,6 @@ export default function Login() {
         <ButtonContainer>
           <LoginButton 
             onClick={handleLogin}>로그인</LoginButton>
-
         </ButtonContainer>
       </Container>
     </LoginContainer>
@@ -264,10 +263,12 @@ const LoginButton = styled.div`
   font-weight : bold;
   background-color: var(--foreground-color);
   color: var(--background-color);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
+
+  cursor: pointer;
   transition: all 0.3s ease;
   &:hover {
     opacity: 0.8;
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 `;

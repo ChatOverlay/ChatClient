@@ -85,4 +85,21 @@ const QuestionContainer = styled.div`
   position: relative;
   flex-direction: column;
   color: var(--foreground-color);
+    overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // iOS에서 부드러운 스크롤 제공
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--background-color);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--foreground-color);
+    border-radius: 5px;
+    border: 2px solid var(--background-color);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b3b3b3;
+  }
 `;

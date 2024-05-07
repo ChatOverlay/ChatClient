@@ -84,9 +84,6 @@ export default function QuestionList() {
           selectedOption={selectedOption.id}
           setSelectedOption={(option) => setSelectedOption(option)}
         />
-        <div className="mobile-icon-container" onClick={handleNewQuestion}>
-          작성하기
-        </div>
       </div>
       <div className="scrollable-list-items">
         {questionList
@@ -146,9 +143,9 @@ export default function QuestionList() {
             );
           })}
       </div>
-      <div className="icon-container" onClick={handleNewQuestion}>
-        <DriveFileRenameOutlineIcon />
-      </div>
+      <div className="mobile-icon-container" onClick={handleNewQuestion}>
+      질문 작성하기
+    </div>
     </div>
   );
 }

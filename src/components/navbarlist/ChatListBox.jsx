@@ -35,7 +35,7 @@ export default function ChatListBox() {
 
   const handleRoomClick = (room, activeSession) => {
     setSelectedRoom(room.name);
-    if (activeSession) {
+    if (!activeSession) {
       setSelectedRoom(room.name);
       navigate(`/chat/${room.lectureRoom}`, { state: { roomId: room.id } });
     } else {

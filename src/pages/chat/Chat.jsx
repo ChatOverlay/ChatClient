@@ -32,7 +32,7 @@ export default function Chat() {
   };
 
   const sendMessage = () => {
-    if (!courseTime) {
+    if (courseTime) {
       alert("해당 수업 시간이 아닙니다.");
       navigate("/chatlist");
       return;
@@ -50,7 +50,7 @@ export default function Chat() {
       addNewData();
     }
   };
-  const handleReport = async (reportedUserId, reportedUsername,verify) => {
+  const handleReport = async (reportedUserId, reportedUsername, verify) => {
     const token = localStorage.getItem("token");
     if (!verify) {
       if (window.confirm(`${reportedUsername}을(를) 신고하시겠습니까?`)) {
@@ -151,7 +151,11 @@ export default function Chat() {
                 <MessageContainer
                   user={msg.isCurrentUser ? "me" : ""}
                   onClick={() =>
-                    handleReport(msg.userId,msg.userName, msg.isCurrentUser ? "me" : "")
+                    handleReport(
+                      msg.userId,
+                      msg.userName,
+                      msg.isCurrentUser ? "me" : ""
+                    )
                   }
                 >
                   {!msg.isCurrentUser && <UserName>{msg.userName}</UserName>}
@@ -241,9 +245,8 @@ const AppContainer = styled.div`
   margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
   background-color: var(--background-color);
   flex-direction: column;
-  transition: opacity 0.3s ease-in; // Apply transition only to opacity
+  transition: all 0.3s ease-in; // Apply transition only to opacity
   height: 100vh;
-  max-height: 100vh;
   z-index: 100;
   &::before {
     content: "";
@@ -263,13 +266,15 @@ const AppContainer = styled.div`
     margin-left: 0;
     width: 100vw;
     height: 100vh;
-    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards;
+    position: fixed; //이걸 해야 해당 스크롤하면서 올라올 때 자연스럽게 올라옴
+    animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)}
+      0.4s ease-in-out forwards;
   }
 `;
 
 //채팅 컨테이너
 const ChatContainer = styled.div`
-  height: 100%;
+  height: 90%;
   display: flex;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
@@ -279,7 +284,10 @@ const ChatContainer = styled.div`
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
-  padding: 0.25rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
   background-color: var(--background-color);
   color: var(--primary-color);
   justify-content: space-between;
@@ -344,7 +352,7 @@ const MessagesContainer = styled.div`
   }
   display: flex;
   flex-direction: column; // 메시지를 위에서 아래로 쌓음
-  width: 98%;
+  margin: 1rem;
 `;
 
 // 메시지 컨테이너에 이름을 표시하는 부분을 추가합니다.
@@ -374,7 +382,6 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: var(--foreground-color);
-  
 `;
 
 // 메시지 및 시간을 포함하는 ContentContainer에 적용할 스타일을 업데이트합니다.
@@ -396,7 +403,6 @@ const MessageTime = styled.div`
   color: var(--primary-color);
   font-family: "Noto Sans KR";
   padding-bottom: 0.15rem;
-  
 `;
 
 // Message 스타일 컴포넌트의 스타일을 조금 조정합니다.
@@ -405,7 +411,7 @@ const Message = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.4rem 0.7rem;
-  max-width : 90%;
+  max-width: 90%;
   border-radius: 1.5rem;
   font-weight: bold;
   margin-left: 0.3rem;
@@ -416,7 +422,6 @@ const Message = styled.div`
   overflow-wrap: anywhere;
   @media (max-width: 768px) {
     font-size: 1.2rem;
-    font-weight : 500;
+    font-weight: 500;
   }
-
 `;

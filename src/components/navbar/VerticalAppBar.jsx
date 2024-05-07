@@ -103,7 +103,7 @@ export default function VerticalAppBar() {
           <img
             src={cloudImg}
             alt="cloud"
-            style={{ paddingTop: "0.5rem", width: "1.5rem" }}
+            style={{ paddingTop: "0.3rem", width: "1.5rem" }}
           />
         </FooterTitle>
         <FooterIconContainer>

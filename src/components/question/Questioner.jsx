@@ -132,6 +132,7 @@ const QuestionerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem;
+  padding-top : 4rem;
   color: var(--primary-color); // 텍스트 색상 적용
   font-family: "Noto Sans KR";
 `;

@@ -9,10 +9,10 @@ const TopBarContainer = styled.div`
   border-bottom: 1px solid var(--foreground-color);
   display: flex;
   font-size: 1.8rem;
-  height: 4rem;
+  min-height: 4rem;
   align-items: center;
+  position : sticky;
   background-color: var(--foreground-color);
-  margin-bottom: 4.9vh;
   font-weight: bold;
   color: var(--background-color);
 `;
