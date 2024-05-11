@@ -15,21 +15,24 @@ export const ModalBackdrop = styled.div`
 `;
 
 const ModalContent = styled.div`
-  max-width: 80%;
-  max-height : 80%;
-  position: relative; /* Added relative positioning */
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
   border-radius: 0.5rem;
-  padding: 2rem;
+  padding: 1.5rem;
+  @media (max-width: 768px) {
+    padding : 1rem;
+  }
 `;
 
 const CloseButton = styled.button`
-  position: absolute; 
-  top: 0;  
-  right: 0; 
+  position: absolute;
+  top: 0;
+  right: 0;
   background: none;
   border: none;
   color: black;
@@ -41,15 +44,24 @@ const CloseButton = styled.button`
   }
 `;
 
+const StyledImg = styled.img`
+  height: 90vh;
+  width: auto;
+  max-width: 80vw;
+  max-height: 90vh;
+  @media (max-width: 768px) {
+    width: auto;
+    height : auto;
+    max-width: 80vw;
+    object-fit: contain;
+  }
+`;
+
 export default function ImageModal({ src, onClose }) {
   return (
     <ModalBackdrop onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <img
-          src={src}
-          alt="Enlarged"
-          style={{ maxWidth: "100%", maxHeight: "100%" }}
-        />
+        <StyledImg src={src} alt="Enlarged" />
         <CloseButton onClick={onClose}>&times;</CloseButton>
       </ModalContent>
     </ModalBackdrop>
