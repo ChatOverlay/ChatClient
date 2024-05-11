@@ -25,7 +25,7 @@ const ModalContent = styled.div`
   border-radius: 0.5rem;
   padding: 1.5rem;
   @media (max-width: 768px) {
-    padding : 1rem;
+    padding : 1.5rem;
   }
 `;
 
@@ -36,7 +36,7 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   color: black;
-  font-size: 2.5rem;
+  font-size: 2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {
@@ -45,15 +45,13 @@ const CloseButton = styled.button`
 `;
 
 const StyledImg = styled.img`
-  height: 90vh;
   width: auto;
   max-width: 80vw;
-  max-height: 90vh;
+  max-height: 80vh;
   @media (max-width: 768px) {
     width: auto;
     height : auto;
     max-width: 80vw;
-    object-fit: contain;
   }
 `;
 

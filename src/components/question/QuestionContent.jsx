@@ -230,13 +230,12 @@ export default function QuestionContent({
             sx={{
               backgroundColor: theme.foreground,
               borderRadius: "0.5rem",
-              width: "20%",
               fontFamily: "Noto Sans KR",
               fontWeight: "bold",
               fontSize: "1rem",
             }}
           >
-            저장
+            저장하기
           </Button>
         </EditContainer>
       ) : (

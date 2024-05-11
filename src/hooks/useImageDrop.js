@@ -3,11 +3,11 @@ import { useCallback } from "react";
 export function useImageDrop(setPreviews, setImages) {
   return useCallback(
     (acceptedFiles) => {
-      const supportedExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
+      const supportedExtensions = ["jpg", "jpeg", "png", "gif", "webp", "heic"];
       acceptedFiles.forEach((file) => {
         const fileExtension = file.name.split(".").pop().toLowerCase();
         if (supportedExtensions.includes(fileExtension)) {
-          if (file.size > 5 * 1024 * 1024) { // Example size limit of 5MB.
+          if (file.size > 10 * 1024 * 1024) { // 크기 제한
             alert("File size is too large. Maximum allowed is 5MB.");
             return;
           }
