@@ -50,7 +50,6 @@ export const ContentContainer = styled.textarea`
   background-color: var(--background-color);
   border: 2px solid var(--foreground-color);
   min-height: 10vh;
-  z-index : 3;
   height : auto;
   &:focus {
     outline: none;

@@ -248,7 +248,7 @@
   padding: 0.8rem 0.4rem;
   margin: 0.2rem 1rem;
   &:hover {
-    opacity: 0.6;
+    opacity: 0.8;
   }
   @media (min-width: 768px) {
     margin: 0.5rem;

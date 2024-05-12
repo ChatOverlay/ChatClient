@@ -47,10 +47,14 @@ export default function QuestionContent({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: "image/*",
-    noClick: true, // Dropzone을 클릭해도 파일 선택 창이 열리지 않도록 설정
+    accept: {
+      'image/jpeg': ['.jpeg', '.jpg'],
+      'image/png': ['.png'],
+      'image/gif': ['.gif'],
+      'image/webp': ['.webp']
+    },
+    noClick: true
   });
-
   const handleImageClick = (url) => {
     setSelectedImage(url);
     setShowModal(true);

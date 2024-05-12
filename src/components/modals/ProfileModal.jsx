@@ -13,7 +13,7 @@ const fadeOut = keyframes`
 `;
 
 const ModalBackdrop = styled.div`
-  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.5s ease-out
+  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.1s ease-out
     forwards;
   display: flex;
   justify-content: center;

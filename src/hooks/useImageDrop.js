@@ -8,7 +8,7 @@ export function useImageDrop(setPreviews, setImages) {
         const fileExtension = file.name.split(".").pop().toLowerCase();
         if (supportedExtensions.includes(fileExtension)) {
           if (file.size > 10 * 1024 * 1024) { // 크기 제한
-            alert("File size is too large. Maximum allowed is 5MB.");
+            alert("파일 크기가 너무 큽니다. 최대 10MB까지 가능합니다.");
             return;
           }
 
@@ -18,11 +18,11 @@ export function useImageDrop(setPreviews, setImages) {
             setImages((prev) => [...prev, file]);
           };
           reader.onerror = () => {
-            alert(`Failed to read file: ${file.name}`);
+            alert(`${file.name}를 읽기 실패했습니다.`);
           };
           reader.readAsDataURL(file);
         } else {
-          alert(`${fileExtension} files are not supported.`);
+          alert(`${fileExtension}은 지원되지 않습니다.`);
         }
       });
     },
