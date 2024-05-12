@@ -30,7 +30,6 @@ export default function Comment({
         }
       );
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         setIsQuestioner(data.id === questionData?.questionerId);
         setCurrentUserId(data.id);

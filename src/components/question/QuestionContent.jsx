@@ -72,7 +72,6 @@ export default function QuestionContent({
     setImages(questionData?.imageUrls || []);
     setPreviews(questionData?.imageUrls || []);
 
-    console.log(previews);
     const questionId = questionData?._id;
     const token = localStorage.getItem("token");
     if (token && questionId) {
@@ -170,7 +169,6 @@ export default function QuestionContent({
 
       const data = await response.json();
       if (data.success) {
-        console.log(data);
         addNewData();
         setLiked(!liked);
         setLikesCount(data.likesCount);

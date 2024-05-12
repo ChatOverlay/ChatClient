@@ -89,7 +89,6 @@ export default function Chat() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         const activeSession = isLectureInSession(data.courseTime); // Set the course name received from the server
         setCourseName(data.courseName);
         setCourseTime(activeSession);

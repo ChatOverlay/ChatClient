@@ -8,9 +8,6 @@ import CloudLightImg from "../../assets/backgroundImg/cloudlight.png"
 export default function Setting({ handleOption }) {
   const [isClosing, setIsClosing] = useState(false);
   const { theme, setThemeName } = useTheme();
-
-
-  console.log(theme);
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => handleOption(false), 500);
