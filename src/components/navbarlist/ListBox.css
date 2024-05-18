@@ -1,5 +1,6 @@
 :root {
   --foreground-color: var(--foreground-color); /* 기본 전경 색상 */
+  --background-color: var(--background-color); /* 기본 배경 색상 */
   --primary-color: white; /* 강조 색상 */
 }
 @keyframes slideInFromLeft {
@@ -39,7 +40,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
 
-  /* Media query for screens that are 768px wide or less */
   @media (max-width: 768px) {
     width: 100%;
     top: 6%;
@@ -49,11 +49,58 @@
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
   }
 }
+
+/* Apply the slide-in animation to the banner */
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--foreground-color);
+  color: var(--background-color);
+  min-height: 6rem;
+  max-height :6rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  overflow: hidden; /* Ensure the content stays within the banner area */
+  position: relative; /* To position the banner items */
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    opacity: 0.9;
+  }
+  .swiper-pagination-bullet {
+    background-color: var(--foreground-color);
+  }
+
+/* Swiper 네비게이션 버튼 크기 조정 */
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--foreground-color);
+}
+
+/* 아이콘 크기를 조절하려면, SVG 아이콘이라면 다음과 같이 조절합니다 */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 2rem; /* 아이콘 폰트 크기 조절 */
+}
+
+  .swiper-scrollbar-drag {
+    background-color: var(--foreground-color);
+  }
+}
+
+.navbar__list .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
 .scrollable-list-items {
   flex-grow: 1;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
+
 .scrollable-list-items::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
   background-color: var(--background-color); /* 스크롤바의 배경 색상 */
@@ -69,7 +116,8 @@
   cursor: pointer;
 }
 
-.navbar__list__item {
+.navbar__list__item,
+.navbar__list__item_home {
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -109,7 +157,17 @@
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
   }
 }
-.navbar__list__item.selected {
+.navbar__list__item_home {
+  @media (max-width: 768px) {
+    margin: 0.2rem 0.5rem; /* 모바일에서도 여백 유지 */
+    border: 1px solid var(--foreground-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.navbar__list__item.selected,
+.navbar__list__item_home.selected {
   @media (min-width: 768px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
@@ -119,11 +177,21 @@
     }
   }
 }
-.navbar__list__item.inactive {
+.navbar__list__item.inactive,
+.navbar__list__item_home.inactive {
   opacity: 0.4;
   color: #a1acad;
+  background-color: transparent; /* 배경 색상 변경 없음 */
+  
+  cursor: default; /* 마우스 커서를 기본 커서로 설정 */
 }
-
+.navbar__list__item.inactive .icon__arrow__container,
+.navbar__list__item.inactive:hover .icon__arrow__container,
+.navbar__list__item_home.inactive .icon__arrow__container,
+.navbar__list__item_home.inactive:hover .icon__arrow__container {
+  /* inactive 상태일 때 화살표 컨테이너에 대한 스타일 */
+  color: #a1acad; /* 비활성화 상태의 텍스트 색상 */
+}
 .mypage__list__item {
   display: flex;
   flex-direction: row;
@@ -273,4 +341,18 @@
       padding-left: 0.5rem;
     }
   }
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  z-index: 1;
 }

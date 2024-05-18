@@ -7,14 +7,15 @@ import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HomeIcon from "@mui/icons-material/Home"; // 홈 아이콘 추가
 
 import ChatListBox from "../navbarlist/ChatListBox";
 import QuestionList from "../navbarlist/QuestionList";
 import MyPage from "../navbarlist/MyPage";
 import Setting from "../setting/Setting";
+import HomePage from "../navbarlist/HomePage";
 
 import CloudDefaultImg from "../../assets/backgroundImg/cloud.png";
-import CloudDarkImg from "../../assets/backgroundImg/clouddark.png";
 import CloudLightImg from "../../assets/backgroundImg/cloudlight.png";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -40,6 +41,7 @@ const ChatIcon = () => (
     </g>
   </svg>
 );
+
 export default function VerticalAppBar() {
   const navigate = useNavigate();
   const [section, setSection] = useState(0);
@@ -47,35 +49,34 @@ export default function VerticalAppBar() {
   const [activeIcon, setActiveIcon] = useState(0);
   const { theme } = useTheme();
   const sectionTitles = {
-    0: "채팅",
-    1: "질문 게시판",
-    2: "MY",
+    0: "클라톡",
+    1: "채팅",
+    2: "질문 게시판",
+    3: "MY",
   };
 
   let cloudImg;
   switch (theme.name) {
-    case "dark":
-      cloudImg = CloudDefaultImg;
-      break;
     case "light":
       cloudImg = CloudLightImg;
       break;
     default:
       cloudImg = CloudDefaultImg;
   }
+
   const sectionComponents = {
-    0: <ChatListBox />,
-    1: <QuestionList />,
-    2: <MyPage />,
+    0: <HomePage />,
+    1: <ChatListBox />,
+    2: <QuestionList />,
+    3: <MyPage />,
   };
 
   const renderSectionComponent = (section) =>
     sectionComponents[section] || null;
 
-  const handleChatList = () => {
-    navigate("/chatlist");
-    setSection(0);
-    setActiveIcon(0);
+  const setSectionAndActiveIcon = (section, icon) => {
+    setSection(section);
+    setActiveIcon(icon);
   };
 
   const handleOption = () => {
@@ -91,8 +92,7 @@ export default function VerticalAppBar() {
   };
 
   useEffect(() => {
-    setSection(0);
-    setActiveIcon(0);
+    setSectionAndActiveIcon(0, 0);
   }, []);
 
   return (
@@ -107,7 +107,7 @@ export default function VerticalAppBar() {
           />
         </FooterTitle>
         <FooterIconContainer>
-          <IconContainer style={{ opacity: 1 }} onClick={() => handleOption()}>
+          <IconContainer style={{ opacity: 1 }} onClick={handleOption}>
             <SettingsIcon />
           </IconContainer>
           {activeIcon === 2 && (
@@ -119,33 +119,37 @@ export default function VerticalAppBar() {
       </Footer>
       <AppBar>
         <FirstIconWrapper>
-          <IconContainer onClick={handleChatList} active={activeIcon === 0}>
+          <IconContainer
+            onClick={() => setSectionAndActiveIcon(0, 0)}
+            active={activeIcon === 0}
+          >
+            <HomeIcon />
+            <span>홈</span>
+          </IconContainer>
+          <IconContainer
+            onClick={() => setSectionAndActiveIcon(1, 1)}
+            active={activeIcon === 1}
+          >
             <ChatIcon />
             <span>채팅</span>
           </IconContainer>
           <IconContainer
-            onClick={() => {
-              setSection(1);
-              setActiveIcon(1);
-            }}
-            active={activeIcon === 1}
+            onClick={() => setSectionAndActiveIcon(2, 2)}
+            active={activeIcon === 2}
           >
             <FilterFramesIcon />
             <span>질문 게시판</span>
           </IconContainer>
           <IconContainer
-            onClick={() => {
-              setSection(2);
-              setActiveIcon(2);
-            }}
-            active={activeIcon === 2}
+            onClick={() => setSectionAndActiveIcon(3, 3)}
+            active={activeIcon === 3}
           >
             <AccountCircleIcon />
             <span>MY</span>
           </IconContainer>
         </FirstIconWrapper>
         <SecondIconWrapper>
-          <IconContainer onClick={() => handleOption()}>
+          <IconContainer onClick={handleOption}>
             <SettingsIcon />
             <span>설정</span>
           </IconContainer>
@@ -203,7 +207,7 @@ const SecondIconWrapper = styled.div`
 `;
 
 const IconContainer = styled.div`
-  margin-top: 5vh;
+  margin-top: 3vh;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;

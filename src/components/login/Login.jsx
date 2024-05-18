@@ -40,7 +40,7 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.accessToken);
-        navigate("../chatlist");
+        navigate("../home");
       } else {
         const error = await response.json();
         alert(error.message);

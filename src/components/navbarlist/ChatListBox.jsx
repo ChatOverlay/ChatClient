@@ -50,13 +50,6 @@ export default function ChatListBox() {
     }
   };
 
-  if (loading) {
-    return <div>Loading chat rooms...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div className="navbar__list">

@@ -26,7 +26,7 @@ function App() {
               <Route path="/*" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="/chatlist" element={<ChatList />} />
+                <Route path="/home" element={<ChatList />} />
                 <Route path="/chat/:titleName" element={<Chat />} />
 
                 <Route path="/question" element={<ChatList />} />
