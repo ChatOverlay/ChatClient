@@ -261,7 +261,7 @@ const LoginButton = styled.div`
   height: 4rem;
   font-size : 1.1rem;
   font-weight : bold;
-  background-color: var(--foreground-color);
+  background-color: #0164D8;
   color: var(--background-color);
   border-radius: 0.5rem;
 
