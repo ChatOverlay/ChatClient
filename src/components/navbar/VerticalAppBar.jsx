@@ -110,7 +110,7 @@ export default function VerticalAppBar() {
           <IconContainer style={{ opacity: 1 }} onClick={handleOption}>
             <SettingsIcon />
           </IconContainer>
-          {activeIcon === 2 && (
+          {activeIcon === 3 && (
             <IconContainer onClick={handleLogout} style={{ opacity: 1 }}>
               <LogoutIcon />
             </IconContainer>
