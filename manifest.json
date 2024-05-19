@@ -1,23 +1,20 @@
 {
-  "background_color": "#ffffff",
-  "description": "clatalk",
-  "dir": "ltr",
+  "name": "클라톡",
+  "short_name": "Clatalk",
+  "start_url": ".",
   "display": "standalone",
-  "name": "clatalk",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "clatalk",
-  "start_url": "/",
-  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "theme_color": "#0164D8",
   "icons": [
     {
-      "src": "/clasome_logo.ico",
-      "type": "image/png",
-      "sizes": "291x187"
+      "src": "/icons/icon-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
     },
     {
-      "src": "/favicon.ico",
-      "type": "image/x-icon"
+      "src": "/icons/icon-310x310.png",
+      "sizes": "310x310",
+      "type": "image/png"
     }
   ]
 }
