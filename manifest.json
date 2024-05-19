@@ -1,0 +1,23 @@
+{
+  "background_color": "#ffffff",
+  "description": "clatalk",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "clatalk",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "clatalk",
+  "start_url": "/",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "./src/assets/backgroundImg/cloud.png",
+      "type": "image/png",
+      "sizes": "291x187"
+    },
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon"
+    }
+  ]
+}
