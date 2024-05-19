@@ -11,7 +11,7 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "./src/assets/backgroundImg/cloud.png",
+      "src": "/clasome_logo.ico",
       "type": "image/png",
       "sizes": "291x187"
     },
