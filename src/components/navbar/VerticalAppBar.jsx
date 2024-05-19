@@ -235,7 +235,7 @@ const IconContainer = styled.div`
     margin-bottom: 0.5rem;
 
     @media (max-width: 768px) {
-      font-size: 1.3rem; /* 모바일에서의 크기 */
+      font-size: 1.6rem; /* 모바일에서의 크기 */
       margin-bottom: 0;
     }
   }
@@ -279,9 +279,6 @@ const Footer = styled.div`
     z-index: 20;
     flex-direction: row;
     justify-content: space-between;
-    svg {
-      font-size: 1.6rem;
-    }
   }
 `;
 
@@ -297,6 +294,7 @@ const FooterTitle = styled.div`
 const FooterIconContainer = styled.div`
   display: flex;
   margin-right: 1rem;
+  margin-top : 0.1rem;
   gap: 1rem;
   transition: all 0.3s;
 `;
