@@ -179,7 +179,6 @@ const AppBar = styled.div`
   width: 5rem;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-
   @media (max-width: 768px) {
     width: 100%;
     height: 6%;
@@ -256,11 +255,12 @@ const IconContainer = styled.div`
 
 const Footer = styled.div`
   display : flex;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
   @media (min-width: 768px) {
     height: 3rem;
     margin-left: 5rem;
     position : fixed;
-    background-color: var(--foreground-color);
     border-bottom: 1px solid var(--foreground-color);
     border-right: 1px solid var(--foreground-color);
     width: 20rem;
@@ -271,8 +271,6 @@ const Footer = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     height: 6%;
-    background-color: var(--background-color);
-    color: var(--foreground-color);
     align-items: center;
     position: fixed;
     left: 0;

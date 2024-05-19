@@ -17,8 +17,8 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-import FirstBanner from "../../assets/backgroundImg/hello.png";
-import SecondBanner from "../../assets/backgroundImg/hello.png";
+import FirstBanner from "../../assets/backgroundImg/firstbanner.jpg";
+import SecondBanner from "../../assets/backgroundImg/secondbanner.jpg";
 import ThirdBanner from "../../assets/backgroundImg/sky.png";
 import styled from "styled-components";
 import { useSharedState } from "../../context/SharedStateContext";
@@ -108,27 +108,27 @@ export default function HomePage() {
   return (
     <div className="navbar__list">
       <div className="scrollable-list-items">
-      <Swiper
-      className="banner"
-      modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-      spaceBetween={0}
-      slidesPerView={1}
-      loop={true}
-      navigation
-      pagination={{ clickable: true }}
-      scrollbar={{ draggable: true }}
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
-    >
-      <SwiperSlide>
-        <img src={FirstBanner} alt="Cloud Default" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={SecondBanner} alt="Cloud Dark" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src={ThirdBanner} alt="Cloud Light" />
-      </SwiperSlide>
-    </Swiper>
+        <Swiper
+          className="banner"
+          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+          spaceBetween={0}
+          slidesPerView={1}
+          loop={true}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+        >
+          <SwiperSlide>
+            <img src={FirstBanner} alt="Cloud Default" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img src={SecondBanner} alt="Cloud Dark" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <img src={ThirdBanner} alt="Cloud Light" />
+          </SwiperSlide>
+        </Swiper>
         <Section>
           <SectionTitle>내 수업 바로가기</SectionTitle>
           {upcomingCourse && (
@@ -233,7 +233,7 @@ export default function HomePage() {
           {totalMileage > 0 ? (
             <div
               className={`navbar__list__item_home ${"inactive"}`}
-              style={{color : "var(--primary-color)"}}
+              style={{ color: "var(--primary-color)" }}
             >
               {totalMileage} 포인트
             </div>
