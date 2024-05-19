@@ -107,28 +107,28 @@ export default function HomePage() {
 
   return (
     <div className="navbar__list">
-      <Swiper
-        className="banner"
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        spaceBetween={0}
-        slidesPerView={1}
-        loop={true}
-        navigation
-        pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-      >
-        <SwiperSlide>
-          <img src={FirstBanner} alt="Cloud Default" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={SecondBanner} alt="Cloud Dark" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={ThirdBanner} alt="Cloud Light" />
-        </SwiperSlide>
-      </Swiper>
       <div className="scrollable-list-items">
+      <Swiper
+      className="banner"
+      modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+      spaceBetween={0}
+      slidesPerView={1}
+      loop={true}
+      navigation
+      pagination={{ clickable: true }}
+      scrollbar={{ draggable: true }}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
+    >
+      <SwiperSlide>
+        <img src={FirstBanner} alt="Cloud Default" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src={SecondBanner} alt="Cloud Dark" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <img src={ThirdBanner} alt="Cloud Light" />
+      </SwiperSlide>
+    </Swiper>
         <Section>
           <SectionTitle>내 수업 바로가기</SectionTitle>
           {upcomingCourse && (

@@ -235,7 +235,7 @@ const IconContainer = styled.div`
     margin-bottom: 0.5rem;
 
     @media (max-width: 768px) {
-      font-size: 1.6rem; /* 모바일에서의 크기 */
+      font-size: 1.3rem; /* 모바일에서의 크기 */
       margin-bottom: 0;
     }
   }
@@ -255,9 +255,20 @@ const IconContainer = styled.div`
 `;
 
 const Footer = styled.div`
-  display: none; // 기본적으로는 숨김
+  display : flex;
+  @media (min-width: 768px) {
+    height: 3rem;
+    margin-left: 5rem;
+    position : fixed;
+    background-color: var(--foreground-color);
+    border-bottom: 1px solid var(--foreground-color);
+    border-right: 1px solid var(--foreground-color);
+    width: 20rem;
+    svg {
+      display: none;
+    }
+  }
   @media (max-width: 768px) {
-    display: flex;
     width: 100%;
     height: 6%;
     background-color: var(--background-color);
@@ -268,6 +279,9 @@ const Footer = styled.div`
     z-index: 20;
     flex-direction: row;
     justify-content: space-between;
+    svg {
+      font-size: 1.6rem;
+    }
   }
 `;
 

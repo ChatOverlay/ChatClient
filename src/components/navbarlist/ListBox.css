@@ -30,7 +30,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--background-color);
-  margin-left: 5rem;
+  margin: 3rem 0 0 5rem;
   height: 100%;
   width: 20rem;
   font-weight: 700;
@@ -55,13 +55,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--foreground-color);
-  color: var(--background-color);
   min-height: 6rem;
   max-height :6rem;
   margin-top: 1rem;
   border-radius: 0.5rem;
-  width: 90%;
+  width: 95%;
+  height : 100%;
   overflow: hidden; /* Ensure the content stays within the banner area */
   position: relative; /* To position the banner items */
   cursor: pointer;
@@ -76,7 +75,7 @@
 /* Swiper 네비게이션 버튼 크기 조정 */
 .swiper-button-next,
 .swiper-button-prev {
-  color: var(--foreground-color);
+  color: transparent;
 }
 
 /* 아이콘 크기를 조절하려면, SVG 아이콘이라면 다음과 같이 조절합니다 */
@@ -99,6 +98,17 @@
   flex-grow: 1;
   overflow-y: auto;
   scroll-behavior: smooth;
+
+  @media (max-width: 768px) {
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
+    overflow-y: scroll; /* Allow scrolling */
+  }
+}
+
+@media (max-width: 768px) {
+  .scrollable-list-items::-webkit-scrollbar {
+    display: none; /* Hide scrollbar on mobile */
+  }
 }
 
 .scrollable-list-items::-webkit-scrollbar {
@@ -314,7 +324,7 @@
   cursor: pointer;
   transition: all 0.3s;
   padding: 0.8rem 0.4rem;
-  margin: 0.2rem 1rem;
+  margin: 0.2rem 0.5rem 0.5rem 0.5rem;
   &:hover {
     opacity: 0.8;
   }
