@@ -26,7 +26,7 @@ export default function Chat() {
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
   const [courseTime, setCourseTime] = useState(false);
-  useMobileNavigate(closeOption, "/chatlist");
+  useMobileNavigate(closeOption, "/home");
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
