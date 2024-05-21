@@ -15,7 +15,9 @@ export const AuthProvider = ({ children }) => {
     const isAuthenticated = token && isTokenValid(token);
     setAuthenticated(isAuthenticated);
 
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
+      navigate("/home", { replace: true });
+    } else {
       navigate("/", { replace: true });
     }
   }, [navigate]);

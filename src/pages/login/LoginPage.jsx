@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Login from "../../components/login/Login";
 import useIsAuth from "../../hooks/useIsAuth";
-import { useTheme } from "../../context/ThemeContext";
 import BackgroundImg from "../../assets/backgroundImg/sky.png";
 
 export default function LoginPage() {
-  const { theme } = useTheme();
   useIsAuth();
 
   return (
