@@ -55,13 +55,6 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
-        splash_pages: [
-          {
-            src: "icons/icon-512x512.png",
-            sizes: "2048x2732", // 고해상도로 한 장의 이미지 사용
-            type: "image/png",
-          },
-        ],
       },
     }),
   ],
