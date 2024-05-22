@@ -26,7 +26,6 @@ function App() {
               <Route path="/*" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/home" element={<ChatList />} />
-                <Route path="/chat" element={<ChatList />} />
                 <Route path="/chat/:titleName" element={<Chat />} />
 
                 <Route path="/question" element={<ChatList />} />
