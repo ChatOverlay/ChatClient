@@ -1,6 +1,6 @@
 // context/AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -9,18 +9,17 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const isAuthenticated = token && isTokenValid(token);
     setAuthenticated(isAuthenticated);
 
-    if (isAuthenticated) {
-      navigate("/home", { replace: true });
-    } else {
+    if (!isAuthenticated && location.pathname !== "/") {
       navigate("/", { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const isTokenValid = (token) => {
     const payload = JSON.parse(atob(token.split('.')[1]));

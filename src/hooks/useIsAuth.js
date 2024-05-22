@@ -7,7 +7,7 @@ export default function useIsAuth() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-          navigate('/chatlist'); // 이미 로그인 상태일 경우 /chatlist로 리다이렉션
+          navigate('/home'); // 이미 로그인 상태일 경우 /home으로 리다이렉션
         }
       }, [navigate]);
     

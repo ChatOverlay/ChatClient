@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { IconMessageCircle } from "@tabler/icons-react";
 import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -77,6 +76,7 @@ export default function VerticalAppBar() {
   const setSectionAndActiveIcon = (section, icon) => {
     setSection(section);
     setActiveIcon(icon);
+    localStorage.setItem("activeSection", section);
   };
 
   const handleOption = () => {
@@ -86,14 +86,21 @@ export default function VerticalAppBar() {
   const handleLogout = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       localStorage.removeItem("token");
+      localStorage.removeItem("activeSection");
       alert("성공적으로 로그아웃 되었습니다.");
       navigate("/");
     }
   };
 
   useEffect(() => {
-    setSectionAndActiveIcon(0, 0);
-  }, []);
+    const savedSection = localStorage.getItem("activeSection");
+    if (savedSection !== null) {
+      setSectionAndActiveIcon(Number(savedSection), Number(savedSection));
+    } else {
+      setSectionAndActiveIcon(0, 0);
+    }
+  }, [location.pathname]);
+
 
   return (
     <>
