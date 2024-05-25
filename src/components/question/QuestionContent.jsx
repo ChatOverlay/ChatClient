@@ -278,6 +278,7 @@ export default function QuestionContent({
 const Box = styled.div`
   padding: 0.5rem;
   padding-left: 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid ${({ theme }) => theme.highlight};
   color: var(--foreground-color);
 `;
