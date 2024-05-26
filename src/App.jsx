@@ -1,5 +1,4 @@
-// App.js
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { SharedStateProvider } from "./context/SharedStateContext";
@@ -11,11 +10,25 @@ import ChatList from "./pages/chat/ChatList";
 import Question from "./pages/question/Question";
 import QuestionAdd from "./pages/question/QuestionAdd";
 import Mileage from "./pages/mypage/Mileage";
-import RegisterPage from "./pages/login/RegisterPage";
 import Adoption from "./pages/mypage/Adoption";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { savePushToken } from "./utils/PushTokenHandler";
 
 function App() {
+  useEffect(() => {
+    window.addEventListener('message', handleWebViewMessage);
+    return () => {
+      window.removeEventListener('message', handleWebViewMessage);
+    };
+  }, []);
+
+  const handleWebViewMessage = async (event) => {
+    const token = event.data;
+    if (token) {
+      await savePushToken(token);
+    }
+  };
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -44,7 +57,6 @@ function App() {
   );
 }
 
-// VerticalAppBar conditionally rendered based on authentication
 function AppBarCondition() {
   const location = useLocation();
   const { authenticated } = useAuth();
