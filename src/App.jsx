@@ -15,20 +15,6 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { savePushToken } from "./utils/PushTokenHandler";
 
 function App() {
-  useEffect(() => {
-    window.addEventListener('message', handleWebViewMessage);
-    return () => {
-      window.removeEventListener('message', handleWebViewMessage);
-    };
-  }, []);
-
-  const handleWebViewMessage = async (event) => {
-    const token = event.data;
-    if (token) {
-      await savePushToken(token);
-    }
-  };
-
   return (
     <BrowserRouter>
       <AuthProvider>
