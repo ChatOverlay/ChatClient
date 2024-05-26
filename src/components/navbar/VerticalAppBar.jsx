@@ -186,7 +186,7 @@ const AppBar = styled.div`
   width: 5rem;
   z-index: 2;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: 100%;
     height: 6%;
     top: auto;
@@ -197,7 +197,7 @@ const AppBar = styled.div`
 `;
 
 const FirstIconWrapper = styled.div`
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     display: flex;
     width: 80%;
     height: 100%;
@@ -207,7 +207,7 @@ const FirstIconWrapper = styled.div`
 
 const SecondIconWrapper = styled.div`
   margin-bottom: 2rem;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     display: none;
   }
 `;
@@ -240,7 +240,7 @@ const IconContainer = styled.div`
     font-size: 2.5rem; /* 기본 크기 */
     margin-bottom: 0.5rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       font-size: 1.6rem; /* 모바일에서의 크기 */
       margin-bottom: 0;
     }
@@ -248,13 +248,13 @@ const IconContainer = styled.div`
   span {
     transition: visibility 0s, opacity 0.1s linear;
     font-size: 0.9rem;
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       font-size: 0.7rem;
       font-weight: bold;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     margin-top: 0;
     flex-direction: column;
   }
@@ -264,7 +264,7 @@ const Footer = styled.div`
   display : flex;
   background-color: var(--background-color);
   color: var(--foreground-color);
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     height: 3rem;
     margin-left: 5rem;
     position : fixed;
@@ -275,7 +275,7 @@ const Footer = styled.div`
       display: none;
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: 100%;
     height: 6%;
     align-items: center;

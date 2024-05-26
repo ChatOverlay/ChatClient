@@ -100,7 +100,7 @@ const ProductsContainer = styled.div`
   gap: 2rem; // 그리드 아이템 간의 간격
 
   padding: 2rem; // 컨테이너 패딩
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     // 태블릿 및 모바일 화면 대응
     grid-template-columns: repeat(2, 1fr); // 화면이 작을 때는 2열로 변경
   }

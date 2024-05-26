@@ -81,7 +81,7 @@ const SettingBox = styled.div`
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width : 80%;
   }
 `;

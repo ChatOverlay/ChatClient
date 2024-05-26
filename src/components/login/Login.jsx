@@ -157,7 +157,7 @@ const LoginContainer = styled.div`
   height: 30rem;
   padding: 3rem;
   opacity: 0.9;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: 15rem;
     height: 20rem;
   }
@@ -170,7 +170,7 @@ const StyledImgContainer = styled.div`
 const StyledImg = styled.img`
   display: flex;
   justify-content: center;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: 10rem;
   }
 `;

@@ -5,28 +5,41 @@ const ProtectedRoute = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = () => {
+    const verifyToken = async (token) => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/verifyToken`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token }),
+          }
+        );
+        return response.ok;
+      } catch (error) {
+        console.error("토큰 검증 실패:", error);
+        return false;
+      }
+    };
+
+    const isAuthenticated = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         return false;
       }
-      return isTokenValid(token);
+      return await verifyToken(token);
     };
 
-    const isTokenValid = (token) => {
-      // 예를 들어 토큰의 만료 시간을 검사하는 간단한 로직
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const expires = payload.exp * 1000;
-      if (Date.now() >= expires) {
-        localStorage.removeItem('token'); // 만료된 토큰 제거
-        return false;
+    const checkAuthentication = async () => {
+      const authenticated = await isAuthenticated();
+      if (!authenticated) {
+        navigate("/login", { replace: true, state: "잘못된 접근입니다." });
       }
-      return true;
     };
 
-    if (!isAuthenticated()) {
-      navigate("/login", { replace: true, state: "잘못된 접근입니다." });
-    }
+    checkAuthentication();
   }, [navigate]);
 
   return <Outlet />;

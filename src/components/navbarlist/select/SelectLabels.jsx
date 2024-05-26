@@ -43,7 +43,7 @@ export default function SelectLabels({
   };
   const horizontalPosition =
     location === "QuestionAdd"
-      ? windowWidth <= 768
+      ? windowWidth <= 480
         ? "left"
         : "right"
       : "left";

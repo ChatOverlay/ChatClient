@@ -40,7 +40,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: 100%;
     top: 6%;
     height: 88%;
@@ -98,13 +98,13 @@
   flex-grow: 1;
   overflow-y: auto;
   scroll-behavior: smooth;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
     overflow-y: scroll; /* Allow scrolling */
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .scrollable-list-items::-webkit-scrollbar {
     display: none; /* Hide scrollbar on mobile */
   }
@@ -153,12 +153,12 @@
   }
   &:first-child {
     margin-top: 1rem;
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       margin-top: 0;
     }
   }
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     margin: 0;
     border: none;
     border-radius: 0;
@@ -167,7 +167,7 @@
   }
 }
 .navbar__list__item_home {
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     margin: 0.2rem 0.5rem; /* 모바일에서도 여백 유지 */
     border: 1px solid var(--foreground-color);
     border-radius: 0.5rem;
@@ -177,7 +177,7 @@
 
 .navbar__list__item.selected,
 .navbar__list__item_home.selected {
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
     .likes-count,
@@ -218,7 +218,7 @@
 }
 
 .mypage__list__item.selected {
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
   }
@@ -307,7 +307,7 @@
   transition: all 0.3s;
   border: 2px solid var(--background-color);
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     display: none;
   }
 }
@@ -327,7 +327,7 @@
   &:hover {
     opacity: 0.8;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 480px) {
     margin: 0.5rem;
   }
 }
@@ -344,7 +344,7 @@
   width: 100%;
   top: 0;
   border-bottom: 1px solid var(--foreground-color);
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     padding-bottom: 0.2rem;
     &:nth-child(1) {
       padding-left: 0.5rem;

@@ -49,7 +49,7 @@ const AppContainer = styled.div`
   transition: all 0.3s;
   animation: ${slideInFromLeft} 0.5s ease-out forwards;
   
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     display : none;
   }
 `;

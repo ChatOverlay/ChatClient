@@ -17,7 +17,7 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem; // 여백을 조금 더 늘려주어 시각적으로 여유를 줍니다.
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     flex-direction: column;
     align-items: start;
     gap: 1rem;
@@ -115,7 +115,7 @@ export const DropMessage = styled.p`
     isActive ? "#4CAF50" : "#aaa"}; // 활성화 상태에 따라 텍스트 색상 변경
   font-weight: bold;
   padding : 0 2.5rem;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     font-size: 0.8rem;
   }
 `;

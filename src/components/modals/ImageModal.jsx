@@ -24,7 +24,7 @@ const ModalContent = styled.div`
   background-color: white;
   border-radius: 0.5rem;
   padding: 1.5rem;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     padding : 1.5rem;
   }
 `;
@@ -48,7 +48,7 @@ const StyledImg = styled.img`
   width: auto;
   max-width: 80vw;
   max-height: 80vh;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     width: auto;
     height : auto;
     max-width: 80vw;

@@ -1,8 +1,8 @@
 // Function to hide the scrollbar on mobile
 export const hideScrollbarOnMobile = () => {
     const element = document.querySelector('.navbar__list');
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    if (mediaQuery.matches) { // Check if the screen width is less than or equal to 768px
+    const mediaQuery = window.matchMedia('(max-width: 480px)');
+    if (mediaQuery.matches) { // Check if the screen width is less than or equal to 480px
       element.style.overflowY = 'hidden';
     } else {
       element.style.overflowY = 'auto'; // Default overflow style

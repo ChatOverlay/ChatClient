@@ -42,7 +42,7 @@ export const AppContainer = styled.div`
   z-index: 100;
   animation: ${slideInFromLeft} 0.2s ease-out forwards;
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     margin-left: 0;
     width: 100vw;
     animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state

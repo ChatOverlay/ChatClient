@@ -5,7 +5,7 @@ export default function useMobileNavigate(closeOption, path, delay = 400) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (closeOption && window.innerWidth <= 768) {
+    if (closeOption && window.innerWidth <= 480) {
       const timer = setTimeout(() => {
         navigate(path);
       }, delay);

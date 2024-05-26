@@ -261,7 +261,7 @@ const AppContainer = styled.div`
     opacity: 0.3; // Set the opacity for the background image only
     z-index: -1; // Ensure the pseudo-element is behind the content
   }
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     margin-left: 0;
     width: 100vw;
     height: 100vh;
@@ -307,7 +307,7 @@ const StyledInput = styled.input`
     outline: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     font-size: 1rem;
   }
 `;
@@ -324,7 +324,7 @@ const StyledButton = styled.div`
   &:hover {
     opacity: 0.8;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     font-size: 1rem;
   }
 `;
@@ -421,7 +421,7 @@ const Message = styled.div`
   color: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: anywhere;
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     font-size: 1.2rem;
     font-weight: 500;
   }

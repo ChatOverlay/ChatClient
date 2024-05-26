@@ -37,7 +37,7 @@ const NumberContainer = styled.div`
 
 // 컴포넌트 구현
 export default function TopBar({ closeOption, setCloseOption, titleName }) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
 
   return (
     <TopBarContainer>
