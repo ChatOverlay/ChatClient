@@ -85,11 +85,11 @@ const QuestionContainer = styled.div`
   position: relative;
   flex-direction: column;
   color: var(--foreground-color);
-    overflow-y: auto;
-  -webkit-overflow-scrolling: touch; // iOS에서 부드러운 스크롤 제공
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     background-color: var(--background-color);
   }
 
