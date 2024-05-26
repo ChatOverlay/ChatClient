@@ -92,9 +92,9 @@ export default function Questioner({
     <QuestionerContainer>
       <QuestionerProfileContainer>
         <QuestionerProfileIcon>
-          {questionData?.profilePictureUrl ? (
+          {questionData?.questionerProfilePictureUrl ? (
             <img
-              src={questionData.profilePictureUrl}
+              src={questionData.questionerProfilePictureUrl}
               alt="Profile"
               style={{ width: "3rem", height: "3rem", borderRadius: "50%" }}
             />

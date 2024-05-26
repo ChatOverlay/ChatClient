@@ -16,9 +16,10 @@ export default function Comment({
 }) {
   const [isQuestioner, setIsQuestioner] = useState(false); //질문자 확인용
   const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
-  const isCurrentUser = comment.userId === currentUserId; //댓글자인지 확인
+  const [isCurrentUser, setIsCurrentUser] = useState(true); // Initially true, update based on fetched data
   const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
-  const {addNewData} =useSharedState();
+  const { addNewData } = useSharedState();
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(
@@ -33,6 +34,7 @@ export default function Comment({
       if (response.ok) {
         setIsQuestioner(data.id === questionData?.questionerId);
         setCurrentUserId(data.id);
+        setIsCurrentUser(comment.userId === data.id);
         const acceptedExists = questionData.comments.some(
           (comment) => comment.isAccepted
         );
@@ -43,12 +45,11 @@ export default function Comment({
     };
 
     fetchUserInfo();
-  }, [questionData]);
+  }, [questionData, comment.userId]);
 
   const handleDelete = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
-        // API 호출을 통해 댓글 삭제 요청
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/questions/${
             questionData._id
@@ -64,7 +65,6 @@ export default function Comment({
           alert("댓글이 정상적으로 삭제가 되었습니다.");
           setChangeData(!changeData);
           addNewData();
-
         } else {
           console.error("Failed to delete the comment.");
         }
@@ -73,11 +73,10 @@ export default function Comment({
       }
     }
   };
+
   const handleReport = async () => {
-    // 사용자에게 신고를 확인받습니다.
     if (window.confirm("이 댓글을 신고하시겠습니까?")) {
       try {
-        // 신고 API 호출
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/questions/${
             questionData._id
@@ -87,11 +86,9 @@ export default function Comment({
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-            // 필요한 경우, 신고에 대한 추가 정보를 body에 포함시킬 수 있습니다.
           }
         );
         if (response.ok) {
-          // 신고 성공 시 사용자에게 알립니다.
           alert("댓글이 정상적으로 신고되었습니다.");
         } else {
           console.error("Failed to report the comment.");
@@ -101,7 +98,7 @@ export default function Comment({
       }
     }
   };
-  // 채택 버튼 클릭 핸들러
+
   const handleAccept = async () => {
     if (window.confirm("이 댓글을 채택하시겠습니까?")) {
       try {
@@ -134,9 +131,9 @@ export default function Comment({
       <div style={{ color: theme.primaryColor }}>
         <CommentProfileContainer>
           <CommentProfileIcon theme={theme}>
-            {comment.profilePictureUrl ? (
+            {comment.commenterProfilePictureUrl ? (
               <img
-                src={comment.profilePictureUrl}
+                src={comment.commenterProfilePictureUrl}
                 alt="Profile"
                 style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
               />
@@ -146,11 +143,11 @@ export default function Comment({
           </CommentProfileIcon>
           <div>
             <CommentProfileName>
-              {comment.name}{" "}
+              {comment.commenterName}
               {comment.isAccepted && (
                 <AcceptedIndicator>
                   채택됨
-                  <CheckCircleIcon sx={{marginTop : "0.1rem"}} />
+                  <CheckCircleIcon sx={{ marginTop: "0.1rem" }} />
                 </AcceptedIndicator>
               )}
             </CommentProfileName>
@@ -160,9 +157,7 @@ export default function Comment({
             {isQuestioner &&
               !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
               currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-                <AcceptButton onClick={handleAccept} >
-                  채택
-                </AcceptButton>
+                <AcceptButton onClick={handleAccept}>채택</AcceptButton>
               )}
           </AcceptContainer>
         </CommentProfileContainer>
@@ -197,9 +192,9 @@ const CommentProfileContainer = styled.div`
 const AcceptedIndicator = styled.div`
   display: flex;
   border: 1px solid var(--foreground-color);
-  margin-left : 0.2rem;
+  margin-left: 0.2rem;
   border-radius: 0.5rem;
-  font-size : 0.8rem;
+  font-size: 0.8rem;
   padding: 0 0.2rem 0.05rem 0.2rem;
   align-items: center;
   background-color: var(--foreground-color);
@@ -266,7 +261,6 @@ const AcceptButton = styled.button`
   cursor: pointer;
   padding: 0.4rem;
   font-family: "Noto Sans KR";
-
   border-radius: 0.5rem;
   transition: opacity 0.2s;
 
