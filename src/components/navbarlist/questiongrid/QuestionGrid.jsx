@@ -36,6 +36,9 @@ export default function QuestionGrid({ questionList }) {
 
 const CourseName = styled.div`
   display: flex;
-  padding: 1.5rem 0 0 1.5rem;
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: 1.5rem;
+  background-color: var(--foreground-color);
+  color : var(--background-color);
   margin-bottom: -3rem;
 `;
