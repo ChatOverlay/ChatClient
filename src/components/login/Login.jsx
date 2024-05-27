@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
-import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import Logo from "../../assets/backgroundImg/clasome.png";
+import Logo from "../../assets/backgroundImg/clatalk.png";
 
 import { useTheme } from "../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +55,8 @@ export default function Login() {
       {loading && <LoadingModal />}
       <Container>
         <StyledImgContainer>
-          <StyledImg src={Logo} alt="CLASOME Logo" />
+          <StyledImg src={Logo} alt="ClaTalk Logo" />
+          <StyledSlogan>수업 참여의 새 기준</StyledSlogan>
         </StyledImgContainer>
         <InputContainer>
           <TextField
@@ -135,8 +134,7 @@ export default function Login() {
           />
         </FormContainer>
         <ButtonContainer>
-          <LoginButton 
-            onClick={handleLogin}>로그인</LoginButton>
+          <LoginButton onClick={handleLogin}>로그인</LoginButton>
         </ButtonContainer>
       </Container>
     </LoginContainer>
@@ -153,33 +151,44 @@ const LoginContainer = styled.div`
   background-color: #fff;
   color: #0064d8;
   border-radius: 1rem;
-  width: 50rem;
+  width: 50%;
   height: 30rem;
-  padding: 3rem;
+  padding: 3rem 5rem;
   opacity: 0.9;
   @media (max-width: 480px) {
-    width: 15rem;
-    height: 20rem;
+    height: 25rem;
   }
 `;
 const StyledImgContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom : 1rem;
+  align-items: center;
+  margin-bottom: 3rem;
+  flex-direction: column;
+  gap : 0.5rem;
+  @media (max-width: 480px) {
+    
+  margin-bottom: 2rem;
+  }
 `;
+
+const StyledSlogan = styled.div`
+  font-size : 1.3rem;
+  @media (max-width: 480px) {
+    font-size : 1.1rem;
+  }
+`;
+
 const StyledImg = styled.img`
   display: flex;
   justify-content: center;
+  width : 100%;
+  max-width : 30rem;
   @media (max-width: 480px) {
-    width: 10rem;
+    width: 15rem;
   }
 `;
-const WelcomeText = styled.div`
-  display: flex;
-  justify-content: center;
-  font-weight: bold;
-  margin-bottom: 1rem;
-`;
+
 
 const slideInRight = keyframes`
   from {
@@ -198,13 +207,14 @@ const Container = styled.div`
   animation: ${slideInRight} 0.5s forwards;
   display: flex;
   flex-direction: column;
-
+  width: 100%;
   justify-content: flex-end; /* FormContainer를 우측으로 정렬 */
 `;
 
 //해당 입력칸
 const InputContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: center;
 `;
@@ -229,7 +239,6 @@ const FormContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-right: 0;
-
 `;
 const ButtonContainer = styled.div`
   display: flex;
@@ -259,9 +268,9 @@ const LoginButton = styled.div`
   align-items: center;
   width: 100%;
   height: 4rem;
-  font-size : 1.1rem;
-  font-weight : bold;
-  background-color: #0164D8;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: #0164d8;
   color: var(--background-color);
   border-radius: 0.5rem;
 
