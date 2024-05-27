@@ -22,8 +22,9 @@ function App() {
           <SharedStateProvider>
             <AppBarCondition />
             <Routes>
-              <Route path="/*" element={<LoginPage />} />
+              <Route path="/" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
+                <Route path="/*" element={<ChatList />} />
                 <Route path="/home" element={<ChatList />} />
                 <Route path="/chat/:titleName" element={<Chat />} />
 

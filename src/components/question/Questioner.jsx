@@ -30,7 +30,7 @@ export default function Questioner({
         if (response.ok) {
           alert("질문이 성공적으로 삭제되었습니다.");
           addNewData();
-          navigate("./home");
+          navigate("/home");
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message);
