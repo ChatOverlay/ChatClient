@@ -165,30 +165,28 @@ const StyledImgContainer = styled.div`
   align-items: center;
   margin-bottom: 3rem;
   flex-direction: column;
-  gap : 0.5rem;
+  gap: 0.5rem;
   @media (max-width: 480px) {
-    
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
   }
 `;
 
 const StyledSlogan = styled.div`
-  font-size : 1.3rem;
+  font-size: 1.3rem;
   @media (max-width: 480px) {
-    font-size : 1.1rem;
+    font-size: 1.1rem;
   }
 `;
 
 const StyledImg = styled.img`
   display: flex;
   justify-content: center;
-  width : 100%;
-  max-width : 30rem;
+  width: 100%;
+  max-width: 30rem;
   @media (max-width: 480px) {
     width: 15rem;
   }
 `;
-
 
 const slideInRight = keyframes`
   from {
