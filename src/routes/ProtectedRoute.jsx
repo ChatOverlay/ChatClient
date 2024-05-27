@@ -36,7 +36,7 @@ const ProtectedRoute = () => {
       const authenticated = await isAuthenticated();
       if (!authenticated) {
         localStorage.removeItem("token");
-        navigate("/login", { replace: true, state: "잘못된 접근입니다." });
+        navigate("/", { replace: true, state: "잘못된 접근입니다." });
       }
     };
 

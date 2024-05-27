@@ -17,6 +17,7 @@ import HomePage from "../navbarlist/HomePage";
 import CloudDefaultImg from "../../assets/backgroundImg/cloud.png";
 import CloudLightImg from "../../assets/backgroundImg/cloudlight.png";
 import { useTheme } from "../../context/ThemeContext";
+import useIsAuth from "../../hooks/useIsAuth";
 
 const ChatIcon = () => (
   <svg
@@ -47,6 +48,7 @@ export default function VerticalAppBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIcon, setActiveIcon] = useState(0);
   const { theme } = useTheme();
+  useIsAuth();
   const sectionTitles = {
     0: "클라톡",
     1: "채팅",

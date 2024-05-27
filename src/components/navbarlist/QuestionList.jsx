@@ -23,7 +23,8 @@ export default function QuestionList() {
   const [courses, setCourses] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isGridView, setIsGridView] = useState(false); // State for view mode
- 
+  const [editMode, setEditMode] = useState(false); // State for edit mode
+
   const { newAdded } = useSharedState();
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
@@ -69,7 +70,7 @@ export default function QuestionList() {
         setQuestionList(data.sort((a, b) => b._id.localeCompare(a._id)));
       })
       .catch((error) => console.error("Error fetching questions:", error));
-  }, [newAdded]);
+  }, [newAdded ,editMode]);
 
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
@@ -95,14 +96,18 @@ export default function QuestionList() {
           <QuestionGrid
             questionList={questionList.filter(
               (question) =>
-                selectedOption.id === "" || question.className === selectedOption.name
+                selectedOption.id === "" ||
+                question.className === selectedOption.name
             )}
-           />
+            editMode={editMode}
+            setEditMode={setEditMode}
+          />
         ) : (
           questionList
             .filter(
               (question) =>
-                selectedOption.id === "" || question.className === selectedOption.name
+                selectedOption.id === "" ||
+                question.className === selectedOption.name
             )
             .map((question) => {
               const isLikedByCurrentUser = question.likes.some(

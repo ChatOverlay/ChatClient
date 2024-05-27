@@ -27,7 +27,8 @@ export default function QuestionContent({
   theme,
   editMode,
   setEditMode,
-  setCommentToggle
+  setCommentToggle,
+  imgModalAble
 }) {
   const commentsCount = questionData?.comments?.length || 0;
   const [likesCount, setLikesCount] = useState(
@@ -49,12 +50,12 @@ export default function QuestionContent({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/jpeg': ['.jpeg', '.jpg'],
-      'image/png': ['.png'],
-      'image/gif': ['.gif'],
-      'image/webp': ['.webp']
+      "image/jpeg": [".jpeg", ".jpg"],
+      "image/png": [".png"],
+      "image/gif": [".gif"],
+      "image/webp": [".webp"],
     },
-    noClick: true
+    noClick: true,
   });
   const handleImageClick = (url) => {
     setSelectedImage(url);
@@ -263,15 +264,15 @@ export default function QuestionContent({
             <div>
               <ThumbUpAltIcon /> {likesCount}
             </div>
-            <div onClick={()=>setCommentToggle(true)}>
+            <div onClick={() => setCommentToggle(true)}>
               <ChatIcon /> {commentsCount}
             </div>
           </IconContainer>
         </>
       )}
-      {showModal && (
-        <ImageModal src={selectedImage} onClose={() => setShowModal(false)} />
-      )}
+        {showModal && imgModalAble && (
+          <ImageModal src={selectedImage} onClose={() => setShowModal(false)} />
+        )}
     </Box>
   );
 }
@@ -280,8 +281,8 @@ const Box = styled.div`
   padding: 0.5rem;
   padding-left: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid ${({ theme }) => theme.highlight};
   color: var(--foreground-color);
+  border-bottom: 1px solid var(--foreground-color);
 `;
 
 const Title = styled.div`
@@ -325,8 +326,10 @@ const LikeButton = styled.div`
 `;
 
 const ImgContainer = styled.div`
-display : flex;
-  gap : 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 0.5rem;
+  gap : 1rem;
 `;
 const StyledImg = styled.img`
   max-width: 100%; // Ensure it does not overflow its container

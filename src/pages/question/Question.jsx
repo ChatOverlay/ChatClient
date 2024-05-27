@@ -57,6 +57,7 @@ export default function Question() {
             theme={theme}
             editMode={editMode}
             setEditMode={setEditMode}
+            imgModalAble={true}
           />
           {questionData?.comments?.map((comment) => (
             <Comment

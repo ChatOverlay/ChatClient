@@ -3,12 +3,14 @@ import styled, { keyframes } from "styled-components";
 import Comment from "../question/Comment";
 import CommentAdd from "../question/CommentAdd";
 import CloseIcon from "@mui/icons-material/Close";
-
+import "../navbarlist/ListBox.css"
 export default function CommentModal({
   question,
   theme,
   setCommentToggle,
   commentToggle,
+  changeData,
+  setChangeData,
 }) {
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -22,19 +24,24 @@ export default function CommentModal({
         <CloseButton onClick={() => setCommentToggle(false)}>
           <CloseIcon />
         </CloseButton>
-        <CommentsContainer>
+        <CommentsContainer className="scrollable-list-items">
           {question?.comments?.map((comment) => (
             <Comment
               key={comment._id}
               questionData={question}
+              changeData={changeData}
+              setChangeData={setChangeData}
               comment={comment}
               theme={theme}
             />
           ))}
         </CommentsContainer>
-        <CommentAddContainer>
-          <CommentAdd questionData={question} theme={theme} />
-        </CommentAddContainer>
+          <CommentAdd
+            questionData={question}
+            changeData={changeData}
+            setChangeData={setChangeData}
+            theme={theme}
+          />
       </ModalContainer>
     </ModalOverlay>
   );
@@ -72,15 +79,15 @@ const ModalOverlay = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10000;
   visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: visibility 0.3s ease-out;
+  
 `;
 
 const ModalContainer = styled.div`
   background: var(--background-color);
   width: 100%;
-  height: 50%;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
@@ -92,18 +99,11 @@ const ModalContainer = styled.div`
 
 const CommentsContainer = styled.div`
   flex: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
+  max-height : 50vh;
 `;
 
 const CloseButton = styled.div`
   align-self: flex-end;
   cursor: pointer;
   margin-bottom: 0.5rem;
-`;
-
-const CommentAddContainer = styled.div`
-  @media (max-width: 480px) {
-    margin-bottom: 2rem;
-  }
 `;
