@@ -27,6 +27,7 @@ export default function QuestionContent({
   theme,
   editMode,
   setEditMode,
+  setCommentToggle
 }) {
   const commentsCount = questionData?.comments?.length || 0;
   const [likesCount, setLikesCount] = useState(
@@ -262,7 +263,7 @@ export default function QuestionContent({
             <div>
               <ThumbUpAltIcon /> {likesCount}
             </div>
-            <div>
+            <div onClick={()=>setCommentToggle(true)}>
               <ChatIcon /> {commentsCount}
             </div>
           </IconContainer>
