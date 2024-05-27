@@ -14,6 +14,7 @@ export default function Questioner({
   const isCurrentUser = questionData?.questionerId === currentUserId;
   const { addNewData } = useSharedState();
   const navigate = useNavigate();
+
   const handleDelete = async () => {
     if (window.confirm("이 질문을 삭제하시겠습니까?")) {
       try {
@@ -29,7 +30,7 @@ export default function Questioner({
         if (response.ok) {
           alert("질문이 성공적으로 삭제되었습니다.");
           addNewData();
-          navigate(-1);
+          navigate("./home");
         } else {
           const errorData = await response.json();
           throw new Error(errorData.message);
@@ -88,6 +89,11 @@ export default function Questioner({
     fetchUserInfo();
   }, []);
 
+  if (currentUserId === null) {
+    // Wait until currentUserId is set
+    return null;
+  }
+
   return (
     <QuestionerContainer>
       <QuestionerProfileContainer>
@@ -132,7 +138,7 @@ const QuestionerContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1.5rem;
-  padding-top : 4rem;
+  padding-top: 4rem;
   color: var(--primary-color); // 텍스트 색상 적용
   font-family: "Noto Sans KR";
 `;
