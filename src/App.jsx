@@ -23,7 +23,7 @@ function App() {
             <AppBarCondition />
             <Routes>
               <Route path="/" element={<LoginPage />} />
-              <Route element={<ProtectedRoute />}>
+              {/* <Route element={<ProtectedRoute />}> */}
                 <Route path="/*" element={<ChatList />} />
                 <Route path="/home" element={<ChatList />} />
                 <Route path="/chat/:titleName" element={<Chat />} />
@@ -35,7 +35,7 @@ function App() {
                 <Route path="/mypage" element={<ChatList />} />
                 <Route path="/mypage/mileage" element={<Mileage />} />
                 <Route path="/mypage/adoptedpoint" element={<Adoption />} />
-              </Route>
+              {/* </Route> */}
             </Routes>
           </SharedStateProvider>
         </ThemeProvider>
