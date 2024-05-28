@@ -5,7 +5,7 @@ import useIsAuth from "../../hooks/useIsAuth";
 import BackgroundImg from "../../assets/backgroundImg/sky.png";
 
 export default function LoginPage() {
-  useIsAuth();
+  // useIsAuth();
 
   return (
     <HomeContainer>
