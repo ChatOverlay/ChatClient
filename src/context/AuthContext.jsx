@@ -40,7 +40,9 @@ export const AuthProvider = ({ children }) => {
   
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const isAuthenticated = token && isTokenValid(token);
+    
+    // const isAuthenticated = token && isTokenValid(token);
+    const isAuthenticated = token;
     setAuthenticated(isAuthenticated);
 
     if (!isAuthenticated && location.pathname !== "/") {
