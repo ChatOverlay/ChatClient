@@ -11,6 +11,33 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isTokenValid = async (token) => {
+    try {
+      console.log("Verifying token:", token);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/verifyToken`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        return false;
+      }
+
+      const result = await response.json();
+      console.log("Verification result:", result);
+      return result.success;
+    } catch (error) {
+      console.error("Token verification failed:", error);
+      return false;
+    }
+  };
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     const isAuthenticated = token && isTokenValid(token);
@@ -20,12 +47,6 @@ export const AuthProvider = ({ children }) => {
       navigate("/", { replace: true });
     }
   }, [navigate, location.pathname]);
-
-  const isTokenValid = (token) => {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const expires = payload.exp * 1000;
-    return Date.now() < expires;
-  };
 
   return (
     <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
