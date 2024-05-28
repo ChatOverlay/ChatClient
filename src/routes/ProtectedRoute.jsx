@@ -44,10 +44,10 @@ const ProtectedRoute = () => {
     const checkAuthentication = async () => {
       const authenticated = await isAuthenticated();
       
-      if (!authenticated) {
-        localStorage.removeItem('token');
-        navigate("/");
-      }
+      // if (!authenticated) {
+      //   localStorage.removeItem('token');
+      //   navigate("/");
+      // }
    };
 
     checkAuthentication();
