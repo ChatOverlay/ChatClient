@@ -25,19 +25,29 @@ export default function CommentModal({
       return () => clearTimeout(timer);
     }
   }, [commentToggle]);
-
-  useEffect(() => {
-    if (changeData && question?._id) {
-      fetchUpdatedQuestionData(question._id);
-    }
-  }, [changeData, question?._id, fetchUpdatedQuestionData]);
-
+  // const fetchUpdatedQuestionData = async (questionId) => {
+  //   try {
+  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${questionId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setSelectedQuestion(data);
+  //     } else {
+  //       console.error("Error fetching updated question data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching updated question data:", error);
+  //   }
+  // // };
   useEffect(() => {
     if (commentsContainerRef.current) {
       commentsContainerRef.current.scrollTop =
         commentsContainerRef.current.scrollHeight;
     }
-  }, [question?.comments]);
+  }, [changeData]);
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setCommentToggle(false);

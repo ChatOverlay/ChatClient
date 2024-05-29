@@ -62,24 +62,37 @@ export default function QuestionList() {
       })
       .catch((error) => console.error("Error fetching courses:", error));
   }, []);
-
-  const fetchUpdatedQuestionData = async (questionId) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${questionId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setSelectedQuestion(data);
-      } else {
-        console.error("Error fetching updated question data");
+  useEffect(() => {
+    // Define a local variable to control effect cleanup
+    let isSubscribed = true;
+  
+    const fetchData = async () => {
+      if (selectedQuestion?._id && changeData) {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${selectedQuestion._id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          if (response.ok && isSubscribed) { // Check subscription before updating state
+            const data = await response.json();
+            setSelectedQuestion(data);
+            setChangeData(false); // Reset flag after fetching data
+          }
+        } catch (error) {
+          console.error("Error fetching updated question data:", error);
+        }
       }
-    } catch (error) {
-      console.error("Error fetching updated question data:", error);
-    }
-  };
+    };
+  
+    fetchData();
+  
+    // Cleanup function to prevent setting state on unmounted component
+    return () => {
+      isSubscribed = false;
+    };
+  }, [selectedQuestion?._id, changeData]); // Ensure the effect only runs on ID change or flag reset
+  
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
       headers: {
@@ -197,8 +210,7 @@ export default function QuestionList() {
           commentToggle={commentToggle}
           changeData={changeData}
           setChangeData={setChangeData}
-          fetchUpdatedQuestionData={fetchUpdatedQuestionData}
-        />
+         />
       )}
       <div className="write-container">
         <div className="mobile-icon-container" onClick={handleNewQuestion}>
