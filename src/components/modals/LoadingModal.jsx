@@ -10,6 +10,8 @@ export default function LoadingModal() {
     const updateProgress = () => {
       if (loadingProgress < 100) {
         setLoadingProgress((prevProgress) => prevProgress + 1);
+      } else if (loadingProgress > 100) {
+        setLoadingProgress(100);
       } else {
         clearInterval(intervalId);
       }
@@ -33,14 +35,12 @@ const LoadingMessage = styled.span`
   color: white;
   font-size: 16px;
   text-align: center;
-  margin-top : 30px;
-  
+  margin-top: 30px;
 `;
 const getBorderColor = (progress) => {
   const hue = progress * 2;
   return `hsl(${hue}, 100%, 50%)`;
 };
-
 
 const Loader = styled.div`
   width: 64px;
@@ -49,7 +49,7 @@ const Loader = styled.div`
   border: 6px solid rgba(0, 0, 0, 0.1);
   border-left-color: #09f;
   animation: spin 2s infinite linear;
-  
+
   @keyframes spin {
     0% {
       transform: rotate(0deg);
