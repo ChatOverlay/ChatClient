@@ -12,7 +12,6 @@ export default function CommentModal({
   commentToggle,
   changeData,
   setChangeData,
-  fetchUpdatedQuestionData,
 }) {
   const [isVisible, setIsVisible] = useState(commentToggle);
   const commentsContainerRef = useRef(null);
@@ -25,23 +24,7 @@ export default function CommentModal({
       return () => clearTimeout(timer);
     }
   }, [commentToggle]);
-  // const fetchUpdatedQuestionData = async (questionId) => {
-  //   try {
-  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${questionId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setSelectedQuestion(data);
-  //     } else {
-  //       console.error("Error fetching updated question data");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching updated question data:", error);
-  //   }
-  // // };
+
   useEffect(() => {
     if (commentsContainerRef.current) {
       commentsContainerRef.current.scrollTop =
