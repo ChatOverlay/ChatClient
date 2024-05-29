@@ -42,11 +42,8 @@ export default function SelectLabels({
     );
   };
   const horizontalPosition =
-    location === "QuestionAdd"
-      ? windowWidth <= 480
-        ? "left"
-        : "right"
-      : "left";
+    location === "QuestionAdd" && windowWidth <= 480 ? "left" : "right";
+
 
   return (
     <FormControl

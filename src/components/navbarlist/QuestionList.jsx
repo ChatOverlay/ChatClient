@@ -70,16 +70,22 @@ export default function QuestionList() {
   useEffect(() => {
     // Define a local variable to control effect cleanup
     let isSubscribed = true;
-  
+
     const fetchData = async () => {
       if (selectedQuestion?._id && changeData) {
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${selectedQuestion._id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
-          if (response.ok && isSubscribed) { // Check subscription before updating state
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/questions/${
+              selectedQuestion._id
+            }`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          if (response.ok && isSubscribed) {
+            // Check subscription before updating state
             const data = await response.json();
             setSelectedQuestion(data);
             setChangeData(false); // Reset flag after fetching data
@@ -89,15 +95,15 @@ export default function QuestionList() {
         }
       }
     };
-  
+
     fetchData();
-  
+
     // Cleanup function to prevent setting state on unmounted component
     return () => {
       isSubscribed = false;
     };
   }, [selectedQuestion?._id, changeData]); // Ensure the effect only runs on ID change or flag reset
-  
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
       headers: {
@@ -129,21 +135,25 @@ export default function QuestionList() {
   return (
     <div className="navbar__list">
       <div className="sticky-container">
-      <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
-      
-        <SelectLabels
-          options={courses}
-          selectedOption={selectedOption.id}
-          setSelectedOption={(option) => setSelectedOption(option)}
-        />
+        <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
+        <div className="label-container">
+          <SelectLabels
+            options={courses}
+            selectedOption={selectedOption.id}
+            setSelectedOption={(option) => setSelectedOption(option)}
+          />
+        </div>
       </div>
       <div className="scrollable-list-items">
-      {loading ? (
-        <div className="loading-container">
-          <PulseLoader size={15} color={"var(--foreground-color)"} loading={loading} />
-        </div>
-      ) :
-        !isGridView ? (
+        {loading ? (
+          <div className="loading-container">
+            <PulseLoader
+              size={15}
+              color={"var(--foreground-color)"}
+              loading={loading}
+            />
+          </div>
+        ) : !isGridView ? (
           <QuestionGrid
             questionList={questionList.filter(
               (question) =>
@@ -221,7 +231,7 @@ export default function QuestionList() {
           commentToggle={commentToggle}
           changeData={changeData}
           setChangeData={setChangeData}
-         />
+        />
       )}
       <div className="write-container">
         <div className="mobile-icon-container" onClick={handleNewQuestion}>

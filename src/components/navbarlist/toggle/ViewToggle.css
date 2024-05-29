@@ -4,8 +4,10 @@
     border: 1px solid var(--foreground-color);
     border-radius: 0.5rem;
     margin-left : 0.5rem;
-
     overflow: hidden;
+    @media (min-width: 480px) {
+      margin-left: 1rem;
+    }
   }
   
   .toggle-button {

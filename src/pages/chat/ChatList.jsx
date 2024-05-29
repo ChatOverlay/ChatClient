@@ -47,6 +47,7 @@ const AppContainer = styled.div`
   font-size: 2.5rem;
   font-weight: bold;
   transition: all 0.3s;
+  padding : 0 4rem;
   animation: ${slideInFromLeft} 0.5s ease-out forwards;
   
   @media (max-width: 480px) {

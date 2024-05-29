@@ -376,7 +376,13 @@
   left: 0;
   right: 0;
   bottom : 0;
-  position : fixed;
+  position : absolute;
   justify-content: center;
   align-items: center;
+}
+
+.label-container {
+  @media (max-width: 480px) {
+    margin-right : 1rem;
+  }
 }
