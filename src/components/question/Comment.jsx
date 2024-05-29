@@ -219,10 +219,12 @@ const CommentProfileName = styled.div`
 //댓글 프로필 날짜
 const CommentProfileDate = styled.div`
   font-size: 0.7rem;
+  font-weight : normal;
 `;
 //댓글 내용
 const CommentContent = styled.div`
   padding-left: 0.2rem;
+  font-weight : normal;
 `;
 //댓글 수정 및 삭제 옵션
 const CommentActions = styled.div`

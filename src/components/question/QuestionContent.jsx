@@ -27,8 +27,8 @@ export default function QuestionContent({
   theme,
   editMode,
   setEditMode,
-  setCommentToggle,
-  imgModalAble
+  imgModalAble,
+  onCommentClick,
 }) {
   const commentsCount = questionData?.comments?.length || 0;
   const [likesCount, setLikesCount] = useState(
@@ -68,7 +68,6 @@ export default function QuestionContent({
 
   useEffect(() => {
     setLikesCount(questionData?.likes?.length || 0);
-    setLiked(false); // Reset liked state on question change
     setEditedTitle(questionData?.title);
     setEditedContent(questionData?.content);
     setImages(questionData?.imageUrls || []);
@@ -181,7 +180,7 @@ export default function QuestionContent({
   };
 
   return (
-    <Box>
+    <Box imgModalAble={imgModalAble}>
       {editMode ? (
         <EditContainer>
           <Header>
@@ -257,22 +256,35 @@ export default function QuestionContent({
                 />
               ))}
           </ImgContainer>
-          <LikeButton onClick={toggleLike}>
-            {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
-          </LikeButton>
-          <IconContainer>
-            <div>
-              <ThumbUpAltIcon /> {likesCount}
-            </div>
-            <div onClick={() => setCommentToggle(true)}>
-              <ChatIcon /> {commentsCount}
-            </div>
-          </IconContainer>
+          {imgModalAble ? (
+            <>
+              <LikeButton onClick={toggleLike} imgModalAble={imgModalAble}>
+                {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+              </LikeButton>
+              <IconContainer>
+                <div>
+                  <ThumbUpAltIcon /> {likesCount}
+                </div>
+                <div>
+                  <ChatIcon /> {commentsCount}
+                </div>
+              </IconContainer>
+            </>
+          ) : (
+            <GridViewIconContainer>
+              <LikeButton imgModalAble={imgModalAble} onClick={toggleLike}>
+                {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> } {likesCount}
+              </LikeButton>
+              <LikeButton imgModalAble={imgModalAble} onClick={() => onCommentClick(questionData)}>
+                <ChatIcon /> {commentsCount}
+              </LikeButton>
+            </GridViewIconContainer>
+          )}
         </>
       )}
-        {showModal && imgModalAble && (
-          <ImageModal src={selectedImage} onClose={() => setShowModal(false)} />
-        )}
+      {showModal && imgModalAble && (
+        <ImageModal src={selectedImage} onClose={() => setShowModal(false)} />
+      )}
     </Box>
   );
 }
@@ -282,7 +294,8 @@ const Box = styled.div`
   padding-left: 2rem;
   padding-bottom: 2rem;
   color: var(--foreground-color);
-  border-bottom: 1px solid var(--foreground-color);
+  border-bottom: ${(props) =>
+    props.imgModalAble ? "1px solid var(--foreground-color)" : "none"};
 `;
 
 const Title = styled.div`
@@ -306,10 +319,14 @@ const IconContainer = styled.div`
   gap: 1rem;
 `;
 
+const GridViewIconContainer = styled.div`
+    display : flex;
+`;
 const LikeButton = styled.div`
   display: flex;
   margin-top: 1.5rem;
-  width: 5rem;
+  width: ${(props) =>
+    props.imgModalAble ? "5rem" : "4rem"};
   height: 2rem;
   border-radius: 0.5rem;
   justify-content: center;
@@ -319,9 +336,10 @@ const LikeButton = styled.div`
   background-color: var(--foreground-color);
   margin-left: 0.3rem;
   transition: all 0.3s;
+  gap : 0.3rem;
   &:hover {
     opacity: 0.8;
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 `;
 
@@ -329,7 +347,7 @@ const ImgContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding-right: 0.5rem;
-  gap : 1rem;
+  gap: 1rem;
 `;
 const StyledImg = styled.img`
   max-width: 100%; // Ensure it does not overflow its container

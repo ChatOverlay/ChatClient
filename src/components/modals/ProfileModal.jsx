@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -79,7 +79,7 @@ const IconContainer = styled.div`
 `;
 
 function ProfileModal({ onClose, onResetDefault, onChangePicture }) {
-  const [isClosing, setIsClosing] = React.useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
     setIsClosing(true);

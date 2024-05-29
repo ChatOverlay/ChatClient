@@ -3,10 +3,8 @@
     align-items: center;
     border: 1px solid var(--foreground-color);
     border-radius: 0.5rem;
-    margin-right : 0.5rem;
-    @media (max-width: 480px) {
-      margin-right : 1.5rem;
-    }
+    margin-left : 0.5rem;
+
     overflow: hidden;
   }
   

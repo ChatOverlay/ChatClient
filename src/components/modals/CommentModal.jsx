@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import Comment from "../question/Comment";
 import CommentAdd from "../question/CommentAdd";
 import CloseIcon from "@mui/icons-material/Close";
-import "../navbarlist/ListBox.css"
+import "../navbarlist/ListBox.css";
+
 export default function CommentModal({
   question,
   theme,
@@ -11,7 +12,32 @@ export default function CommentModal({
   commentToggle,
   changeData,
   setChangeData,
+  fetchUpdatedQuestionData,
 }) {
+  const [isVisible, setIsVisible] = useState(commentToggle);
+  const commentsContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (commentToggle) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 300); // Duration of slideDown animation
+      return () => clearTimeout(timer);
+    }
+  }, [commentToggle]);
+
+  useEffect(() => {
+    if (changeData && question?._id) {
+      fetchUpdatedQuestionData(question._id);
+    }
+  }, [changeData, question?._id, fetchUpdatedQuestionData]);
+
+  useEffect(() => {
+    if (commentsContainerRef.current) {
+      commentsContainerRef.current.scrollTop =
+        commentsContainerRef.current.scrollHeight;
+    }
+  }, [question?.comments]);
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setCommentToggle(false);
@@ -19,12 +45,18 @@ export default function CommentModal({
   };
 
   return (
-    <ModalOverlay onClick={handleOverlayClick} isVisible={commentToggle}>
+    <ModalOverlay
+      onClick={handleOverlayClick}
+      isVisible={commentToggle || isVisible}
+    >
       <ModalContainer isVisible={commentToggle}>
         <CloseButton onClick={() => setCommentToggle(false)}>
           <CloseIcon />
         </CloseButton>
-        <CommentsContainer className="scrollable-list-items">
+        <CommentsContainer
+          className="scrollable-list-items"
+          ref={commentsContainerRef}
+        >
           {question?.comments?.map((comment) => (
             <Comment
               key={comment._id}
@@ -36,12 +68,12 @@ export default function CommentModal({
             />
           ))}
         </CommentsContainer>
-          <CommentAdd
-            questionData={question}
-            changeData={changeData}
-            setChangeData={setChangeData}
-            theme={theme}
-          />
+        <CommentAdd
+          questionData={question}
+          changeData={changeData}
+          setChangeData={setChangeData}
+          theme={theme}
+        />
       </ModalContainer>
     </ModalOverlay>
   );
@@ -70,19 +102,17 @@ const slideDown = keyframes`
 `;
 
 const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: flex-end;
   justify-content: center;
   z-index: 10000;
   visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
   transition: visibility 0.3s ease-out;
-  
 `;
 
 const ModalContainer = styled.div`
@@ -99,7 +129,7 @@ const ModalContainer = styled.div`
 
 const CommentsContainer = styled.div`
   flex: 1;
-  max-height : 50vh;
+  max-height: 50vh;
 `;
 
 const CloseButton = styled.div`

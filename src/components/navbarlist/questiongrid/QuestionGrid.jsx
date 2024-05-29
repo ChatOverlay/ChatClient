@@ -3,15 +3,11 @@ import QuestionContent from "../../question/QuestionContent";
 import Questioner from "../../question/Questioner";
 import { useTheme } from "../../../context/ThemeContext";
 import styled from "styled-components";
-import CommentModal from "../../modals/CommentModal";
 import "../ListBox.css";
 
-export default function QuestionGrid({ questionList, editMode, setEditMode}) {
+export default function QuestionGrid({ questionList, editMode, setEditMode,onCommentClick}) {
   const { theme } = useTheme();
-  const [commentToggle, setCommentToggle] = useState(false);
-  
-  const [changeData, setChangeData] = useState(true);
-  return (
+   return (
     <div className="grid__list">
       {questionList.map((question) => (
         <div key={question._id}>
@@ -25,21 +21,11 @@ export default function QuestionGrid({ questionList, editMode, setEditMode}) {
           <QuestionContent
             questionData={question}
             theme={theme}
-            setCommentToggle={setCommentToggle}
             editMode={editMode}
             setEditMode={setEditMode}
             imgModalAble={false}
+            onCommentClick={onCommentClick}
           />
-          {commentToggle && (
-            <CommentModal
-              question={question}
-              theme={theme}
-              setCommentToggle={setCommentToggle}
-              commentToggle={commentToggle}
-              changeData={changeData}
-              setChangeData={setChangeData}
-            />
-          )}
         </div>
       ))}
     </div>

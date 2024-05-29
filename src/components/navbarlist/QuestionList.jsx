@@ -5,15 +5,17 @@ import SelectLabels from "./select/SelectLabels";
 
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ChatIcon from "@mui/icons-material/Chat";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { useSharedState } from "../../context/SharedStateContext";
 import ViewToggle from "./toggle/ViewToggle";
 import QuestionGrid from "./questiongrid/QuestionGrid";
+import CommentModal from "../modals/CommentModal";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function QuestionList() {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState({
     id: "",
     name: "전체 보기",
@@ -24,6 +26,8 @@ export default function QuestionList() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isGridView, setIsGridView] = useState(false); // State for view mode
   const [editMode, setEditMode] = useState(false); // State for edit mode
+  const [changeData, setChangeData] = useState(true);
+  const [commentToggle, setCommentToggle] = useState(false);
 
   const { newAdded } = useSharedState();
   useEffect(() => {
@@ -59,6 +63,23 @@ export default function QuestionList() {
       .catch((error) => console.error("Error fetching courses:", error));
   }, []);
 
+  const fetchUpdatedQuestionData = async (questionId) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/questions/${questionId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSelectedQuestion(data);
+      } else {
+        console.error("Error fetching updated question data");
+      }
+    } catch (error) {
+      console.error("Error fetching updated question data:", error);
+    }
+  };
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
       headers: {
@@ -70,7 +91,7 @@ export default function QuestionList() {
         setQuestionList(data.sort((a, b) => b._id.localeCompare(a._id)));
       })
       .catch((error) => console.error("Error fetching questions:", error));
-  }, [newAdded ,editMode]);
+  }, [newAdded, editMode, changeData]);
 
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
@@ -81,15 +102,21 @@ export default function QuestionList() {
     navigate("question/newquestion");
   };
 
+  const handleCommentClick = (question) => {
+    setSelectedQuestion(question);
+    setCommentToggle(true);
+  };
+
   return (
     <div className="navbar__list">
       <div className="sticky-container">
+      <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
+      
         <SelectLabels
           options={courses}
           selectedOption={selectedOption.id}
           setSelectedOption={(option) => setSelectedOption(option)}
         />
-        <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
       <div className="scrollable-list-items">
         {!isGridView ? (
@@ -99,6 +126,7 @@ export default function QuestionList() {
                 selectedOption.id === "" ||
                 question.className === selectedOption.name
             )}
+            onCommentClick={handleCommentClick}
             editMode={editMode}
             setEditMode={setEditMode}
           />
@@ -161,8 +189,21 @@ export default function QuestionList() {
             })
         )}
       </div>
-      <div className="mobile-icon-container" onClick={handleNewQuestion}>
-        질문 작성하기
+      {commentToggle && (
+        <CommentModal
+          question={selectedQuestion}
+          theme={theme}
+          setCommentToggle={setCommentToggle}
+          commentToggle={commentToggle}
+          changeData={changeData}
+          setChangeData={setChangeData}
+          fetchUpdatedQuestionData={fetchUpdatedQuestionData}
+        />
+      )}
+      <div className="write-container">
+        <div className="mobile-icon-container" onClick={handleNewQuestion}>
+          질문 작성하기
+        </div>
       </div>
     </div>
   );
