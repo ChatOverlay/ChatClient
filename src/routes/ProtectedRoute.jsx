@@ -24,7 +24,6 @@ const ProtectedRoute = () => {
         }
 
         const result = await response.json();
-        console.log("Verification result:", result);
         return result.success;
       } catch (error) {
         console.error("Token verification failed:", error);

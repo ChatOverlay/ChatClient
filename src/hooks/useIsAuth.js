@@ -20,12 +20,11 @@ export default function useIsAuth() {
         );
         
         if (!response.ok) {
-          console.error('Token verification failed:gaga', response.statusText);
+          console.error('Token verification failed:', response.statusText);
           return false;
         }
 
         const result = await response.json();
-        console.log("Verification result:", result);
         return result.success;
       } catch (error) {
         console.error("Token verification failed:", error);
