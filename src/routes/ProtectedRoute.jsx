@@ -45,6 +45,7 @@ const ProtectedRoute = () => {
       
       if (!authenticated) {
         localStorage.removeItem('token');
+        alert("유효하지 않는 토큰입니다. 다시 로그인해주세요.")
         navigate("/");
       }
    };
