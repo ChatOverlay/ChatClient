@@ -16,12 +16,14 @@ import "swiper/css/scrollbar";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { PulseLoader } from "react-spinners";
 
 import FirstBanner from "../../assets/backgroundImg/firstbanner.jpg";
 import SecondBanner from "../../assets/backgroundImg/secondbanner.jpg";
 import ThirdBanner from "../../assets/backgroundImg/sky.png";
 import styled from "styled-components";
 import { useSharedState } from "../../context/SharedStateContext";
+import useLoadingTimeout from "../../hooks/useLoadingTimeout";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -31,8 +33,13 @@ export default function HomePage() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const { newAdded } = useSharedState();
+  const [loading, setLoading] = useState(true);
+
+  useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
+  
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/homepage/courses`,
@@ -46,6 +53,8 @@ export default function HomePage() {
         setUpcomingCourse(data.upcomingCourse);
       } catch (error) {
         console.error("Error fetching homepage data:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -129,118 +138,127 @@ export default function HomePage() {
             <img src={ThirdBanner} alt="Cloud Light" />
           </SwiperSlide>
         </Swiper>
-        <Section>
-          <SectionTitle>내 수업 바로가기</SectionTitle>
-          {upcomingCourse && (
-            <div
-              className={`navbar__list__item_home ${
-                upcomingCourse.inSession ? "" : "inactive"
-              }`}
-              onClick={() =>
-                handleRoomClick(
-                  upcomingCourse.lectureRoom,
-                  upcomingCourse.courseId,
-                  upcomingCourse.inSession
-                )
-              }
-            >
-              {!upcomingCourse.inSession && (
-                <div className="overlay">수업 시작 전입니다</div>
-              )}
-              <div className="question-container">
-                <div className="question-title-container">
-                  <div>
-                    {upcomingCourse.courseName}
-                    {upcomingCourse.inSession ? (
-                      <span> 🟢</span>
-                    ) : (
-                      <span> ⚪</span>
-                    )}
-                  </div>
-                </div>
-                <div className="question-date">
-                  {upcomingCourse.lectureRoom}
-                </div>
-                <div className="sub-title-container">
-                  {upcomingCourse.lectureTimes}
-                </div>
-              </div>
-              <div className="icon__arrow__container">
-                <ArrowForwardIcon />
-              </div>
-            </div>
-          )}
-        </Section>
-        <Section>
-          <SectionTitle>내 질문들({questions.length})</SectionTitle>
-          {questions.length > 0 ? (
-            questions.map((question) => {
-              const isLikedByCurrentUser = question.likes.some(
-                (like) => like.userId === currentUserId
-              );
-              const isCommentedByCurrentUser = question.comments.some(
-                (comment) => comment.userId === currentUserId
-              );
-              return (
+        
+        {loading ? (
+          <div className="loading-container">
+            <PulseLoader size={15} color={"var(--foreground-color)"} loading={loading} />
+          </div>
+        ) : (
+          <>
+            <Section>
+              <SectionTitle>내 수업 바로가기</SectionTitle>
+              {upcomingCourse && (
                 <div
                   className={`navbar__list__item_home ${
-                    question._id === selectedQuestion ? "selected" : ""
+                    upcomingCourse.inSession ? "" : "inactive"
                   }`}
-                  key={question._id}
-                  onClick={() => handleQuestionClick(question._id)}
+                  onClick={() =>
+                    handleRoomClick(
+                      upcomingCourse.lectureRoom,
+                      upcomingCourse.courseId,
+                      upcomingCourse.inSession
+                    )
+                  }
                 >
+                  {!upcomingCourse.inSession && (
+                    <div className="overlay">수업 시작 전입니다</div>
+                  )}
                   <div className="question-container">
                     <div className="question-title-container">
-                      <div>{question.title}</div>
+                      <div>
+                        {upcomingCourse.courseName}
+                        {upcomingCourse.inSession ? (
+                          <span> 🟢</span>
+                        ) : (
+                          <span> ⚪</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="question-details">
-                      <span className="question-date">{question.date}</span>
+                    <div className="question-date">
+                      {upcomingCourse.lectureRoom}
                     </div>
                     <div className="sub-title-container">
-                      <div>{question.className}</div>
-                      {question.likes.length > 0 && (
-                        <span
-                          className={`likes-count ${
-                            isLikedByCurrentUser ? "icon-liked" : ""
-                          }`}
-                        >
-                          <ThumbUpAltIcon /> {question.likes.length}
-                        </span>
-                      )}
-                      {question.comments.length > 0 && (
-                        <span
-                          className={`comments-count ${
-                            isCommentedByCurrentUser ? "icon-liked" : ""
-                          }`}
-                        >
-                          <ChatIcon /> {question.comments.length}
-                        </span>
-                      )}
+                      {upcomingCourse.lectureTimes}
                     </div>
                   </div>
                   <div className="icon__arrow__container">
                     <ArrowForwardIcon />
                   </div>
                 </div>
-              );
-            })
-          ) : (
-            <SectionContent>작성한 글이 없습니다.</SectionContent>
-          )}
-        </Section>
-        <Section>
-          <SectionTitle>내 포인트</SectionTitle>
-          {totalMileage > 0 ? (
-            <div
-              className={`navbar__list__item_home ${"inactive"}`}
-              style={{ color: "var(--primary-color)" }}
-            >
-              {totalMileage} 포인트
-            </div>
-          ) : (
-            <SectionContent>포인트 정보가 없습니다.</SectionContent>
-          )}
-        </Section>
+              )}
+            </Section>
+            <Section>
+              <SectionTitle>내 질문들({questions.length})</SectionTitle>
+              {questions.length > 0 ? (
+                questions.map((question) => {
+                  const isLikedByCurrentUser = question.likes.some(
+                    (like) => like.userId === currentUserId
+                  );
+                  const isCommentedByCurrentUser = question.comments.some(
+                    (comment) => comment.userId === currentUserId
+                  );
+                  return (
+                    <div
+                      className={`navbar__list__item_home ${
+                        question._id === selectedQuestion ? "selected" : ""
+                      }`}
+                      key={question._id}
+                      onClick={() => handleQuestionClick(question._id)}
+                    >
+                      <div className="question-container">
+                        <div className="question-title-container">
+                          <div>{question.title}</div>
+                        </div>
+                        <div className="question-details">
+                          <span className="question-date">{question.date}</span>
+                        </div>
+                        <div className="sub-title-container">
+                          <div>{question.className}</div>
+                          {question.likes.length > 0 && (
+                            <span
+                              className={`likes-count ${
+                                isLikedByCurrentUser ? "icon-liked" : ""
+                              }`}
+                            >
+                              <ThumbUpAltIcon /> {question.likes.length}
+                            </span>
+                          )}
+                          {question.comments.length > 0 && (
+                            <span
+                              className={`comments-count ${
+                                isCommentedByCurrentUser ? "icon-liked" : ""
+                              }`}
+                            >
+                              <ChatIcon /> {question.comments.length}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="icon__arrow__container">
+                        <ArrowForwardIcon />
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <SectionContent>작성한 글이 없습니다.</SectionContent>
+              )}
+            </Section>
+            <Section>
+              <SectionTitle>내 포인트</SectionTitle>
+              {totalMileage > 0 ? (
+                <div
+                  className={`navbar__list__item_home ${"inactive"}`}
+                  style={{ color: "var(--primary-color)" }}
+                >
+                  {totalMileage} 포인트
+                </div>
+              ) : (
+                <SectionContent>포인트 정보가 없습니다.</SectionContent>
+              )}
+            </Section>
+          </>
+        )}
       </div>
     </div>
   );

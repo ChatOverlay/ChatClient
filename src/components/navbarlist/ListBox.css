@@ -369,3 +369,14 @@
   font-size: 1.2rem;
   z-index: 1;
 }
+
+.loading-container {
+  display: flex;
+  top : 0;
+  left: 0;
+  right: 0;
+  bottom : 0;
+  position : fixed;
+  justify-content: center;
+  align-items: center;
+}

@@ -6,12 +6,14 @@ import SelectLabels from "./select/SelectLabels";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ChatIcon from "@mui/icons-material/Chat";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { PulseLoader } from "react-spinners";
 
 import { useSharedState } from "../../context/SharedStateContext";
 import ViewToggle from "./toggle/ViewToggle";
 import QuestionGrid from "./questiongrid/QuestionGrid";
 import CommentModal from "../modals/CommentModal";
 import { useTheme } from "../../context/ThemeContext";
+import useLoadingTimeout from "../../hooks/useLoadingTimeout";
 
 export default function QuestionList() {
   const navigate = useNavigate();
@@ -28,7 +30,9 @@ export default function QuestionList() {
   const [editMode, setEditMode] = useState(false); // State for edit mode
   const [changeData, setChangeData] = useState(true);
   const [commentToggle, setCommentToggle] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
   const { newAdded } = useSharedState();
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
@@ -62,6 +66,7 @@ export default function QuestionList() {
       })
       .catch((error) => console.error("Error fetching courses:", error));
   }, []);
+
   useEffect(() => {
     // Define a local variable to control effect cleanup
     let isSubscribed = true;
@@ -102,9 +107,10 @@ export default function QuestionList() {
       .then((response) => response.json())
       .then((data) => {
         setQuestionList(data.sort((a, b) => b._id.localeCompare(a._id)));
+        setLoading(false);
       })
       .catch((error) => console.error("Error fetching questions:", error));
-  }, [newAdded, editMode, changeData]);
+  }, [newAdded, editMode]);
 
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
@@ -132,7 +138,12 @@ export default function QuestionList() {
         />
       </div>
       <div className="scrollable-list-items">
-        {!isGridView ? (
+      {loading ? (
+        <div className="loading-container">
+          <PulseLoader size={15} color={"var(--foreground-color)"} loading={loading} />
+        </div>
+      ) :
+        !isGridView ? (
           <QuestionGrid
             questionList={questionList.filter(
               (question) =>

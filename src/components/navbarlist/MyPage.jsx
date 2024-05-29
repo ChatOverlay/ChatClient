@@ -8,7 +8,9 @@ import io from "socket.io-client";
 import MyNavbarList from "./mypage/MyNavbarList";
 import { useSharedState } from "../../context/SharedStateContext";
 import ProfileModal from "../modals/ProfileModal";
-const socket = io(`${import.meta.env.VITE_API_URL}`); // 여러분의 서버 주소로 변경하세요
+import { PulseLoader } from "react-spinners";
+import useLoadingTimeout from "../../hooks/useLoadingTimeout";
+const socket = io(`${import.meta.env.VITE_API_URL}`); 
 
 export default function MyPage() {
   const [likedPages, setLikedPages] = useState(false);
@@ -19,8 +21,11 @@ export default function MyPage() {
   const [totalMileage, setTotalMileage] = useState(0); // 총 마일리지 상태 추가
   const [showModal, setShowModal] = useState(false);
   const { newAdded } = useSharedState();
-
+  const [loading, setLoading] = useState(true);
   const fileInputRef = useRef(null);
+  
+  useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
+  
   const handleModal = () => {
     setShowModal(!showModal);
   };
@@ -29,15 +34,18 @@ export default function MyPage() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user/reset-profile-picture`, {
-        method: "DELETE",
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-      });
-  
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/reset-profile-picture`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (response.ok) {
-        setProfilePictureUrl(''); // 상태를 빈 문자열로 설정하여 UI에서 프로필 이미지를 제거
+        setProfilePictureUrl(""); // 상태를 빈 문자열로 설정하여 UI에서 프로필 이미지를 제거
         setShowModal(false);
       } else {
         console.error("Failed to reset profile picture to default.");
@@ -52,7 +60,7 @@ export default function MyPage() {
     fileInputRef.current.click();
     setShowModal(false);
   };
-  
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) {
@@ -131,26 +139,29 @@ export default function MyPage() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const token = localStorage.getItem("token"); // 로컬 스토리지에서 토큰 가져오기
+      setLoading(true);
+      const token = localStorage.getItem("token");
       if (token) {
         try {
           const response = await fetch(
             `${import.meta.env.VITE_API_URL}/api/user/info`,
             {
               headers: {
-                Authorization: `Bearer ${token}`, // 헤더에 토큰 포함
+                Authorization: `Bearer ${token}`,
               },
             }
           );
           if (response.ok) {
             const data = await response.json();
-            setNickName(data.nickName); // 응답으로 받은 닉네임으로 상태 업데이트
-            setProfilePictureUrl(data.profilePictureUrl); // 여기서 profilePictureUrl 상태 업데이트
+            setNickName(data.nickName);
+            setProfilePictureUrl(data.profilePictureUrl);
           } else {
             console.error("Failed to fetch user info");
           }
         } catch (error) {
           console.error("Error fetching user info:", error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -179,51 +190,63 @@ export default function MyPage() {
         <LikedPage setLikedPages={setLikedPages} />
       ) : (
         <div className="navbar__list">
-          <MyContainer>
-            <input
-              type="file"
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleFileChange}
-            />
-            <IconContainer onClick={handleModal}>
-              {profilePictureUrl ? (
-                <img
-                  src={profilePictureUrl}
-                  alt="Profile"
-                  style={{ width: "5rem", height: "5rem", borderRadius: "50%" }}
+          {loading ? (
+            <div className="loading-container">
+              <PulseLoader size={15} color={"#123abc"} loading={loading} />
+            </div>
+          ) : (
+            <>
+              <MyContainer>
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
                 />
-              ) : (
-                <AccountCircleIcon sx={{ fontSize: "5rem" }} />
-              )}
-            </IconContainer>
-            <NickNameContainer>
-              {changeNameAble ? (
-                <InputContainer>
-                  <NameInputContainer
-                    onChange={(e) => setNickName(e.target.value)}
-                    value={nickName}
-                    placeholder="닉네임을 입력하세요.."
-                  />
-                  <SaveButton onClick={() => updateNickName(nickName)}>
-                    닉네임 저장하기
-                  </SaveButton>
-                </InputContainer>
-              ) : (
-                <InputContainer>
-                  <div>{nickName}</div>
-                  <SaveButton onClick={() => setChangeNameAble(true)}>
-                    닉네임 수정하기
-                  </SaveButton>
-                </InputContainer>
-              )}
-            </NickNameContainer>
-          </MyContainer>
-          <MyNavbarList
-            mileage={mileage}
-            totalMileage={totalMileage}
-            setLikedPages={setLikedPages}
-          />
+                <IconContainer onClick={handleModal}>
+                  {profilePictureUrl ? (
+                    <img
+                      src={profilePictureUrl}
+                      alt="Profile"
+                      style={{
+                        width: "5rem",
+                        height: "5rem",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : (
+                    <AccountCircleIcon sx={{ fontSize: "5rem" }} />
+                  )}
+                </IconContainer>
+                <NickNameContainer>
+                  {changeNameAble ? (
+                    <InputContainer>
+                      <NameInputContainer
+                        onChange={(e) => setNickName(e.target.value)}
+                        value={nickName}
+                        placeholder="닉네임을 입력하세요.."
+                      />
+                      <SaveButton onClick={() => updateNickName(nickName)}>
+                        닉네임 저장하기
+                      </SaveButton>
+                    </InputContainer>
+                  ) : (
+                    <InputContainer>
+                      <div>{nickName}</div>
+                      <SaveButton onClick={() => setChangeNameAble(true)}>
+                        닉네임 수정하기
+                      </SaveButton>
+                    </InputContainer>
+                  )}
+                </NickNameContainer>
+              </MyContainer>
+              <MyNavbarList
+                mileage={mileage}
+                totalMileage={totalMileage}
+                setLikedPages={setLikedPages}
+              />
+            </>
+          )}
         </div>
       )}
       {showModal && (
@@ -263,12 +286,11 @@ const IconContainer = styled.div`
   }
 `;
 
-
 const SaveButton = styled.button`
-  padding : 0.3rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border: none;
   cursor: pointer;
-  font-size : 1rem;
+  font-size: 1rem;
   transition: all 0.2s;
   border-radius: 0.5rem;
   font-weight: 700;
@@ -283,7 +305,6 @@ const SaveButton = styled.button`
     outline: none;
   }
 `;
-
 
 //이름 컨테이너
 const NickNameContainer = styled.div`
