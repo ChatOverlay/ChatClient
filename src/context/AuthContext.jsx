@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
 
   const isTokenValid = async (token) => {
     try {
-      console.log("Verifying token:", token);
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/verifyToken`,
         {
