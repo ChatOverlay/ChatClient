@@ -276,6 +276,5 @@ const LoginButton = styled.div`
   transition: all 0.3s ease;
   &:hover {
     opacity: 0.8;
-    transform: scale(1.03);
   }
 `;

@@ -179,7 +179,6 @@ const Button = styled.button`
   background-color: var(--foreground-color); // 버튼 배경색 적용
   color: var(--background-color); // 버튼 텍스트 색상 적용
   &:hover {
-    transform: scale(1.03);
     opacity: 0.8;
   }
   &:focus {
