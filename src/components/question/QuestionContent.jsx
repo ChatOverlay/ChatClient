@@ -339,6 +339,7 @@ const LikeButton = styled.div`
   gap : 0.3rem;
   &:hover {
     opacity: 0.8;
+    transform : scale(1.05);
   }
 `;
 

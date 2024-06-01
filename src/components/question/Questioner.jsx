@@ -180,6 +180,7 @@ const Button = styled.button`
   color: var(--background-color); // 버튼 텍스트 색상 적용
   &:hover {
     opacity: 0.8;
+    transform : scale(1.05);
   }
   &:focus {
     outline: none;
