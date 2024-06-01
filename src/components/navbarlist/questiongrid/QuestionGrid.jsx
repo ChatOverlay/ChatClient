@@ -36,7 +36,10 @@ const CourseName = styled.div`
   display: flex;
   padding: 0.5rem 0 0.5rem 1rem;
   font-size: 1.5rem;
-  background-color: var(--foreground-color);
-  color: var(--background-color);
+  border-top : 1px solid var(--foreground-color);
+  color: var(--foreground-color);
   margin-bottom: -3rem;
+  &:first-child {
+    border-top: none;
+  }
 `;

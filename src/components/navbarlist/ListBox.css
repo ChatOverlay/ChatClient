@@ -27,6 +27,12 @@
 
 .grid__list {
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
+  >div {
+    border-top : 1px solid var(--foreground-color);
+    &:first-child { /* 첫번째 요소에 대해서만 border-top을 제거합니다. */
+      border-top : none; 
+    }
+  }
 }
 .navbar__list {
   position: fixed;
