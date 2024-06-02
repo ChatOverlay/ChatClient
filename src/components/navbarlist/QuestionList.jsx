@@ -68,16 +68,13 @@ export default function QuestionList() {
   }, []);
 
   useEffect(() => {
-    // Define a local variable to control effect cleanup
     let isSubscribed = true;
-
+  
     const fetchData = async () => {
       if (selectedQuestion?._id && changeData) {
         try {
           const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/questions/${
-              selectedQuestion._id
-            }`,
+            `${import.meta.env.VITE_API_URL}/api/questions/${selectedQuestion._id}/comments`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,25 +82,28 @@ export default function QuestionList() {
             }
           );
           if (response.ok && isSubscribed) {
-            // Check subscription before updating state
             const data = await response.json();
-            setSelectedQuestion(data);
-            setChangeData(false); // Reset flag after fetching data
+            console.log(data);
+            setSelectedQuestion(prevQuestion => ({
+              ...prevQuestion,
+              comments: data,
+            }));
+            
+            setChangeData(false);
           }
         } catch (error) {
-          console.error("Error fetching updated question data:", error);
+          console.error("Error fetching updated comments:", error);
         }
       }
     };
-
+  
     fetchData();
-
-    // Cleanup function to prevent setting state on unmounted component
+  
     return () => {
       isSubscribed = false;
     };
-  }, [selectedQuestion?._id, changeData]); // Ensure the effect only runs on ID change or flag reset
-
+  }, [selectedQuestion?._id, changeData]);
+  
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
       headers: {
