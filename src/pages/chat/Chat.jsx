@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TopBar from "../../components/topbar/TopBar";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan.jpg";
+import BackgroundImage from "../../assets/backgroundImg/Gachon_Muhan2.png";
 import { useSharedState } from "../../context/SharedStateContext";
 import { isLectureInSession } from "../../utils/timeUtils";
 import useMobileNavigate from "../../hooks/useMobileNavigate";
@@ -290,6 +290,7 @@ const InputContainer = styled.div`
   background-color: var(--background-color);
   color: var(--primary-color);
   justify-content: space-between;
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.2);
 `;
 
 //입력 칸

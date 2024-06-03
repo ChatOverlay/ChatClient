@@ -34,7 +34,12 @@ export default function HomePage() {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const { newAdded } = useSharedState();
   const [loading, setLoading] = useState(true);
-
+  const helperItems = [
+    { title: "오늘 뭐 먹지?", path: "/restaurants" },
+    { title: "교내 동아리", path: "/clubs" },
+    { title: "오늘 내 과제는?", path: "/deadlines" },
+    { title: "꿀팁 공유방", path: "/tips" },
+  ];
   useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
 
   useEffect(() => {
@@ -113,7 +118,9 @@ export default function HomePage() {
       alert("해당 수업시간이 아닙니다.");
     }
   };
-
+  const handleHelperItemClick = (path) => {
+    navigate(path);
+  };
   return (
     <div className="navbar__list home">
       <div className="scrollable-list-items">
@@ -192,19 +199,6 @@ export default function HomePage() {
               )}
             </Section>
             <Section>
-              <SectionTitle>가천 도우미</SectionTitle>
-              <div className="navbar__list__item_home small_box">
-                <div className="question-container">
-                  <div className="question-title-container">
-                    <div>hi</div>
-                  </div>
-                </div>
-                <div className="icon__arrow__container">
-                  <ArrowForwardIcon />
-                </div>
-              </div>
-            </Section>
-            <Section>
               <SectionTitle>내 질문들({questions.length})</SectionTitle>
               {questions.length > 0 ? (
                 questions.map((question) => {
@@ -262,6 +256,25 @@ export default function HomePage() {
               )}
             </Section>
             <Section>
+            <SectionTitle>가천 도우미</SectionTitle>
+            <div className="helper-grid">
+              {helperItems.map((item) => (
+                <div
+                  className="helper-item"
+                  key={item.path}
+                  onClick={() => handleHelperItemClick(item.path)}
+                >
+                  <div>
+                      <div>{item.title}</div>
+                  </div>
+                  <div style={{marginTop: "0.5rem"}}>
+                    <ArrowForwardIcon />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+            <Section>
               <SectionTitle>내 포인트</SectionTitle>
               {totalMileage > 0 ? (
                 <div
@@ -286,6 +299,7 @@ const Section = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 `;
 
 const SectionTitle = styled.h2`

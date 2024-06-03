@@ -13,6 +13,10 @@ import Mileage from "./pages/mypage/Mileage";
 import Adoption from "./pages/mypage/Adoption";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { savePushToken } from "./utils/PushTokenHandler";
+import Restaurant from "./pages/Helper/Restaurant";
+import Club from "./pages/Helper/Club";
+import Assignment from "./pages/Helper/Assignment";
+import Tip from "./pages/Helper/Tip";
 
 function App() {
   return (
@@ -26,6 +30,12 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/*" element={<ChatList />} />
                 <Route path="/home" element={<ChatList />} />
+                
+                <Route path="/restaurants" element={<Restaurant />} />
+                <Route path="/clubs" element={<Club />} />
+                <Route path="/deadlines" element={<Assignment />} />
+                <Route path="/tips" element={<Tip />} />
+
                 <Route path="/chat/:titleName" element={<Chat />} />
 
                 <Route path="/question" element={<ChatList />} />

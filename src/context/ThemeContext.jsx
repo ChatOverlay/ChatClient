@@ -22,7 +22,7 @@ const themes = {
     foreground: "#EFBC9B",
     background: "#FBF3D5",
     primaryColor: "black",
-    secondaryColor : "#EFBC9B",
+    secondaryColor : "#FFE5B4",
   },
   light2 : {
     name : "light",
