@@ -27,10 +27,11 @@
 
 .grid__list {
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
-  >div {
-    border-top : 1px solid var(--foreground-color);
-    &:first-child { /* 첫번째 요소에 대해서만 border-top을 제거합니다. */
-      border-top : none; 
+  > div {
+    border-top: 1px solid var(--foreground-color);
+    &:first-child {
+      /* 첫번째 요소에 대해서만 border-top을 제거합니다. */
+      border-top: none;
     }
   }
 }
@@ -59,6 +60,16 @@
   }
 }
 
+.home {
+  @media (max-width: 480px) {
+    width: calc(100vw - 2rem);
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+.small_box {
+  width :35%;
+}
 /* Apply the slide-in animation to the banner */
 .banner {
   display: flex;
@@ -364,7 +375,8 @@
   width: 100%;
   top: 0;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1); /* 아래쪽 음영 그림자 설정 */
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out,
+    height 0.3s ease-in-out;
   @media (max-width: 480px) {
     padding-bottom: 0.2rem;
     padding-left: 0.5rem;
@@ -387,17 +399,17 @@
 
 .loading-container {
   display: flex;
-  top : 0;
+  top: 0;
   left: 0;
   right: 0;
-  bottom : 0;
-  position : absolute;
+  bottom: 0;
+  position: absolute;
   justify-content: center;
   align-items: center;
 }
 
 .label-container {
   @media (max-width: 480px) {
-    margin-right : 1rem;
+    margin-right: 1rem;
   }
 }

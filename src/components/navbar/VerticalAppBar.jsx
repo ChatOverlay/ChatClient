@@ -178,21 +178,20 @@ const AppBar = styled.div`
   top: 0;
   left: 0;
   flex-direction: column;
-  background-color: var(--foreground-color);
-  color: var(--background-color);
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5rem;
   z-index: 2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
   @media (max-width: 480px) {
     width: 100%;
     height: 6%;
     top: auto;
     bottom: 0;
     justify-content: space-between;
-    box-shadow: none;
   }
 `;
 
@@ -294,12 +293,13 @@ const FooterTitle = styled.div`
   display : flex;
   gap : 0.2rem;
   align-items: center;
+  margin-top : 0.5rem;
 `;
 
 const FooterIconContainer = styled.div`
   display: flex;
   margin-right: 1rem;
-  margin-top : 0.1rem;
+  margin-top : 0.4rem;
   gap: 1rem;
   transition: all 0.3s;
 `;

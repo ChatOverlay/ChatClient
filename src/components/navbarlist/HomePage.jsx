@@ -36,7 +36,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
-  
+
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -115,7 +115,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="navbar__list">
+    <div className="navbar__list home">
       <div className="scrollable-list-items">
         <Swiper
           className="banner"
@@ -126,7 +126,7 @@ export default function HomePage() {
           navigation
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          autoplay={{ delay: 500000000000, disableOnInteraction: false }}
         >
           <SwiperSlide>
             <img src={FirstBanner} alt="Cloud Default" />
@@ -138,10 +138,14 @@ export default function HomePage() {
             <img src={ThirdBanner} alt="Cloud Light" />
           </SwiperSlide>
         </Swiper>
-        
+
         {loading ? (
           <div className="loading-container">
-            <PulseLoader size={15} color={"var(--foreground-color)"} loading={loading} />
+            <PulseLoader
+              size={15}
+              color={"var(--foreground-color)"}
+              loading={loading}
+            />
           </div>
         ) : (
           <>
@@ -186,6 +190,19 @@ export default function HomePage() {
                   </div>
                 </div>
               )}
+            </Section>
+            <Section>
+              <SectionTitle>가천 도우미</SectionTitle>
+              <div className="navbar__list__item_home small_box">
+                <div className="question-container">
+                  <div className="question-title-container">
+                    <div>hi</div>
+                  </div>
+                </div>
+                <div className="icon__arrow__container">
+                  <ArrowForwardIcon />
+                </div>
+              </div>
             </Section>
             <Section>
               <SectionTitle>내 질문들({questions.length})</SectionTitle>

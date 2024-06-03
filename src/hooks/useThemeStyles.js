@@ -8,6 +8,7 @@ function useThemeStyles(theme) {
     root.style.setProperty('--background-color', theme.background);
     root.style.setProperty('--foreground-color', theme.foreground);
     root.style.setProperty('--primary-color', theme.primaryColor);
+    root.style.setProperty('--secondary-color', theme.secondaryColor);
   }, [theme]); // 테마 객체가 변경될 때만 업데이트
 }
 

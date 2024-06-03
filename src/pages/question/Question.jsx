@@ -20,17 +20,17 @@ export default function Question() {
 
   useMobileNavigate(closeOption, "/question");
 
- // 조건부 API 요청
- useEffect(() => {
+  // 조건부 API 요청
+  useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions/${id}`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setQuestionData(data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching question detail:", error);
       });
-}, [id, changeData, editMode]);
+  }, [id, changeData, editMode]);
 
   useEffect(() => {
     setEditMode(false);
@@ -70,13 +70,13 @@ export default function Question() {
               theme={theme}
             />
           ))}
-          <CommentAdd
-            questionData={questionData}
-            changeData={changeData}
-            setChangeData={setChangeData}
-            theme={theme}
-          />
         </QuestionContainer>
+        <CommentAdd
+          questionData={questionData}
+          changeData={changeData}
+          setChangeData={setChangeData}
+          theme={theme}
+        />
       </AppContainer>
     </>
   );
@@ -103,5 +103,10 @@ const QuestionContainer = styled.div`
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #b3b3b3;
+  }
+  @media (max-width: 480px) {
+    &::-webkit-scrollbar {
+      display: none; /* Hide scrollbar on mobile devices */
+    }
   }
 `;

@@ -77,7 +77,11 @@ const CommentAddContainer = styled.div`
   width: 100%;
   bottom: 0;
   right: 0;
+  z-index: 10;
+  box-shadow: 0 -4px 4px -4px rgba(0, 0, 0, 0.5);
 `;
+
+
 
 const Wrapper = styled.div`
   display: flex;

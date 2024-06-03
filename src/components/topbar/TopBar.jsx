@@ -6,15 +6,16 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // 스타일 컴포넌트 정의
 const TopBarContainer = styled.div`
-  border-bottom: 1px solid var(--foreground-color);
   display: flex;
   font-size: 1.8rem;
   min-height: 4rem;
   align-items: center;
   position : sticky;
-  background-color: var(--foreground-color);
+  background-color: var(--secondary-color);
   font-weight: bold;
-  color: var(--background-color);
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: var(--foreground-color);
 `;
 
 const IconContainer = styled.div`

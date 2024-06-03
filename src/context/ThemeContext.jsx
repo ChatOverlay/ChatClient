@@ -8,19 +8,21 @@ const themes = {
     foreground: "#0164D8",
     background: "#fff",
     primaryColor : "black",
-    secondaryColor : "#f3ddaa",
+    secondaryColor : "#f9f9f9",
   },
   dark: {
     name : "dark",
     foreground: "#3F93FF",
     background: "#202c39",
     primaryColor : "#FFFFFF",
+    secondaryColor : "#202c45",
   },
   light : {
     name : "light",
     foreground: "#EFBC9B",
     background: "#FBF3D5",
     primaryColor: "black",
+    secondaryColor : "#EFBC9B",
   },
   light2 : {
     name : "light",
