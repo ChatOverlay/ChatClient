@@ -27,7 +27,7 @@ export default function QuestionContent({
   theme,
   editMode,
   setEditMode,
-  imgModalAble,
+  gridMode,
   onCommentClick,
 }) {
   const commentsCount = questionData?.comments?.length || 0;
@@ -180,7 +180,7 @@ export default function QuestionContent({
   };
 
   return (
-    <Box imgModalAble={imgModalAble}>
+    <Box gridMode={gridMode}>
       {editMode ? (
         <EditContainer>
           <Header>
@@ -256,9 +256,9 @@ export default function QuestionContent({
                 />
               ))}
           </ImgContainer>
-          {imgModalAble ? (
+          {!gridMode ? (
             <>
-              <LikeButton onClick={toggleLike} imgModalAble={imgModalAble}>
+              <LikeButton onClick={toggleLike} gridMode={gridMode}>
                 {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
               </LikeButton>
               <IconContainer>
@@ -272,17 +272,17 @@ export default function QuestionContent({
             </>
           ) : (
             <GridViewIconContainer>
-              <LikeButton imgModalAble={imgModalAble} onClick={toggleLike}>
+              <LikeButton gridMode={gridMode} onClick={toggleLike}>
                 {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> } {likesCount}
               </LikeButton>
-              <LikeButton imgModalAble={imgModalAble} onClick={() => onCommentClick(questionData)}>
+              <LikeButton gridMode={gridMode} onClick={() => onCommentClick(questionData)}>
                 <ChatIcon /> {commentsCount}
               </LikeButton>
             </GridViewIconContainer>
           )}
         </>
       )}
-      {showModal && imgModalAble && (
+      {showModal && !gridMode && (
         <ImageModal src={selectedImage} onClose={() => setShowModal(false)} />
       )}
     </Box>
@@ -295,7 +295,7 @@ const Box = styled.div`
   padding-bottom: 2rem;
   color: var(--foreground-color);
   border-bottom: ${(props) =>
-    props.imgModalAble ? "1px solid var(--foreground-color)" : "none"};
+    props.gridMode ? "none ":"1px solid var(--foreground-color)"};
 `;
 
 const Title = styled.div`
@@ -326,15 +326,19 @@ const LikeButton = styled.div`
   display: flex;
   margin-top: 1.5rem;
   width: ${(props) =>
-    props.imgModalAble ? "5rem" : "4rem"};
+    props.gridMode ? "3.5rem" : "5rem"};
   height: 2rem;
   border-radius: 0.5rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: var(--background-color);
-  background-color: var(--foreground-color);
+  color: ${(props) =>
+    props.gridMode ? "var(--foreground-color)" : "var(--background-color)"};
+  background-color: ${(props) =>
+    props.gridMode ? "var(--background-color)" : "var(--foreground-color)"};
   margin-left: 0.3rem;
+  border : 1px solid ${(props) =>
+    props.gridMode ? "var(--foreground-color)" : "none"};
   transition: all 0.3s;
   gap : 0.3rem;
   &:hover {

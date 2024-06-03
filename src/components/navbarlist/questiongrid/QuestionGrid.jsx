@@ -23,6 +23,7 @@ export default function QuestionGrid({
             questionData={question}
             theme={theme}
             editMode={editMode}
+            gridMode={true}
             setEditMode={setEditMode}
           />
           <QuestionContent
@@ -30,7 +31,7 @@ export default function QuestionGrid({
             theme={theme}
             editMode={editMode}
             setEditMode={setEditMode}
-            imgModalAble={false}
+            gridMode={true}
             onCommentClick={onCommentClick}
           />
         </div>
@@ -42,7 +43,7 @@ export default function QuestionGrid({
 const CourseName = styled.div`
   display: flex;
   padding: 0.5rem 0 0.5rem 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: var(--foreground-color);
   margin-bottom: -3rem;
   &:first-child {

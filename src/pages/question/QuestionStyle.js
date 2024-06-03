@@ -6,7 +6,6 @@ export const QuestionContainer = styled.div`
   flex-direction: column;
   color: var(--foreground-color);
   padding: 2rem; // 패딩을 조금 더 늘려 내용이 여유롭게 보이도록 합니다.
-  border: 2px solid var(--foreground-color);
   background-color: var(--background-color);
   border-radius: 0.5rem; // 모서리를 둥글게 처리합니다.
 `;

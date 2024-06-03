@@ -205,7 +205,7 @@ export default function Chat() {
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요..."
             />
-            <StyledButton onClick={sendMessage}>
+            <StyledButton onClick={sendMessage} disabled={!message.trim()}>
               <MileageContainer>{mileage} / 100</MileageContainer>
               <SendIcon />
             </StyledButton>
@@ -317,17 +317,20 @@ const StyledButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem 1rem; // 버튼의 패딩을 조정하여 내용이 더 잘 들어맞도록 합니다.
+  padding: 0.5rem 1rem;
   color: var(--foreground-color);
   border-radius: 2rem;
   cursor: pointer;
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
   &:hover {
-    opacity: 0.8;
+    opacity: ${(props) => (props.disabled ? 0.5 : 0.8)};
   }
   @media (max-width: 480px) {
     font-size: 1rem;
   }
 `;
+
 
 // 마일리지 정보와 전송 아이콘을 포함하는 별도의 컨테이너를 생성합니다.
 const MileageContainer = styled.span`

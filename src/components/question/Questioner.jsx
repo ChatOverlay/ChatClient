@@ -3,11 +3,12 @@ import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { useSharedState } from "../../context/SharedStateContext";
-
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 export default function Questioner({
   questionData,
   theme,
   editMode,
+  gridMode,
   setEditMode,
 }) {
   const [currentUserId, setCurrentUserId] = useState(null);
@@ -118,7 +119,11 @@ export default function Questioner({
         </div>
       </QuestionerProfileContainer>
       <ButtonContainer>
-        {isCurrentUser ? (
+        {gridMode ? (
+          <IconContainer onClick={()=>navigate(`/question/${questionData._id}`)}>
+          <MoreHorizIcon sx={{fontSize :"2rem"}}/>
+          </IconContainer>
+        ) : isCurrentUser ? (
           <>
             {!editMode && (
               <Button onClick={() => setEditMode(!editMode)}>수정</Button>
@@ -159,7 +164,7 @@ const QuestionerProfileName = styled.div`
 
 const QuestionerDate = styled.div`
   font-size: 0.8rem;
-  font-weight : normal;
+  font-weight: normal;
 `;
 
 const ButtonContainer = styled.div`
@@ -180,9 +185,20 @@ const Button = styled.button`
   color: var(--background-color); // 버튼 텍스트 색상 적용
   &:hover {
     opacity: 0.8;
-    transform : scale(1.05);
+    transform: scale(1.05);
   }
   &:focus {
     outline: none;
+  }
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  cursor: pointer;
+  font-size : 2rem;
+  color : var(--foreground-color);
+  transition : opacity 0.2s ease-in-out;
+  &:hover {
+    opacity : 0.6;
   }
 `;

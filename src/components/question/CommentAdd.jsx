@@ -14,9 +14,8 @@ export default function CommentAdd({
   const sendComment = async () => {
     if (!newComment.trim()) {
       alert("입력할 댓글이 없습니다.");
-      return; // 함수를 여기서 종료하고 더 이상 진행하지 않음
+      return;
     }
-    // 사용자에게 댓글을 전송할 것인지 확인 요청
     if (window.confirm("댓글을 작성하시겠습니까?")) {
       const commentData = {
         content: newComment,
@@ -39,8 +38,8 @@ export default function CommentAdd({
         );
 
         if (response.ok) {
-          setChangeData(!changeData); // 데이터 상태 변경으로 UI 업데이트 트리거
-          setNewComment(""); // 성공적으로 전송 후 입력 필드 초기화
+          setChangeData(!changeData);
+          setNewComment("");
           addNewData();
         } else {
           console.error("Failed to add comment");
@@ -49,7 +48,6 @@ export default function CommentAdd({
         console.error("Error adding comment:", error);
       }
     } else {
-      // 사용자가 취소를 선택한 경우
       console.log("댓글 전송 취소됨");
     }
   };
@@ -63,7 +61,10 @@ export default function CommentAdd({
           onKeyDown={(e) => e.key === "Enter" && sendComment()}
           placeholder="댓글을 입력하세요..."
         />
-        <CommentAddIconContainer onClick={sendComment}>
+        <CommentAddIconContainer
+          disabled={!newComment.trim()}
+          onClick={() => newComment.trim() && sendComment()}
+        >
           <ModeIcon sx={{ fontSize: "2rem", maxHeight: "100%" }} />
         </CommentAddIconContainer>
       </Wrapper>
@@ -80,9 +81,10 @@ const CommentAddContainer = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: flex-end; // end 대신 flex-end를 사용
-  width: 100%; // min-width 대신 width 사용
+  justify-content: flex-end;
+  width: 100%;
   padding: 1rem;
+  align-items: center;
 `;
 
 const CommentAddInput = styled.input`
@@ -93,7 +95,7 @@ const CommentAddInput = styled.input`
   border: 2px solid var(--foreground-color);
   border-radius: 2rem;
   font-family: "Noto Sans KR";
-  width: calc(100% - 4.8rem); // 아이콘의 너비를 고려하여 조정
+  width: calc(100% - 4.8rem);
   &:focus {
     outline: none;
   }
@@ -110,7 +112,9 @@ const CommentAddIconContainer = styled.div`
   border-radius: 2rem;
   cursor: pointer;
   transition: all 0.3s;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
   &:hover {
-    opacity: 0.8;
+    opacity: ${({ disabled }) => (disabled ? 0.5 : 0.8)};
   }
 `;

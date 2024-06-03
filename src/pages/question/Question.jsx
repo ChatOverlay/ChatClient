@@ -51,13 +51,14 @@ export default function Question() {
             theme={theme}
             editMode={editMode}
             setEditMode={setEditMode}
+            gridMode={false}
           />
           <QuestionContent
             questionData={questionData}
             theme={theme}
             editMode={editMode}
             setEditMode={setEditMode}
-            imgModalAble={true}
+            gridMode={false}
           />
           {questionData?.comments?.map((comment) => (
             <Comment
