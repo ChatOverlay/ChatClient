@@ -242,10 +242,13 @@
     }
   }
 }
+.navbar__list__item.active {
+  background-color: var(--secondary-color); /* 배경 색상 변경 없음 */
+}
 .navbar__list__item.inactive {
   opacity: 0.4;
   color: #a1acad;
-  background-color: var(--secondary-color); /* 배경 색상 변경 없음 */
+  background-color: var(--background-color); /* 배경 색상 변경 없음 */
 
   cursor: default; /* 마우스 커서를 기본 커서로 설정 */
 }
@@ -378,6 +381,8 @@
   box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
   bottom: 0;
   width: 100%;
+  z-index : 20;
+  background-color : var(--background-color);
   transition: transform 0.3s ease-in-out; /* 추가 */
 }
 

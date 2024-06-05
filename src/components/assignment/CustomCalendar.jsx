@@ -4,10 +4,11 @@ import styled from "styled-components";
 // 캘린더 컨테이너
 const CalendarContainer = styled.div`
   display: flex;
-  box-sizing: border-box;
   flex-direction: column;
   width: 20rem;
   font-size: 1.4rem;
+  
+  box-sizing: border-box;
   font-weight: 500;
 `;
 
@@ -37,7 +38,7 @@ const CalendarTableHeaderText = styled.div`
 const CalendarTableHeaderLine = styled.div`
   width: 0.1rem;
   height: 1.6rem;
-  background-color: #fafafa;
+  background-color: var(--background-color);
 `;
 
 // 캘린더 바디부분
@@ -55,8 +56,8 @@ const CalendarTable = styled.div`
 const CalendarTableBox = styled.div`
   display: flex;
   box-sizing: border-box;
-  width: 2.84rem;
-  height: 3rem;
+  min-width: 2.845rem;
+  height: 4rem;
   flex-direction: column;
   background-color: var(--secondary-color);
   border-right: 0.1rem solid var(--primary-color);
@@ -77,9 +78,9 @@ const CalendarTableBoxDate = styled.div`
   background-color: ${(props) =>
     props.$todaydate ? "var(--foreground-color)" : "transparent"};
   color: ${(props) => {
-    if (props.$todaydate) return "#FFFFFF";
-    if (props.$othermonthstyle) return "var(--background-color)"; // 이전 달의 첫,마지막 주
-    return "#000000"; // 현재 달의 날짜
+    if (props.$todaydate) return "var(--background-color)";
+    if (props.$othermonthstyle) return"grey"; // 이전 달의 첫,마지막 주
+    return "var(--primary-color)"; // 현재 달의 날짜
   }};
 `;
 
@@ -94,8 +95,8 @@ const CalendarTableBoxDetailBox = styled.div`
 
 // 캘린더 바디 부분 내 작은 상자안에 디테일 박스 안에 줄
 const CalendarTableBoxDetailLine = styled.div`
-  width: 100%;
-  height: 0.5rem;
+  width: 110%;
+  height: 0.4rem;
   background-color: ${(props) => props.color};
 `;
 

@@ -243,8 +243,8 @@ export default function QuestionContent({
         </EditContainer>
       ) : (
         <>
-          <Title>{questionData?.title}</Title>
-          <Content>{questionData?.content}</Content>
+          <Title gridMode={gridMode}>{questionData?.title}</Title>
+          <Content gridMode={gridMode}>{questionData?.content}</Content>
           <ImgContainer>
             {questionData?.imageUrls &&
               questionData?.imageUrls.map((url, index) => (
@@ -273,9 +273,13 @@ export default function QuestionContent({
           ) : (
             <GridViewIconContainer>
               <LikeButton gridMode={gridMode} onClick={toggleLike}>
-                {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon /> } {likesCount}
+                {liked ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}{" "}
+                {likesCount}
               </LikeButton>
-              <LikeButton gridMode={gridMode} onClick={() => onCommentClick(questionData)}>
+              <LikeButton
+                gridMode={gridMode}
+                onClick={() => onCommentClick(questionData)}
+              >
                 <ChatIcon /> {commentsCount}
               </LikeButton>
             </GridViewIconContainer>
@@ -295,19 +299,20 @@ const Box = styled.div`
   padding-bottom: 2rem;
   color: var(--foreground-color);
   border-bottom: ${(props) =>
-    props.gridMode ? "none ":"1px solid var(--foreground-color)"};
+    props.gridMode ? "none " : "1px solid var(--foreground-color)"};
 `;
 
 const Title = styled.div`
   font-weight: bold;
-  font-size: 2rem;
+  font-size: ${(props) => (props.gridMode ? "1.5rem" : "2rem")};
   color: var(--primary-color);
 `;
 
 const Content = styled.div`
-  font-size: 1rem;
+font-size: ${(props) => (props.gridMode ? "1rem" : "1.5rem")};
   margin-top: 0.8rem;
   padding: 0.2rem;
+  font-weight : 500;
   color: var(--primary-color);
 `;
 
@@ -320,13 +325,12 @@ const IconContainer = styled.div`
 `;
 
 const GridViewIconContainer = styled.div`
-    display : flex;
+  display: flex;
 `;
 const LikeButton = styled.div`
   display: flex;
   margin-top: 1.5rem;
-  width: ${(props) =>
-    props.gridMode ? "3.5rem" : "5rem"};
+  width: ${(props) => (props.gridMode ? "3.5rem" : "5rem")};
   height: 2rem;
   border-radius: 0.5rem;
   justify-content: center;
@@ -337,13 +341,13 @@ const LikeButton = styled.div`
   background-color: ${(props) =>
     props.gridMode ? "var(--background-color)" : "var(--foreground-color)"};
   margin-left: 0.3rem;
-  border : 1px solid ${(props) =>
-    props.gridMode ? "var(--foreground-color)" : "none"};
+  border: 1px solid
+    ${(props) => (props.gridMode ? "var(--foreground-color)" : "none")};
   transition: all 0.3s;
-  gap : 0.3rem;
+  gap: 0.3rem;
   &:hover {
     opacity: 0.8;
-    transform : scale(1.05);
+    transform: scale(1.05);
   }
 `;
 

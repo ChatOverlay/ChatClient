@@ -76,7 +76,6 @@ export default function Assignment() {
           setCloseOption={setCloseOption}
           titleName="오늘 내 과제는?"
         />
-
         <ScheduleBox>
           <ScheduleMonth
             currentMonthIndex={currentMonthIndex} //현재 달 index값 give
@@ -113,8 +112,7 @@ const ScheduleBox = styled.div`
   color: var(--primary-color);
   background-color : var(--background-color);
 
-  
-  overflow: auto;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -142,10 +140,15 @@ const ScheduleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding : 1rem;
+  box-sizing: border-box;
+  height: calc(100vh - 13rem); /* TopBar와 여백을 제외한 높이 설정 */
   gap : 2rem;
   flex-wrap : wrap;
+  @media (max-width: 480px) {
+    justify-content: center;
+  }
 `;
 
 //컬러 옵션 리스트

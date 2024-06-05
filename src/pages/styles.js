@@ -39,7 +39,7 @@ export const AppContainer = styled.div`
   margin-left: ${({ show }) => (show ? "5rem" : "25.05rem")};
   background-color: var(--background-color); // Theme applied
   transition: all 0.3s ease-in; // Apply transition only to opacity
-  z-index: 20;
+  z-index: 100;
   animation: ${slideInFromLeft} 0.2s ease-out forwards;
 
   @media (max-width: 480px) {

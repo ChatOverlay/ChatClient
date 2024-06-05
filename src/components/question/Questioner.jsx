@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { useSharedState } from "../../context/SharedStateContext";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 export default function Questioner({
   questionData,
   theme,
@@ -96,7 +96,7 @@ export default function Questioner({
   }
 
   return (
-    <QuestionerContainer>
+    <QuestionerContainer gridMode={gridMode}>
       <QuestionerProfileContainer>
         <QuestionerProfileIcon>
           {questionData?.questionerProfilePictureUrl ? (
@@ -112,16 +112,20 @@ export default function Questioner({
           )}
         </QuestionerProfileIcon>
         <div>
-          <QuestionerProfileName>
+          <QuestionerProfileName gridMode={gridMode}>
             {questionData?.questionerName}
           </QuestionerProfileName>
-          <QuestionerDate>{questionData?.date}</QuestionerDate>
+          <QuestionerDate gridMode={gridMode}>
+            {questionData?.date}
+          </QuestionerDate>
         </div>
       </QuestionerProfileContainer>
       <ButtonContainer>
         {gridMode ? (
-          <IconContainer onClick={()=>navigate(`/question/${questionData._id}`)}>
-          <MoreHorizIcon sx={{fontSize :"2rem"}}/>
+          <IconContainer
+            onClick={() => navigate(`/question/${questionData._id}`)}
+          >
+            <MoreHorizIcon sx={{ fontSize: "2rem" }} />
           </IconContainer>
         ) : isCurrentUser ? (
           <>
@@ -142,7 +146,8 @@ export default function Questioner({
 const QuestionerContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 1.5rem;
+  padding: ${(props) => (props.gridMode ? "0 1.5rem" : "1.5rem")};
+ 0 1.5rem;
   padding-top: 4rem;
   color: var(--primary-color); // 텍스트 색상 적용
   font-family: "Noto Sans KR";
@@ -158,13 +163,13 @@ const QuestionerProfileIcon = styled.div`
 `;
 
 const QuestionerProfileName = styled.div`
-  font-size: 1.2rem;
+  font-size: ${(props) => (props.gridMode ? "1rem" : "1.2rem")};
   font-weight: 700;
 `;
 
 const QuestionerDate = styled.div`
-  font-size: 0.8rem;
-  font-weight: normal;
+  font-size: ${(props) => (props.gridMode ? "0.7rem" : "0.8rem")};
+  font-weight: 500;
 `;
 
 const ButtonContainer = styled.div`
@@ -195,10 +200,10 @@ const Button = styled.button`
 const IconContainer = styled.div`
   display: flex;
   cursor: pointer;
-  font-size : 2rem;
-  color : var(--foreground-color);
-  transition : opacity 0.2s ease-in-out;
+  font-size: 2rem;
+  color: var(--foreground-color);
+  transition: opacity 0.2s ease-in-out;
   &:hover {
-    opacity : 0.6;
+    opacity: 0.6;
   }
 `;

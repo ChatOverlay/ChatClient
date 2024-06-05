@@ -3,23 +3,27 @@
     display: flex;
     width : auto;
     line-height: 150%;
+    margin-top : 3.8rem;
     flex-direction: column;
   }
   
   /* 해당 스케쥴 박스 */
   .schedulebox {
     border-bottom: 0.1rem solid var(--foreground-color);
-    width: auto;
+    width: 20rem;
+    height : 7.8rem;
     margin-top: 1.4rem;
   }
   .noschedulebox {
     border-bottom: 0.1rem solid var(--foreground-color);
-    width: auto;
-    height: 3.4rem;
+    width: 20rem;
+    
+    height : 7.8rem;
     display: flex;
+    
     align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
+    justify-content: flex-start;
+    font-size: 1.3rem;
     font-weight: 700;
   }
   .schedulebox:first-child {

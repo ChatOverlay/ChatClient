@@ -58,14 +58,15 @@ export default function SelectLabels({
         renderValue={renderValue}
         input={
           <OutlinedInput
-            sx={{
-              borderRadius: "0.4rem",
-              color: theme.primaryColor,
-              fontFamily: "Noto Sans KR",
-              "& fieldset": {
-                borderColor: theme.foreground,
-                borderWidth: "2px",
-              },
+          sx={{
+            borderRadius: "0.4rem",
+            color: theme.primaryColor,
+            fontFamily: "Noto Sans KR",
+            "& fieldset": {
+              borderColor: theme.foreground,
+              borderWidth: "2px",
+              transition: "border-color 0.2s ease-in-out", // 트랜지션 추가
+            },
               "&:hover fieldset": {
                 borderColor: theme.foreground,
                 borderWidth: "2px",
