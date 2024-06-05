@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
@@ -10,19 +10,20 @@ const TopBarContainer = styled.div`
   font-size: 1.8rem;
   min-height: 4rem;
   align-items: center;
-  position : sticky;
+  position: sticky;
   background-color: var(--secondary-color);
   font-weight: bold;
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   color: var(--foreground-color);
+  padding: 0 1rem;
 `;
 
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.2rem 0.5rem 0 1rem;
+  margin: 0.2rem 0.5rem 0 0;
   cursor: pointer;
   transition: all 0.3s;
   border-radius: 3rem;
@@ -34,11 +35,24 @@ const IconContainer = styled.div`
 const NumberContainer = styled.div`
   padding-left: 0.5vw;
   transition: all 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 `;
 
 // 컴포넌트 구현
 export default function TopBar({ closeOption, setCloseOption, titleName }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 480);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <TopBarContainer>

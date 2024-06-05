@@ -1,0 +1,66 @@
+/* 전체 스케쥴 컨테이너 */
+.schedulecontainer {
+    display: flex;
+    width : auto;
+    line-height: 150%;
+    flex-direction: column;
+  }
+  
+  /* 해당 스케쥴 박스 */
+  .schedulebox {
+    border-bottom: 0.1rem solid var(--foreground-color);
+    width: auto;
+    margin-top: 1.4rem;
+  }
+  .noschedulebox {
+    border-bottom: 0.1rem solid var(--foreground-color);
+    width: auto;
+    height: 3.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .schedulebox:first-child {
+    margin-top: 0rem;
+  }
+  
+  /* 스케쥴 제목 (닷+제목) 컨테이너 */
+  .schduletitlecontainer {
+    display: flex;
+    flex-direction: row;
+    
+  }
+  
+  /* 스케쥴 제목 */
+  .scheduletitle {
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0 0.4rem;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* 스케쥴 날짜 */
+  .scheduledate {
+    display: flex;
+    margin: 0.7rem 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  /* 스케쥴 메모 */
+  .scheduletext {
+    display: flex;
+    margin: 0.5rem 0 1.9rem 1rem;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+  
+  /* Dot svg */
+  .scheduledotsvg {
+    margin: 1.2rem 0 1.2rem 1rem;
+  }
+  

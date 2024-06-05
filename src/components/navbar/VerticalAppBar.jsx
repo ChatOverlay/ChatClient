@@ -178,13 +178,13 @@ const AppBar = styled.div`
   top: 0;
   left: 0;
   flex-direction: column;
-  background-color: var(--secondary-color);
+  background-color: var(--background-color);
   color: var(--primary-color);
   align-items: center;
   justify-content: space-between;
   height: 100vh;
   width: 5rem;
-  z-index: 2;
+  z-index: 21;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
   @media (max-width: 480px) {
     width: 100%;

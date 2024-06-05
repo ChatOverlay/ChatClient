@@ -8,7 +8,7 @@ const themes = {
     foreground: "#0164D8",
     background: "#fff",
     primaryColor : "black",
-    secondaryColor : "#f9f9f9",
+    secondaryColor : "#f9f9f2",
   },
   dark: {
     name : "dark",

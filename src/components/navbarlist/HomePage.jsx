@@ -37,7 +37,7 @@ export default function HomePage() {
   const helperItems = [
     { title: "오늘 뭐 먹지?", path: "/restaurants" },
     { title: "교내 동아리", path: "/clubs" },
-    { title: "오늘 내 과제는?", path: "/deadlines" },
+    { title: "오늘 내 과제는?", path: "/assignments" },
     { title: "꿀팁 공유방", path: "/tips" },
   ];
   useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리

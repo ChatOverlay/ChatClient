@@ -15,7 +15,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { savePushToken } from "./utils/PushTokenHandler";
 import Restaurant from "./pages/Helper/Restaurant";
 import Club from "./pages/Helper/Club";
-import Assignment from "./pages/Helper/Assignment";
+import Assignment from "./pages/Helper/assignment/Assignment";
 import Tip from "./pages/Helper/Tip";
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
                 
                 <Route path="/restaurants" element={<Restaurant />} />
                 <Route path="/clubs" element={<Club />} />
-                <Route path="/deadlines" element={<Assignment />} />
+                <Route path="/assignments" element={<Assignment />} />
                 <Route path="/tips" element={<Tip />} />
 
                 <Route path="/chat/:titleName" element={<Chat />} />
