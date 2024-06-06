@@ -3,6 +3,7 @@ import "./ScheduleDetail.css";
 import styled from "styled-components";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from "@mui/icons-material/DoDisturb";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const StyledSVG = styled.svg`
   margin: 0.5rem 0 0 0.4rem;
@@ -55,23 +56,27 @@ export default function ScheduleDetail({
   );
 
   const getIcon = (title) => {
-    if (title === "제출 완료") {
-      return <CheckIcon />;
-    } else if (title === "진행중") {
+    if (title === "진행중") {
       return <XIcon />;
+    } else {
+      return <CheckIcon />;
     }
-    return null;
   };
 
   const getHeaderClass = (title) => {
-    if (title === "제출 완료") {
-      return "scheduleheader completed";
-    } else if (title === "진행중") {
+    if (title === "진행중") {
       return "scheduleheader progress";
+    } else{
+      return "scheduleheader completed";
     }
-    return "scheduleheader";
   };
-
+  const getBoxClass = (title) => {
+    if (title === "진행중") {
+      return "schedulebox progress";
+    } else {
+      return "schedulebox completed";
+    }
+  };
   return (
     <div className="schedulecontainer">
       <div className={getHeaderClass(title)}>
@@ -88,7 +93,8 @@ export default function ScheduleDetail({
             infobox.endMonth == currentMonthIndex + 1 ||
             (infobox.endMonth > currentMonthIndex + 1 &&
               currentMonthIndex + 1 > infobox.startMonth)) ? (
-            <div className="schedulebox" key={infobox.scheduleId}>
+            <div className={getBoxClass(title)} key={infobox.scheduleId}>
+               
               <div className="schduletitlecontainer">
                 {
                   DotOptions.find(
@@ -100,9 +106,10 @@ export default function ScheduleDetail({
               <div className="scheduledate">
                 {infobox.startMonth}월 {infobox.startDay}일 ~ {infobox.endMonth}
                 월 {infobox.endDay}일
+                 <ArrowForwardIcon/>
               </div>
               <div className="scheduletext">{infobox.description}</div>
-            </div>
+              </div>
           ) : null
         )
       ) : (

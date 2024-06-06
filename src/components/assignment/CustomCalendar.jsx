@@ -7,7 +7,9 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   width: 21.1rem;
   font-size: 1.4rem;
-  
+  border-radius: 0.8rem 0.8rem 0rem 0rem;
+  height : 27.8rem;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   font-weight: 500;
 `;
