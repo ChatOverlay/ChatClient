@@ -3,16 +3,47 @@
     display: flex;
     width : auto;
     line-height: 150%;
-    margin-top : 3.8rem;
+    padding : 1.9rem 1rem;
     flex-direction: column;
+    border-radius: 1rem;
+    border : 0.1rem solid var(--foreground-color);
+    background-color: var(--secondary-color);
   }
-  
+  /* 스케줄 제목 칸 */
+  .scheduleheader {
+    display: flex;
+    justify-content: center;
+    color : black;
+    border-radius : 0.5rem;
+    font-size : 1.3rem;
+    font-weight: bold;
+    line-height: normal;
+    
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border : 0.1rem solid var(--primary-color);
+  }
+
+  /* 진행중 배경색 */
+.scheduleheader.progress {
+  background-color: #FFD5D5;
+}
+
+/* 제출 완료 배경색 */
+.scheduleheader.completed {
+  background-color: #E6FFED;
+}
+
   /* 해당 스케쥴 박스 */
   .schedulebox {
-    border-bottom: 0.1rem solid var(--foreground-color);
     width: 20rem;
     height : 7.8rem;
+    padding : 1rem 0 0 1rem;
     margin-top: 1.4rem;
+    background-color: var(--background-color);
+    border-radius: 0.5rem;
+    
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border : 0.1rem solid var(--foreground-color);
   }
   .noschedulebox {
     border-bottom: 0.1rem solid var(--foreground-color);

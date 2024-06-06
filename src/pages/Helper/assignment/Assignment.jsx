@@ -37,19 +37,8 @@ export default function Assignment() {
       description: "ecosystems.",
       scheduleColor: "#70AD4E",
     },
-    {
-      scheduleId: 3,
-      title: "History Presentation",
-      startYear: 2024,
-      startMonth: 6,
-      startDay: 21,
-      endYear: 2024,
-      endMonth: 6,
-      endDay: 25,
-      description: " World War II.",
-      scheduleColor: "#359AE8",
-    },
-  ]); const [currentMonthIndex, setCurrentMonthIndex] = useState(
+  ]);
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(
     new Date().getMonth()
   );
   const [currentYearIndex, setCurrentYearIndex] = useState(
@@ -95,6 +84,14 @@ export default function Assignment() {
               currentYearIndex={currentYearIndex}
               colorOptionList={colorOptionList}
               dummyData={dummyData}
+              title={"진행중"}
+            />
+            <ScheduleDetail
+              currentMonthIndex={currentMonthIndex}
+              currentYearIndex={currentYearIndex}
+              colorOptionList={colorOptionList}
+              dummyData={dummyData}
+              title={"제출 완료"}
             />
           </ScheduleContainer>
         </ScheduleBox>
@@ -104,50 +101,47 @@ export default function Assignment() {
 }
 
 const ScheduleBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Noto Sans KR";
-  color: var(--primary-color);
-  background-color : var(--background-color);
+display: flex;
+flex-direction: column;
+ align-items: center;
+height : 100%;
+font-family: "Noto Sans KR";
+color: var(--primary-color);
+background-color : var(--background-color);
 
-  overflow-x: hidden;
+overflow-x: hidden;
+&::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: var(--background-color);
+}
+
+&::-webkit-scrollbar-thumb {
+  background-color: var(--foreground-color);
+  border-radius: 5px;
+  border: 2px solid var(--background-color);
+}
+
+&::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+}
+@media (max-width: 480px) {
   &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background-color: var(--background-color);
+    display: none; /* Hide scrollbar on mobile devices */
   }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--foreground-color);
-    border-radius: 5px;
-    border: 2px solid var(--background-color);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #b3b3b3;
-  }
-  @media (max-width: 480px) {
-    &::-webkit-scrollbar {
-      display: none; /* Hide scrollbar on mobile devices */
-    }
-  }
+}
 `;
 
-//캘린더와 일정 추가 부분을 가로로 만들기 위해 생성
 const ScheduleContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  margin-top: 2rem;
-  padding : 1rem;
-  box-sizing: border-box;
-  height: calc(100vh - 13rem); /* TopBar와 여백을 제외한 높이 설정 */
+  align-items: center;
+  justify-content: center;
+  margin-top : 1rem;
   gap : 2rem;
   flex-wrap : wrap;
+  margin-bottom : 1rem;
   @media (max-width: 480px) {
-    justify-content: center;
+    margin-bottom : 5rem;
   }
 `;
 

@@ -5,7 +5,7 @@ import styled from "styled-components";
 const CalendarContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 20rem;
+  width: 21.1rem;
   font-size: 1.4rem;
   
   box-sizing: border-box;
@@ -16,7 +16,7 @@ const CalendarContainer = styled.div`
 const CalendarTableHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 3.4rem;
+  height: 3.1rem;
   background-color: var(--foreground-color);
   border-radius: 0.8rem 0.8rem 0rem 0rem;
 `;
@@ -25,7 +25,7 @@ const CalendarTableHeader = styled.div`
 const CalendarTableHeaderText = styled.div`
   display: flex;
   box-sizing: border-box;
-  width: 20rem;
+  width: 21.1rem;
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 150%;
@@ -56,7 +56,7 @@ const CalendarTable = styled.div`
 const CalendarTableBox = styled.div`
   display: flex;
   box-sizing: border-box;
-  min-width: 2.845rem;
+  width: 3rem;
   height: 4rem;
   flex-direction: column;
   background-color: var(--secondary-color);
@@ -73,7 +73,7 @@ const CalendarTableBoxDate = styled.div`
   align-items: center;
   margin: 0.2rem 0 0 0.2rem;
   border-radius: 4.6rem;
-  padding: 0.1rem 0.1rem 0.15rem 0.1rem;
+  padding: 0.1rem 0.1rem 0.18rem 0.1rem;
   font-size: 0.8rem;
   background-color: ${(props) =>
     props.$todaydate ? "var(--foreground-color)" : "transparent"};

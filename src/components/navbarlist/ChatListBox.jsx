@@ -76,7 +76,7 @@ export default function ChatListBox() {
                 const activeSession = isLectureInSession(room.lectureTimes);
                 const itemClasses = `navbar__list__item ${
                   activeSession && room.name === selectedRoom ? "selected" : ""
-                } ${!activeSession ? "inactive" : "active"}`;
+                } ${!activeSession ? "inactive" : ""}`;
 
                 return (
                   <div

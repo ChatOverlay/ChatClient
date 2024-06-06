@@ -168,7 +168,7 @@
 
 .scrollable-list-items::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
-  background-color: var(--background-color); /* 스크롤바의 배경 색상 */
+  background-color: transparent; /* 스크롤바의 배경 색상 */
 }
 
 .scrollable-list-items::-webkit-scrollbar-thumb {
@@ -236,15 +236,14 @@
   @media (min-width: 480px) {
     background-color: var(--foreground-color);
     color: var(--background-color);
+    .icon__arrow__container,
     .likes-count,
     .comments-count {
       color: var(--background-color);
     }
   }
 }
-.navbar__list__item.active {
-  background-color: var(--secondary-color); /* 배경 색상 변경 없음 */
-}
+
 .navbar__list__item.inactive {
   opacity: 0.4;
   color: #a1acad;

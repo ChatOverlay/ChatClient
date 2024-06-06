@@ -246,7 +246,7 @@ const AppContainer = styled.div`
   flex-direction: column;
   transition: all 0.3s ease-in; // Apply transition only to opacity
   height: 100vh;
-  z-index: 20;
+  z-index: 25;
   &::before {
     content: "";
     position: absolute;
@@ -301,7 +301,7 @@ const StyledInput = styled.input`
 
   color: var(--primary-color);
   background-color: var(--background-color);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 100%;
   font-family: "Noto Sans KR";
   &:focus {
