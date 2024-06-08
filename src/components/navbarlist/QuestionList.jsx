@@ -31,9 +31,9 @@ export default function QuestionList() {
   const [changeData, setChangeData] = useState(true);
   const [commentToggle, setCommentToggle] = useState(false);
   const [loading, setLoading] = useState(true);
-
   useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
   const { newAdded } = useSharedState();
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/user`, {
       headers: {
@@ -68,43 +68,6 @@ export default function QuestionList() {
   }, []);
 
   useEffect(() => {
-    let isSubscribed = true;
-  
-    const fetchData = async () => {
-      if (selectedQuestion?._id && changeData) {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/api/questions/${selectedQuestion._id}/comments`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          if (response.ok && isSubscribed) {
-            const data = await response.json();
-            console.log(data);
-            setSelectedQuestion(prevQuestion => ({
-              ...prevQuestion,
-              comments: data,
-            }));
-            
-            setChangeData(false);
-          }
-        } catch (error) {
-          console.error("Error fetching updated comments:", error);
-        }
-      }
-    };
-  
-    fetchData();
-  
-    return () => {
-      isSubscribed = false;
-    };
-  }, [selectedQuestion?._id, changeData]);
-  
-  useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -118,18 +81,80 @@ export default function QuestionList() {
       .catch((error) => console.error("Error fetching questions:", error));
   }, [newAdded, editMode]);
 
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchData = async () => {
+      if (selectedQuestion?._id && changeData) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/questions/${
+              selectedQuestion._id
+            }/comments`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          if (response.ok && isSubscribed) {
+            const data = await response.json();
+            setSelectedQuestion((prevQuestion) => ({
+              ...prevQuestion,
+              comments: data,
+            }));
+
+            setChangeData(false);
+          }
+        } catch (error) {
+          console.error("Error fetching updated comments:", error);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [selectedQuestion?._id, changeData]);
+
+  const handleCommentClick = async (question) => {
+    setSelectedQuestion(question);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/questions/${
+          question._id
+        }/comments`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const comments = await response.json();
+        setSelectedQuestion((prevQuestion) => ({
+          ...prevQuestion,
+          comments,
+        }));
+        setCommentToggle(true);
+      } else {
+        console.error("Failed to fetch comments");
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
   const handleQuestionClick = (id) => {
     setSelectedQuestion(id);
     navigate(`/question/${id}`);
   };
-
   const handleNewQuestion = () => {
     navigate("question/newquestion");
-  };
-
-  const handleCommentClick = (question) => {
-    setSelectedQuestion(question);
-    setCommentToggle(true);
   };
 
   return (
@@ -175,9 +200,7 @@ export default function QuestionList() {
               const isLikedByCurrentUser = question.likes.some(
                 (like) => like.userId === currentUserId
               );
-              const isCommentedByCurrentUser = question.comments.some(
-                (comment) => comment.userId === currentUserId
-              );
+              const isCommentedByCurrentUser = question.userCommented;
               return (
                 <div
                   className={`navbar__list__item ${
@@ -204,13 +227,13 @@ export default function QuestionList() {
                           <ThumbUpAltIcon /> {question.likes.length}
                         </span>
                       )}
-                      {question.comments.length > 0 && (
+                      {question.commentCount > 0 && (
                         <span
                           className={`comments-count ${
                             isCommentedByCurrentUser ? "icon-liked" : ""
                           }`}
                         >
-                          <ChatIcon /> {question.comments.length}
+                          <ChatIcon /> {question.commentCount}
                         </span>
                       )}
                     </div>
@@ -223,7 +246,7 @@ export default function QuestionList() {
             })
         )}
       </div>
-      {commentToggle && (
+      {commentToggle && selectedQuestion && (
         <CommentModal
           question={selectedQuestion}
           theme={theme}

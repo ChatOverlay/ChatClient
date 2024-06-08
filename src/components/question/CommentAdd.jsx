@@ -1,16 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ModeIcon from "@mui/icons-material/Mode";
 import { useSharedState } from "../../context/SharedStateContext";
-
+import {
+  CommentProfileIcon,
+} from "./CommentStyle";
 export default function CommentAdd({
   questionData,
   changeData,
   setChangeData,
-  theme,
 }) {
   const [newComment, setNewComment] = useState("");
+  const [userProfilePic, setUserProfilePic] = useState(null);
   const { addNewData } = useSharedState();
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user/info`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUserProfilePic(data.profilePictureUrl);
+      } else {
+        console.error(data.message);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   const sendComment = async () => {
     if (!newComment.trim()) {
       alert("입력할 댓글이 없습니다.");
@@ -55,6 +79,17 @@ export default function CommentAdd({
   return (
     <CommentAddContainer>
       <Wrapper>
+        <CommentProfileIcon>
+          {userProfilePic ? (
+            <img
+              src={userProfilePic}
+              alt="Profile"
+              style={{ width: "3rem", height: "3rem", borderRadius: "50%" }}
+            />
+          ) : (
+            <AccountCircleIcon style={{ fontSize: "2rem" }} />
+          )}
+        </CommentProfileIcon>
         <CommentAddInput
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
@@ -80,8 +115,6 @@ const CommentAddContainer = styled.div`
   z-index: 10;
   box-shadow: 0 -4px 4px -4px rgba(0, 0, 0, 0.6);
 `;
-
-
 
 const Wrapper = styled.div`
   display: flex;

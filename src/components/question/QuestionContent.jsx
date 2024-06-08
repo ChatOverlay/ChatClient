@@ -30,7 +30,7 @@ export default function QuestionContent({
   gridMode,
   onCommentClick,
 }) {
-  const commentsCount = questionData?.comments?.length || 0;
+  const commentsCount = questionData?.commentCount || 0;
   const [likesCount, setLikesCount] = useState(
     questionData?.likes?.length || 0
   );

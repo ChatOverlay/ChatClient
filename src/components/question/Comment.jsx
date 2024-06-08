@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { styled as muiStyled } from "@mui/system";
-import ReportIcon from "@mui/icons-material/Report";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"; // 채택 아이콘 추가
+import CancelIcon from "@mui/icons-material/Cancel"; // 취소 아이콘 추가
+
+import ModeIcon from "@mui/icons-material/Mode";
 import { useSharedState } from "../../context/SharedStateContext";
+import {
+  CommentContainer,
+  CommentHeadContainer,
+  CommentProfileContainer,
+  AcceptedIndicator,
+  CommentProfileIcon,
+  CommentProfileName,
+  CommentProfileDate,
+  CommentContent,
+  CommentActions,
+  StyledReportIcon,
+  StyledDeleteIcon,
+  AcceptContainer,
+  AcceptButton,
+  CommentReplyContainer,
+  ReplyInputContainer,
+  ReplyInput,
+  ReplyButton,
+  ReplyButtonContainer,
+  ReplyCommentAddIconContainer,
+  ReplyInputBox,
+} from "./CommentStyle";
+import CommentReply from "./CommentReply";
 
 export default function Comment({
   questionData,
@@ -15,11 +37,12 @@ export default function Comment({
   theme,
 }) {
   const [isQuestioner, setIsQuestioner] = useState(false); //질문자 확인용
-  const [currentUserId, setCurrentUserId] = useState(null); //댓글자 확인용
+  const [currentUserId, setCurrentUserId] = useState(null); //접속한 아이디 확인용
   const [isCurrentUser, setIsCurrentUser] = useState(true); // Initially true, update based on fetched data
   const [isItAccepted, setIsItAccepted] = useState(comment.isAccepted);
+  const [replying, setReplying] = useState(false); // 대댓글 작성 상태 관리
+  const [replyContent, setReplyContent] = useState(""); // 대댓글 내용 관리
   const { addNewData } = useSharedState();
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(
@@ -47,6 +70,42 @@ export default function Comment({
     fetchUserInfo();
   }, [questionData, comment.userId]);
 
+  const handleReplySubmit = async () => {
+    if (window.confirm("대댓글을 추가하시겠습니까?")) {
+      if (replyContent.trim()) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/questions/${
+              questionData._id
+            }/comments/${comment._id}/replies`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ content: replyContent }),
+            }
+          );
+          if (response.ok) {
+            const newReply = await response.json();
+            setChangeData(!changeData);
+            addNewData();
+            setReplying(false);
+            setReplyContent("");
+          } else {
+            const data = await response.json();
+            console.error("Failed to add reply:", data.message);
+          }
+        } catch (error) {
+          console.error("Error adding reply:", error);
+        }
+      } else {
+        alert("대댓글 내용을 입력하세요.");
+      }
+    }
+  };
+
   const handleDelete = async () => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       try {
@@ -73,7 +132,6 @@ export default function Comment({
       }
     }
   };
-
   const handleReport = async () => {
     if (window.confirm("이 댓글을 신고하시겠습니까?")) {
       try {
@@ -90,14 +148,19 @@ export default function Comment({
         );
         if (response.ok) {
           alert("댓글이 정상적으로 신고되었습니다.");
+        } else if (response.status === 409) {
+          alert("이미 이 댓글을 신고하셨습니다.");
         } else {
           console.error("Failed to report the comment.");
+          alert("댓글 신고에 실패했습니다.");
         }
       } catch (error) {
         console.error("Error reporting comment:", error);
+        alert("댓글 신고 중 오류가 발생했습니다.");
       }
     }
   };
+  
 
   const handleAccept = async () => {
     if (window.confirm("이 댓글을 채택하시겠습니까?")) {
@@ -128,145 +191,92 @@ export default function Comment({
 
   return (
     <CommentContainer theme={theme}>
-      <div style={{ color: theme.primaryColor }}>
-        <CommentProfileContainer>
-          <CommentProfileIcon theme={theme}>
-            {comment.commenterProfilePictureUrl ? (
-              <img
-                src={comment.commenterProfilePictureUrl}
-                alt="Profile"
-                style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
-              />
-            ) : (
-              <AccountCircleIcon style={{ fontSize: "2rem" }} />
-            )}
-          </CommentProfileIcon>
-          <div>
-            <CommentProfileName>
-              {comment.commenterName}
-              {comment.isAccepted && (
-                <AcceptedIndicator>
-                  채택됨
-                  <CheckCircleIcon sx={{ marginTop: "0.1rem" }} />
-                </AcceptedIndicator>
+      <CommentHeadContainer>
+        <div style={{ color: theme.primaryColor }}>
+          <CommentProfileContainer>
+            <CommentProfileIcon>
+              {comment.commenterProfilePictureUrl ? (
+                <img
+                  src={comment.commenterProfilePictureUrl}
+                  alt="Profile"
+                  style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
+                />
+              ) : (
+                <AccountCircleIcon style={{ fontSize: "2rem" }} />
               )}
-            </CommentProfileName>
-            <CommentProfileDate>{comment.date}</CommentProfileDate>
-          </div>
-          <AcceptContainer>
-            {isQuestioner &&
-              !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
-              currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
-                <AcceptButton onClick={handleAccept}>채택</AcceptButton>
-              )}
-          </AcceptContainer>
-        </CommentProfileContainer>
-        <CommentContent>{comment.content}</CommentContent>
-      </div>
-      <CommentActions>
-        {isCurrentUser ? (
-          <StyledDeleteIcon onClick={handleDelete} />
-        ) : (
-          <StyledReportIcon onClick={handleReport} />
-        )}
-      </CommentActions>
+            </CommentProfileIcon>
+            <div>
+              <CommentProfileName>
+                {comment.commenterName}
+                {comment.isAccepted && (
+                  <AcceptedIndicator>
+                    채택됨
+                    <CheckCircleIcon sx={{ marginTop: "0.1rem" }} />
+                  </AcceptedIndicator>
+                )}
+              </CommentProfileName>
+              <CommentProfileDate>{comment.date}</CommentProfileDate>
+            </div>
+            <AcceptContainer>
+              {isQuestioner &&
+                !isItAccepted && // 채택된 댓글이 없는 경우에만 표시
+                currentUserId !== comment.userId && ( // 자기 자신의 댓글이 아닌 경우에만 채택 버튼 표시
+                  <AcceptButton onClick={handleAccept}>채택</AcceptButton>
+                )}
+            </AcceptContainer>
+          </CommentProfileContainer>
+          <CommentContent>{comment.content}</CommentContent>
+        </div>
+        <CommentActions>
+          {isCurrentUser ? (
+            <StyledDeleteIcon onClick={handleDelete} />
+          ) : (
+            <StyledReportIcon onClick={handleReport} />
+          )}
+        </CommentActions>
+      </CommentHeadContainer>
+      <ReplyButton onClick={() => setReplying(true)}>답글 달기</ReplyButton>
+      {comment.replies?.map((reply, index) => (
+        <CommentReplyContainer key={index}>
+          <CommentReply
+            questionData={questionData}
+            comment={comment}
+            reply={reply}
+            theme={theme}
+            currentUserId={currentUserId}
+            changeData={changeData}
+            setChangeData={setChangeData}
+          />
+          <ReplyButton onClick={() => setReplying(true)}>답글 달기</ReplyButton>
+        </CommentReplyContainer>
+      ))}
+      {replying && (
+        <ReplyInputBox>
+          <ReplyInputContainer>
+            <ReplyInput
+              type="text"
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleReplySubmit()}
+              placeholder="대댓글 내용을 입력하세요."
+            />
+            <div style={{ display: "flex", gap: "0.3rem" }}>
+              <ReplyCommentAddIconContainer
+                onClick={handleReplySubmit}
+                disabled={!replyContent.trim()}
+              >
+                <ModeIcon sx={{ fontSize: "1.5rem", maxHeight: "100%" }} />
+              </ReplyCommentAddIconContainer>
+            </div>
+          </ReplyInputContainer>
+          <ReplyButton
+            style={{ margin: " 0.1rem 0 0 0.3rem" }}
+            onClick={() => setReplying(false)}
+          >
+            취소
+          </ReplyButton>
+        </ReplyInputBox>
+      )}
     </CommentContainer>
   );
 }
-
-//--------------댓글 부분---------------
-//댓글 컨테이너
-const CommentContainer = styled.div`
-  padding: 1rem 1rem 1rem 2rem;
-  border-bottom: 1px solid var(--foreground-color);
-  display: flex;
-  justify-content: space-between;
-`;
-
-//댓글 프로필 상단
-const CommentProfileContainer = styled.div`
-  display: flex;
-`;
-
-// 채택된 댓글을 표시하기 위한 스타일 컴포넌트
-const AcceptedIndicator = styled.div`
-  display: flex;
-  border: 1px solid var(--foreground-color);
-  margin-left: 0.2rem;
-  border-radius: 0.5rem;
-  font-size: 0.8rem;
-  padding: 0 0.2rem 0.05rem 0.2rem;
-  align-items: center;
-  background-color: var(--foreground-color);
-  color: var(--background-color);
-  svg {
-    font-size: 0.8rem;
-    margin-left: 0.1rem;
-  }
-`;
-//댓글 프로필
-const CommentProfileIcon = styled.div`
-  color: var(--foreground-color);
-  padding-right: 0.3rem;
-`;
-
-//댓글 프로필이름
-const CommentProfileName = styled.div`
-  display: flex;
-  font-weight: 700;
-`;
-
-//댓글 프로필 날짜
-const CommentProfileDate = styled.div`
-  font-size: 0.7rem;
-  font-weight : normal;
-`;
-//댓글 내용
-const CommentContent = styled.div`
-  padding-left: 0.2rem;
-  font-weight : normal;
-`;
-//댓글 수정 및 삭제 옵션
-const CommentActions = styled.div`
-  display: flex;
-  color: var(--foreground-color);
-  gap: 1rem;
-`;
-const StyledReportIcon = muiStyled(ReportIcon)({
-  cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out",
-  "&:hover": {
-    opacity: 0.5,
-  },
-});
-
-const StyledDeleteIcon = muiStyled(DeleteIcon)({
-  cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out",
-  "&:hover": {
-    opacity: 0.5,
-  },
-});
-
-const AcceptContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 0.5rem;
-  font-weight: 700;
-`;
-
-// 채택 버튼 컴포넌트 스타일
-const AcceptButton = styled.button`
-  background-color: var(--foreground-color);
-  color: var(--background-color);
-  border: none;
-  cursor: pointer;
-  padding: 0.4rem;
-  font-family: "Noto Sans KR";
-  border-radius: 0.5rem;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;

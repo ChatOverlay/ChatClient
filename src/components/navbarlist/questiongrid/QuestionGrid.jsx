@@ -13,7 +13,6 @@ export default function QuestionGrid({
 }) {
   const { theme } = useTheme();
 
- 
   return (
     <div className="grid__list">
       {questionList.map((question) => (
