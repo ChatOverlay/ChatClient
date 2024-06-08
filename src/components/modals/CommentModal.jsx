@@ -30,7 +30,7 @@ export default function CommentModal({
       commentsContainerRef.current.scrollTop =
         commentsContainerRef.current.scrollHeight;
     }
-  }, []);
+  }, [question.comments.length]);
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
