@@ -94,7 +94,7 @@
   transition: all 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
-  animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
+  animation: slideInFromLeft 0.4s ease-out forwards; /* 애니메이션 적용 */
   &:hover {
     background-color: var(--foreground-color);
     color: var(--background-color);
@@ -115,12 +115,14 @@
   max-height: 6rem;
   margin-top: 1rem;
   border-radius: 0.5rem;
-  width: 95%;
+  width: 90%;
   height: 100%;
   overflow: hidden; /* Ensure the content stays within the banner area */
   position: relative; /* To position the banner items */
   cursor: pointer;
   transition: all 0.3s;
+  
+  animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
   &:hover {
     opacity: 0.9;
   }

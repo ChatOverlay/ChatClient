@@ -124,28 +124,6 @@ export default function HomePage() {
   return (
     <div className="navbar__list home">
       <div className="scrollable-list-items">
-        <Swiper
-          className="banner"
-          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-          spaceBetween={0}
-          slidesPerView={1}
-          loop={true}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          autoplay={{ delay: 500000000000, disableOnInteraction: false }}
-        >
-          <SwiperSlide>
-            <img src={FirstBanner} alt="Cloud Default" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={SecondBanner} alt="Cloud Dark" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img src={ThirdBanner} alt="Cloud Light" />
-          </SwiperSlide>
-        </Swiper>
-
         {loading ? (
           <div className="loading-container">
             <PulseLoader
@@ -158,7 +136,7 @@ export default function HomePage() {
           <>
             <Section>
               <SectionTitle>내 수업 바로가기</SectionTitle>
-              {upcomingCourse && (
+              {upcomingCourse ? (
                 <div
                   className={`navbar__list__item_home ${
                     upcomingCourse.inSession ? "" : "inactive"
@@ -196,8 +174,32 @@ export default function HomePage() {
                     <ArrowForwardIcon />
                   </div>
                 </div>
+              ) : (
+                <SectionContent>다음 수업이 없습니다.</SectionContent>
               )}
             </Section>
+            <Swiper
+            className="banner"
+            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            autoplay={{ delay: 500000000000, disableOnInteraction: false }}
+          >
+            <SwiperSlide>
+              <img src={FirstBanner} alt="Cloud Default" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src={SecondBanner} alt="Cloud Dark" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img src={ThirdBanner} alt="Cloud Light" />
+            </SwiperSlide>
+          </Swiper>
+  
             <Section>
               <SectionTitle>내 질문들({questions.length})</SectionTitle>
               {questions.length > 0 ? (
@@ -256,24 +258,24 @@ export default function HomePage() {
               )}
             </Section>
             <Section>
-            <SectionTitle>가천 도우미</SectionTitle>
-            <div className="helper-grid">
-              {helperItems.map((item) => (
-                <div
-                  className="helper-item"
-                  key={item.path}
-                  onClick={() => handleHelperItemClick(item.path)}
-                >
-                  <div>
+              <SectionTitle>가천 도우미</SectionTitle>
+              <div className="helper-grid">
+                {helperItems.map((item) => (
+                  <div
+                    className="helper-item"
+                    key={item.path}
+                    onClick={() => handleHelperItemClick(item.path)}
+                  >
+                    <div>
                       <div>{item.title}</div>
+                    </div>
+                    <div style={{ marginTop: "0.5rem" }}>
+                      <ArrowForwardIcon />
+                    </div>
                   </div>
-                  <div style={{marginTop: "0.5rem"}}>
-                    <ArrowForwardIcon />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Section>
+                ))}
+              </div>
+            </Section>
             <Section>
               <SectionTitle>내 포인트</SectionTitle>
               {totalMileage > 0 ? (

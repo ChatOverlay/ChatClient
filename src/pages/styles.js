@@ -45,6 +45,7 @@ export const AppContainer = styled.div`
   @media (max-width: 480px) {
     margin-left: 0;
     width: 100vw;
+    z-index : 30;
     animation: ${({ show }) => (!show ? slideUpFromBottom : slideDownToBottom)} 0.4s ease-in-out forwards; // Use 'forwards' to persist the end state
   }
 `;
