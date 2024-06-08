@@ -31,7 +31,6 @@ import CommentReply from "./CommentReply";
 
 export default function Comment({
   questionData,
-  changeData,
   setChangeData,
   comment,
   theme,
@@ -88,8 +87,7 @@ export default function Comment({
             }
           );
           if (response.ok) {
-            const newReply = await response.json();
-            setChangeData(!changeData);
+            setChangeData((prev) => !prev);
             addNewData();
             setReplying(false);
             setReplyContent("");
@@ -122,7 +120,7 @@ export default function Comment({
         );
         if (response.ok) {
           alert("댓글이 정상적으로 삭제가 되었습니다.");
-          setChangeData(!changeData);
+          setChangeData((prev) => !prev);
           addNewData();
         } else {
           console.error("Failed to delete the comment.");
@@ -179,7 +177,7 @@ export default function Comment({
         if (response.ok) {
           alert("댓글이 채택되었습니다.");
           setIsItAccepted(true); // 채택 상태 업데이트
-          setChangeData(!changeData); // 상태 업데이트하여 UI 새로고침
+          setChangeData((prev) => !prev); // 상태 업데이트하여 UI 새로고침
         } else {
           console.error("Failed to accept the comment.");
         }
@@ -244,7 +242,6 @@ export default function Comment({
             reply={reply}
             theme={theme}
             currentUserId={currentUserId}
-            changeData={changeData}
             setChangeData={setChangeData}
           />
           <ReplyButton onClick={() => setReplying(true)}>답글 달기</ReplyButton>

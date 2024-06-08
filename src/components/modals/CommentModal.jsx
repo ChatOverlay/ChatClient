@@ -10,11 +10,11 @@ export default function CommentModal({
   theme,
   setCommentToggle,
   commentToggle,
-  changeData,
   setChangeData,
+  setLoading,
 }) {
   const [isVisible, setIsVisible] = useState(commentToggle);
-  const commentsContainerRef = useRef(null);
+ const commentsContainerRef = useRef(null);
 
   useEffect(() => {
     if (commentToggle) {
@@ -30,7 +30,8 @@ export default function CommentModal({
       commentsContainerRef.current.scrollTop =
         commentsContainerRef.current.scrollHeight;
     }
-  }, [changeData]);
+  }, []);
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       setCommentToggle(false);
@@ -50,22 +51,28 @@ export default function CommentModal({
           className="scrollable-list-items"
           ref={commentsContainerRef}
         >
-          {question?.comments?.map((comment) => (
-            <Comment
-              key={comment._id}
-              questionData={question}
-              changeData={changeData}
-              setChangeData={setChangeData}
-              comment={comment}
-              theme={theme}
-            />
-          ))}
+          {question?.comments?.length > 0 ? (
+            question.comments.map((comment) => (
+              <Comment
+                key={comment._id}
+                questionData={question}
+                setChangeData={setChangeData}
+                comment={comment}
+                theme={theme}
+              />
+            ))
+          ) : (
+            <NoCommentsMessage>
+              아직 댓글이 없습니다.
+              <br /> 채택 포인트를 획득해보세요!
+            </NoCommentsMessage>
+          )}
         </CommentsContainer>
         <CommentAdd
           questionData={question}
-          changeData={changeData}
           setChangeData={setChangeData}
           theme={theme}
+          setLoading={setLoading}
         />
       </ModalContainer>
     </ModalOverlay>
@@ -129,4 +136,9 @@ const CloseButton = styled.div`
   align-self: flex-end;
   cursor: pointer;
   margin-bottom: 0.5rem;
+`;
+const NoCommentsMessage = styled.div`
+  text-align: center;
+  margin: 1rem;
+  color: var(--primary-color);
 `;

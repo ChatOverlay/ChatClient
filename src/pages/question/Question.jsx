@@ -8,7 +8,9 @@ import CommentAdd from "../../components/question/CommentAdd";
 import TopBar from "../../components/topbar/TopBar";
 import { useTheme } from "../../context/ThemeContext";
 import { AppContainer } from "../styles";
+import { PulseLoader } from "react-spinners";
 import useMobileNavigate from "../../hooks/useMobileNavigate";
+import useLoadingTimeout from "../../hooks/useLoadingTimeout";
 
 export default function Question() {
   const [closeOption, setCloseOption] = useState(false);
@@ -16,16 +18,18 @@ export default function Question() {
   const { id } = useParams();
   const [changeData, setChangeData] = useState(true);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
 
+useLoadingTimeout(loading, 5000); //로딩 시간 넘을 시 Login 창으로 가게 처리
   useMobileNavigate(closeOption, "/question");
 
-  // 조건부 API 요청
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/questions/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setQuestionData(data);
+        setLoading(false); // API 요청 완료 후 로딩 상태 해제
       })
       .catch((error) => {
         console.error("Error fetching question detail:", error);
@@ -45,38 +49,56 @@ export default function Question() {
           setCloseOption={setCloseOption}
           titleName={questionData?.className}
         />
-        <QuestionContainer theme={theme}>
-          <Questioner
-            questionData={questionData}
-            theme={theme}
-            editMode={editMode}
-            setEditMode={setEditMode}
-            gridMode={false}
-          />
-          <QuestionContent
-            questionData={questionData}
-            theme={theme}
-            editMode={editMode}
-            setEditMode={setEditMode}
-            gridMode={false}
-          />
-          {questionData?.comments?.map((comment) => (
-            <Comment
-              key={comment._id}
+        {loading ? (
+          <LoadingContainer>
+            <PulseLoader
+              size={15}
+              color={"var(--foreground-color)"}
+              loading={loading}
+            />
+          </LoadingContainer>
+        ) : (
+          <>
+            <QuestionContainer theme={theme}>
+              <Questioner
+                questionData={questionData}
+                theme={theme}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                gridMode={false}
+              />
+              <QuestionContent
+                questionData={questionData}
+                theme={theme}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                gridMode={false}
+              />
+              {questionData?.comments?.length > 0 ? (
+                questionData.comments.map((comment) => (
+                  <Comment
+                    key={comment._id}
+                    questionData={questionData}
+                    changeData={changeData}
+                    setChangeData={setChangeData}
+                    comment={comment}
+                    theme={theme}
+                  />
+                ))
+              ) : (
+                <NoCommentsMessage>
+                  아직 댓글이 없습니다.
+                  <br /> 채택 포인트를 획득해보세요!
+                </NoCommentsMessage>
+              )}
+            </QuestionContainer>
+            <CommentAdd
               questionData={questionData}
-              changeData={changeData}
               setChangeData={setChangeData}
-              comment={comment}
               theme={theme}
             />
-          ))}
-        </QuestionContainer>
-        <CommentAdd
-          questionData={questionData}
-          changeData={changeData}
-          setChangeData={setChangeData}
-          theme={theme}
-        />
+          </>
+        )}
       </AppContainer>
     </>
   );
@@ -109,4 +131,17 @@ const QuestionContainer = styled.div`
       display: none; /* Hide scrollbar on mobile devices */
     }
   }
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const NoCommentsMessage = styled.div`
+  text-align: center;
+  margin: 1rem;
+  color: var(--primary-color);
 `;

@@ -13,7 +13,7 @@ import {
   StyledDeleteIcon,
 } from "./CommentStyle";
 
-export default function CommentReply({ questionData, comment, reply, theme, currentUserId ,changeData,setChangeData }) {
+export default function CommentReply({ questionData, comment, reply, theme, currentUserId ,setChangeData }) {
     const [isCurrentUser, setIsCurrentUser] = useState(true);
     const { addNewData } = useSharedState();
   
@@ -40,7 +40,7 @@ export default function CommentReply({ questionData, comment, reply, theme, curr
         );
         if (response.ok) {
           alert("대댓글이 정상적으로 삭제가 되었습니다.");
-          setChangeData(!changeData);
+          setChangeData((prev) => !prev);
           addNewData();
         } else {
           console.error("Failed to delete the reply.");

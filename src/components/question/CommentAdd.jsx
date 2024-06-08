@@ -8,7 +8,6 @@ import {
 } from "./CommentStyle";
 export default function CommentAdd({
   questionData,
-  changeData,
   setChangeData,
 }) {
   const [newComment, setNewComment] = useState("");
@@ -62,7 +61,7 @@ export default function CommentAdd({
         );
 
         if (response.ok) {
-          setChangeData(!changeData);
+          setChangeData((prev) => !prev);
           setNewComment("");
           addNewData();
         } else {
