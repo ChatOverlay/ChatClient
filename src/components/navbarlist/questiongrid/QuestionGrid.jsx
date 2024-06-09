@@ -14,31 +14,37 @@ export default function QuestionGrid({
   const { theme } = useTheme();
 
   return (
-    <div className="grid__list">
-      {questionList.map((question) => (
-        <div key={question._id}>
-          <CourseName>{question.className}</CourseName>
-          <Questioner
-            questionData={question}
-            theme={theme}
-            editMode={editMode}
-            gridMode={true}
-            setEditMode={setEditMode}
-          />
-          <QuestionContent
-            questionData={question}
-            theme={theme}
-            editMode={editMode}
-            setEditMode={setEditMode}
-            gridMode={true}
-            onCommentClick={onCommentClick}
-          />
-        </div>
-      ))}
-    </div>
+    <GridContainer>
+      <div className="grid__list">
+        {questionList.map((question) => (
+          <div key={question._id}>
+            <CourseName>{question.className}</CourseName>
+            <Questioner
+              questionData={question}
+              theme={theme}
+              editMode={editMode}
+              gridMode={true}
+              setEditMode={setEditMode}
+            />
+            <QuestionContent
+              questionData={question}
+              theme={theme}
+              editMode={editMode}
+              setEditMode={setEditMode}
+              gridMode={true}
+              onCommentClick={onCommentClick}
+            />
+          </div>
+        ))}
+      </div>
+    </GridContainer>
   );
 }
-
+const GridContainer = styled.div`
+  background-color: var(--background-color);
+  z-index: -1;
+  height: 100%;
+`;
 const CourseName = styled.div`
   display: flex;
   padding: 0.5rem 0 0.5rem 1rem;
