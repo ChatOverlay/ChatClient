@@ -7,8 +7,8 @@ export const Container = styled.div`
   width: 30rem;
   display: flex;
   height: 50rem;
-  background-color: var(--secondary-color);
   color: var(--primary-color);
+  position : relative;
 `;
 
 export const Sidebar = styled.div`
@@ -37,7 +37,7 @@ export const SelectedSections = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const Button = styled.button`
@@ -87,7 +87,7 @@ export const CloseButton = styled.button`
   border: none;
   color: var(--primary-color);
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
 `;
 
 export const ClubList = styled.div`
@@ -117,14 +117,16 @@ export const ClubItem = styled.div`
 `;
 
 export const ResetButton = styled(Button)`
-  margin-left: auto; /* 오른쪽 끝으로 정렬 */
-  margin-right: -0.5rem;
+  position: absolute; /* 추가 */
+  top: 1rem; /* 위치 조정 */
+  right: 1rem; /* 위치 조정 */
   font-family: "Noto Sans KR";
   color: var(--primary-color);
   font-size: 0.8rem;
+  min-width: 3rem;
   &:hover {
-    opacity : 0.6;  
-  color: var(--primary-color);
+    opacity: 0.6;
+    color: var(--primary-color);
   }
 `;
 
@@ -132,7 +134,6 @@ export const SelectedSectionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between; /* Reset 버튼과 선택한 섹션들 사이 공간 확보 */
-  margin-bottom: 1rem;
   width: 100%;
 `;
 
