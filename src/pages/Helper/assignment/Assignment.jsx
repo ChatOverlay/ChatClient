@@ -91,7 +91,7 @@ export default function Assignment() {
           setCloseOption={setCloseOption}
           titleName="오늘 내 과제는?"
         />
-        <ScheduleBox>
+        <HelperBox>
           <ScheduleMonth
             currentMonthIndex={currentMonthIndex}
             currentYearIndex={currentYearIndex}
@@ -129,13 +129,13 @@ export default function Assignment() {
               title={"제출 완료"}
             />
           </ScheduleContainer>
-        </ScheduleBox>
+        </HelperBox>
       </AppContainer>
     </>
   );
 }
 
-const ScheduleBox = styled.div`
+export const HelperBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
