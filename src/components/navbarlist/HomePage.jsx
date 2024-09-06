@@ -257,25 +257,25 @@ export default function HomePage() {
                 <SectionContent>작성한 글이 없습니다.</SectionContent>
               )}
             </Section>
-            <Section>
-              <SectionTitle>가천 도우미</SectionTitle>
-              <div className="helper-grid">
-                {helperItems.map((item) => (
-                  <div
-                    className="helper-item"
-                    key={item.path}
-                    onClick={() => handleHelperItemClick(item.path)}
-                  >
-                    <div>
-                      <div>{item.title}</div>
-                    </div>
-                    <div style={{ marginTop: "0.5rem" }}>
-                      <ArrowForwardIcon />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Section>
+            // <Section>
+            //   <SectionTitle>가천 도우미</SectionTitle>
+            //   <div className="helper-grid">
+            //     {helperItems.map((item) => (
+            //       <div
+            //         className="helper-item"
+            //         key={item.path}
+            //         onClick={() => handleHelperItemClick(item.path)}
+            //       >
+            //         <div>
+            //           <div>{item.title}</div>
+            //         </div>
+            //         <div style={{ marginTop: "0.5rem" }}>
+            //           <ArrowForwardIcon />
+            //         </div>
+            //       </div>
+            //     ))}
+            //   </div>
+            // </Section>
             <Section>
               <SectionTitle>내 포인트</SectionTitle>
               {totalMileage > 0 ? (
