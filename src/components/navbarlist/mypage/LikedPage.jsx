@@ -55,7 +55,7 @@ export default function LikedPage({ setLikedPages }) {
             post._id === selectedQuestion ? "selected" : ""
           }`}
           key={post.id}
-          onClick={() => handleQuestionClick(post._id)}
+          onClick={() => handleQuestionClick(post._id)} 
         >
           <div className="question-container">
             <div className="question-title-container">
