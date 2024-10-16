@@ -18,8 +18,8 @@ export default function Setting({ handleOption }) {
   };
 
   const themeOptions = [
-    { value: "default", label: "기본 모드", img : CloudDefaultImg},
-    { value: "dark", label: "다크 모드", img : CloudDarkImg },
+    { value: "default", label: "기본 모드", img : CloudDarkImg},
+    { value: "dark", label: "라이트 모드", img :  CloudDefaultImg},
     { value: "light", label: "푸근한 모드",img : CloudLightImg },
   ];
 

@@ -5,17 +5,17 @@ import useThemeStyles from '../hooks/useThemeStyles';
 const themes = {
   default: {
     name : "default",
-    foreground: "#0164D8",
-    background: "#fff",
-    primaryColor : "black",
-    secondaryColor : "#f9f9f2",
-  },
-  dark: {
-    name : "dark",
     foreground: "#3F93FF",
     background: "#202c39",
     primaryColor : "#FFFFFF",
     secondaryColor : "#202c45",
+  },
+  dark: {
+    name : "dark",
+    foreground: "#0164D8",
+    background: "#fff",
+    primaryColor : "black",
+    secondaryColor : "#f9f9f2",
   },
   light : {
     name : "light",
