@@ -32,11 +32,6 @@ export default function Chat() {
   };
 
   const sendMessage = () => {
-    if (!courseTime) {
-      alert("해당 수업 시간이 아닙니다.");
-      navigate("/chatlist");
-      return;
-    }
     if (message) {
       const token = localStorage.getItem("token");
       const messageObject = {
