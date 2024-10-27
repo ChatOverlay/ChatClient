@@ -6,7 +6,6 @@ import BackgroundImg from "../../assets/backgroundImg/sky.png";
 
 export default function LoginPage() {
   useIsAuth();
-
   return (
     <HomeContainer>
       <Login />
