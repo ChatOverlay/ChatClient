@@ -22,6 +22,7 @@ export default function Chat() {
   const messagesEndRef = useRef(null);
   const [closeOption, setCloseOption] = useState(false);
   const [mileage, setMileage] = useState(0); // 사용자의 마일리지 상태
+  const [lastSentTime, setLastSentTime] = useState(0); // 마지막 전송 시간
   const { addNewData } = useSharedState();
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
@@ -33,13 +34,15 @@ export default function Chat() {
   const token = localStorage.getItem("token");
 
   const sendMessage = () => {
-    if (message) {
+    const currentTime = Date.now();
+    if (message && currentTime - lastSentTime >= 500) { // 0.5초 간격 확인
       const messageObject = {
         text: message,
         token: token,
       };
       socket.emit("message", messageObject, titleName);
       setMessage("");
+      setLastSentTime(currentTime); // 마지막 전송 시간 업데이트
       scrollToBottom();
       socket.emit("updateMileage", { token });
       addNewData();
@@ -103,7 +106,8 @@ export default function Chat() {
     // 과목명과 강의 시간 정보를 설정하고, 기존 메시지 목록을 메시지 상태에 설정
     setCourseName(data.courseName);
     setCourseTime(data.courseTime);
-    setMessages(data.messages); // 이전에 저장된 메시지 목록 설정
+    
+    // setMessages(data.messages); // 이전에 저장된 메시지 목록 설정
     scrollToBottom(); // 스크롤을 맨 아래로 이동
   });
     socket.on("message", (receivedMessage) => {
