@@ -268,7 +268,7 @@ const AppContainer = styled.div`
 
 //채팅 컨테이너
 const ChatContainer = styled.div`
-  height: 90%;
+  height: 88%;
   display: flex;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
