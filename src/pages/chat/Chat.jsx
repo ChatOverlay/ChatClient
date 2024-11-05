@@ -30,10 +30,10 @@ export default function Chat() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const token = localStorage.getItem("token");
 
   const sendMessage = () => {
     if (message) {
-      const token = localStorage.getItem("token");
       const messageObject = {
         text: message,
         token: token,
@@ -93,9 +93,19 @@ export default function Chat() {
         console.error("직접적인 접속을 제어합니다.", error);
       });
   }, [navigate, courseTime]);
+  
   useEffect(() => {
     setMessages([]);
-    socket.emit("joinRoom", titleName);
+
+    socket.emit("joinRoom", titleName, token);
+      // 기존 메시지 및 룸 정보 수신
+  socket.on("roomJoined", (data) => {
+    // 과목명과 강의 시간 정보를 설정하고, 기존 메시지 목록을 메시지 상태에 설정
+    setCourseName(data.courseName);
+    setCourseTime(data.courseTime);
+    setMessages(data.messages); // 이전에 저장된 메시지 목록 설정
+    scrollToBottom(); // 스크롤을 맨 아래로 이동
+  });
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
@@ -268,8 +278,8 @@ const AppContainer = styled.div`
 
 //채팅 컨테이너
 const ChatContainer = styled.div`
-  height: 88%;
   display: flex;
+  max-height: 90%;
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
   z-index: 100;
@@ -281,6 +291,7 @@ const InputContainer = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
+  height : 3.5rem;
   width: 100%;
   background-color: var(--background-color);
   color: var(--primary-color);
@@ -353,6 +364,7 @@ const MessagesContainer = styled.div`
   display: flex;
   flex-direction: column; // 메시지를 위에서 아래로 쌓음
   margin: 1rem;
+  padding-bottom: 1.5rem;
 `;
 
 // 메시지 컨테이너에 이름을 표시하는 부분을 추가합니다.
