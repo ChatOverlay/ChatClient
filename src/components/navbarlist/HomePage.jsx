@@ -18,9 +18,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { PulseLoader } from "react-spinners";
 
-import FirstBanner from "../../assets/backgroundImg/firstbanner.jpg";
-import SecondBanner from "../../assets/backgroundImg/secondbanner.jpg";
-import ThirdBanner from "../../assets/backgroundImg/sky.png";
+import FirstBanner from "../../assets/backgroundImg/JungWuFood.png";
+import SecondBanner from "../../assets/backgroundImg/hardcover.jpg";
+import ThirdBanner from "../../assets/backgroundImg/cafeiro.png";
 import styled from "styled-components";
 import { useSharedState } from "../../context/SharedStateContext";
 import useLoadingTimeout from "../../hooks/useLoadingTimeout";
