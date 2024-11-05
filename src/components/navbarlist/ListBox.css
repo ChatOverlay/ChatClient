@@ -41,7 +41,11 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, var(--background-color), var(--secondary-color) 50%);
+  background: linear-gradient(
+    to bottom,
+    var(--background-color),
+    var(--secondary-color) 50%
+  );
   margin: 3rem 0 0 5rem;
   height: calc(100vh - 3rem);
   width: 20rem;
@@ -59,15 +63,17 @@
     border-right: none; /* Optional: remove border if it interferes visually on a small screen */
     box-shadow: none; /* Optional: remove shadow if it feels too heavy on mobile */
     background: none;
-    background-color : var(--background-color);
+    background-color: var(--background-color);
   }
 }
 
-
-
 .home {
-  background: linear-gradient(to bottom, var(--background-color), var(--secondary-color) 50%);
-  
+  background: linear-gradient(
+    to bottom,
+    var(--background-color),
+    var(--secondary-color) 50%
+  );
+
   @media (max-width: 480px) {
     width: calc(100vw - 2rem);
     padding: 0 1rem 1rem 1rem;
@@ -77,19 +83,18 @@
 .helper-grid {
   display: flex;
   flex-wrap: wrap;
-  gap : 1rem;
-  margin : 0 1rem;
-  
+  gap: 1rem;
+  margin: 0 1rem;
 }
 
 .helper-item {
   flex: 1 1 calc(50% - 1rem);
   box-sizing: border-box;
   border: 1px solid var(--foreground-color);
-  
-  background-color : var(--background-color);
+
+  background-color: var(--background-color);
   cursor: pointer;
-  padding : 0.6rem;
+  padding: 0.6rem;
   border-radius: 0.5rem;
   transition: all 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -121,7 +126,7 @@
   position: relative; /* To position the banner items */
   cursor: pointer;
   transition: all 0.3s;
-  
+
   animation: slideInFromLeft 0.3s ease-out forwards; /* 애니메이션 적용 */
   &:hover {
     opacity: 0.9;
@@ -133,7 +138,13 @@
   /* Swiper 네비게이션 버튼 크기 조정 */
   .swiper-button-next,
   .swiper-button-prev {
-    color: transparent;
+    color: var(--foreground-color);
+
+    transition: opacity 0.1s ease; /* transition 추가 */
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+    }
   }
 
   /* 아이콘 크기를 조절하려면, SVG 아이콘이라면 다음과 같이 조절합니다 */
@@ -197,7 +208,7 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   border: 1px solid var(--foreground-color);
-  background-color : var(--background-color);
+  background-color: var(--background-color);
   scroll-behavior: smooth;
   overflow-y: auto;
   &:hover {
@@ -274,7 +285,7 @@
   padding: 1rem;
   min-height: 3rem;
   justify-content: space-between;
-  
+
   transition: all 0.3s;
   border-bottom: 1px solid var(--foreground-color);
   &:hover {
@@ -382,8 +393,8 @@
   box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
   bottom: 0;
   width: 100%;
-  z-index : 20;
-  background-color : var(--background-color);
+  z-index: 20;
+  background-color: var(--background-color);
   transition: transform 0.3s ease-in-out; /* 추가 */
 }
 
