@@ -20,7 +20,7 @@ import { PulseLoader } from "react-spinners";
 
 import FirstBanner from "../../assets/backgroundImg/JungWuFood.png";
 import SecondBanner from "../../assets/backgroundImg/hardcover.jpg";
-import ThirdBanner from "../../assets/backgroundImg/cafeiro.PNG";
+import ThirdBanner from "../../assets/backgroundImg/cafeiro.jpg";
 import styled from "styled-components";
 import { useSharedState } from "../../context/SharedStateContext";
 import useLoadingTimeout from "../../hooks/useLoadingTimeout";
