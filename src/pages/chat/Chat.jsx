@@ -35,11 +35,15 @@ export default function Chat() {
 
   const sendMessage = () => {
     const currentTime = Date.now();
-    if (message && currentTime - lastSentTime >= 500) { // 0.5초 간격 확인
+    if (message && currentTime - lastSentTime >= 500) {
+      // 0.5초 간격 확인
       const messageObject = {
         text: message,
         token: token,
       };
+      setTimeout(() => {
+        setMessage("");
+      }, 50);
       socket.emit("message", messageObject, titleName);
       setMessage("");
       setLastSentTime(currentTime); // 마지막 전송 시간 업데이트
@@ -96,20 +100,20 @@ export default function Chat() {
         console.error("직접적인 접속을 제어합니다.", error);
       });
   }, [navigate, courseTime]);
-  
+
   useEffect(() => {
     setMessages([]);
 
     socket.emit("joinRoom", titleName, token);
-      // 기존 메시지 및 룸 정보 수신
-  socket.on("roomJoined", (data) => {
-    // 과목명과 강의 시간 정보를 설정하고, 기존 메시지 목록을 메시지 상태에 설정
-    setCourseName(data.courseName);
-    setCourseTime(data.courseTime);
-    
-    // setMessages(data.messages); // 이전에 저장된 메시지 목록 설정
-    scrollToBottom(); // 스크롤을 맨 아래로 이동
-  });
+    // 기존 메시지 및 룸 정보 수신
+    socket.on("roomJoined", (data) => {
+      // 과목명과 강의 시간 정보를 설정하고, 기존 메시지 목록을 메시지 상태에 설정
+      setCourseName(data.courseName);
+      setCourseTime(data.courseTime);
+
+      // setMessages(data.messages); // 이전에 저장된 메시지 목록 설정
+      scrollToBottom(); // 스크롤을 맨 아래로 이동
+    });
     socket.on("message", (receivedMessage) => {
       setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       scrollToBottom();
@@ -295,7 +299,7 @@ const InputContainer = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
-  height : 3.5rem;
+  height: 3.5rem;
   width: 100%;
   background-color: var(--background-color);
   color: var(--primary-color);
@@ -341,7 +345,6 @@ const StyledButton = styled.div`
     font-size: 1rem;
   }
 `;
-
 
 // 마일리지 정보와 전송 아이콘을 포함하는 별도의 컨테이너를 생성합니다.
 const MileageContainer = styled.span`
@@ -428,7 +431,7 @@ const Message = styled.div`
   justify-content: center;
   padding: 0.4rem 0.7rem;
   border-radius: 1.5rem;
-  max-width : 85%;
+  max-width: 85%;
   font-weight: bold;
   margin-left: 0.3rem;
   background-color: ${({ user }) =>
