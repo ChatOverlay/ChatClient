@@ -296,7 +296,6 @@ const ChatContainer = styled.div`
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
-  position: absolute;
   bottom: 0;
   right: 0;
   height: 3.5rem;
