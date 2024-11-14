@@ -290,15 +290,17 @@ const ChatContainer = styled.div`
   font-size: 1.3rem;
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
   z-index: 100;
-  height: 100vh; 
+
+  height: 100dvh; 
 `;
 
 //입력 컨테이너
 const InputContainer = styled.div`
   display: flex;
+  position: absolute;
   bottom: 0;
   right: 0;
-  height: 3.5rem;
+  height: 3rem;
   width: 100%;
   background-color: var(--background-color);
   color: var(--primary-color);
