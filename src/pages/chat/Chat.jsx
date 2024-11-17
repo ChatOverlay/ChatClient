@@ -27,12 +27,24 @@ export default function Chat() {
   const [courseName, setCourseName] = useState("");
   const { titleName } = useParams(); // Extract roomId from URL
   const [courseTime, setCourseTime] = useState(false);
+  const [charCount, setCharCount] = useState(0); // 글자수 상태 추가
+
   useMobileNavigate(closeOption, "/home");
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   const token = localStorage.getItem("token");
 
+  // 입력값 변경 이벤트 핸들러
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    if (input.length <= 300) {
+      // 글자수 제한 300자
+      setMessage(input);
+      setCharCount(input.length); // 글자수 업데이트
+    }
+  };
   const sendMessage = () => {
     const currentTime = Date.now();
     if (message && currentTime - lastSentTime >= 500) {
@@ -43,6 +55,7 @@ export default function Chat() {
       };
       setTimeout(() => {
         setMessage("");
+        setCharCount(0); // 전송 후 글자수 초기화
       }, 50);
       socket.emit("message", messageObject, titleName);
       setMessage("");
@@ -148,6 +161,7 @@ export default function Chat() {
     // 서버로부터 초기 마일리지 정보를 요청합니다.
     socket.emit("getInitialMileage", { token });
   }, []);
+
   return (
     <>
       <AppContainer show={closeOption}>
@@ -214,12 +228,12 @@ export default function Chat() {
             <StyledInput
               type="text"
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={handleInputChange} // 수정된 입력 처리 함수
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="메시지를 입력하세요..."
+              placeholder="메시지를 입력하세요... (최대 300자)"
             />
             <StyledButton onClick={sendMessage} disabled={!message.trim()}>
-              <MileageContainer>{mileage} / 100</MileageContainer>
+              <MileageContainer>{charCount} / 300</MileageContainer>
               <SendIcon />
             </StyledButton>
           </InputContainer>
@@ -291,7 +305,7 @@ const ChatContainer = styled.div`
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
   z-index: 100;
 
-  height: 100dvh; 
+  height: 100dvh;
 `;
 
 //입력 컨테이너
@@ -444,4 +458,10 @@ const Message = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
   }
+`;
+
+const CharCount = styled.div`
+  font-size: 0.8rem;
+  color: ${(props) => (props.charCount === 300 ? "red" : "gray")};
+  margin-left: 0.5rem;
 `;
