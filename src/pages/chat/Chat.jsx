@@ -28,6 +28,7 @@ export default function Chat() {
   const { titleName } = useParams(); // Extract roomId from URL
   const [courseTime, setCourseTime] = useState(false);
   const [charCount, setCharCount] = useState(0); // 글자수 상태 추가
+  const [messageType, setMessageType] = useState("question"); // 'question' 또는 'answer' 유형
 
   useMobileNavigate(closeOption, "/home");
 
@@ -51,6 +52,7 @@ export default function Chat() {
       // 0.5초 간격 확인
       const messageObject = {
         text: message,
+        type: messageType, // 메시지 유형 추가
         token: token,
       };
       setTimeout(() => {
@@ -232,6 +234,20 @@ export default function Chat() {
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="메시지를 입력하세요... (최대 300자)"
             />
+            <MessageTypeSelector>
+              <Option
+                active={messageType === "question"}
+                onClick={() => setMessageType("question")}
+              >
+                질문
+              </Option>
+              <Option
+                active={messageType === "answer"}
+                onClick={() => setMessageType("answer")}
+              >
+                답변
+              </Option>
+            </MessageTypeSelector>
             <StyledButton onClick={sendMessage} disabled={!message.trim()}>
               <MileageContainer>{charCount} / 300</MileageContainer>
               <SendIcon />
@@ -460,8 +476,46 @@ const Message = styled.div`
   }
 `;
 
-const CharCount = styled.div`
-  font-size: 0.8rem;
-  color: ${(props) => (props.charCount === 300 ? "red" : "gray")};
-  margin-left: 0.5rem;
+// 메시지 유형 선택 영역 스타일
+const MessageTypeSelector = styled.div`
+  display: flex;
+  border-radius: 1rem;
+  background-color: var(--background-color);
+  border: 1px solid var(--foreground-color);
+  
 `;
+
+// 개별 선택 옵션 스타일
+const Option = styled.div`
+  flex: 1;
+  display: flex; // flex 컨테이너로 만듭니다
+  align-items: center; // 수직 방향 중앙 정렬
+  justify-content: center; // 수평 방향 중앙 정렬
+  font-size: 1rem;
+  width : 2rem;
+  font-weight: bold;
+  padding: 0.5rem; // 패딩 조정
+  cursor: pointer;
+  background-color: ${({ active }) => (active ? "var(--primary-color)" : "transparent")};
+  color: ${({ active }) => (active ? "var(--background-color)" : "var(--primary-color)")};
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+
+  // 왼쪽 옵션에 대한 스타일
+  &:first-child {
+    border-radius: 1rem 0 0 1rem; // 왼쪽 옵션의 왼쪽 상단과 하단 모서리를 둥글게
+    border-right: 1px solid var(--foreground-color); // 오른쪽에 경계선 추가
+  }
+
+  // 오른쪽 옵션에 대한 스타일
+  &:last-child {
+    border-radius: 0 1rem 1rem 0; // 오른쪽 옵션의 오른쪽 상단과 하단 모서리를 둥글게
+  }
+
+  // hover 효과 추가
+  &:hover {
+    background-color: var(--primary-color); // 배경 색상 변경
+    color: var(--background-color); // 글자 색상 변경
+  }
+`;
+
+
