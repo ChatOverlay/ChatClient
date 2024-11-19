@@ -28,7 +28,7 @@ export default function Chat() {
   const { titleName } = useParams(); // Extract roomId from URL
   const [courseTime, setCourseTime] = useState(false);
   const [charCount, setCharCount] = useState(0); // 글자수 상태 추가
-  const [messageType, setMessageType] = useState("question"); // 'question' 또는 'answer' 유형
+  const [messageType, setMessageType] = useState("answer"); // 'question' 또는 'answer' 유형
 
   useMobileNavigate(closeOption, "/home");
 
@@ -322,7 +322,7 @@ const ChatContainer = styled.div`
   flex-direction: column; // 메시지를 아래에서 위로 쌓도록 설정
   z-index: 100;
 
-  height: 100dvh;
+  max-height: 90vh;
 `;
 
 //입력 컨테이너
