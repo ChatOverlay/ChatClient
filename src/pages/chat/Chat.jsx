@@ -280,6 +280,7 @@ const slideDownToBottom = keyframes`
     opacity: 0;
   }
 `;
+
 //App 컨테이너
 const AppContainer = styled.div`
   display: flex;
